@@ -9,17 +9,16 @@ import {
 
 const EasyLevelsScreen = ({ navigation }) => {
   const levels = [
-    { level: 1, color: "green" },
-    { level: 2, color: "green" },
-    { level: 3, color: "green" },
-    { level: 4, color: "green" },
-    { level: 5, color: "green" },
-    { level: 6, color: "green" },
+    { level: "E1", color: "green" },
+    { level: "E2", color: "green" },
+    { level: "E3", color: "green" },
+    { level: "E4", color: "green" },
+    { level: "E5", color: "green" },
+    { level: "E6", color: "green" },
   ];
 
   const handleLevelPress = (level) => {
-    // Handle level press action
-    console.log("Level", level, "pressed");
+    navigation.navigate("LevelScreen", { level });
   };
 
   const renderLevel = ({ item }) => (
@@ -31,16 +30,16 @@ const EasyLevelsScreen = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-  const keyExtractor = (item) => item.level.toString();
+  const keyExtractor = (item) => item.level;
 
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity
+      <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.goBack()}
       >
         <Text style={styles.backButtonText}>Go Back</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
 
       <FlatList
         data={levels}
