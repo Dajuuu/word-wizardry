@@ -1,20 +1,77 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-export default function App() {
+const HomeScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <View style={styles.buttonContainerLeft}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>LdrBrd</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.buttonContainerRight}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Settings</Text>
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.scoreText}>Score: 100</Text>
+      <TouchableOpacity style={styles.playButton}>
+        <Text style={styles.playButtonText}>Play</Text>
+      </TouchableOpacity>
+      <StatusBar hidden />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  buttonContainerLeft: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+  },
+  buttonContainerRight: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+  },
+  button: {
+    backgroundColor: "#ccc",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  scoreText: {
+    position: "absolute",
+    top: 20,
+    alignSelf: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  playButton: {
+    backgroundColor: "green",
+    paddingHorizontal: 40,
+    paddingVertical: 20,
+    borderRadius: 50,
+    marginBottom: 20,
+  },
+  playButtonText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#fff",
   },
 });
+
+export default HomeScreen;
