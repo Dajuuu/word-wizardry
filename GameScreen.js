@@ -1,13 +1,53 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const GameScreen = () => {
+const GameScreen = ({ navigation }) => {
+  const difficultyLevels = [
+    { level: "Easy", color: "green", screen: "EasyLevels" },
+    { level: "Medium", color: "yellow", screen: "MediumLevels" },
+    { level: "Hard", color: "orange", screen: "HardLevels" },
+    { level: "Expert", color: "red", screen: "ExpertLevels" },
+  ];
+
+  const handleDifficultyPress = (screen) => {
+    navigation.navigate(screen);
+  };
+
   return (
-    <View>
-      <Text>Game Screen</Text>
-      {/* Add your game content here */}
+    <View style={styles.container}>
+      {difficultyLevels.map((level, index) => (
+        <TouchableOpacity
+          key={index}
+          style={[styles.difficultyBox, { backgroundColor: level.color }]}
+          onPress={() => handleDifficultyPress(level.screen)}
+        >
+          <Text style={styles.difficultyText}>{level.level}</Text>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  difficultyBox: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+    margin: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  difficultyText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+});
 
 export default GameScreen;

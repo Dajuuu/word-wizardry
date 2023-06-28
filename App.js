@@ -1,3 +1,4 @@
+import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -13,6 +14,7 @@ const App = () => {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="GameScreen" component={GameScreen} />
       </Stack.Navigator>
+      <StatusBar hidden></StatusBar>
     </NavigationContainer>
   );
 };
