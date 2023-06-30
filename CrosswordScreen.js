@@ -6,43 +6,10 @@ import {
   TextInput,
   StyleSheet,
   Platform,
-  ScrollView, // Import ScrollView component
+  ScrollView,
 } from "react-native";
 
-// Custom Keyboard Component
-import CustomKeyboard from "./CustomKeyboard"; // Import the CustomKeyboard component from its separate file
-
-// import { GRID_DATA } from "./EasyLevels";
-// wywali blad jak jest to samo variable
-// import { GRID_DATA } from "./HardLevelsScreen";
-
-// Sample GRID_DATA with rows and columns
-// const GRID_DATA = [
-//   ["A", "A", "C", "D", "E", "F"],
-//   ["G", "H", "I", "J", "K", "L"],
-//   ["A", "N", "O", "P", "Q", "R"],
-//   ["S", "T", "U", "V", "W", "X"],
-//   ["F", "F", "U", "V", "W", "X"],
-//   ["Y", "Z", "1", "2", "3", "4"],
-//   ["F", "H", "1", "2", "2", "4"],
-//   ["F", "H", "1", "2", "2", "4"],
-//   ["F", "H", "1", "2", "2", "4"],
-//   ["F", "H", "1", "2", "2", "4"],
-//   ["F", "H", "1", "2", "2", "4"],
-//   ["F", "H", "1", "2", "2", "4"],
-//   ["F", "H", "1", "2", "2", "4"],
-// ];
-
-// Array of clues corresponding to each row
-// const ROW_CLUES = [
-//   "Clue for Row 1",
-//   "Clue for Row 2",
-//   "Clue for Row 3",
-//   "Clue for Row 4",
-//   "Clue for Row 5",
-//   "Clue for Row 6",
-//   "Clue for Row 7",
-// ];
+import CustomKeyboard from "./CustomKeyboard";
 
 const CrosswordApp = ({ route }) => {
   const { GRID_DATA, ROW_CLUES } = route.params;
@@ -53,25 +20,32 @@ const CrosswordApp = ({ route }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const inputRefs = useRef([]);
 
-  // Function to handle box selection
   const handleBoxSelection = (rowIndex, columnIndex) => {
     setSelectedBox({ rowIndex, columnIndex });
     setSelectedRow(rowIndex);
   };
 
-  // Function to handle box input
   const handleBoxInput = (text, rowIndex, columnIndex) => {
-    const newHiddenGrid = [...hiddenGrid];
     const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
     const inputtedLetter = text.toUpperCase();
-    newHiddenGrid[rowIndex][columnIndex] = {
-      letter: inputtedLetter,
-      isCorrect: inputtedLetter === hiddenLetter,
+
+    const updateHiddenGrid = () => {
+      const newHiddenGrid = [...hiddenGrid];
+      newHiddenGrid[rowIndex][columnIndex] = {
+        letter: inputtedLetter,
+        isCorrect: inputtedLetter === hiddenLetter,
+      };
+      setHiddenGrid(newHiddenGrid);
     };
-    setHiddenGrid(newHiddenGrid);
+
+    //Debouncing
+    clearTimeout(inputRefs.current[rowIndex][columnIndex].timer);
+    inputRefs.current[rowIndex][columnIndex].timer = setTimeout(
+      updateHiddenGrid,
+      300 // Set the debounce delay time in milliseconds (e.g., 300ms)
+    );
   };
 
-  // Function to handle keyboard key press
   const handleKeyPress = (key) => {
     if (selectedBox) {
       const { rowIndex, columnIndex } = selectedBox;
@@ -80,7 +54,6 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
-  // Function to disable the built-in keyboard
   const disableBuiltInKeyboard = () => {
     if (Platform.OS === "ios") {
       return { editable: false };
@@ -91,86 +64,83 @@ const CrosswordApp = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.gridContainer}>
-        {/* Wrap the gridContainer with ScrollView */}
-        {/* Create rows and columns */}
-        {GRID_DATA.map((row, rowIndex) => {
-          inputRefs.current[rowIndex] = [];
+      <ScrollView horizontal>
+        <ScrollView contentContainerStyle={styles.gridContainer}>
+          {GRID_DATA.map((row, rowIndex) => {
+            inputRefs.current[rowIndex] = [];
 
-          return (
-            <View
-              key={rowIndex}
-              style={[
-                styles.row,
-                selectedRow === rowIndex && styles.highlightedRow,
-              ]}
-            >
-              {row.map((box, columnIndex) => {
-                const isBoxSelected =
-                  selectedBox &&
-                  selectedBox.rowIndex === rowIndex &&
-                  selectedBox.columnIndex === columnIndex;
+            return (
+              <View
+                key={rowIndex}
+                style={[
+                  styles.row,
+                  selectedRow === rowIndex && styles.highlightedRow,
+                ]}
+              >
+                {row.map((box, columnIndex) => {
+                  const isBoxSelected =
+                    selectedBox &&
+                    selectedBox.rowIndex === rowIndex &&
+                    selectedBox.columnIndex === columnIndex;
 
-                const hiddenLetter =
-                  GRID_DATA[rowIndex][columnIndex].toUpperCase();
-                const inputtedLetter =
-                  hiddenGrid[rowIndex][columnIndex]?.letter;
+                  const hiddenLetter =
+                    GRID_DATA[rowIndex][columnIndex].toUpperCase();
+                  const inputtedLetter =
+                    hiddenGrid[rowIndex][columnIndex]?.letter;
 
-                const isLetterCorrect =
-                  hiddenGrid[rowIndex][columnIndex]?.isCorrect || false;
+                  const isLetterCorrect =
+                    hiddenGrid[rowIndex][columnIndex]?.isCorrect || false;
 
-                return (
-                  <TouchableOpacity
-                    key={columnIndex}
-                    style={[
-                      styles.box,
-                      isBoxSelected && { backgroundColor: "yellow" },
-                      isLetterCorrect && { backgroundColor: "blue" },
-                    ]}
-                    onPress={() => handleBoxSelection(rowIndex, columnIndex)}
-                  >
-                    {isBoxSelected ? (
-                      <TextInput
-                        style={styles.boxText}
-                        maxLength={1}
-                        value={inputtedLetter}
-                        onChangeText={(text) =>
-                          handleBoxInput(text, rowIndex, columnIndex)
-                        }
-                        ref={(ref) =>
-                          (inputRefs.current[rowIndex][columnIndex] = ref)
-                        }
-                        autoFocus={true}
-                        returnKeyType="next"
-                        onSubmitEditing={() => {
-                          // Shift focus to the right when pressing 'next' on the keyboard
-                          if (columnIndex < GRID_DATA[rowIndex].length - 1) {
-                            const nextInputRef =
-                              inputRefs.current[rowIndex][columnIndex + 1];
-                            nextInputRef && nextInputRef.focus();
+                  return (
+                    <TouchableOpacity
+                      key={columnIndex}
+                      style={[
+                        styles.box,
+                        isBoxSelected && { backgroundColor: "yellow" },
+                        isLetterCorrect && { backgroundColor: "blue" },
+                      ]}
+                      onPress={() => handleBoxSelection(rowIndex, columnIndex)}
+                    >
+                      {isBoxSelected ? (
+                        <TextInput
+                          style={styles.boxText}
+                          maxLength={1}
+                          value={inputtedLetter}
+                          onChangeText={(text) =>
+                            handleBoxInput(text, rowIndex, columnIndex)
                           }
-                        }}
-                        {...disableBuiltInKeyboard()} // Disable built-in keyboard
-                      />
-                    ) : (
-                      <Text style={styles.boxText}>
-                        {hiddenGrid[rowIndex][columnIndex]?.letter || ""}
-                      </Text>
-                    )}
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          );
-        })}
+                          ref={(ref) =>
+                            (inputRefs.current[rowIndex][columnIndex] = ref)
+                          }
+                          autoFocus={true}
+                          returnKeyType="next"
+                          onSubmitEditing={() => {
+                            if (columnIndex < GRID_DATA[rowIndex].length - 1) {
+                              const nextInputRef =
+                                inputRefs.current[rowIndex][columnIndex + 1];
+                              nextInputRef && nextInputRef.focus();
+                            }
+                          }}
+                          {...disableBuiltInKeyboard()}
+                        />
+                      ) : (
+                        <Text style={styles.boxText}>
+                          {hiddenGrid[rowIndex][columnIndex]?.letter || ""}
+                        </Text>
+                      )}
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            );
+          })}
+        </ScrollView>
       </ScrollView>
 
-      {/* Display the selected clue */}
       {selectedRow !== null && (
         <Text style={styles.clueText}>Clue: {ROW_CLUES[selectedRow]}</Text>
       )}
 
-      {/* Custom Keyboard */}
       <CustomKeyboard onKeyPress={handleKeyPress} />
     </View>
   );
@@ -184,13 +154,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   gridContainer: {
+    flexDirection: "column",
+    alignItems: "center",
     marginBottom: 20,
   },
   row: {
     flexDirection: "row",
   },
   highlightedRow: {
-    backgroundColor: "rgba(0, 128, 0, 0.5)", // Updated background color with transparency
+    backgroundColor: "rgba(0, 128, 0, 0.5)",
   },
   box: {
     width: 50,
@@ -207,24 +179,6 @@ const styles = StyleSheet.create({
   clueText: {
     fontSize: 18,
     marginTop: 10,
-  },
-  keyboardContainer: {
-    marginTop: 20,
-  },
-  keyboardRow: {
-    flexDirection: "row",
-  },
-  keyboardKey: {
-    width: 50,
-    height: 50,
-    borderWidth: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    margin: 2,
-    backgroundColor: "#CCCCCC",
-  },
-  keyboardKeyText: {
-    fontSize: 16,
   },
 });
 
