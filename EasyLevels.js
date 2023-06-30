@@ -9,22 +9,59 @@ import {
 
 const EasyLevelsScreen = ({ navigation }) => {
   const levels = [
-    { level: "E1", color: "green" },
-    { level: "E2", color: "green" },
-    { level: "E3", color: "green" },
-    { level: "E4", color: "green" },
-    { level: "E5", color: "green" },
-    { level: "E6", color: "green" },
+    {
+      level: "E1",
+      color: "green",
+      GRID_DATA: [
+        ["A", "A", "C", "D", "E", "F"],
+        ["G", "H", "I", "J", "K", "L"],
+        ["A", "N", "O", "P", "Q", "R"],
+        ["S", "T", "U", "V", "W", "X"],
+        ["F", "F", "U", "V", "W", "X"],
+        ["Y", "Z", "1", "2", "3", "4"],
+        ["F", "H", "1", "2", "2", "4"],
+        ["F", "H", "1", "2", "2", "4"],
+        ["F", "H", "1", "2", "2", "4"],
+        ["F", "H", "1", "2", "2", "4"],
+        ["F", "H", "1", "2", "2", "4"],
+        ["F", "H", "1", "2", "2", "4"],
+        ["F", "H", "1", "2", "2", "4"],
+      ],
+      ROW_CLUES: [
+        "Clue for Row 1",
+        "Clue for Row 2",
+        "Clue for Row 3",
+        "Clue for Row 4",
+        "Clue for Row 5",
+        "Clue for Row 6",
+        "Clue for Row 7",
+      ],
+    },
+    {
+      level: "E2",
+      color: "green",
+      GRID_DATA: [
+        ["C", "C"],
+        ["D", "D"],
+      ],
+      ROW_CLUES: ["Clue for Row 1", "Clue for Row 2"],
+    },
+    // Add more levels with their corresponding GRID_DATA and ROW_CLUES
+    // { level: "E3", color: "green", GRID_DATA: ..., ROW_CLUES: ... },
+    // { level: "E4", color: "green", GRID_DATA: ..., ROW_CLUES: ... },
+    // ...
   ];
 
-  const handleLevelPress = (level) => {
-    navigation.navigate("LevelScreen", { level });
+  const handleLevelPress = (level, GRID_DATA, ROW_CLUES) => {
+    navigation.navigate("CrosswordScreen", { level, GRID_DATA, ROW_CLUES });
   };
 
   const renderLevel = ({ item }) => (
     <TouchableOpacity
       style={[styles.levelBox, { backgroundColor: item.color }]}
-      onPress={() => handleLevelPress(item.level)}
+      onPress={() =>
+        handleLevelPress(item.level, item.GRID_DATA, item.ROW_CLUES)
+      }
     >
       <Text style={styles.levelText}>{item.level}</Text>
     </TouchableOpacity>
