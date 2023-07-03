@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -7,17 +8,22 @@ import {
   StyleSheet,
   Platform,
   ScrollView,
+  Modal,
+  Button,
 } from "react-native";
 
 import CustomKeyboard from "./CustomKeyboard";
 
 const CrosswordApp = ({ route }) => {
+  const navigation = useNavigation();
+
   const { GRID_DATA, ROW_CLUES } = route.params;
   const [hiddenGrid, setHiddenGrid] = useState(() =>
     GRID_DATA.map((row) => row.map(() => ""))
   );
   const [selectedBox, setSelectedBox] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const inputRefs = useRef([]);
 
   const handleBoxSelection = (rowIndex, columnIndex) => {
@@ -44,13 +50,14 @@ const CrosswordApp = ({ route }) => {
 
       if (isLevelFinished) {
         console.log("Level finished!");
+        setIsModalVisible(true);
       }
     };
 
     clearTimeout(inputRefs.current[rowIndex][columnIndex].timer);
     inputRefs.current[rowIndex][columnIndex].timer = setTimeout(
       updateHiddenGrid,
-      3
+      300
     );
 
     // Select the box to the right
@@ -76,6 +83,11 @@ const CrosswordApp = ({ route }) => {
     } else {
       return { editable: false, pointerEvents: "none" };
     }
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+    navigation.goBack();
   };
 
   return (
@@ -158,6 +170,13 @@ const CrosswordApp = ({ route }) => {
       )}
 
       <CustomKeyboard onKeyPress={handleKeyPress} />
+
+      <Modal visible={isModalVisible} animationType="slide">
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalText}>Level Finished!</Text>
+          <Button title="Go Back" onPress={closeModal} />
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -196,6 +215,18 @@ const styles = StyleSheet.create({
   clueText: {
     fontSize: 18,
     marginTop: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "white",
   },
 });
 

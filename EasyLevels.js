@@ -14,7 +14,7 @@ const EasyLevelsScreen = ({ navigation }) => {
       color: "green",
       GRID_DATA: [
         ["A", "A", "A", "A", "A", "A"],
-        ["A", "A", "A", "A", "A", "A", "A"],
+        // ["A", "A", "A", "A", "A", "A", "A"],
       ],
       ROW_CLUES: [
         "Clue for Row 1",
