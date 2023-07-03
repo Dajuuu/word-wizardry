@@ -7,6 +7,8 @@ import {
   FlatList,
 } from "react-native";
 
+import Icon from "react-native-vector-icons/FontAwesome5";
+
 const EasyLevelsScreen = ({ navigation }) => {
   const levels = [
     {
@@ -85,7 +87,7 @@ const EasyLevelsScreen = ({ navigation }) => {
         style={styles.backButton}
         onPress={() => navigation.goBack()}
       >
-        <Text style={styles.backButtonText}>Go Back</Text>
+        <Icon name="arrow-left" size={20} color="black" />
       </TouchableOpacity>
 
       <FlatList
