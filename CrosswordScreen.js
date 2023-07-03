@@ -23,7 +23,8 @@ const CrosswordApp = ({ route }) => {
   );
   const [selectedBox, setSelectedBox] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  // const [isModalVisible, setIsModalVisible] = useState(false);
+  const [levelCompleted, setLevelCompleted] = useState(false);
   const inputRefs = useRef([]);
 
   const handleBoxSelection = (rowIndex, columnIndex) => {
@@ -50,7 +51,8 @@ const CrosswordApp = ({ route }) => {
 
       if (isLevelFinished) {
         console.log("Level finished!");
-        setIsModalVisible(true);
+        // setIsModalVisible(true);
+        setLevelCompleted(true);
       }
     };
 
@@ -86,7 +88,9 @@ const CrosswordApp = ({ route }) => {
   };
 
   const closeModal = () => {
-    setIsModalVisible(false);
+    // setIsModalVisible(false);
+    setLevelCompleted(false);
+    // When level is finished, clocking goes back to the level selection screen
     navigation.goBack();
   };
 
@@ -171,12 +175,21 @@ const CrosswordApp = ({ route }) => {
 
       <CustomKeyboard onKeyPress={handleKeyPress} />
 
-      <Modal visible={isModalVisible} animationType="slide">
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalText}>Level Finished!</Text>
-          <Button title="Go Back" onPress={closeModal} />
-        </View>
-      </Modal>
+      {levelCompleted && (
+        <Modal visible={levelCompleted} animationType="fade" transparent>
+          <View style={styles.overlay}>
+            <View style={styles.overlayBox}>
+              <Text style={styles.overlayText}>Level Completed!</Text>
+              <TouchableOpacity
+                style={styles.goBackButton}
+                onPress={closeModal}
+              >
+                <Text style={styles.goBackButtonText}>Go Back</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      )}
     </View>
   );
 };
@@ -221,12 +234,42 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: 20,
   },
   modalText: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
     color: "white",
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  overlayBox: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  overlayText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  goBackButton: {
+    backgroundColor: "green",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginTop: 10,
+  },
+  goBackButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff",
   },
 });
 
