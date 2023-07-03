@@ -16,6 +16,7 @@ const App = () => {
   return (
     <PointsProvider>
       <NavigationContainer>
+        <StatusBar hidden></StatusBar>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="GameScreen" component={GameScreen} />
@@ -23,7 +24,6 @@ const App = () => {
           <Stack.Screen name="LevelScreen" component={LevelScreen} />
           <Stack.Screen name="CrosswordScreen" component={CrosswordApp} />
         </Stack.Navigator>
-        <StatusBar hidden></StatusBar>
       </NavigationContainer>
     </PointsProvider>
   );

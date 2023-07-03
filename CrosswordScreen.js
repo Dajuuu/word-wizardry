@@ -9,7 +9,6 @@ import {
   Platform,
   ScrollView,
   Modal,
-  Button,
 } from "react-native";
 
 import { PointsContext } from "./PointsContext";
@@ -192,7 +191,12 @@ const CrosswordApp = ({ route }) => {
       <CustomKeyboard onKeyPress={handleKeyPress} />
 
       {levelCompleted && (
-        <Modal visible={levelCompleted} animationType="fade" transparent>
+        <Modal
+          visible={levelCompleted}
+          animationType="fade"
+          transparent
+          statusBarTranslucent
+        >
           <View style={styles.overlay}>
             <View style={styles.overlayBox}>
               <Text style={styles.overlayText}>Level Completed!</Text>
