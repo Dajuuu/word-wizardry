@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { PointsContext } from "./PointsContext";
 import {
   View,
@@ -7,13 +7,15 @@ import {
   Modal,
   StyleSheet,
   Dimensions,
+  Animated,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 const HomeScreen = ({ navigation }) => {
   const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
   let iconWidth = windowWidth / 20;
-
+  let playButtonPosition = windowHeight / 2.5;
   const { points } = useContext(PointsContext);
 
   const [settingsVisible, setSettingsVisible] = useState(false);
@@ -33,6 +35,16 @@ const HomeScreen = ({ navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
+
+  // Animation
+  const [animation] = useState(new Animated.Value(-400)); // Initial position outside the screen
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: 0, // Final position at the center of the screen
+      duration: 800, // Animation duration in milliseconds
+      useNativeDriver: true, // Enable native driver for better performance
+    }).start(); // Start the animation
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -69,12 +81,21 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.scoreContainer}>
         <Text style={styles.scoreText}>Score: {points}</Text>
       </View>
-      <TouchableOpacity
-        style={styles.playButton}
-        onPress={handlePlayButtonPress}
+
+      <Animated.View
+      // style={[styles.playButton, { transform: [{ translateX: animation }] }]}
       >
-        <Text style={styles.playButtonText}>Play</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.playButton,
+            { top: playButtonPosition },
+            { transform: [{ translateX: animation }] },
+          ]}
+          onPress={handlePlayButtonPress}
+        >
+          <Text style={styles.playButtonText}>Play</Text>
+        </TouchableOpacity>
+      </Animated.View>
 
       {/* Settings Overlay */}
       <Modal
@@ -158,13 +179,15 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 50,
     marginBottom: 20,
-    top: "45%",
-    width: "70%",
+    // top: 300,
+    // alignItems: "center",
+    // width: "70%",
+    // height: "40%",
   },
   playButtonText: {
     fontSize: 44,
     fontWeight: "bold",
-    alignSelf: "center",
+    // alignSelf: "center",
     color: "#fff",
   },
   settingsOverlay: {
@@ -196,6 +219,22 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
   },
+  // playButtonContainer: {
+  //   transform: [{ translateX: -100 }], // Initial position outside the screen
+  // },
+  // playButton: {
+  //   backgroundColor: "green",
+  //   paddingHorizontal: 40,
+  //   paddingVertical: 20,
+  //   borderRadius: 50,
+  //   marginBottom: 20,
+  //   top: 200,
+  // },
+  // playButtonText: {
+  //   fontSize: 24,
+  //   fontWeight: "bold",
+  //   color: "#fff",
+  // },
 });
 
 export default HomeScreen;
