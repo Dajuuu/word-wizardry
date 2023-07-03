@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { PointsContext } from "./PointsContext";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const HomeScreen = ({ navigation }) => {
   const { points } = useContext(PointsContext);
@@ -27,18 +28,24 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Button 1</Text>
+          <Icon name="user" style={styles.buttonIcon} solid />
         </TouchableOpacity>
-      </View>
-      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button}>
+          <Icon name="crown" style={styles.buttonIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Icon name="trophy" style={styles.buttonIcon} />
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={handleSettingsButtonPress}
         >
-          <Text style={styles.buttonText}>Button 2</Text>
+          <Icon name="cog" style={styles.buttonIcon} />
         </TouchableOpacity>
       </View>
-      <Text style={styles.scoreText}>Score:{points}</Text>
+      <View style={styles.scoreContainer}>
+        <Text style={styles.scoreText}>Score: {points}</Text>
+      </View>
       <TouchableOpacity
         style={styles.playButton}
         onPress={handlePlayButtonPress}
@@ -47,7 +54,12 @@ const HomeScreen = ({ navigation }) => {
       </TouchableOpacity>
 
       {/* Settings Overlay */}
-      <Modal visible={settingsVisible} animationType="slide" transparent>
+      <Modal
+        visible={settingsVisible}
+        animationType="slide"
+        transparent
+        statusBarTranslucent
+      >
         <View style={styles.settingsOverlay}>
           {/* Settings Box Content */}
           <View style={styles.settingsBox}>
@@ -68,25 +80,48 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "pink",
+  },
+
+  // Button container
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 20,
+    paddingTop: 30,
+  },
+
+  button: {
+    backgroundColor: "transparent",
+
+    // paddingHorizontal: 12,
+    // paddingVertical: 8,
+    // borderRadius: 8,
+    borderWidth: 2,
+    width: "15%",
+    borderColor: "black",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  buttonContainer: {
-    position: "absolute",
-    top: 20,
-    left: 20,
-  },
-  button: {
     backgroundColor: "#ccc",
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
+    borderRadius: 15,
+    padding: 10,
   },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: "bold",
+  buttonIcon: {
+    justifyContent: "center",
+    fontSize: 24,
     color: "#333",
+  },
+
+  // Score container
+  scoreContainer: {
+    backgroundColor: "green",
+    paddingHorizontal: 40,
+    paddingVertical: 20,
+    borderRadius: 50,
+    marginBottom: 20,
   },
   scoreText: {
     position: "absolute",
