@@ -12,6 +12,7 @@ const EasyLevelsScreen = ({ navigation }) => {
     {
       level: "E1",
       color: "green",
+      levelPoints: 10,
       GRID_DATA: [
         ["A", "A", "A", "A", "A", "A"],
         // ["A", "A", "A", "A", "A", "A", "A"],
@@ -29,18 +30,19 @@ const EasyLevelsScreen = ({ navigation }) => {
     {
       level: "E2",
       color: "green",
+      levelPoints: 15,
       GRID_DATA: [
-        ["A", "A", "C", "D", "E", "F", "F", "F", "F", "F"],
-        ["G", "H", "I", "J", "K", "L", "F", "F", "F", "F"],
-        ["A", "N", "O", "P", "Q", "R", "F", "F", "F", "F"],
-        ["S", "T", "U", "V", "W", "X", "F", "F", "F", "F"],
-        ["F", "F", "U", "V", "W", "X", "F", "F", "F", "F"],
-        ["Y", "Z", "1", "2", "3", "4", "F", "F", "F", "F"],
-        ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
-        ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
-        ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
-        ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
-        ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
+        ["F", "F", "F", "F", "F", "F", "F", "F", "F", "F"],
+        // ["G", "H", "I", "J", "K", "L", "F", "F", "F", "F"],
+        // ["A", "N", "O", "P", "Q", "R", "F", "F", "F", "F"],
+        // ["S", "T", "U", "V", "W", "X", "F", "F", "F", "F"],
+        // ["F", "F", "U", "V", "W", "X", "F", "F", "F", "F"],
+        // ["Y", "Z", "1", "2", "3", "4", "F", "F", "F", "F"],
+        // ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
+        // ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
+        // ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
+        // ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
+        // ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
       ],
       ROW_CLUES: ["Clue for Row 1", "Clue for Row 2"],
     },
@@ -50,15 +52,25 @@ const EasyLevelsScreen = ({ navigation }) => {
     // ...
   ];
 
-  const handleLevelPress = (level, GRID_DATA, ROW_CLUES) => {
-    navigation.navigate("CrosswordScreen", { level, GRID_DATA, ROW_CLUES });
+  const handleLevelPress = (level, GRID_DATA, ROW_CLUES, levelPoints) => {
+    navigation.navigate("CrosswordScreen", {
+      level,
+      GRID_DATA,
+      ROW_CLUES,
+      levelPoints,
+    });
   };
 
   const renderLevel = ({ item }) => (
     <TouchableOpacity
       style={[styles.levelBox, { backgroundColor: item.color }]}
       onPress={() =>
-        handleLevelPress(item.level, item.GRID_DATA, item.ROW_CLUES)
+        handleLevelPress(
+          item.level,
+          item.GRID_DATA,
+          item.ROW_CLUES,
+          item.levelPoints
+        )
       }
     >
       <Text style={styles.levelText}>{item.level}</Text>

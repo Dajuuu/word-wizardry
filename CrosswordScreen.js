@@ -21,9 +21,9 @@ const CrosswordApp = ({ route }) => {
 
   // Add points
   const { addPoints } = useContext(PointsContext);
-  const { points } = useContext(PointsContext);
+  // const { points } = useContext(PointsContext);
 
-  const { GRID_DATA, ROW_CLUES } = route.params;
+  const { GRID_DATA, ROW_CLUES, levelPoints } = route.params;
   const [hiddenGrid, setHiddenGrid] = useState(() =>
     GRID_DATA.map((row) => row.map(() => ""))
   );
@@ -55,10 +55,14 @@ const CrosswordApp = ({ route }) => {
         row.every((box) => box.isCorrect)
       );
 
+      // When level is finished
       if (isLevelFinished) {
-        addPoints(10);
+        // Will need changing
+        addPoints(levelPoints);
+        // addPoints(parseInt(levelPoints));
+        // console.log(levelPoints);
         console.log("Level finished!");
-        console.log("Total points:", points);
+        // console.log("Total points:", points);
         // setIsModalVisible(true);
         setLevelCompleted(true);
       }
