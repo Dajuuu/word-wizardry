@@ -13,10 +13,8 @@ const EasyLevelsScreen = ({ navigation }) => {
       level: "E1",
       color: "green",
       GRID_DATA: [
-        ["A", "A", "C", "D", "E", "F"],
-        ["G", "H", "I", "J", "K", "L"],
-        ["A", "N", "O", "P", "Q", "R"],
-        ["S", "T", "U", "V", "W", "X"],
+        ["A", "A", "A", "A", "A", "A"],
+        ["A", "A", "A", "A", "A", "A", "A"],
       ],
       ROW_CLUES: [
         "Clue for Row 1",

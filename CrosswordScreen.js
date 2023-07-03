@@ -38,12 +38,19 @@ const CrosswordApp = ({ route }) => {
       setHiddenGrid(newHiddenGrid);
     };
 
-    //Debouncing
     clearTimeout(inputRefs.current[rowIndex][columnIndex].timer);
     inputRefs.current[rowIndex][columnIndex].timer = setTimeout(
       updateHiddenGrid,
-      300 // Set the debounce delay time in milliseconds (e.g., 300ms)
+      300
     );
+
+    // Select the box to the right
+    if (columnIndex < GRID_DATA[rowIndex].length - 1) {
+      const nextColumnIndex = columnIndex + 1;
+      handleBoxSelection(rowIndex, nextColumnIndex);
+      const nextInputRef = inputRefs.current[rowIndex][nextColumnIndex];
+      nextInputRef && nextInputRef.focus();
+    }
   };
 
   const handleKeyPress = (key) => {
