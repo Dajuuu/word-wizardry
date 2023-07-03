@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   View,
@@ -12,10 +12,16 @@ import {
   Button,
 } from "react-native";
 
+import { PointsContext } from "./PointsContext";
+
 import CustomKeyboard from "./CustomKeyboard";
 
 const CrosswordApp = ({ route }) => {
   const navigation = useNavigation();
+
+  // Add points
+  const { addPoints } = useContext(PointsContext);
+  const { points } = useContext(PointsContext);
 
   const { GRID_DATA, ROW_CLUES } = route.params;
   const [hiddenGrid, setHiddenGrid] = useState(() =>
@@ -50,7 +56,9 @@ const CrosswordApp = ({ route }) => {
       );
 
       if (isLevelFinished) {
+        addPoints(10);
         console.log("Level finished!");
+        console.log("Total points:", points);
         // setIsModalVisible(true);
         setLevelCompleted(true);
       }

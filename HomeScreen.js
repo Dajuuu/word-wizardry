@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { PointsContext } from "./PointsContext";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
+  const { points } = useContext(PointsContext);
+
   const [settingsVisible, setSettingsVisible] = useState(false);
 
   const handlePlayButtonPress = () => {
@@ -35,7 +38,7 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Button 2</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.scoreText}>Score: 100</Text>
+      <Text style={styles.scoreText}>Score: {points}</Text>
       <TouchableOpacity
         style={styles.playButton}
         onPress={handlePlayButtonPress}
