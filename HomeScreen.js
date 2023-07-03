@@ -1,9 +1,19 @@
 import React, { useState, useContext } from "react";
 import { PointsContext } from "./PointsContext";
-import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 const HomeScreen = ({ navigation }) => {
+  const windowWidth = Dimensions.get("window").width;
+  let iconWidth = windowWidth / 20;
+
   const { points } = useContext(PointsContext);
 
   const [settingsVisible, setSettingsVisible] = useState(false);
@@ -28,19 +38,32 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
-          <Icon name="user" style={styles.buttonIcon} solid />
+          <Icon
+            name="user"
+            style={[styles.buttonIcon, { fontSize: iconWidth }]}
+            solid
+          />
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
-          <Icon name="crown" style={styles.buttonIcon} />
+          <Icon
+            name="crown"
+            style={[styles.buttonIcon, { fontSize: iconWidth }]}
+          />
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
-          <Icon name="trophy" style={styles.buttonIcon} />
+          <Icon
+            name="trophy"
+            style={[styles.buttonIcon, { fontSize: iconWidth }]}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={handleSettingsButtonPress}
         >
-          <Icon name="cog" style={styles.buttonIcon} />
+          <Icon
+            name="cog"
+            style={[styles.buttonIcon, { fontSize: iconWidth }]}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.scoreContainer}>
@@ -111,25 +134,23 @@ const styles = StyleSheet.create({
   },
   buttonIcon: {
     justifyContent: "center",
-    fontSize: 24,
     color: "#333",
   },
 
   // Score container
   scoreContainer: {
-    backgroundColor: "green",
-    paddingHorizontal: 40,
+    width: "50%",
+    backgroundColor: "blue",
+    paddingHorizontal: 30,
     paddingVertical: 20,
-    borderRadius: 50,
-    marginBottom: 20,
+    borderRadius: 10,
+    marginVertical: 20,
   },
   scoreText: {
-    position: "absolute",
-    top: 20,
     alignSelf: "center",
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: "bold",
-    color: "#333",
+    color: "white",
   },
   playButton: {
     backgroundColor: "green",
@@ -137,10 +158,13 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 50,
     marginBottom: 20,
+    top: "45%",
+    width: "70%",
   },
   playButtonText: {
-    fontSize: 24,
+    fontSize: 44,
     fontWeight: "bold",
+    alignSelf: "center",
     color: "#fff",
   },
   settingsOverlay: {
