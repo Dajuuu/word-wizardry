@@ -38,7 +38,7 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Button 2</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.scoreText}>Score: {points}</Text>
+      <Text style={styles.scoreText}>Score:{points}</Text>
       <TouchableOpacity
         style={styles.playButton}
         onPress={handlePlayButtonPress}
