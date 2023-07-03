@@ -21,7 +21,7 @@ const CrosswordApp = ({ route }) => {
 
   // Add points
   const { addPoints } = useContext(PointsContext);
-  // const { points } = useContext(PointsContext);
+  const { points } = useContext(PointsContext);
 
   const { GRID_DATA, ROW_CLUES, levelPoints } = route.params;
   const [hiddenGrid, setHiddenGrid] = useState(() =>
@@ -58,7 +58,7 @@ const CrosswordApp = ({ route }) => {
       // When level is finished
       if (isLevelFinished) {
         // Will need changing
-        addPoints(levelPoints);
+        // addPoints(levelPoints);
         // addPoints(parseInt(levelPoints));
         // console.log(levelPoints);
         console.log("Level finished!");
@@ -71,7 +71,7 @@ const CrosswordApp = ({ route }) => {
     clearTimeout(inputRefs.current[rowIndex][columnIndex].timer);
     inputRefs.current[rowIndex][columnIndex].timer = setTimeout(
       updateHiddenGrid,
-      300
+      10
     );
 
     // Select the box to the right
@@ -102,6 +102,10 @@ const CrosswordApp = ({ route }) => {
   const closeModal = () => {
     // setIsModalVisible(false);
     setLevelCompleted(false);
+    // Add points on closing the box
+    // Small fix for the points doubling in some cases
+    // Thats why the addPoints function with passed variable is here, instead of isLevelFinished
+    addPoints(levelPoints);
     // When level is finished, clocking goes back to the level selection screen
     navigation.goBack();
   };
@@ -192,6 +196,12 @@ const CrosswordApp = ({ route }) => {
           <View style={styles.overlay}>
             <View style={styles.overlayBox}>
               <Text style={styles.overlayText}>Level Completed!</Text>
+              <Text style={styles.overlayText}>
+                You got: {levelPoints} points
+              </Text>
+              <Text style={styles.overlayText}>
+                Your total score {points + levelPoints}
+              </Text>
               <TouchableOpacity
                 style={styles.goBackButton}
                 onPress={closeModal}
