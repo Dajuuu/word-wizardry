@@ -36,12 +36,21 @@ const CrosswordApp = ({ route }) => {
         isCorrect: inputtedLetter === hiddenLetter,
       };
       setHiddenGrid(newHiddenGrid);
+
+      // Check if all boxes are filled correctly
+      const isLevelFinished = newHiddenGrid.every((row) =>
+        row.every((box) => box.isCorrect)
+      );
+
+      if (isLevelFinished) {
+        console.log("Level finished!");
+      }
     };
 
     clearTimeout(inputRefs.current[rowIndex][columnIndex].timer);
     inputRefs.current[rowIndex][columnIndex].timer = setTimeout(
       updateHiddenGrid,
-      300
+      3
     );
 
     // Select the box to the right
