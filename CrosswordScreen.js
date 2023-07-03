@@ -162,11 +162,12 @@ const styles = StyleSheet.create({
   },
   gridContainer: {
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "flex-start",
     marginBottom: 20,
   },
   row: {
     flexDirection: "row",
+    alignItems: "flex-start", // Align boxes to the left
   },
   highlightedRow: {
     backgroundColor: "rgba(0, 128, 0, 0.5)",
