@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   View,
@@ -10,6 +10,7 @@ import {
   ScrollView,
   Modal,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 
 import { PointsContext } from "./PointsContext";
 
@@ -32,6 +33,37 @@ const CrosswordApp = ({ route }) => {
   const [levelCompleted, setLevelCompleted] = useState(false);
   const inputRefs = useRef([]);
 
+  useEffect(() => {
+    // Load saved user input for the given level
+    loadUserInput();
+  }, []);
+  const saveUserInput = async () => {
+    try {
+      const userInputKey = `userInput:${route.params.level}`;
+      const userInput = hiddenGrid.map((row) =>
+        row.map((box) => (box ? box.letter : ""))
+      );
+      await AsyncStorage.setItem(userInputKey, JSON.stringify(userInput));
+    } catch (error) {
+      console.log("Error saving user input:", error);
+    }
+  };
+
+  const loadUserInput = async () => {
+    try {
+      const userInputKey = `userInput:${route.params.level}`;
+      const savedUserInput = await AsyncStorage.getItem(userInputKey);
+      if (savedUserInput !== null) {
+        const userInput = JSON.parse(savedUserInput);
+        setHiddenGrid(
+          userInput.map((row) => row.map((letter) => ({ letter })))
+        );
+      }
+    } catch (error) {
+      console.log("Error loading user input:", error);
+    }
+  };
+
   const handleBoxSelection = (rowIndex, columnIndex) => {
     setSelectedBox({ rowIndex, columnIndex });
     setSelectedRow(rowIndex);
@@ -42,13 +74,15 @@ const CrosswordApp = ({ route }) => {
     const inputtedLetter = text.toUpperCase();
 
     const updateHiddenGrid = () => {
+      // Update hiddenGrid state
       const newHiddenGrid = [...hiddenGrid];
       newHiddenGrid[rowIndex][columnIndex] = {
         letter: inputtedLetter,
         isCorrect: inputtedLetter === hiddenLetter,
       };
       setHiddenGrid(newHiddenGrid);
-
+      // Save user input
+      saveUserInput();
       // Check if all boxes are filled correctly
       const isLevelFinished = newHiddenGrid.every((row) =>
         row.every((box) => box.isCorrect)
@@ -107,8 +141,18 @@ const CrosswordApp = ({ route }) => {
     addPoints(levelPoints);
     // When level is finished, clocking goes back to the level selection screen
     navigation.goBack();
-  };
 
+    // Delete saved user input for the given level
+    deleteUserInput();
+  };
+  const deleteUserInput = async () => {
+    try {
+      const userInputKey = `userInput:${route.params.level}`;
+      await AsyncStorage.removeItem(userInputKey);
+    } catch (error) {
+      console.log("Error deleting user input:", error);
+    }
+  };
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
