@@ -149,12 +149,16 @@ const HomeScreen = ({ navigation }) => {
             <Text style={styles.settingsText}>Settings</Text>
             {/* Switches */}
             <View style={styles.switchContainer}>
-              <Text style={styles.switchLabel}>Switch 1</Text>
-              <Switch />
+              <View style={styles.switchLabelContainer}>
+                <Text style={styles.switchLabel}>Switch 1</Text>
+              </View>
+              <Switch style={styles.switchPosition} />
             </View>
             <View style={styles.switchContainer}>
-              <Text style={styles.switchLabel}>Switch 2</Text>
-              <Switch />
+              <View style={styles.switchLabelContainer}>
+                <Text style={styles.switchLabel}>Switch 2</Text>
+              </View>
+              <Switch style={styles.switchPosition} />
             </View>
             {/* Support Button */}
             <TouchableOpacity style={styles.supportButton}>
@@ -255,11 +259,33 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     width: "60%",
+    flexDirection: "column", // Ensure switch labels and switches are stacked vertically
+    // alignItems: "flex-start",
   },
   settingsText: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
+  },
+  switchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+
+  switchLabelContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flex: 1, // Add flex: 1 to expand and push the switches to the right
+  },
+
+  switchLabel: {
+    fontSize: 16,
+  },
+  switchPosition: {
+    alignItems: "flex-end",
   },
   closeButton: {
     backgroundColor: "red",
