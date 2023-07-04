@@ -38,12 +38,49 @@ const HomeScreen = ({ navigation }) => {
 
   // Animation
   const [animation] = useState(new Animated.Value(-400)); // Initial position outside the screen
+  const [scaleAnimation] = useState(new Animated.Value(1)); // Initial scale value of 1
+
   useEffect(() => {
-    Animated.timing(animation, {
+    // First Animation: Translate the button from left to the middle
+    const translateAnimation = Animated.timing(animation, {
       toValue: 0, // Final position at the center of the screen
       duration: 800, // Animation duration in milliseconds
       useNativeDriver: true, // Enable native driver for better performance
-    }).start(); // Start the animation
+    });
+
+    // Second Animation: Pulsating effect by scaling the button
+    const increaseAnimation = Animated.timing(scaleAnimation, {
+      toValue: 1.2, // Increase the scale to 1.2
+      duration: 500, // Animation duration in milliseconds
+      useNativeDriver: true,
+    });
+
+    const decreaseAnimation = Animated.timing(scaleAnimation, {
+      toValue: 1, // Decrease the scale back to 1
+      duration: 500, // Animation duration in milliseconds
+      useNativeDriver: true,
+    });
+
+    // const staticAnimation = Animated.timing(scaleAnimation, {
+    //   toValue: 1, // Maintain scale at 1 for 5 seconds
+    //   duration: 5000, // Static duration in milliseconds
+    //   useNativeDriver: true,
+    // });
+
+    const scaleAnimationSequence = Animated.sequence([
+      increaseAnimation,
+      decreaseAnimation,
+      Animated.delay(5000), // Wait for 5 seconds
+    ]);
+
+    const scaleAnimationLoop = Animated.loop(scaleAnimationSequence);
+
+    // Run both animations simultaneously
+    Animated.parallel([translateAnimation, scaleAnimationLoop]).start();
+
+    return () => {
+      scaleAnimationLoop.stop(); // Stop the scale animation loop when component unmounts
+    };
   }, []);
 
   return (
@@ -82,14 +119,15 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.scoreText}>Score: {points}</Text>
       </View>
 
-      <Animated.View
-      // style={[styles.playButton, { transform: [{ translateX: animation }] }]}
-      >
+      {/* animate the play button */}
+      <Animated.View>
         <TouchableOpacity
           style={[
             styles.playButton,
             { top: playButtonPosition },
-            { transform: [{ translateX: animation }] },
+            {
+              transform: [{ translateX: animation }, { scale: scaleAnimation }],
+            },
           ]}
           onPress={handlePlayButtonPress}
         >
