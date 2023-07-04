@@ -150,13 +150,13 @@ const HomeScreen = ({ navigation }) => {
             {/* Switches */}
             <View style={styles.switchContainer}>
               <View style={styles.switchLabelContainer}>
-                <Text style={styles.switchLabel}>Switch 1</Text>
+                <Text style={styles.switchLabel}>Sound</Text>
               </View>
               <Switch style={styles.switchPosition} />
             </View>
             <View style={styles.switchContainer}>
               <View style={styles.switchLabelContainer}>
-                <Text style={styles.switchLabel}>Switch 2</Text>
+                <Text style={styles.switchLabel}>Music</Text>
               </View>
               <Switch style={styles.switchPosition} />
             </View>
@@ -286,6 +286,20 @@ const styles = StyleSheet.create({
   },
   switchPosition: {
     alignItems: "flex-end",
+  },
+  supportButton: {
+    backgroundColor: "green",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginTop: 10,
+    width: "60%",
+  },
+  supportButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff",
+    alignSelf: "center",
   },
   closeButton: {
     backgroundColor: "red",
