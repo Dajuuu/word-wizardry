@@ -9,11 +9,11 @@ import {
 
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-const EasyLevelsScreen = ({ navigation }) => {
+const MediumLevelsScreen = ({ navigation }) => {
   const levels = [
     {
       level: "E1",
-      color: "green",
+      color: "orange",
       levelPoints: 10,
       GRID_DATA: [
         ["A", "A", "A", "A", "A", "A"],
@@ -31,7 +31,7 @@ const EasyLevelsScreen = ({ navigation }) => {
     },
     {
       level: "E2",
-      color: "green",
+      color: "orange",
       levelPoints: 15,
       GRID_DATA: [
         ["F", "F", "F", "F", "F", "F", "F", "F", "F", "F"],
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#b1fa9f",
+    backgroundColor: "#e8fa9f",
   },
   backButton: {
     position: "absolute",
@@ -138,4 +138,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EasyLevelsScreen;
+export default MediumLevelsScreen;

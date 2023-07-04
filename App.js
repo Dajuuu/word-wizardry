@@ -7,6 +7,7 @@ import { PointsProvider } from "./PointsContext";
 import HomeScreen from "./HomeScreen";
 import GameScreen from "./GameScreen";
 import EasyLevelsScreen from "./EasyLevels";
+import MediumLevelsScreen from "./MediumLevels";
 import CrosswordApp from "./CrosswordScreen";
 import LevelScreen from "./LevelScreen";
 
@@ -21,6 +22,7 @@ const App = () => {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="GameScreen" component={GameScreen} />
           <Stack.Screen name="EasyLevels" component={EasyLevelsScreen} />
+          <Stack.Screen name="MediumLevels" component={MediumLevelsScreen} />
           <Stack.Screen name="LevelScreen" component={LevelScreen} />
           <Stack.Screen name="CrosswordScreen" component={CrosswordApp} />
         </Stack.Navigator>
