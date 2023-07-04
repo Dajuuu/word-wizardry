@@ -185,7 +185,9 @@ const CrosswordApp = ({ route }) => {
       </ScrollView>
 
       {selectedRow !== null && (
-        <Text style={styles.clueText}>Clue: {ROW_CLUES[selectedRow]}</Text>
+        <View style={styles.clueContainer}>
+          <Text style={styles.clueText}>{ROW_CLUES[selectedRow]}</Text>
+        </View>
       )}
 
       <CustomKeyboard onKeyPress={handleKeyPress} />
@@ -226,6 +228,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#c9fcbc",
   },
   gridContainer: {
     flexDirection: "column",
@@ -251,10 +254,7 @@ const styles = StyleSheet.create({
   boxText: {
     fontSize: 16,
   },
-  clueText: {
-    fontSize: 18,
-    marginTop: 10,
-  },
+
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -296,6 +296,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#fff",
+  },
+  clueContainer: {
+    width: "120%",
+    paddingHorizontal: 40,
+    paddingVertical: 15,
+    backgroundColor: "red",
+  },
+  clueText: {
+    fontSize: 18,
+    // marginTop: 10,
+    alignSelf: "center",
   },
 });
 
