@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Dimensions,
   Animated,
+  Switch,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -146,6 +147,20 @@ const HomeScreen = ({ navigation }) => {
           {/* Settings Box Content */}
           <View style={styles.settingsBox}>
             <Text style={styles.settingsText}>Settings</Text>
+            {/* Switches */}
+            <View style={styles.switchContainer}>
+              <Text style={styles.switchLabel}>Switch 1</Text>
+              <Switch />
+            </View>
+            <View style={styles.switchContainer}>
+              <Text style={styles.switchLabel}>Switch 2</Text>
+              <Switch />
+            </View>
+            {/* Support Button */}
+            <TouchableOpacity style={styles.supportButton}>
+              <Text style={styles.supportButtonText}>Support</Text>
+            </TouchableOpacity>
+            {/* Close Button */}
             <TouchableOpacity
               style={styles.closeButton}
               onPress={handleCloseSettings}
@@ -239,6 +254,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 8,
     alignItems: "center",
+    width: "60%",
   },
   settingsText: {
     fontSize: 20,
