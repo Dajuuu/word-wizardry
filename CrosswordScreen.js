@@ -55,15 +55,27 @@ const CrosswordApp = ({ route }) => {
       const savedUserInput = await AsyncStorage.getItem(userInputKey);
       if (savedUserInput !== null) {
         const userInput = JSON.parse(savedUserInput);
-        setHiddenGrid(
-          userInput.map((row) => row.map((letter) => ({ letter })))
+        const restoredHiddenGrid = userInput.map((row, rowIndex) =>
+          row.map((letter, columnIndex) => ({
+            letter,
+            isCorrect:
+              letter === GRID_DATA[rowIndex][columnIndex].toUpperCase(),
+          }))
         );
+        setHiddenGrid(restoredHiddenGrid);
       }
     } catch (error) {
       console.log("Error loading user input:", error);
     }
   };
-
+  const deleteUserInput = async () => {
+    try {
+      const userInputKey = `userInput:${route.params.level}`;
+      await AsyncStorage.removeItem(userInputKey);
+    } catch (error) {
+      console.log("Error deleting user input:", error);
+    }
+  };
   const handleBoxSelection = (rowIndex, columnIndex) => {
     setSelectedBox({ rowIndex, columnIndex });
     setSelectedRow(rowIndex);
@@ -145,14 +157,7 @@ const CrosswordApp = ({ route }) => {
     // Delete saved user input for the given level
     deleteUserInput();
   };
-  const deleteUserInput = async () => {
-    try {
-      const userInputKey = `userInput:${route.params.level}`;
-      await AsyncStorage.removeItem(userInputKey);
-    } catch (error) {
-      console.log("Error deleting user input:", error);
-    }
-  };
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
