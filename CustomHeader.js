@@ -5,12 +5,15 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Platform,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import SettingsOverlay from "./SettingsOverlay";
 const windowHeight = Dimensions.get("window").height;
 
 const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
+  const navigation = useNavigation();
   // handles the settings overlay
   const [settingsVisible, setSettingsVisible] = useState(false);
 
@@ -22,14 +25,24 @@ const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
     setSettingsVisible(false);
   };
   return (
-    <View style={styles.header}>
+    // Because on the Android status bar is shown, I want to make a small adjustment
+    // to make sure that the status bar is not colliding with anything
+    <View
+      style={[
+        styles.header,
+        Platform.OS === "android" &&
+          settingsVisible && { height: windowHeight / 10 },
+      ]}
+    >
+      {/* Icon on the left (go back) */}
       <TouchableOpacity
         style={[styles.leftButton, styles.button]}
-        onPress={onLeftButtonPress}
+        onPress={() => navigation.goBack()}
       >
         <Icon name="arrow-left" style={[styles.buttonIcon]} />
       </TouchableOpacity>
       <Text style={styles.title}>{title}</Text>
+      {/* Icon on the right (settings) */}
       <TouchableOpacity
         style={[styles.rightButton, styles.button]}
         onPress={handleSettingsButtonPress}
@@ -47,13 +60,14 @@ const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-end",
     height: windowHeight / 15,
     backgroundColor: "#f7d7ba",
     paddingHorizontal: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     marginBottom: 10,
+    paddingBottom: 10,
   },
   leftButton: {
     marginRight: 10,
@@ -88,6 +102,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     flex: 1,
     textAlign: "center",
+    paddingBottom: 5,
   },
 });
 

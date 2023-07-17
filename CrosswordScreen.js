@@ -11,7 +11,6 @@ import {
   Modal,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
-import SettingsOverlay from "./SettingsOverlay";
 
 import { PointsContext } from "./PointsContext";
 
@@ -35,16 +34,6 @@ const CrosswordApp = ({ route }) => {
   const [levelCompleted, setLevelCompleted] = useState(false);
   const inputRefs = useRef([]);
 
-  // handles the settings overlay
-  const [settingsVisible, setSettingsVisible] = useState(false);
-
-  const handleSettingsButtonPress = () => {
-    setSettingsVisible(true);
-  };
-
-  const handleCloseSettings = () => {
-    setSettingsVisible(false);
-  };
   // Hide the header
   React.useLayoutEffect(() => {
     navigation.setOptions({ headerShown: false });
@@ -197,19 +186,6 @@ const CrosswordApp = ({ route }) => {
       <CustomHeader
         // import nazwy levela
         title={levelName}
-        onLeftButtonPress={() => navigation.goBack()}
-        // tutaj ma byc settings button
-        // renderRightButton={() => (
-        //   <TouchableOpacity
-        //     style={styles.button}
-        //     onPress={handleSettingsButtonPress}
-        //   >
-        //     <SettingsOverlay
-        //       visible={settingsVisible}
-        //       onClose={handleCloseSettings}
-        //     />
-        //   </TouchableOpacity>
-        // )}
       />
 
       <ScrollView horizontal>
