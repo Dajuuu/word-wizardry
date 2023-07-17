@@ -24,7 +24,7 @@ const EasyLevelsScreen = ({ navigation }) => {
         ["R", "O", "C", "K", "E", "T"],
       ],
       ROW_CLUES: [
-        "1. Desert plant known for its spines.",
+        "1. Desert plant known for its spikes.",
         "2. Puzzle with irregularly shaped pieces.",
         "3. Inner essence or mood.",
         "4. Reptile with a protective shell.",
@@ -37,7 +37,7 @@ const EasyLevelsScreen = ({ navigation }) => {
       color: "green",
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
-      ROW_CLUES: ["Clue for Row 1"],
+      ROW_CLUES: ["Input F"],
     },
     {
       level: "E3",

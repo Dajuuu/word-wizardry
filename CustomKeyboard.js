@@ -10,6 +10,10 @@ const CustomKeyboard = ({ onKeyPress }) => {
     ["U", "V", "W", "X", "Y"],
   ];
 
+  const handleBackspace = () => {
+    onKeyPress("");
+  };
+
   return (
     <View style={styles.keyboardContainer}>
       {keyboardData.map((row, rowIndex) => (
@@ -25,6 +29,9 @@ const CustomKeyboard = ({ onKeyPress }) => {
           ))}
         </View>
       ))}
+      <TouchableOpacity style={styles.keyboardKey} onPress={handleBackspace}>
+        <Text style={styles.keyboardKeyText}>Backspace</Text>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -131,8 +131,24 @@ const CrosswordApp = ({ route }) => {
   const handleKeyPress = (key) => {
     if (selectedBox) {
       const { rowIndex, columnIndex } = selectedBox;
-      handleBoxInput(key, rowIndex, columnIndex);
-      inputRefs.current[rowIndex][columnIndex].focus();
+
+      if (key === "") {
+        // If backspace is pressed, delete the content of the selected box
+        handleBoxInput("", rowIndex, columnIndex);
+        inputRefs.current[rowIndex][columnIndex].focus();
+
+        // Move the selection to the left
+        const nextColumnIndex = columnIndex - 1;
+        if (nextColumnIndex >= 0) {
+          handleBoxSelection(rowIndex, nextColumnIndex);
+          const nextInputRef = inputRefs.current[rowIndex][nextColumnIndex];
+          nextInputRef && nextInputRef.focus();
+        }
+      } else {
+        // If any other key is pressed, handle it as usual
+        handleBoxInput(key, rowIndex, columnIndex);
+        inputRefs.current[rowIndex][columnIndex].focus();
+      }
     }
   };
 
