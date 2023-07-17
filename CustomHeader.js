@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,10 +7,20 @@ import {
   Dimensions,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-
+import SettingsOverlay from "./SettingsOverlay";
 const windowHeight = Dimensions.get("window").height;
 
 const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
+  // handles the settings overlay
+  const [settingsVisible, setSettingsVisible] = useState(false);
+
+  const handleSettingsButtonPress = () => {
+    setSettingsVisible(true);
+  };
+
+  const handleCloseSettings = () => {
+    setSettingsVisible(false);
+  };
   return (
     <View style={styles.header}>
       <TouchableOpacity
@@ -22,8 +32,12 @@ const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
       <Text style={styles.title}>{title}</Text>
       <TouchableOpacity
         style={[styles.rightButton, styles.button]}
-        onPress={onRightButtonPress}
+        onPress={handleSettingsButtonPress}
       >
+        <SettingsOverlay
+          visible={settingsVisible}
+          onClose={handleCloseSettings}
+        />
         <Icon name="cog" style={[styles.buttonIcon]} />
       </TouchableOpacity>
     </View>

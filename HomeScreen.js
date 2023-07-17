@@ -10,6 +10,8 @@ import {
   Animated,
   Switch,
 } from "react-native";
+import SettingsOverlay from "./SettingsOverlay";
+
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 const HomeScreen = ({ navigation }) => {
@@ -110,6 +112,10 @@ const HomeScreen = ({ navigation }) => {
           style={styles.button}
           onPress={handleSettingsButtonPress}
         >
+          <SettingsOverlay
+            visible={settingsVisible}
+            onClose={handleCloseSettings}
+          />
           <Icon
             name="cog"
             style={[styles.buttonIcon, { fontSize: iconWidth }]}
@@ -137,43 +143,6 @@ const HomeScreen = ({ navigation }) => {
       </Animated.View>
 
       {/* Settings Overlay */}
-      <Modal
-        visible={settingsVisible}
-        animationType="slide"
-        transparent
-        statusBarTranslucent
-      >
-        <View style={styles.settingsOverlay}>
-          {/* Settings Box Content */}
-          <View style={styles.settingsBox}>
-            <Text style={styles.settingsText}>Settings</Text>
-            {/* Switches */}
-            <View style={styles.switchContainer}>
-              <View style={styles.switchLabelContainer}>
-                <Text style={styles.switchLabel}>Sound</Text>
-              </View>
-              <Switch style={styles.switchPosition} />
-            </View>
-            <View style={styles.switchContainer}>
-              <View style={styles.switchLabelContainer}>
-                <Text style={styles.switchLabel}>Music</Text>
-              </View>
-              <Switch style={styles.switchPosition} />
-            </View>
-            {/* Support Button */}
-            <TouchableOpacity style={styles.supportButton}>
-              <Text style={styles.supportButtonText}>Support</Text>
-            </TouchableOpacity>
-            {/* Close Button */}
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={handleCloseSettings}
-            >
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 };
