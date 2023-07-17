@@ -23,7 +23,6 @@ const CustomKeyboard = ({ onKeyPress }) => {
   };
 
   return (
-    // <SafeAreaView style={styles.container}>
     <View style={styles.keyboardContainer}>
       {keyboardData.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.keyboardRow}>
@@ -47,23 +46,18 @@ const CustomKeyboard = ({ onKeyPress }) => {
         </View>
       ))}
     </View>
-    // </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // marginBottom: 30,
-  },
   keyboardContainer: {
-    // marginTop: 10,
-    // marginBottom: 30,
+    // marginBottom: 10,
     width: "100%",
     // height: "25%",
     backgroundColor: "#f7d7ba",
     paddingHorizontal: 15,
-    paddingVertical: 8,
+    paddingTop: 10,
+    paddingBottom: 20,
   },
   keyboardRow: {
     flexDirection: "row",

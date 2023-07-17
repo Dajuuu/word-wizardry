@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   Platform,
+  SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -24,9 +25,10 @@ const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
   const handleCloseSettings = () => {
     setSettingsVisible(false);
   };
+  /* // Because on the Android status bar is shown, I want to make a small
+      adjustment // to make sure that the status bar is not colliding with
+      anything */
   return (
-    // Because on the Android status bar is shown, I want to make a small adjustment
-    // to make sure that the status bar is not colliding with anything
     <View
       style={[
         styles.header,
@@ -61,24 +63,24 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "flex-end",
-    height: windowHeight / 15,
+    height: windowHeight / 11,
     backgroundColor: "#f7d7ba",
-    paddingHorizontal: 20,
+    paddingHorizontal: 26,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     marginBottom: 10,
-    paddingBottom: 10,
+    paddingBottom: 15,
   },
   leftButton: {
     marginRight: 10,
-    padding: 8,
-    paddingHorizontal: 10,
+    padding: 12,
+    paddingHorizontal: 14,
     backgroundColor: "#ebb381",
     borderRadius: 20,
   },
   rightButton: {
     marginLeft: 10,
-    padding: 8,
+    padding: 12,
     backgroundColor: "#ebb381",
     borderRadius: 20,
   },
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     flex: 1,
     textAlign: "center",
-    paddingBottom: 5,
+    // paddingBottom: 5,
   },
 });
 
