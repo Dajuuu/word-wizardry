@@ -1,13 +1,21 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  SafeAreaView,
+} from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome5";
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const CustomKeyboard = ({ onKeyPress }) => {
   const keyboardData = [
-    ["A", "B", "C", "D", "E"],
-    ["F", "G", "H", "I", "J"],
-    ["K", "L", "M", "N", "O"],
-    ["P", "Q", "R", "S", "T"],
-    ["U", "V", "W", "X", "Y"],
+    ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+    ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+    ["Z", "X", "C", "V", "B", "N", "M"],
   ];
 
   const handleBackspace = () => {
@@ -15,6 +23,7 @@ const CustomKeyboard = ({ onKeyPress }) => {
   };
 
   return (
+    // <SafeAreaView style={styles.container}>
     <View style={styles.keyboardContainer}>
       {keyboardData.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.keyboardRow}>
@@ -27,30 +36,48 @@ const CustomKeyboard = ({ onKeyPress }) => {
               <Text style={styles.keyboardKeyText}>{key}</Text>
             </TouchableOpacity>
           ))}
+          {rowIndex === keyboardData.length - 1 && (
+            <TouchableOpacity
+              style={[styles.keyboardKey, styles.keyboardKeyBackspace]}
+              onPress={handleBackspace}
+            >
+              <Icon name="arrow-left" size={20} color="black" />
+            </TouchableOpacity>
+          )}
         </View>
       ))}
-      <TouchableOpacity style={styles.keyboardKey} onPress={handleBackspace}>
-        <Text style={styles.keyboardKeyText}>Backspace</Text>
-      </TouchableOpacity>
     </View>
+    // </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // marginBottom: 30,
+  },
   keyboardContainer: {
-    marginTop: 20,
+    marginTop: 10,
+    // marginBottom: 30,
+    width: "100%",
+    // height: "25%",
   },
   keyboardRow: {
     flexDirection: "row",
+    justifyContent: "center",
   },
   keyboardKey: {
-    width: 50,
-    height: 50,
+    width: "9%",
+    height: windowHeight / 15,
     borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
-    margin: 2,
+    margin: 3,
+    marginBottom: 8,
     backgroundColor: "#CCCCCC",
+  },
+  keyboardKeyBackspace: {
+    width: "15%",
   },
   keyboardKeyText: {
     fontSize: 16,
