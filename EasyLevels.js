@@ -12,7 +12,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 const EasyLevelsScreen = ({ navigation }) => {
   const levels = [
     {
-      level: "E1",
+      levelName: "E1",
       color: "green",
       levelPoints: 10,
       GRID_DATA: [
@@ -33,14 +33,14 @@ const EasyLevelsScreen = ({ navigation }) => {
       ],
     },
     {
-      level: "E2",
+      levelName: "E2",
       color: "green",
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
-      level: "E3",
+      levelName: "E3",
       color: "green",
       levelPoints: 15,
       GRID_DATA: [
@@ -64,9 +64,9 @@ const EasyLevelsScreen = ({ navigation }) => {
     // ...
   ];
 
-  const handleLevelPress = (level, GRID_DATA, ROW_CLUES, levelPoints) => {
+  const handleLevelPress = (levelName, GRID_DATA, ROW_CLUES, levelPoints) => {
     navigation.navigate("CrosswordScreen", {
-      level,
+      levelName,
       GRID_DATA,
       ROW_CLUES,
       levelPoints,
@@ -78,18 +78,18 @@ const EasyLevelsScreen = ({ navigation }) => {
       style={[styles.levelBox, { backgroundColor: item.color }]}
       onPress={() =>
         handleLevelPress(
-          item.level,
+          item.levelName,
           item.GRID_DATA,
           item.ROW_CLUES,
           item.levelPoints
         )
       }
     >
-      <Text style={styles.levelText}>{item.level}</Text>
+      <Text style={styles.levelText}>{item.levelName}</Text>
     </TouchableOpacity>
   );
 
-  const keyExtractor = (item) => item.level;
+  const keyExtractor = (item) => item.levelName;
 
   return (
     <View style={styles.container}>

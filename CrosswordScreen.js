@@ -24,7 +24,7 @@ const CrosswordApp = ({ route }) => {
   const { addPoints } = useContext(PointsContext);
   const { points } = useContext(PointsContext);
 
-  const { GRID_DATA, ROW_CLUES, levelPoints } = route.params;
+  const { GRID_DATA, ROW_CLUES, levelPoints, levelName } = route.params;
   const [hiddenGrid, setHiddenGrid] = useState(() =>
     GRID_DATA.map((row) => row.map(() => ""))
   );
@@ -184,8 +184,10 @@ const CrosswordApp = ({ route }) => {
     <View style={styles.container}>
       {/* Custom header component */}
       <CustomHeader
-        title="Your Page Title"
+        // import nazwy levela
+        title={levelName}
         onLeftButtonPress={() => navigation.goBack()}
+        // tutaj ma byc settings button
         onRightButtonPress={() => navigation.goBack()}
       />
 
