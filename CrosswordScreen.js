@@ -290,7 +290,7 @@ const CrosswordApp = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    // padding: 20,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#c9fcbc",

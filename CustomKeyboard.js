@@ -57,10 +57,13 @@ const styles = StyleSheet.create({
     // marginBottom: 30,
   },
   keyboardContainer: {
-    marginTop: 10,
+    // marginTop: 10,
     // marginBottom: 30,
     width: "100%",
     // height: "25%",
+    backgroundColor: "green",
+    paddingHorizontal: 15,
+    paddingVertical: 8,
   },
   keyboardRow: {
     flexDirection: "row",
