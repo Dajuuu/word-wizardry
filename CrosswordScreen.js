@@ -209,7 +209,7 @@ const CrosswordApp = ({ route }) => {
                       style={[
                         styles.box,
                         isBoxSelected && { backgroundColor: "yellow" },
-                        isLetterCorrect && { backgroundColor: "blue" },
+                        isLetterCorrect && { backgroundColor: "#9ec4e8" },
                       ]}
                       onPress={() => handleBoxSelection(rowIndex, columnIndex)}
                     >
@@ -294,6 +294,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#b9d8f5",
+    // backgroundColor: "#b5ffd9",
   },
   gridContainer: {
     flexDirection: "column",
@@ -305,7 +306,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-start", // Align boxes to the left
   },
   highlightedRow: {
-    backgroundColor: "rgba(0, 128, 0, 0.5)",
+    backgroundColor: "rgba(184,135,94,0.8)",
+    paddingVertical: 4,
   },
   box: {
     width: 50,
@@ -315,6 +317,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 2,
     padding: 5,
+    borderRadius: 4,
+    backgroundColor: "rgba(255, 228, 204, 0.7)",
   },
   boxText: {
     fontSize: 16,

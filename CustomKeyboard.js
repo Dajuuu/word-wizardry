@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   },
   keyboardKeyText: {
     fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
