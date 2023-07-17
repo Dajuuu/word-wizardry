@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     // marginBottom: 30,
     width: "100%",
     // height: "25%",
-    backgroundColor: "green",
+    backgroundColor: "#f7d7ba",
     paddingHorizontal: 15,
     paddingVertical: 8,
   },
@@ -72,15 +72,23 @@ const styles = StyleSheet.create({
   keyboardKey: {
     width: "9%",
     height: windowHeight / 15,
-    borderWidth: 1,
+
     alignItems: "center",
     justifyContent: "center",
     margin: 3,
     marginBottom: 8,
-    backgroundColor: "#CCCCCC",
+    backgroundColor: "#ebb381",
+    borderRadius: 5,
+    // borderWidth: 1,
+    shadowColor: "rgba(0,0,0, .4)", // IOS
+    shadowOffset: { height: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    elevation: 2, // Android
   },
   keyboardKeyBackspace: {
     width: "15%",
+    backgroundColor: "#d8965d",
   },
   keyboardKeyText: {
     fontSize: 16,

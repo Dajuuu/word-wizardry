@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     // padding: 20,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#c9fcbc",
+    backgroundColor: "#b9d8f5",
   },
   gridContainer: {
     flexDirection: "column",
@@ -366,7 +366,10 @@ const styles = StyleSheet.create({
     width: "120%",
     paddingHorizontal: 40,
     paddingVertical: 15,
-    backgroundColor: "red",
+    backgroundColor: "#CE8B53",
+    borderTopWidth: 2,
+    borderBottomWidth: 2,
+    borderColor: "#9b673a",
   },
   clueText: {
     fontSize: 18,
