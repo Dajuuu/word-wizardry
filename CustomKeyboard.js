@@ -41,7 +41,7 @@ const CustomKeyboard = ({ onKeyPress }) => {
               style={[styles.keyboardKey, styles.keyboardKeyBackspace]}
               onPress={handleBackspace}
             >
-              <Icon name="arrow-left" size={20} color="black" />
+              <Icon name="backspace" size={20} color="black" />
             </TouchableOpacity>
           )}
         </View>

@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"; // Import 
 import { PointsContext } from "./PointsContext";
 
 import CustomKeyboard from "./CustomKeyboard";
+import CustomHeader from "./CustomHeader";
 
 const CrosswordApp = ({ route }) => {
   const navigation = useNavigation();
@@ -32,6 +33,11 @@ const CrosswordApp = ({ route }) => {
   // const [isModalVisible, setIsModalVisible] = useState(false);
   const [levelCompleted, setLevelCompleted] = useState(false);
   const inputRefs = useRef([]);
+
+  // Hide the header
+  React.useLayoutEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
 
   useEffect(() => {
     // Load saved user input for the given level
@@ -176,6 +182,13 @@ const CrosswordApp = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      {/* Custom header component */}
+      <CustomHeader
+        title="Your Page Title"
+        onLeftButtonPress={() => navigation.goBack()}
+        onRightButtonPress={() => navigation.goBack()}
+      />
+
       <ScrollView horizontal>
         <ScrollView contentContainerStyle={styles.gridContainer}>
           {GRID_DATA.map((row, rowIndex) => {
