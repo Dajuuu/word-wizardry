@@ -15,6 +15,9 @@ const EasyLevelsScreen = ({ navigation, route }) => {
   const EasyLevelsColorBackground = "rgba(56,167,63,1)";
   const EasyLevelsColorBackgroundCompleted = "rgba(38,100,42,1)";
 
+  const EasyLevelsColorOutline = "rgba(49,133,53,1)";
+  const EasyLevelsColorOutlineCompleted = "rgba(31,78,33,1)";
+
   // Take the parameters from the CrosswordScreen when the level is completed
   // const { levelCompleted, completedLevelName } = route.params;
   const [completedLevels, setCompletedLevels] = useState([]);
@@ -151,9 +154,13 @@ const EasyLevelsScreen = ({ navigation, route }) => {
       ? EasyLevelsColorBackgroundCompleted
       : item.color;
 
+    const borderColor = completedLevels.includes(item.levelName)
+      ? EasyLevelsColorOutlineCompleted
+      : EasyLevelsColorOutline;
+
     return (
       <TouchableOpacity
-        style={[styles.levelBox, { backgroundColor }]}
+        style={[styles.levelBox, { backgroundColor, borderColor }]}
         onPress={() =>
           handleLevelPress(
             item.levelName,
@@ -226,6 +233,11 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     justifyContent: "center",
     alignItems: "center",
+    // borderRadius: 5,
+    margin: 5,
+    // borderColor: "#318535",
+    borderBottomWidth: 12,
+    borderLeftWidth: 12,
   },
   levelText: {
     fontSize: 20,
