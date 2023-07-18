@@ -45,7 +45,7 @@ const CrosswordApp = ({ route }) => {
   }, []);
   const saveUserInput = async () => {
     try {
-      const userInputKey = `userInput:${route.params.level}`;
+      const userInputKey = `userInput:${route.params.levelName}`;
       const userInput = hiddenGrid.map((row) =>
         row.map((box) => (box ? box.letter : ""))
       );
@@ -57,7 +57,7 @@ const CrosswordApp = ({ route }) => {
 
   const loadUserInput = async () => {
     try {
-      const userInputKey = `userInput:${route.params.level}`;
+      const userInputKey = `userInput:${route.params.levelName}`;
       const savedUserInput = await AsyncStorage.getItem(userInputKey);
       if (savedUserInput !== null) {
         const userInput = JSON.parse(savedUserInput);
@@ -76,7 +76,7 @@ const CrosswordApp = ({ route }) => {
   };
   const deleteUserInput = async () => {
     try {
-      const userInputKey = `userInput:${route.params.level}`;
+      const userInputKey = `userInput:${route.params.levelName}`;
       await AsyncStorage.removeItem(userInputKey);
     } catch (error) {
       console.log("Error deleting user input:", error);

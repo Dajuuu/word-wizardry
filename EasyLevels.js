@@ -8,6 +8,7 @@ import {
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome5";
+import CustomHeader from "./CustomHeader";
 
 const EasyLevelsScreen = ({ navigation }) => {
   const levels = [
@@ -62,7 +63,62 @@ const EasyLevelsScreen = ({ navigation }) => {
     // { level: "E3", color: "green", GRID_DATA: ..., ROW_CLUES: ... },
     // { level: "E4", color: "green", GRID_DATA: ..., ROW_CLUES: ... },
     // ...
+
+    {
+      levelName: "E4",
+      color: "green",
+      levelPoints: 15,
+      GRID_DATA: [["F", "F", "F", "F", "F"]],
+      ROW_CLUES: ["Input F"],
+    },
+    {
+      levelName: "E5",
+      color: "green",
+      levelPoints: 15,
+      GRID_DATA: [["F", "F", "F", "F", "F"]],
+      ROW_CLUES: ["Input F"],
+    },
+    {
+      levelName: "E6",
+      color: "green",
+      levelPoints: 15,
+      GRID_DATA: [["F", "F", "F", "F", "F"]],
+      ROW_CLUES: ["Input F"],
+    },
+    {
+      levelName: "E7",
+      color: "green",
+      levelPoints: 15,
+      GRID_DATA: [["F", "F", "F", "F", "F"]],
+      ROW_CLUES: ["Input F"],
+    },
+    {
+      levelName: "E8",
+      color: "green",
+      levelPoints: 15,
+      GRID_DATA: [["F", "F", "F", "F", "F"]],
+      ROW_CLUES: ["Input F"],
+    },
+    {
+      levelName: "E9",
+      color: "green",
+      levelPoints: 15,
+      GRID_DATA: [["F", "F", "F", "F", "F"]],
+      ROW_CLUES: ["Input F"],
+    },
+    {
+      levelName: "E10",
+      color: "green",
+      levelPoints: 15,
+      GRID_DATA: [["F", "F", "F", "F", "F"]],
+      ROW_CLUES: ["Input F"],
+    },
   ];
+
+  // Hide the header
+  React.useLayoutEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
 
   const handleLevelPress = (levelName, GRID_DATA, ROW_CLUES, levelPoints) => {
     navigation.navigate("CrosswordScreen", {
@@ -93,12 +149,16 @@ const EasyLevelsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
+      <CustomHeader
+        // import nazwy levela
+        title="Easy Levels"
+      />
+      {/* <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.goBack()}
       >
         <Icon name="arrow-left" size={20} color="black" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <FlatList
         data={levels}
@@ -134,10 +194,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   levelBox: {
-    width: 100,
-    height: 100,
+    width: "45%",
+    height: 150,
     borderRadius: 8,
-    margin: 10,
+    marginVertical: 5,
     justifyContent: "center",
     alignItems: "center",
   },

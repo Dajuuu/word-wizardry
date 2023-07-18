@@ -29,13 +29,7 @@ const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
       adjustment // to make sure that the status bar is not colliding with
       anything */
   return (
-    <View
-      style={[
-        styles.header,
-        Platform.OS === "android" &&
-          settingsVisible && { height: windowHeight / 10 },
-      ]}
-    >
+    <View style={styles.header}>
       {/* Icon on the left (go back) */}
       <TouchableOpacity
         style={[styles.leftButton, styles.button]}
