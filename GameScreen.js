@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Image,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 const GameScreen = ({ navigation }) => {
@@ -14,6 +15,7 @@ const GameScreen = ({ navigation }) => {
       colorFront: "rgba(35,139,0,1)",
       colorBack: "green",
       screen: "EasyLevels",
+      imageSource: require("./assets/LevelDifficultyImages/easy.png"),
     },
     {
       level: "Medium",
@@ -27,12 +29,12 @@ const GameScreen = ({ navigation }) => {
       colorBack: "rgba(211,106,16,1)",
       screen: "HardLevels",
     },
-    {
-      level: "Expert",
-      colorFront: "rgba(197,8,34,1)",
-      colorBack: "rgba(136,16,32,1)",
-      screen: "ExpertLevels",
-    },
+    // {
+    //   level: "Expert",
+    //   colorFront: "rgba(197,8,34,1)",
+    //   colorBack: "rgba(136,16,32,1)",
+    //   screen: "ExpertLevels",
+    // },
     {
       level: "Themed",
       colorFront: "rgba(87,15,216,1)",
@@ -69,6 +71,7 @@ const GameScreen = ({ navigation }) => {
             ]}
             onPress={() => handleDifficultyPress(level.screen)}
           >
+            <Image source={level.imageSource} style={styles.image} />
             <Text style={styles.difficultyText}>{level.level}</Text>
           </TouchableOpacity>
         ))}
@@ -97,9 +100,20 @@ const styles = StyleSheet.create({
     borderLeftWidth: 12,
   },
   difficultyText: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
-    color: "#fff",
+    color: "black",
+    alignSelf: "flex-end",
+    right: 20,
+  },
+  image: {
+    position: "absolute",
+    top: 15,
+    left: 10,
+    width: 100,
+    height: 100,
+    // marginRight: 10,
+    alignSelf: "flex-start",
   },
 });
 
