@@ -12,6 +12,9 @@ import CustomHeader from "./CustomHeader";
 import { loadCompletedLevels } from "./AsyncStorageUtils";
 
 const EasyLevelsScreen = ({ navigation, route }) => {
+  const EasyLevelsColorBackground = "rgba(56,167,63,1)";
+  const EasyLevelsColorBackgroundCompleted = "rgba(38,100,42,1)";
+
   // Take the parameters from the CrosswordScreen when the level is completed
   // const { levelCompleted, completedLevelName } = route.params;
   const [completedLevels, setCompletedLevels] = useState([]);
@@ -27,7 +30,7 @@ const EasyLevelsScreen = ({ navigation, route }) => {
   const levels = [
     {
       levelName: "E1",
-      color: "green",
+      color: EasyLevelsColorBackground,
       levelPoints: 10,
       GRID_DATA: [
         ["C", "A", "C", "T", "U", "S"],
@@ -48,14 +51,14 @@ const EasyLevelsScreen = ({ navigation, route }) => {
     },
     {
       levelName: "E2",
-      color: "green",
+      color: EasyLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
       levelName: "E3",
-      color: "green",
+      color: EasyLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [
         ["F", "F", "F", "F", "F", "F", "F", "F", "F", "F"],
@@ -73,55 +76,55 @@ const EasyLevelsScreen = ({ navigation, route }) => {
       ROW_CLUES: ["Clue for Row 1", "Clue for Row 2"],
     },
     // Add more levels with their corresponding GRID_DATA and ROW_CLUES
-    // { level: "E3", color: "green", GRID_DATA: ..., ROW_CLUES: ... },
-    // { level: "E4", color: "green", GRID_DATA: ..., ROW_CLUES: ... },
+    // { level: "E3", color: EasyLevelsColorBackground, GRID_DATA: ..., ROW_CLUES: ... },
+    // { level: "E4", color: EasyLevelsColorBackground, GRID_DATA: ..., ROW_CLUES: ... },
     // ...
 
     {
       levelName: "E4",
-      color: "green",
+      color: EasyLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
       levelName: "E5",
-      color: "green",
+      color: EasyLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
       levelName: "E6",
-      color: "green",
+      color: EasyLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
       levelName: "E7",
-      color: "green",
+      color: EasyLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
       levelName: "E8",
-      color: "green",
+      color: EasyLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
       levelName: "E9",
-      color: "green",
+      color: EasyLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
       levelName: "E10",
-      color: "green",
+      color: EasyLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
@@ -145,7 +148,7 @@ const EasyLevelsScreen = ({ navigation, route }) => {
   const renderLevel = ({ item }) => {
     // Check if the level is completed and set the color accordingly
     const backgroundColor = completedLevels.includes(item.levelName)
-      ? "yellow"
+      ? EasyLevelsColorBackgroundCompleted
       : item.color;
 
     return (
@@ -161,6 +164,9 @@ const EasyLevelsScreen = ({ navigation, route }) => {
         }
       >
         <Text style={styles.levelText}>{item.levelName}</Text>
+        {completedLevels.includes(item.levelName) && (
+          <Text style={styles.completedText}>Completed</Text>
+        )}
       </TouchableOpacity>
     );
   };
@@ -225,6 +231,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#fff",
+  },
+  completedText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+    marginTop: 5,
   },
 });
 
