@@ -18,6 +18,7 @@ const App = () => {
     <PointsProvider>
       <NavigationContainer>
         <StatusBar hidden></StatusBar>
+        {/* Hide system header for all of the screens */}
         <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{

@@ -5,10 +5,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  SafeAreaView,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-const windowWidth = Dimensions.get("window").width;
+
 const windowHeight = Dimensions.get("window").height;
 
 const CustomKeyboard = ({ onKeyPress }) => {
