@@ -40,11 +40,6 @@ const CrosswordApp = ({ route }) => {
   const [checkIfLevelCompleted, setCheckIfLevelCompleted] = useState(false);
   const inputRefs = useRef([]);
 
-  // Hide the header
-  React.useLayoutEffect(() => {
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
-
   useEffect(() => {
     // Load saved user input for the given level
     loadUserInput();

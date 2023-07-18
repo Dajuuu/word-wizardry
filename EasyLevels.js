@@ -134,11 +134,6 @@ const EasyLevelsScreen = ({ navigation, route }) => {
     },
   ];
 
-  // Hide the header
-  React.useLayoutEffect(() => {
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
-
   const handleLevelPress = (levelName, GRID_DATA, ROW_CLUES, levelPoints) => {
     navigation.navigate("CrosswordScreen", {
       levelName,

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
   },
   difficultyBox: {
-    width: 100,
+    width: "90%",
     height: 100,
     borderRadius: 8,
     margin: 10,

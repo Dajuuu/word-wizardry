@@ -18,7 +18,12 @@ const App = () => {
     <PointsProvider>
       <NavigationContainer>
         <StatusBar hidden></StatusBar>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="GameScreen" component={GameScreen} />
           <Stack.Screen name="EasyLevels" component={EasyLevelsScreen} />
