@@ -33,6 +33,11 @@ const CrosswordApp = ({ route }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   // const [isModalVisible, setIsModalVisible] = useState(false);
   const [levelCompleted, setLevelCompleted] = useState(false);
+
+  // This hook determines whether the level was previously completed or not
+  // If it was, then the keyboard will not be visible for the user, and so no
+  // changes for the given grid can be made
+  const [checkIfLevelCompleted, setCheckIfLevelCompleted] = useState(false);
   const inputRefs = useRef([]);
 
   // Hide the header
@@ -43,7 +48,18 @@ const CrosswordApp = ({ route }) => {
   useEffect(() => {
     // Load saved user input for the given level
     loadUserInput();
+    checkLevelCompletion(); // Check if level is already completed
   }, []);
+
+  // Check if the level was previosly completed, based on the data in the AsyncStorage
+  const checkLevelCompletion = async () => {
+    const completedLevels = await loadCompletedLevels();
+    if (completedLevels.includes(levelName)) {
+      // set the variable to true
+      setCheckIfLevelCompleted(true);
+    }
+  };
+
   const saveUserInput = async () => {
     try {
       const userInputKey = `userInput:${route.params.levelName}`;
@@ -180,7 +196,7 @@ const CrosswordApp = ({ route }) => {
     // Delete saved user input for the given level
     // deleteUserInput();
     await saveCompletedLevel(levelName);
-    // Navigate back to the EasyLevels screen with completion status and level name as parameters
+    // Navigate back to the level seclection screen with completion status and level name as parameters
     console.log("Points added - navigating to the Easy levels");
     navigation.navigate("GameScreen", {
       levelCompleted: true,
@@ -275,7 +291,9 @@ const CrosswordApp = ({ route }) => {
         </View>
       )}
 
-      <CustomKeyboard onKeyPress={handleKeyPress} />
+      {checkIfLevelCompleted ? null : (
+        <CustomKeyboard onKeyPress={handleKeyPress} />
+      )}
 
       {levelCompleted && (
         <Modal
