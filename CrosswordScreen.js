@@ -11,6 +11,7 @@ import {
   Modal,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
 
 import { PointsContext } from "./PointsContext";
 
@@ -166,7 +167,7 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
-  const closeModal = () => {
+  const closeModal = async () => {
     // setIsModalVisible(false);
     setLevelCompleted(false);
     // Add points on closing the box
@@ -177,11 +178,11 @@ const CrosswordApp = ({ route }) => {
     // navigation.goBack();
 
     // Delete saved user input for the given level
-    deleteUserInput();
-
+    // deleteUserInput();
+    await saveCompletedLevel(levelName);
     // Navigate back to the EasyLevels screen with completion status and level name as parameters
     console.log("Points added - navigating to the Easy levels");
-    navigation.navigate("EasyLevels", {
+    navigation.navigate("GameScreen", {
       levelCompleted: true,
       completedLevelName: levelName,
     });

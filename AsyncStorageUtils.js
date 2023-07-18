@@ -30,3 +30,28 @@ export const clearInputData = async (level) => {
     console.error(`Failed to clear input data for level ${level}:`, error);
   }
 };
+export const saveCompletedLevel = async (levelName) => {
+  try {
+    const completedLevels = await loadCompletedLevels();
+    if (!completedLevels.includes(levelName)) {
+      completedLevels.push(levelName);
+      await AsyncStorage.setItem(
+        "completedLevels",
+        JSON.stringify(completedLevels)
+      );
+    }
+  } catch (error) {
+    console.error("Error saving completed level:", error);
+    throw error;
+  }
+};
+
+export const loadCompletedLevels = async () => {
+  try {
+    const completedLevels = await AsyncStorage.getItem("completedLevels");
+    return completedLevels ? JSON.parse(completedLevels) : [];
+  } catch (error) {
+    console.error("Error loading completed levels:", error);
+    throw error;
+  }
+};

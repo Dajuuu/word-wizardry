@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,11 +9,21 @@ import {
 
 import Icon from "react-native-vector-icons/FontAwesome5";
 import CustomHeader from "./CustomHeader";
+import { loadCompletedLevels } from "./AsyncStorageUtils";
 
 const EasyLevelsScreen = ({ navigation, route }) => {
   // Take the parameters from the CrosswordScreen when the level is completed
-  const { levelCompleted, completedLevelName } = route.params;
+  // const { levelCompleted, completedLevelName } = route.params;
+  const [completedLevels, setCompletedLevels] = useState([]);
 
+  // Load the completed levels on component mount
+  useEffect(() => {
+    const loadCompletedLevelsData = async () => {
+      const levels = await loadCompletedLevels();
+      setCompletedLevels(levels);
+    };
+    loadCompletedLevelsData();
+  }, []);
   const levels = [
     {
       levelName: "E1",
@@ -134,10 +144,9 @@ const EasyLevelsScreen = ({ navigation, route }) => {
 
   const renderLevel = ({ item }) => {
     // Check if the level is completed and set the color accordingly
-    const backgroundColor =
-      item.levelName === completedLevelName && levelCompleted
-        ? "yellow" // Set the color for completed level
-        : item.color; // Set the default color
+    const backgroundColor = completedLevels.includes(item.levelName)
+      ? "yellow"
+      : item.color;
 
     return (
       <TouchableOpacity
