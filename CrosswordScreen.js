@@ -112,7 +112,7 @@ const CrosswordApp = ({ route }) => {
         // addPoints(levelPoints);
         // addPoints(parseInt(levelPoints));
         // console.log(levelPoints);
-        console.log("Level finished!");
+        // console.log("Level finished!");
         // console.log("Total points:", points);
         // setIsModalVisible(true);
         setLevelCompleted(true);
@@ -174,10 +174,17 @@ const CrosswordApp = ({ route }) => {
     // Thats why the addPoints function with passed variable is here, instead of isLevelFinished
     addPoints(levelPoints);
     // When level is finished, clocking goes back to the level selection screen
-    navigation.goBack();
+    // navigation.goBack();
 
     // Delete saved user input for the given level
     deleteUserInput();
+
+    // Navigate back to the EasyLevels screen with completion status and level name as parameters
+    console.log("Points added - navigating to the Easy levels");
+    navigation.navigate("EasyLevels", {
+      levelCompleted: true,
+      completedLevelName: levelName,
+    });
   };
 
   return (

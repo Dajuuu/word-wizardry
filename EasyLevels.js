@@ -10,7 +10,10 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5";
 import CustomHeader from "./CustomHeader";
 
-const EasyLevelsScreen = ({ navigation }) => {
+const EasyLevelsScreen = ({ navigation, route }) => {
+  // Take the parameters from the CrosswordScreen when the level is completed
+  const { levelCompleted, completedLevelName } = route.params;
+
   const levels = [
     {
       levelName: "E1",
@@ -129,21 +132,29 @@ const EasyLevelsScreen = ({ navigation }) => {
     });
   };
 
-  const renderLevel = ({ item }) => (
-    <TouchableOpacity
-      style={[styles.levelBox, { backgroundColor: item.color }]}
-      onPress={() =>
-        handleLevelPress(
-          item.levelName,
-          item.GRID_DATA,
-          item.ROW_CLUES,
-          item.levelPoints
-        )
-      }
-    >
-      <Text style={styles.levelText}>{item.levelName}</Text>
-    </TouchableOpacity>
-  );
+  const renderLevel = ({ item }) => {
+    // Check if the level is completed and set the color accordingly
+    const backgroundColor =
+      item.levelName === completedLevelName && levelCompleted
+        ? "yellow" // Set the color for completed level
+        : item.color; // Set the default color
+
+    return (
+      <TouchableOpacity
+        style={[styles.levelBox, { backgroundColor }]}
+        onPress={() =>
+          handleLevelPress(
+            item.levelName,
+            item.GRID_DATA,
+            item.ROW_CLUES,
+            item.levelPoints
+          )
+        }
+      >
+        <Text style={styles.levelText}>{item.levelName}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   const keyExtractor = (item) => item.levelName;
 

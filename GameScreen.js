@@ -10,7 +10,12 @@ const GameScreen = ({ navigation }) => {
   ];
 
   const handleDifficultyPress = (screen) => {
-    navigation.navigate(screen);
+    // Small fix for the route parameters for the EasyLevels
+    // TypeError: Cannot read property 'levelCompleted' of undefined
+    navigation.navigate(screen, {
+      levelCompleted: false,
+      completedLevelName: "E0",
+    });
   };
 
   return (
