@@ -35,8 +35,8 @@ const CrosswordApp = ({ route }) => {
   const [levelCompleted, setLevelCompleted] = useState(false);
 
   // This hook determines whether the level was previously completed or not
-  // If it was, then the keyboard will not be visible for the user, and so no
-  // changes for the given grid can be made
+  // If it was, then the keyboard will not be visible for the user, and so
+  // no changes for the given grid can be made
   const [checkIfLevelCompleted, setCheckIfLevelCompleted] = useState(false);
   const inputRefs = useRef([]);
 
@@ -120,21 +120,15 @@ const CrosswordApp = ({ route }) => {
 
       // When level is finished
       if (isLevelFinished) {
-        // Will need changing
-        // addPoints(levelPoints);
-        // addPoints(parseInt(levelPoints));
-        // console.log(levelPoints);
-        // console.log("Level finished!");
-        // console.log("Total points:", points);
-        // setIsModalVisible(true);
         setLevelCompleted(true);
       }
+      checkLevelCompletion(newHiddenGrid);
     };
 
     clearTimeout(inputRefs.current[rowIndex][columnIndex].timer);
     inputRefs.current[rowIndex][columnIndex].timer = setTimeout(
       updateHiddenGrid,
-      10
+      1
     );
 
     // Select the box to the right
@@ -185,6 +179,7 @@ const CrosswordApp = ({ route }) => {
       };
       setHiddenGrid(newHiddenGrid);
       saveUserInput();
+      checkLevelCompletion(newHiddenGrid);
 
       // Select the box to the right
       if (columnIndex < GRID_DATA[rowIndex].length - 1) {
@@ -208,6 +203,7 @@ const CrosswordApp = ({ route }) => {
       }
       setHiddenGrid(newHiddenGrid);
       saveUserInput();
+      checkLevelCompletion(newHiddenGrid);
     }
     if (index === 3 && selectedRow !== null) {
       // Handle clue 3
@@ -237,6 +233,16 @@ const CrosswordApp = ({ route }) => {
 
       setHiddenGrid(newHiddenGrid);
       saveUserInput();
+      checkLevelCompletion(newHiddenGrid);
+    }
+    // Check if all boxes are filled correctly
+    const isLevelFinished = hiddenGrid.every((row) =>
+      row.every((box) => box.isCorrect)
+    );
+
+    // When level is finished
+    if (isLevelFinished) {
+      setLevelCompleted(true);
     }
   };
 
