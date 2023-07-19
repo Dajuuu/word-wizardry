@@ -1,8 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// How the clue counts will be visible for the storage database
 export const CLUE_COUNT_STORAGE_KEY_PREFIX = "clueCount_";
+
+// Initalise with this number of uses for all hint types
 export const BASE_CLUE_USES = 3;
 
+// Load saved number of hints for all hint types
 export const loadClueCount = async (clueIndex) => {
   try {
     const clueCountKey = `${CLUE_COUNT_STORAGE_KEY_PREFIX}${clueIndex}`;
@@ -14,6 +18,7 @@ export const loadClueCount = async (clueIndex) => {
   }
 };
 
+// Decrement the number of uses for a particular hint
 export const decrementClueCount = async (clueIndex) => {
   try {
     const clueCountKey = `${CLUE_COUNT_STORAGE_KEY_PREFIX}${clueIndex}`;
@@ -45,6 +50,7 @@ export const initializeClueCounts = async () => {
     );
 
     // Initialize missing clue counts with the base number of uses
+    // e.g when the counts were deleted
     if (missingClueCounts.length > 0) {
       const missingClueCountKeys = missingClueCounts.map(([key, _]) => key);
       const missingClueCountValues = missingClueCountKeys.map(() =>
@@ -58,7 +64,7 @@ export const initializeClueCounts = async () => {
       await AsyncStorage.multiSet(missingClueCountPairs);
 
       console.log(
-        "Initialized missing clue counts with the base number of uses."
+        `Initialized missing clue counts with the base number of uses: ${BASE_CLUE_USES}`
       );
     } else {
       console.log("All clue counts are already initialized.");

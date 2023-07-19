@@ -19,6 +19,7 @@ import {
   BASE_CLUE_USES,
 } from "./ClueManager"; // Import the clue count functions
 import { PointsContext } from "./PointsContext";
+import { CreditsContext } from "./CreditsContext";
 
 import CustomKeyboard from "./CustomKeyboard";
 import CustomHeader from "./CustomHeader";
@@ -29,6 +30,8 @@ const CrosswordApp = ({ route }) => {
   // Add points
   const { addPoints } = useContext(PointsContext);
   const { points } = useContext(PointsContext);
+
+  const { removeCredits } = useContext(CreditsContext);
 
   const { GRID_DATA, ROW_CLUES, levelPoints, levelName } = route.params;
   const [hiddenGrid, setHiddenGrid] = useState(() =>
@@ -315,6 +318,9 @@ const CrosswordApp = ({ route }) => {
       levelCompleted: true,
       completedLevelName: levelName,
     });
+
+    // Remove credits - test
+    removeCredits(100);
   };
 
   return (
