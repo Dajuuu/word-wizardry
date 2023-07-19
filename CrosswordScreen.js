@@ -170,6 +170,12 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
+  const handleCluePress = (index) => {
+    // Handle clue press here
+    console.log(`Clue ${index} pressed`);
+  };
+
+  // Hide system keyboard for both systems
   const disableBuiltInKeyboard = () => {
     if (Platform.OS === "ios") {
       return { editable: false };
@@ -207,6 +213,7 @@ const CrosswordApp = ({ route }) => {
         title={levelName}
       />
 
+      {/* Grid */}
       <ScrollView horizontal>
         <ScrollView contentContainerStyle={styles.gridContainer}>
           {GRID_DATA.map((row, rowIndex) => {
@@ -280,16 +287,42 @@ const CrosswordApp = ({ route }) => {
         </ScrollView>
       </ScrollView>
 
+      {/* Clues and hints */}
       {selectedRow !== null && (
         <View style={styles.clueContainer}>
           <Text style={styles.clueText}>{ROW_CLUES[selectedRow]}</Text>
+
+          <View style={styles.clueButtonsContainer}>
+            <TouchableOpacity
+              style={styles.clueButton}
+              onPress={() => handleCluePress(1)}
+            >
+              <Text style={styles.clueButtonText}>Clue 1</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.clueButton}
+              onPress={() => handleCluePress(2)}
+            >
+              <Text style={styles.clueButtonText}>Clue 2</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.clueButton}
+              onPress={() => handleCluePress(3)}
+            >
+              <Text style={styles.clueButtonText}>Clue 3</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
 
+      {/* Custom keyboard */}
       {checkIfLevelCompleted ? null : (
         <CustomKeyboard onKeyPress={handleKeyPress} />
       )}
 
+      {/* Display overlay if level is compeleted */}
       {levelCompleted && (
         <Modal
           visible={levelCompleted}
@@ -413,6 +446,24 @@ const styles = StyleSheet.create({
     fontSize: 18,
     // marginTop: 10,
     alignSelf: "center",
+  },
+  clueButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  clueButton: {
+    marginTop: 10,
+    backgroundColor: "green",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginHorizontal: 16,
+  },
+  clueButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff",
   },
 });
 
