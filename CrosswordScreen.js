@@ -183,6 +183,16 @@ const CrosswordApp = ({ route }) => {
       };
       setHiddenGrid(newHiddenGrid);
       saveUserInput();
+    } else if (index === 2 && selectedRow !== null) {
+      const newHiddenGrid = [...hiddenGrid];
+      newHiddenGrid[selectedRow] = newHiddenGrid[selectedRow].map(
+        (box, columnIndex) => ({
+          letter: GRID_DATA[selectedRow][columnIndex].toUpperCase(),
+          isCorrect: true,
+        })
+      );
+      setHiddenGrid(newHiddenGrid);
+      saveUserInput();
     }
   };
 
