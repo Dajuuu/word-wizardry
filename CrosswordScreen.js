@@ -170,6 +170,7 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
+  // Hint system
   const handleCluePress = (index) => {
     console.log(`Clue ${index} pressed`);
 
@@ -184,6 +185,14 @@ const CrosswordApp = ({ route }) => {
       };
       setHiddenGrid(newHiddenGrid);
       saveUserInput();
+
+      // Select the box to the right
+      if (columnIndex < GRID_DATA[rowIndex].length - 1) {
+        const nextColumnIndex = columnIndex + 1;
+        handleBoxSelection(rowIndex, nextColumnIndex);
+        const nextInputRef = inputRefs.current[rowIndex][nextColumnIndex];
+        nextInputRef && nextInputRef.focus();
+      }
     }
 
     if (index === 2 && selectedRow !== null) {

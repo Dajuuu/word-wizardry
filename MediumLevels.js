@@ -6,7 +6,7 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 const MediumLevelsScreen = ({ navigation }) => {
@@ -78,6 +78,37 @@ const MediumLevelsScreen = ({ navigation }) => {
       <Text style={styles.levelText}>{item.level}</Text>
     </TouchableOpacity>
   );
+
+  // AsyncStorage code view
+  const viewSavedData = async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys();
+      const items = await AsyncStorage.multiGet(keys);
+
+      items.forEach(([key, value]) => {
+        console.log(`${key}: ${value}`);
+      });
+    } catch (error) {
+      console.error("Error viewing saved data:", error);
+    }
+  };
+
+  // Call the function to view the saved data
+  // viewSavedData();
+
+  // AsyncStorage delete
+  const deleteRecords = async (keys) => {
+    try {
+      await AsyncStorage.multiRemove(keys);
+      console.log("Records deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting records:", error);
+    }
+  };
+
+  // Usage: Specify an array of keys to delete
+  const keysToDelete = ["completedLevels"];
+  // deleteRecords(keysToDelete);
 
   const keyExtractor = (item) => item.level;
 
