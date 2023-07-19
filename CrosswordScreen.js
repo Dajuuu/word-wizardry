@@ -12,7 +12,12 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
-import { decrementClueCount, loadClueCount } from "./ClueManager";
+import {
+  decrementClueCount,
+  loadClueCount,
+  initializeClueCounts,
+  BASE_CLUE_USES,
+} from "./ClueManager"; // Import the clue count functions
 import { PointsContext } from "./PointsContext";
 
 import CustomKeyboard from "./CustomKeyboard";
@@ -40,18 +45,29 @@ const CrosswordApp = ({ route }) => {
   const [checkIfLevelCompleted, setCheckIfLevelCompleted] = useState(false);
   const inputRefs = useRef([]);
 
-  // Set the base number of uses for all clues
-  const BASE_CLUE_USES = 3;
-
   // Initialize clue counts
-  const [clueCount1, setClueCount1] = useState(BASE_CLUE_USES);
-  const [clueCount2, setClueCount2] = useState(BASE_CLUE_USES);
-  const [clueCount3, setClueCount3] = useState(BASE_CLUE_USES);
+  const [clueCount1, setClueCount1] = useState();
+  const [clueCount2, setClueCount2] = useState();
+  const [clueCount3, setClueCount3] = useState();
 
   useEffect(() => {
     // Load saved user input for the given level
     loadUserInput();
     checkLevelCompletion(); // Check if level is already completed
+    initializeClueCounts();
+
+    // Load the clue counts from the AsyncStorage and assign them to the useState hooks
+    const loadClueCounts = async () => {
+      const count1 = await loadClueCount(1);
+      const count2 = await loadClueCount(2);
+      const count3 = await loadClueCount(3);
+
+      setClueCount1(count1);
+      setClueCount2(count2);
+      setClueCount3(count3);
+    };
+
+    loadClueCounts();
   }, []);
 
   // Check if the level was previosly completed, based on the data in the AsyncStorage
@@ -102,6 +118,7 @@ const CrosswordApp = ({ route }) => {
       console.log("Error deleting user input:", error);
     }
   };
+
   const handleBoxSelection = (rowIndex, columnIndex) => {
     setSelectedBox({ rowIndex, columnIndex });
     setSelectedRow(rowIndex);
@@ -173,11 +190,19 @@ const CrosswordApp = ({ route }) => {
 
   // Hint system
   const handleCluePress = async (index) => {
-    console.log(`Clue ${index} pressed`);
-
-    // Retrieve clue count
+    // Retrieve clue count for the given index
     const clueCount = await loadClueCount(index);
+
     if (clueCount > 0) {
+      // Decrement clue count for the given index
+      await decrementClueCount(index);
+
+      // Retrieve the updated clue count after decrementing
+      const updatedClueCount = await loadClueCount(index);
+
+      // Display updated clue count
+      console.log(`Clue ${index} remaining uses: ${updatedClueCount}`);
+
       if (index === 1 && selectedBox) {
         // Handle clue 1
         const { rowIndex, columnIndex } = selectedBox;
@@ -190,10 +215,8 @@ const CrosswordApp = ({ route }) => {
         setHiddenGrid(newHiddenGrid);
         saveUserInput();
         checkLevelCompletion(newHiddenGrid);
-
-        // decrement clue count
-        await decrementClueCount(1);
-        setClueCount1((prevCount) => prevCount - 1);
+        // Update clue count
+        setClueCount1(updatedClueCount);
 
         // Select the box to the right
         if (columnIndex < GRID_DATA[rowIndex].length - 1) {
@@ -218,10 +241,8 @@ const CrosswordApp = ({ route }) => {
         setHiddenGrid(newHiddenGrid);
         saveUserInput();
         checkLevelCompletion(newHiddenGrid);
-
-        // decrement clue count
-        await decrementClueCount(2);
-        setClueCount2((prevCount) => prevCount - 1);
+        // Update clue count
+        setClueCount2(updatedClueCount);
       }
       if (index === 3 && selectedRow !== null) {
         // Handle clue 3
@@ -252,10 +273,8 @@ const CrosswordApp = ({ route }) => {
         setHiddenGrid(newHiddenGrid);
         saveUserInput();
         checkLevelCompletion(newHiddenGrid);
-
-        // decrement clue count
-        await decrementClueCount(3);
-        setClueCount3((prevCount) => prevCount - 1);
+        // Update clue count
+        setClueCount3(updatedClueCount);
       }
       // Check if all boxes are filled correctly
       const isLevelFinished = hiddenGrid.every((row) =>
@@ -266,8 +285,6 @@ const CrosswordApp = ({ route }) => {
       if (isLevelFinished) {
         setLevelCompleted(true);
       }
-      // Display updated clue count
-      console.log(`Clue ${index} remaining uses: ${clueCount - 1}`);
     } else {
       console.log(`Clue ${index} has no remaining uses.`);
     }
@@ -395,21 +412,21 @@ const CrosswordApp = ({ route }) => {
               style={styles.clueButton}
               onPress={() => handleCluePress(1)}
             >
-              <Text style={styles.clueButtonText}>Clue 1 </Text>
+              <Text style={styles.clueButtonText}>Clue 1 {clueCount1}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.clueButton}
               onPress={() => handleCluePress(2)}
             >
-              <Text style={styles.clueButtonText}>Clue 2 </Text>
+              <Text style={styles.clueButtonText}>Clue 2 {clueCount2}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.clueButton}
               onPress={() => handleCluePress(3)}
             >
-              <Text style={styles.clueButtonText}>Clue 3 </Text>
+              <Text style={styles.clueButtonText}>Clue 3 {clueCount3}</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -107,8 +107,8 @@ const MediumLevelsScreen = ({ navigation }) => {
   };
 
   // Usage: Specify an array of keys to delete
-  const keysToDelete = ["clueCount_1"];
-  // deleteRecords(keysToDelete);
+  const keysToDelete = ["clueCount_1", "clueCount_2", "clueCount_3"];
+  deleteRecords(keysToDelete);
 
   const keyExtractor = (item) => item.level;
 

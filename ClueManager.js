@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const CLUE_COUNT_STORAGE_KEY_PREFIX = "clueCount_";
-const BASE_CLUE_USES = 3;
+export const CLUE_COUNT_STORAGE_KEY_PREFIX = "clueCount_";
+export const BASE_CLUE_USES = 3;
 
 export const loadClueCount = async (clueIndex) => {
   try {
