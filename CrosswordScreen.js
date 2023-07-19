@@ -209,6 +209,35 @@ const CrosswordApp = ({ route }) => {
       setHiddenGrid(newHiddenGrid);
       saveUserInput();
     }
+    if (index === 3 && selectedRow !== null) {
+      // Handle clue 3
+      const newHiddenGrid = [...hiddenGrid];
+      const rowLength = newHiddenGrid[selectedRow].length;
+
+      // Generate two random positions within the row
+      const randomPosition1 = Math.floor(Math.random() * rowLength);
+      let randomPosition2;
+      do {
+        randomPosition2 = Math.floor(Math.random() * rowLength);
+      } while (randomPosition2 === randomPosition1);
+
+      // Set the letters at the random positions
+      const hiddenLetter1 =
+        GRID_DATA[selectedRow][randomPosition1].toUpperCase();
+      const hiddenLetter2 =
+        GRID_DATA[selectedRow][randomPosition2].toUpperCase();
+      newHiddenGrid[selectedRow][randomPosition1] = {
+        letter: hiddenLetter1,
+        isCorrect: true,
+      };
+      newHiddenGrid[selectedRow][randomPosition2] = {
+        letter: hiddenLetter2,
+        isCorrect: true,
+      };
+
+      setHiddenGrid(newHiddenGrid);
+      saveUserInput();
+    }
   };
 
   // Hide system keyboard for both systems
