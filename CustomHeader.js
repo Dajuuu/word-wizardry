@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -11,12 +11,18 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import SettingsOverlay from "./SettingsOverlay";
+import { CreditsContext } from "./CreditsContext";
+import { PointsContext } from "./PointsContext";
+
 const windowHeight = Dimensions.get("window").height;
 
 const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
   const navigation = useNavigation();
   // handles the settings overlay
   const [settingsVisible, setSettingsVisible] = useState(false);
+  // Import credits info
+  const { credits } = useContext(CreditsContext);
+  // const { points } = useContext(PointsContext);
 
   const handleSettingsButtonPress = () => {
     setSettingsVisible(true);
@@ -49,6 +55,8 @@ const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
         />
         <Icon name="cog" style={[styles.buttonIcon]} />
       </TouchableOpacity>
+      {/* Display the credits */}
+      <Text style={styles.creditsText}>{credits} Credits</Text>
     </View>
   );
 };
