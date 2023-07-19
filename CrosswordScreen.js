@@ -171,9 +171,10 @@ const CrosswordApp = ({ route }) => {
   };
 
   const handleCluePress = (index) => {
-    // Handle clue press here
     console.log(`Clue ${index} pressed`);
+
     if (index === 1 && selectedBox) {
+      // Handle clue 1
       const { rowIndex, columnIndex } = selectedBox;
       const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
       const newHiddenGrid = [...hiddenGrid];
@@ -183,14 +184,19 @@ const CrosswordApp = ({ route }) => {
       };
       setHiddenGrid(newHiddenGrid);
       saveUserInput();
-    } else if (index === 2 && selectedRow !== null) {
+    }
+
+    if (index === 2 && selectedRow !== null) {
+      // Handle clue 2
       const newHiddenGrid = [...hiddenGrid];
-      newHiddenGrid[selectedRow] = newHiddenGrid[selectedRow].map(
-        (box, columnIndex) => ({
-          letter: GRID_DATA[selectedRow][columnIndex].toUpperCase(),
+      const rowLength = newHiddenGrid[selectedRow].length;
+      for (let i = 0; i < rowLength; i++) {
+        const hiddenLetter = GRID_DATA[selectedRow][i].toUpperCase();
+        newHiddenGrid[selectedRow][i] = {
+          letter: hiddenLetter,
           isCorrect: true,
-        })
-      );
+        };
+      }
       setHiddenGrid(newHiddenGrid);
       saveUserInput();
     }
