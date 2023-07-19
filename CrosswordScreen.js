@@ -214,7 +214,6 @@ const CrosswordApp = ({ route }) => {
         };
         setHiddenGrid(newHiddenGrid);
         saveUserInput();
-        checkLevelCompletion(newHiddenGrid);
         // Update clue count
         setClueCount1(updatedClueCount);
 
@@ -240,7 +239,6 @@ const CrosswordApp = ({ route }) => {
         }
         setHiddenGrid(newHiddenGrid);
         saveUserInput();
-        checkLevelCompletion(newHiddenGrid);
         // Update clue count
         setClueCount2(updatedClueCount);
       }
@@ -272,7 +270,6 @@ const CrosswordApp = ({ route }) => {
 
         setHiddenGrid(newHiddenGrid);
         saveUserInput();
-        checkLevelCompletion(newHiddenGrid);
         // Update clue count
         setClueCount3(updatedClueCount);
       }
