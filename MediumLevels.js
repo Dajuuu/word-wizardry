@@ -94,7 +94,7 @@ const MediumLevelsScreen = ({ navigation }) => {
   };
 
   // Call the function to view the saved data
-  // viewSavedData();
+  viewSavedData();
 
   // AsyncStorage delete
   const deleteRecords = async (keys) => {
@@ -107,7 +107,7 @@ const MediumLevelsScreen = ({ navigation }) => {
   };
 
   // Usage: Specify an array of keys to delete
-  const keysToDelete = ["completedLevels"];
+  const keysToDelete = ["clueCount_1"];
   // deleteRecords(keysToDelete);
 
   const keyExtractor = (item) => item.level;

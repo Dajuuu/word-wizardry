@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
-
+import { decrementClueCount, loadClueCount } from "./ClueManager";
 import { PointsContext } from "./PointsContext";
 
 import CustomKeyboard from "./CustomKeyboard";
@@ -39,6 +39,14 @@ const CrosswordApp = ({ route }) => {
   // no changes for the given grid can be made
   const [checkIfLevelCompleted, setCheckIfLevelCompleted] = useState(false);
   const inputRefs = useRef([]);
+
+  // Set the base number of uses for all clues
+  const BASE_CLUE_USES = 3;
+
+  // Initialize clue counts
+  const [clueCount1, setClueCount1] = useState(BASE_CLUE_USES);
+  const [clueCount2, setClueCount2] = useState(BASE_CLUE_USES);
+  const [clueCount3, setClueCount3] = useState(BASE_CLUE_USES);
 
   useEffect(() => {
     // Load saved user input for the given level
@@ -122,7 +130,6 @@ const CrosswordApp = ({ route }) => {
       if (isLevelFinished) {
         setLevelCompleted(true);
       }
-      checkLevelCompletion(newHiddenGrid);
     };
 
     clearTimeout(inputRefs.current[rowIndex][columnIndex].timer);
@@ -165,84 +172,104 @@ const CrosswordApp = ({ route }) => {
   };
 
   // Hint system
-  const handleCluePress = (index) => {
+  const handleCluePress = async (index) => {
     console.log(`Clue ${index} pressed`);
 
-    if (index === 1 && selectedBox) {
-      // Handle clue 1
-      const { rowIndex, columnIndex } = selectedBox;
-      const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
-      const newHiddenGrid = [...hiddenGrid];
-      newHiddenGrid[rowIndex][columnIndex] = {
-        letter: hiddenLetter,
-        isCorrect: true,
-      };
-      setHiddenGrid(newHiddenGrid);
-      saveUserInput();
-      checkLevelCompletion(newHiddenGrid);
-
-      // Select the box to the right
-      if (columnIndex < GRID_DATA[rowIndex].length - 1) {
-        const nextColumnIndex = columnIndex + 1;
-        handleBoxSelection(rowIndex, nextColumnIndex);
-        const nextInputRef = inputRefs.current[rowIndex][nextColumnIndex];
-        nextInputRef && nextInputRef.focus();
-      }
-    }
-
-    if (index === 2 && selectedRow !== null) {
-      // Handle clue 2
-      const newHiddenGrid = [...hiddenGrid];
-      const rowLength = newHiddenGrid[selectedRow].length;
-      for (let i = 0; i < rowLength; i++) {
-        const hiddenLetter = GRID_DATA[selectedRow][i].toUpperCase();
-        newHiddenGrid[selectedRow][i] = {
+    // Retrieve clue count
+    const clueCount = await loadClueCount(index);
+    if (clueCount > 0) {
+      if (index === 1 && selectedBox) {
+        // Handle clue 1
+        const { rowIndex, columnIndex } = selectedBox;
+        const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
+        const newHiddenGrid = [...hiddenGrid];
+        newHiddenGrid[rowIndex][columnIndex] = {
           letter: hiddenLetter,
           isCorrect: true,
         };
+        setHiddenGrid(newHiddenGrid);
+        saveUserInput();
+        checkLevelCompletion(newHiddenGrid);
+
+        // decrement clue count
+        await decrementClueCount(1);
+        setClueCount1((prevCount) => prevCount - 1);
+
+        // Select the box to the right
+        if (columnIndex < GRID_DATA[rowIndex].length - 1) {
+          const nextColumnIndex = columnIndex + 1;
+          handleBoxSelection(rowIndex, nextColumnIndex);
+          const nextInputRef = inputRefs.current[rowIndex][nextColumnIndex];
+          nextInputRef && nextInputRef.focus();
+        }
       }
-      setHiddenGrid(newHiddenGrid);
-      saveUserInput();
-      checkLevelCompletion(newHiddenGrid);
-    }
-    if (index === 3 && selectedRow !== null) {
-      // Handle clue 3
-      const newHiddenGrid = [...hiddenGrid];
-      const rowLength = newHiddenGrid[selectedRow].length;
 
-      // Generate two random positions within the row
-      const randomPosition1 = Math.floor(Math.random() * rowLength);
-      let randomPosition2;
-      do {
-        randomPosition2 = Math.floor(Math.random() * rowLength);
-      } while (randomPosition2 === randomPosition1);
+      if (index === 2 && selectedRow !== null) {
+        // Handle clue 2
+        const newHiddenGrid = [...hiddenGrid];
+        const rowLength = newHiddenGrid[selectedRow].length;
+        for (let i = 0; i < rowLength; i++) {
+          const hiddenLetter = GRID_DATA[selectedRow][i].toUpperCase();
+          newHiddenGrid[selectedRow][i] = {
+            letter: hiddenLetter,
+            isCorrect: true,
+          };
+        }
+        setHiddenGrid(newHiddenGrid);
+        saveUserInput();
+        checkLevelCompletion(newHiddenGrid);
 
-      // Set the letters at the random positions
-      const hiddenLetter1 =
-        GRID_DATA[selectedRow][randomPosition1].toUpperCase();
-      const hiddenLetter2 =
-        GRID_DATA[selectedRow][randomPosition2].toUpperCase();
-      newHiddenGrid[selectedRow][randomPosition1] = {
-        letter: hiddenLetter1,
-        isCorrect: true,
-      };
-      newHiddenGrid[selectedRow][randomPosition2] = {
-        letter: hiddenLetter2,
-        isCorrect: true,
-      };
+        // decrement clue count
+        await decrementClueCount(2);
+        setClueCount2((prevCount) => prevCount - 1);
+      }
+      if (index === 3 && selectedRow !== null) {
+        // Handle clue 3
+        const newHiddenGrid = [...hiddenGrid];
+        const rowLength = newHiddenGrid[selectedRow].length;
 
-      setHiddenGrid(newHiddenGrid);
-      saveUserInput();
-      checkLevelCompletion(newHiddenGrid);
-    }
-    // Check if all boxes are filled correctly
-    const isLevelFinished = hiddenGrid.every((row) =>
-      row.every((box) => box.isCorrect)
-    );
+        // Generate two random positions within the row
+        const randomPosition1 = Math.floor(Math.random() * rowLength);
+        let randomPosition2;
+        do {
+          randomPosition2 = Math.floor(Math.random() * rowLength);
+        } while (randomPosition2 === randomPosition1);
 
-    // When level is finished
-    if (isLevelFinished) {
-      setLevelCompleted(true);
+        // Set the letters at the random positions
+        const hiddenLetter1 =
+          GRID_DATA[selectedRow][randomPosition1].toUpperCase();
+        const hiddenLetter2 =
+          GRID_DATA[selectedRow][randomPosition2].toUpperCase();
+        newHiddenGrid[selectedRow][randomPosition1] = {
+          letter: hiddenLetter1,
+          isCorrect: true,
+        };
+        newHiddenGrid[selectedRow][randomPosition2] = {
+          letter: hiddenLetter2,
+          isCorrect: true,
+        };
+
+        setHiddenGrid(newHiddenGrid);
+        saveUserInput();
+        checkLevelCompletion(newHiddenGrid);
+
+        // decrement clue count
+        await decrementClueCount(3);
+        setClueCount3((prevCount) => prevCount - 1);
+      }
+      // Check if all boxes are filled correctly
+      const isLevelFinished = hiddenGrid.every((row) =>
+        row.every((box) => box.isCorrect)
+      );
+
+      // When level is finished
+      if (isLevelFinished) {
+        setLevelCompleted(true);
+      }
+      // Display updated clue count
+      console.log(`Clue ${index} remaining uses: ${clueCount - 1}`);
+    } else {
+      console.log(`Clue ${index} has no remaining uses.`);
     }
   };
 
@@ -368,21 +395,21 @@ const CrosswordApp = ({ route }) => {
               style={styles.clueButton}
               onPress={() => handleCluePress(1)}
             >
-              <Text style={styles.clueButtonText}>Clue 1</Text>
+              <Text style={styles.clueButtonText}>Clue 1 </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.clueButton}
               onPress={() => handleCluePress(2)}
             >
-              <Text style={styles.clueButtonText}>Clue 2</Text>
+              <Text style={styles.clueButtonText}>Clue 2 </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.clueButton}
               onPress={() => handleCluePress(3)}
             >
-              <Text style={styles.clueButtonText}>Clue 3</Text>
+              <Text style={styles.clueButtonText}>Clue 3 </Text>
             </TouchableOpacity>
           </View>
         </View>
