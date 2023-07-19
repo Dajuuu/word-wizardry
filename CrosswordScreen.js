@@ -173,6 +173,17 @@ const CrosswordApp = ({ route }) => {
   const handleCluePress = (index) => {
     // Handle clue press here
     console.log(`Clue ${index} pressed`);
+    if (index === 1 && selectedBox) {
+      const { rowIndex, columnIndex } = selectedBox;
+      const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
+      const newHiddenGrid = [...hiddenGrid];
+      newHiddenGrid[rowIndex][columnIndex] = {
+        letter: hiddenLetter,
+        isCorrect: true,
+      };
+      setHiddenGrid(newHiddenGrid);
+      saveUserInput();
+    }
   };
 
   // Hide system keyboard for both systems
