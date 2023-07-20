@@ -32,7 +32,9 @@ const CrosswordApp = ({ route }) => {
   const { points } = useContext(PointsContext);
 
   // Hook needed when user runs out of the clues and choses to buy additional one
-  const [showBuyClueOverlay, setShowBuyClueOverlay] = useState(false);
+  const [showBuyClueOverlay1, setShowBuyClueOverlay1] = useState(false);
+  const [showBuyClueOverlay2, setShowBuyClueOverlay2] = useState(false);
+  const [showBuyClueOverlay3, setShowBuyClueOverlay3] = useState(false);
 
   const { GRID_DATA, ROW_CLUES, levelPoints, levelName } = route.params;
   const [hiddenGrid, setHiddenGrid] = useState(() =>
@@ -325,14 +327,36 @@ const CrosswordApp = ({ route }) => {
   };
 
   // Clue overlay when buying additonal one
-  const renderBuyClueOverlay = clueCount1 === 0 && (
+  const renderBuyClueOverlay1 = clueCount1 === 0 && (
     <BuyClueOverlay
-      visible={showBuyClueOverlay}
-      onClose={() => setShowBuyClueOverlay(false)}
+      visible={showBuyClueOverlay1}
+      onClose={() => setShowBuyClueOverlay1(false)}
       onBuyClue={() => {
         // Add your logic to handle buying the clue here
         // For example, you can open a payment gateway, update the clue count, etc.
-        setShowBuyClueOverlay(false); // Close the overlay after buying
+        setShowBuyClueOverlay1(false); // Close the overlay after buying
+      }}
+    />
+  );
+  const renderBuyClueOverlay2 = clueCount2 === 0 && (
+    <BuyClueOverlay
+      visible={showBuyClueOverlay2}
+      onClose={() => setShowBuyClueOverlay2(false)}
+      onBuyClue={() => {
+        // Add your logic to handle buying the clue here
+        // For example, you can open a payment gateway, update the clue count, etc.
+        setShowBuyClueOverlay2(false); // Close the overlay after buying
+      }}
+    />
+  );
+  const renderBuyClueOverlay3 = clueCount3 === 0 && (
+    <BuyClueOverlay
+      visible={showBuyClueOverlay3}
+      onClose={() => setShowBuyClueOverlay3(false)}
+      onBuyClue={() => {
+        // Add your logic to handle buying the clue here
+        // For example, you can open a payment gateway, update the clue count, etc.
+        setShowBuyClueOverlay3(false); // Close the overlay after buying
       }}
     />
   );
@@ -429,12 +453,12 @@ const CrosswordApp = ({ route }) => {
               style={styles.clueButton}
               onPress={() =>
                 clueCount1 === 0
-                  ? setShowBuyClueOverlay(true)
+                  ? setShowBuyClueOverlay1(true)
                   : handleCluePress(1)
               }
             >
               {/* Render Buy Hint overlay */}
-              {/* {renderBuyClueOverlay} */}
+              {renderBuyClueOverlay1}
               <Text style={styles.clueButtonText}>Clue 1 {clueCount1}</Text>
             </TouchableOpacity>
 
@@ -442,12 +466,12 @@ const CrosswordApp = ({ route }) => {
               style={styles.clueButton}
               onPress={() =>
                 clueCount2 === 0
-                  ? setShowBuyClueOverlay(true)
+                  ? setShowBuyClueOverlay2(true)
                   : handleCluePress(2)
               }
             >
               {/* Render Buy Hint overlay */}
-              {/* {renderBuyClueOverlay} */}
+              {renderBuyClueOverlay2}
               <Text style={styles.clueButtonText}>Clue 2 {clueCount2}</Text>
             </TouchableOpacity>
 
@@ -455,14 +479,14 @@ const CrosswordApp = ({ route }) => {
               style={styles.clueButton}
               onPress={() =>
                 clueCount3 === 0
-                  ? setShowBuyClueOverlay(true)
+                  ? setShowBuyClueOverlay3(true)
                   : handleCluePress(3)
               }
             >
+              {/* Render Buy Hint overlay */}
+              {renderBuyClueOverlay3}
               <Text style={styles.clueButtonText}>Clue 3 {clueCount3}</Text>
             </TouchableOpacity>
-            {/* Render Buy Hint overlay */}
-            {renderBuyClueOverlay}
           </View>
         </View>
       )}
