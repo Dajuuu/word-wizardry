@@ -9,9 +9,11 @@ import {
   Platform,
   ScrollView,
   Modal,
+  Image,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
+
 import {
   decrementClueCount,
   loadClueCount,
@@ -23,6 +25,7 @@ import { CreditsContext } from "./CreditsContext";
 import BuyClueOverlay from "./BuyHintOverlay";
 import CustomKeyboard from "./CustomKeyboard";
 import CustomHeader from "./CustomHeader";
+import { Asset } from "expo-asset";
 
 const CrosswordApp = ({ route }) => {
   const navigation = useNavigation();
@@ -75,6 +78,20 @@ const CrosswordApp = ({ route }) => {
     checkLevelCompletion(); // Check if level is already completed
     initializeClueCounts();
     loadClueCounts();
+
+    // Cache the hints icons
+    const cacheIcon = async () => {
+      await Asset.fromModule(
+        require("./assets/hint1-mag-glass.png")
+      ).downloadAsync();
+      await Asset.fromModule(
+        require("./assets/hint2-bulb.png")
+      ).downloadAsync();
+      await Asset.fromModule(
+        require("./assets/hint3-dice.png")
+      ).downloadAsync();
+    };
+    cacheIcon();
   }, []);
 
   // Check if the level was previosly completed, based on the data in the AsyncStorage
@@ -470,7 +487,18 @@ const CrosswordApp = ({ route }) => {
             >
               {/* Render Buy Hint overlay */}
               {renderBuyClueOverlay1}
-              <Text style={styles.clueButtonText}>Clue 1 {clueCount1}</Text>
+              <View style={styles.singleButtonContainer}>
+                {/* Render the icon */}
+                <Image
+                  source={require("./assets/hint1-mag-glass.png")}
+                  style={styles.hint1Image}
+                />
+
+                {/* Clue count container */}
+                <View style={styles.clueCountContainer}>
+                  <Text style={styles.clueCountText}>{clueCount1}</Text>
+                </View>
+              </View>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -634,13 +662,13 @@ const styles = StyleSheet.create({
   },
   clueButtonsContainer: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     marginTop: 10,
   },
   clueButton: {
     marginTop: 10,
     backgroundColor: "green",
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 8,
     marginHorizontal: 16,
@@ -649,6 +677,35 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#fff",
+  },
+  singleButtonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    // Add other styles to adjust the container size and spacing if needed
+    // ...
+  },
+  hint1Image: {
+    width: 30,
+    height: 30,
+    // Add other styles for the icon if needed
+    // ...
+  },
+  clueCountContainer: {
+    position: "absolute",
+    bottom: 30,
+    left: 30,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  clueCountText: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#333",
   },
 });
 
