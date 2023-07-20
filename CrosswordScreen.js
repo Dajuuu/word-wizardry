@@ -31,6 +31,8 @@ const CrosswordApp = ({ route }) => {
   const { addPoints } = useContext(PointsContext);
   const { points } = useContext(PointsContext);
 
+  // const { removeCredits } = useContext(CreditsContext);
+
   // Hook needed when user runs out of the clues and choses to buy additional one
   const [showBuyClueOverlay1, setShowBuyClueOverlay1] = useState(false);
   const [showBuyClueOverlay2, setShowBuyClueOverlay2] = useState(false);
@@ -323,7 +325,7 @@ const CrosswordApp = ({ route }) => {
     });
 
     // Remove credits - test
-    // removeCredits(100);
+    removeCredits(100);
   };
 
   // Clue overlay when buying additonal one
@@ -338,6 +340,7 @@ const CrosswordApp = ({ route }) => {
       }}
       clueNumber={1} // Pass the clue number as a prop
       creditsDecrement={50}
+      // removeCredits={removeCredits} // Pass the removeCredits function here
     />
   );
   const renderBuyClueOverlay2 = clueCount2 === 0 && (

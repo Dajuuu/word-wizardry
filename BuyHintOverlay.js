@@ -9,10 +9,20 @@ const BuyClueOverlay = ({
   clueNumber,
   creditsDecrement,
 }) => {
-  const { credits } = useContext(CreditsContext);
+  const { credits, removeCredits } = useContext(CreditsContext);
 
   // Check if the number of credits that the user has, is greater than the cost of the clue
   const canBuyClue = credits >= creditsDecrement;
+
+  const handleBuyClue = () => {
+    if (canBuyClue) {
+      // Decrement credits by creditsDecrement
+      removeCredits(creditsDecrement);
+      // Call the onBuyClue function to handle the rest of the logic (if needed)
+      onBuyClue();
+    }
+  };
+
   return (
     <Modal
       visible={visible}
@@ -32,7 +42,7 @@ const BuyClueOverlay = ({
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[styles.buyButton, !canBuyClue && styles.disabledButton]}
-              onPress={canBuyClue ? onBuyClue : null}
+              onPress={handleBuyClue}
               disabled={!canBuyClue}
             >
               <Text style={styles.buyButtonText}>Buy</Text>
