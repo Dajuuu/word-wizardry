@@ -2,9 +2,17 @@ import React, { useContext } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { CreditsContext } from "./CreditsContext"; // Import the CreditsContext
 
-const BuyClueOverlay = ({ visible, onClose, onBuyClue, clueNumber }) => {
+const BuyClueOverlay = ({
+  visible,
+  onClose,
+  onBuyClue,
+  clueNumber,
+  creditsDecrement,
+}) => {
   const { credits } = useContext(CreditsContext);
 
+  // Check if the number of credits that the user has, is greater than the cost of the clue
+  const canBuyClue = credits >= creditsDecrement;
   return (
     <Modal
       visible={visible}
@@ -18,8 +26,15 @@ const BuyClueOverlay = ({ visible, onClose, onBuyClue, clueNumber }) => {
           <Text style={styles.message}>Would you like to buy this clue?</Text>
           {/* Display the number of credits */}
           <Text style={styles.creditsText}>Credits: {credits}</Text>
+          <Text style={styles.creditsText}>
+            After the operation: {credits - creditsDecrement}
+          </Text>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.buyButton} onPress={onBuyClue}>
+            <TouchableOpacity
+              style={[styles.buyButton, !canBuyClue && styles.disabledButton]}
+              onPress={canBuyClue ? onBuyClue : null}
+              disabled={!canBuyClue}
+            >
               <Text style={styles.buyButtonText}>Buy</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
@@ -83,6 +98,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#fff",
+  },
+  buyButton: {
+    backgroundColor: "green",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  disabledButton: {
+    opacity: 0.5,
   },
 });
 
