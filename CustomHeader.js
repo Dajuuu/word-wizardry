@@ -7,6 +7,7 @@ import {
   Dimensions,
   Platform,
   SafeAreaView,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -16,7 +17,7 @@ import { PointsContext } from "./PointsContext";
 
 const windowHeight = Dimensions.get("window").height;
 
-const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
+const CustomHeader = ({ title }) => {
   const navigation = useNavigation();
   // handles the settings overlay
   const [settingsVisible, setSettingsVisible] = useState(false);
@@ -38,15 +39,15 @@ const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
     <View style={styles.header}>
       {/* Icon on the left (go back) */}
       <TouchableOpacity
-        style={[styles.leftButton, styles.button]}
+        style={[styles.leftButton, styles.button, { marginRight: 10 }]}
         onPress={() => navigation.goBack()}
       >
         <Icon name="arrow-left" style={[styles.buttonIcon]} />
       </TouchableOpacity>
-      <Text style={styles.title}>{title}</Text>
+
       {/* Icon on the right (settings) */}
       <TouchableOpacity
-        style={[styles.rightButton, styles.button]}
+        style={[styles.leftButton, styles.button]}
         onPress={handleSettingsButtonPress}
       >
         <SettingsOverlay
@@ -55,8 +56,18 @@ const CustomHeader = ({ title, onLeftButtonPress, onRightButtonPress }) => {
         />
         <Icon name="cog" style={[styles.buttonIcon]} />
       </TouchableOpacity>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>{title}</Text>
+      </View>
       {/* Display the credits */}
-      <Text style={styles.creditsText}>{credits} Credits</Text>
+      <View style={[styles.creditsContainer, styles.button]}>
+        <Image
+          source={require("./assets/credits.png")}
+          style={styles.creditsImage}
+        />
+        <Text style={styles.creditsText}>{credits}</Text>
+        {/* <Text style={styles.creditsText}>300000</Text> */}
+      </View>
     </View>
   );
 };
@@ -67,25 +78,25 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     height: windowHeight / 11,
     backgroundColor: "#f7d7ba",
-    paddingHorizontal: 26,
+    paddingHorizontal: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     marginBottom: 10,
     paddingBottom: 15,
   },
   leftButton: {
-    marginRight: 10,
+    // marginRight: 10,
     padding: 12,
     paddingHorizontal: 14,
     backgroundColor: "#ebb381",
     borderRadius: 20,
   },
-  rightButton: {
-    marginLeft: 10,
-    padding: 12,
-    backgroundColor: "#ebb381",
-    borderRadius: 20,
-  },
+  // rightButton: {
+  //   marginLeft: 10,
+  //   padding: 12,
+  //   backgroundColor: "#ebb381",
+  //   borderRadius: 20,
+  // },
   button: {
     // borderWidth: 1,
     shadowColor: "rgba(0,0,0, .4)", // IOS
@@ -107,6 +118,37 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
     // paddingBottom: 5,
+  },
+  titleContainer: {
+    flex: 1,
+    flexDirection: "row", // Arrange the title and credits in a row
+    justifyContent: "space-between", // Space them evenly along the row
+    alignItems: "center", // Center them vertically within the header
+  },
+  creditsText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    flexWrap: "wrap",
+    maxWidth: "70%",
+    alignSelf: "center",
+  },
+  creditsContainer: {
+    backgroundColor: "#ebb381",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    flexDirection: "row",
+    // justifyContent: "space-between", // Space them evenly along the row
+    alignItems: "center", // Center them vertically within the header
+    maxWidth: 110,
+    minWidth: 95,
+    maxHeight: 45,
+  },
+  creditsImage: {
+    width: 30,
+    height: 30,
+    marginRight: 5,
+    marginLeft: -5,
   },
 });
 
