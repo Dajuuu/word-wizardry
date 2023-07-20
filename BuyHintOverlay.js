@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 
-const BuyClueOverlay = ({ visible, onClose, onBuyClue }) => {
+const BuyClueOverlay = ({ visible, onClose, onBuyClue, clueNumber }) => {
   return (
     <Modal
       visible={visible}
@@ -11,7 +11,7 @@ const BuyClueOverlay = ({ visible, onClose, onBuyClue }) => {
     >
       <View style={styles.overlay}>
         <View style={styles.modal}>
-          <Text style={styles.title}>Buy Clue</Text>
+          <Text style={styles.title}>Buy Clue {clueNumber}</Text>
           <Text style={styles.message}>Would you like to buy this clue?</Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.buyButton} onPress={onBuyClue}>

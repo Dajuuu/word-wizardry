@@ -336,6 +336,7 @@ const CrosswordApp = ({ route }) => {
         // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay1(false); // Close the overlay after buying
       }}
+      clueNumber={1} // Pass the clue number as a prop
     />
   );
   const renderBuyClueOverlay2 = clueCount2 === 0 && (
@@ -347,6 +348,7 @@ const CrosswordApp = ({ route }) => {
         // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay2(false); // Close the overlay after buying
       }}
+      clueNumber={2} // Pass the clue number as a prop
     />
   );
   const renderBuyClueOverlay3 = clueCount3 === 0 && (
@@ -358,6 +360,7 @@ const CrosswordApp = ({ route }) => {
         // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay3(false); // Close the overlay after buying
       }}
+      clueNumber={3} // Pass the clue number as a prop
     />
   );
 
