@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,11 +13,21 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import SettingsOverlay from "./SettingsOverlay";
 import { CreditsContext } from "./CreditsContext";
+import { Asset } from "expo-asset";
+
 import { PointsContext } from "./PointsContext";
 
 const windowHeight = Dimensions.get("window").height;
 
 const CustomHeader = ({ title }) => {
+  // Cache the credits icon
+  useEffect(() => {
+    const cacheIcon = async () => {
+      await Asset.fromModule(require("./assets/credits.png")).downloadAsync();
+    };
+    cacheIcon();
+  }, []);
+
   const navigation = useNavigation();
   // handles the settings overlay
   const [settingsVisible, setSettingsVisible] = useState(false);
