@@ -64,7 +64,6 @@ const CrosswordApp = ({ route }) => {
     const count2 = await loadClueCount(2);
     const count3 = await loadClueCount(3);
 
-    console.log(count1);
     setClueCount1(count1);
     setClueCount2(count2);
     setClueCount3(count3);
@@ -332,11 +331,12 @@ const CrosswordApp = ({ route }) => {
     <BuyClueOverlay
       visible={showBuyClueOverlay1}
       onClose={() => setShowBuyClueOverlay1(false)}
-      onBuyClue={() => {
+      onBuyClue={async () => {
         // Add your logic to handle buying the clue here
         // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay1(false); // Close the overlay after buying
-        loadClueCounts();
+        // Call the callback with the updated clueCount1
+        setClueCount1(clueCount1 + 1); // Update the clue count
       }}
       clueNumber={1} // Pass the clue number as a prop
       creditsDecrement={10}
@@ -347,11 +347,11 @@ const CrosswordApp = ({ route }) => {
     <BuyClueOverlay
       visible={showBuyClueOverlay2}
       onClose={() => setShowBuyClueOverlay2(false)}
-      onBuyClue={() => {
+      onBuyClue={async () => {
         // Add your logic to handle buying the clue here
         // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay2(false); // Close the overlay after buying
-        loadClueCounts();
+        setClueCount2(clueCount2 + 1); // Update the clue count
       }}
       clueNumber={2} // Pass the clue number as a prop
       creditsDecrement={50}
@@ -361,11 +361,11 @@ const CrosswordApp = ({ route }) => {
     <BuyClueOverlay
       visible={showBuyClueOverlay3}
       onClose={() => setShowBuyClueOverlay3(false)}
-      onBuyClue={() => {
+      onBuyClue={async () => {
         // Add your logic to handle buying the clue here
         // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay3(false); // Close the overlay after buying
-        loadClueCounts();
+        setClueCount3(clueCount3 + 1); // Update the clue count
       }}
       clueNumber={3} // Pass the clue number as a prop
       creditsDecrement={50}

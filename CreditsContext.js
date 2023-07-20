@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const CreditsContext = createContext();
 
 const CreditsProvider = ({ children }) => {
-  const [credits, setCredits] = useState(500);
+  const [credits, setCredits] = useState(50000);
 
   useEffect(() => {
     loadCreditsFromStorage();
