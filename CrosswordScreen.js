@@ -31,7 +31,7 @@ const CrosswordApp = ({ route }) => {
   const { addPoints } = useContext(PointsContext);
   const { points } = useContext(PointsContext);
 
-  // const { removeCredits } = useContext(CreditsContext);
+  const { removeCredits } = useContext(CreditsContext);
 
   // Hook needed when user runs out of the clues and choses to buy additional one
   const [showBuyClueOverlay1, setShowBuyClueOverlay1] = useState(false);
@@ -58,23 +58,23 @@ const CrosswordApp = ({ route }) => {
   const [clueCount2, setClueCount2] = useState();
   const [clueCount3, setClueCount3] = useState();
 
+  // Load the clue counts from the AsyncStorage and assign them to the useState hooks
+  const loadClueCounts = async () => {
+    const count1 = await loadClueCount(1);
+    const count2 = await loadClueCount(2);
+    const count3 = await loadClueCount(3);
+
+    console.log(count1);
+    setClueCount1(count1);
+    setClueCount2(count2);
+    setClueCount3(count3);
+  };
+
   useEffect(() => {
     // Load saved user input for the given level
     loadUserInput();
     checkLevelCompletion(); // Check if level is already completed
     initializeClueCounts();
-
-    // Load the clue counts from the AsyncStorage and assign them to the useState hooks
-    const loadClueCounts = async () => {
-      const count1 = await loadClueCount(1);
-      const count2 = await loadClueCount(2);
-      const count3 = await loadClueCount(3);
-
-      setClueCount1(count1);
-      setClueCount2(count2);
-      setClueCount3(count3);
-    };
-
     loadClueCounts();
   }, []);
 
@@ -323,9 +323,8 @@ const CrosswordApp = ({ route }) => {
       levelCompleted: true,
       completedLevelName: levelName,
     });
-
     // Remove credits - test
-    removeCredits(100);
+    // removeCredits(100);
   };
 
   // Clue overlay when buying additonal one
@@ -337,9 +336,10 @@ const CrosswordApp = ({ route }) => {
         // Add your logic to handle buying the clue here
         // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay1(false); // Close the overlay after buying
+        loadClueCounts();
       }}
       clueNumber={1} // Pass the clue number as a prop
-      creditsDecrement={50}
+      creditsDecrement={10}
       // removeCredits={removeCredits} // Pass the removeCredits function here
     />
   );
@@ -351,6 +351,7 @@ const CrosswordApp = ({ route }) => {
         // Add your logic to handle buying the clue here
         // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay2(false); // Close the overlay after buying
+        loadClueCounts();
       }}
       clueNumber={2} // Pass the clue number as a prop
       creditsDecrement={50}
@@ -364,6 +365,7 @@ const CrosswordApp = ({ route }) => {
         // Add your logic to handle buying the clue here
         // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay3(false); // Close the overlay after buying
+        loadClueCounts();
       }}
       clueNumber={3} // Pass the clue number as a prop
       creditsDecrement={50}
