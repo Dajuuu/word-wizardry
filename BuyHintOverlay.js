@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import { CreditsContext } from "./CreditsContext"; // Import the CreditsContext
 
 const BuyClueOverlay = ({ visible, onClose, onBuyClue, clueNumber }) => {
+  const { credits } = useContext(CreditsContext);
+
   return (
     <Modal
       visible={visible}
@@ -13,6 +16,8 @@ const BuyClueOverlay = ({ visible, onClose, onBuyClue, clueNumber }) => {
         <View style={styles.modal}>
           <Text style={styles.title}>Buy Clue {clueNumber}</Text>
           <Text style={styles.message}>Would you like to buy this clue?</Text>
+          {/* Display the number of credits */}
+          <Text style={styles.creditsText}>Credits: {credits}</Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.buyButton} onPress={onBuyClue}>
               <Text style={styles.buyButtonText}>Buy</Text>
