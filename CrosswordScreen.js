@@ -20,7 +20,7 @@ import {
 } from "./ClueManager"; // Import the clue count functions
 import { PointsContext } from "./PointsContext";
 import { CreditsContext } from "./CreditsContext";
-
+import BuyClueOverlay from "./BuyHintOverlay";
 import CustomKeyboard from "./CustomKeyboard";
 import CustomHeader from "./CustomHeader";
 
@@ -31,7 +31,8 @@ const CrosswordApp = ({ route }) => {
   const { addPoints } = useContext(PointsContext);
   const { points } = useContext(PointsContext);
 
-  const { removeCredits } = useContext(CreditsContext);
+  // Hook needed when user runs out of the clues and choses to buy additional one
+  const [showBuyClueOverlay, setShowBuyClueOverlay] = useState(false);
 
   const { GRID_DATA, ROW_CLUES, levelPoints, levelName } = route.params;
   const [hiddenGrid, setHiddenGrid] = useState(() =>
@@ -320,8 +321,21 @@ const CrosswordApp = ({ route }) => {
     });
 
     // Remove credits - test
-    removeCredits(100);
+    // removeCredits(100);
   };
+
+  // Clue overlay when buying additonal one
+  const renderBuyClueOverlay = clueCount1 === 0 && (
+    <BuyClueOverlay
+      visible={showBuyClueOverlay}
+      onClose={() => setShowBuyClueOverlay(false)}
+      onBuyClue={() => {
+        // Add your logic to handle buying the clue here
+        // For example, you can open a payment gateway, update the clue count, etc.
+        setShowBuyClueOverlay(false); // Close the overlay after buying
+      }}
+    />
+  );
 
   return (
     <View style={styles.container}>
@@ -413,24 +427,42 @@ const CrosswordApp = ({ route }) => {
           <View style={styles.clueButtonsContainer}>
             <TouchableOpacity
               style={styles.clueButton}
-              onPress={() => handleCluePress(1)}
+              onPress={() =>
+                clueCount1 === 0
+                  ? setShowBuyClueOverlay(true)
+                  : handleCluePress(1)
+              }
             >
+              {/* Render Buy Hint overlay */}
+              {/* {renderBuyClueOverlay} */}
               <Text style={styles.clueButtonText}>Clue 1 {clueCount1}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.clueButton}
-              onPress={() => handleCluePress(2)}
+              onPress={() =>
+                clueCount2 === 0
+                  ? setShowBuyClueOverlay(true)
+                  : handleCluePress(2)
+              }
             >
+              {/* Render Buy Hint overlay */}
+              {/* {renderBuyClueOverlay} */}
               <Text style={styles.clueButtonText}>Clue 2 {clueCount2}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.clueButton}
-              onPress={() => handleCluePress(3)}
+              onPress={() =>
+                clueCount3 === 0
+                  ? setShowBuyClueOverlay(true)
+                  : handleCluePress(3)
+              }
             >
               <Text style={styles.clueButtonText}>Clue 3 {clueCount3}</Text>
             </TouchableOpacity>
+            {/* Render Buy Hint overlay */}
+            {renderBuyClueOverlay}
           </View>
         </View>
       )}
