@@ -491,7 +491,7 @@ const CrosswordApp = ({ route }) => {
                 {/* Render the icon */}
                 <Image
                   source={require("./assets/hint1-mag-glass.png")}
-                  style={styles.hint1Image}
+                  style={styles.hintImage}
                 />
 
                 {/* Clue count container */}
@@ -511,7 +511,18 @@ const CrosswordApp = ({ route }) => {
             >
               {/* Render Buy Hint overlay */}
               {renderBuyClueOverlay2}
-              <Text style={styles.clueButtonText}>Clue 2 {clueCount2}</Text>
+              <View style={styles.singleButtonContainer}>
+                {/* Render the icon */}
+                <Image
+                  source={require("./assets/hint2-bulb.png")}
+                  style={styles.hintImage}
+                />
+
+                {/* Clue count container */}
+                <View style={styles.clueCountContainer}>
+                  <Text style={styles.clueCountText}>{clueCount1}</Text>
+                </View>
+              </View>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -524,7 +535,18 @@ const CrosswordApp = ({ route }) => {
             >
               {/* Render Buy Hint overlay */}
               {renderBuyClueOverlay3}
-              <Text style={styles.clueButtonText}>Clue 3 {clueCount3}</Text>
+              <View style={styles.singleButtonContainer}>
+                {/* Render the icon */}
+                <Image
+                  source={require("./assets/hint3-dice.png")}
+                  style={styles.hintImage}
+                />
+
+                {/* Clue count container */}
+                <View style={styles.clueCountContainer}>
+                  <Text style={styles.clueCountText}>{clueCount3}</Text>
+                </View>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -685,16 +707,16 @@ const styles = StyleSheet.create({
     // Add other styles to adjust the container size and spacing if needed
     // ...
   },
-  hint1Image: {
-    width: 30,
-    height: 30,
+  hintImage: {
+    width: 24,
+    height: 24,
     // Add other styles for the icon if needed
     // ...
   },
   clueCountContainer: {
     position: "absolute",
-    bottom: 30,
-    left: 30,
+    bottom: 25,
+    left: 25,
     backgroundColor: "#f0f0f0",
     borderRadius: 12,
     width: 24,
