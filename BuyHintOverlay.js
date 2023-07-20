@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { CreditsContext } from "./CreditsContext"; // Import the CreditsContext
+import { incrementClueCount } from "./ClueManager";
 
 const BuyClueOverlay = ({
   visible,
@@ -18,6 +19,8 @@ const BuyClueOverlay = ({
     if (canBuyClue) {
       // Decrement credits by creditsDecrement
       removeCredits(creditsDecrement);
+      // Increment the clue count for the purchased clue
+      incrementClueCount(clueNumber);
       // Call the onBuyClue function to handle the rest of the logic (if needed)
       onBuyClue();
     }

@@ -34,6 +34,22 @@ export const decrementClueCount = async (clueIndex) => {
   }
 };
 
+// Decrement the number of uses for a particular hint
+export const incrementClueCount = async (clueIndex) => {
+  try {
+    const clueCountKey = `${CLUE_COUNT_STORAGE_KEY_PREFIX}${clueIndex}`;
+    const clueCount = await loadClueCount(clueIndex);
+    const updatedCount = clueCount + 1;
+    await AsyncStorage.setItem(clueCountKey, updatedCount.toString());
+  } catch (error) {
+    console.error(
+      `Error incrementing clue count for clue ${clueIndex}:`,
+      error
+    );
+    throw error;
+  }
+};
+
 // Initialize clue counts
 export const initializeClueCounts = async () => {
   try {
