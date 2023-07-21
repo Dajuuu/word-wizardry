@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
-import { CreditsContext } from "./CreditsContext"; // Import the CreditsContext
+import { CreditsContext } from "./CreditsContext";
 import { incrementClueCount } from "./ClueManager";
 
+// Declare what props can be used for the buyClueOverlay
 const BuyClueOverlay = ({
   visible,
   onClose,
@@ -10,6 +11,7 @@ const BuyClueOverlay = ({
   clueNumber,
   creditsDecrement,
 }) => {
+  // Import appropriate operations for credits
   const { credits, removeCredits } = useContext(CreditsContext);
 
   // Check if the number of credits that the user has, is greater than the cost of the clue
@@ -27,6 +29,7 @@ const BuyClueOverlay = ({
   };
 
   return (
+    // Modal props
     <Modal
       visible={visible}
       animationType="slide"
@@ -39,10 +42,12 @@ const BuyClueOverlay = ({
           <Text style={styles.message}>Would you like to buy this clue?</Text>
           {/* Display the number of credits */}
           <Text style={styles.creditsText}>Credits: {credits}</Text>
+          {/* Display credits after operation - negative values can appear */}
           <Text style={styles.creditsText}>
             After the operation: {credits - creditsDecrement}
           </Text>
           <View style={styles.buttonContainer}>
+            {/* Disable buy button when user does not have enough credits */}
             <TouchableOpacity
               style={[styles.buyButton, !canBuyClue && styles.disabledButton]}
               onPress={handleBuyClue}

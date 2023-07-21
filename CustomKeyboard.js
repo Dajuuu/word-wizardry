@@ -8,8 +8,10 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
+// Get the height of the device
 const windowHeight = Dimensions.get("window").height;
 
+// Determine the layout of the buttons for the keyboard
 const CustomKeyboard = ({ onKeyPress }) => {
   const keyboardData = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -17,11 +19,13 @@ const CustomKeyboard = ({ onKeyPress }) => {
     ["Z", "X", "C", "V", "B", "N", "M"],
   ];
 
+  // Put empty string after clicking the backspace
   const handleBackspace = () => {
     onKeyPress("");
   };
 
   return (
+    // Display the buttons for the keyboard
     <View style={styles.keyboardContainer}>
       {keyboardData.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.keyboardRow}>
@@ -34,6 +38,7 @@ const CustomKeyboard = ({ onKeyPress }) => {
               <Text style={styles.keyboardKeyText}>{key}</Text>
             </TouchableOpacity>
           ))}
+          {/* Put the backspace button next to the last row */}
           {rowIndex === keyboardData.length - 1 && (
             <TouchableOpacity
               style={[styles.keyboardKey, styles.keyboardKeyBackspace]}

@@ -4,12 +4,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const CreditsContext = createContext();
 
 const CreditsProvider = ({ children }) => {
+  // Initialise the number of credits if user does not have any yet
   const [credits, setCredits] = useState(50000);
 
   useEffect(() => {
+    // If user had their credits declared earlier,
+    // then load that number of credits onto the account
     loadCreditsFromStorage();
   }, []);
 
+  // load credits data
   const loadCreditsFromStorage = async () => {
     try {
       const storedCredits = await AsyncStorage.getItem("credits");
@@ -21,6 +25,7 @@ const CreditsProvider = ({ children }) => {
     }
   };
 
+  // save credits data
   const saveCreditsToStorage = async (value) => {
     try {
       await AsyncStorage.setItem("credits", value.toString());
@@ -29,6 +34,7 @@ const CreditsProvider = ({ children }) => {
     }
   };
 
+  // add credits
   const addCredits = (amount) => {
     setCredits((prevCredits) => {
       const newCredits = prevCredits + amount;
@@ -37,6 +43,7 @@ const CreditsProvider = ({ children }) => {
     });
   };
 
+  // remove credits
   const removeCredits = (amount) => {
     setCredits((prevCredits) => {
       const newCredits = prevCredits - amount;
@@ -45,6 +52,7 @@ const CreditsProvider = ({ children }) => {
     });
   };
 
+  // reset credits
   const resetCredits = () => {
     setCredits(0);
     saveCreditsToStorage("0");

@@ -8,8 +8,10 @@ import {
   Switch,
 } from "react-native";
 
+// Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
   return (
+    // Modal props
     <Modal
       visible={visible}
       animationType="slide"

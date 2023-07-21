@@ -80,6 +80,7 @@ const MediumLevelsScreen = ({ navigation }) => {
   );
 
   // AsyncStorage code view
+  // TODO only to see AsyncStorage data
   const viewSavedData = async () => {
     try {
       const keys = await AsyncStorage.getAllKeys();
@@ -105,6 +106,10 @@ const MediumLevelsScreen = ({ navigation }) => {
       console.error("Error deleting records:", error);
     }
   };
+
+  // TODO
+  // TODO
+  // TODO
 
   // Usage: Specify an array of keys to delete
   const keysToDelete = ["credits"];

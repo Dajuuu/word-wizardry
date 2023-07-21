@@ -1,5 +1,7 @@
 import React, { createContext, useState } from "react";
 
+// TODO make the usage of AsyncStorage
+
 const PointsContext = createContext();
 
 const PointsProvider = ({ children }) => {

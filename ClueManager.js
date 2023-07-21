@@ -34,7 +34,7 @@ export const decrementClueCount = async (clueIndex) => {
   }
 };
 
-// Decrement the number of uses for a particular hint
+// Increment the number of uses for a particular hint
 export const incrementClueCount = async (clueIndex) => {
   try {
     const clueCountKey = `${CLUE_COUNT_STORAGE_KEY_PREFIX}${clueIndex}`;

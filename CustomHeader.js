@@ -5,8 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  Platform,
-  SafeAreaView,
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -17,6 +15,7 @@ import { Asset } from "expo-asset";
 
 import { PointsContext } from "./PointsContext";
 
+// Get the height of the device
 const windowHeight = Dimensions.get("window").height;
 
 const CustomHeader = ({ title }) => {
@@ -33,8 +32,8 @@ const CustomHeader = ({ title }) => {
   const [settingsVisible, setSettingsVisible] = useState(false);
   // Import credits info
   const { credits } = useContext(CreditsContext);
-  // const { points } = useContext(PointsContext);
 
+  // Handle the settings overlay
   const handleSettingsButtonPress = () => {
     setSettingsVisible(true);
   };
@@ -55,7 +54,7 @@ const CustomHeader = ({ title }) => {
         <Icon name="arrow-left" style={[styles.buttonIcon]} />
       </TouchableOpacity>
 
-      {/* Icon on the right (settings) */}
+      {/* Icon next to the one on the left (settings) */}
       <TouchableOpacity
         style={[styles.leftButton, styles.button]}
         onPress={handleSettingsButtonPress}
@@ -69,7 +68,7 @@ const CustomHeader = ({ title }) => {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{title}</Text>
       </View>
-      {/* Display the credits */}
+      {/* Display the credits on the right */}
       <View style={[styles.creditsContainer, styles.button]}>
         <Image
           source={require("./assets/credits.png")}

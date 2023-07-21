@@ -88,6 +88,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* Display buttons at the top */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
           <Icon

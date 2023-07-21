@@ -11,15 +11,16 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import CustomHeader from "./CustomHeader";
 import { loadCompletedLevels } from "./AsyncStorageUtils";
 
-const EasyLevelsScreen = ({ navigation, route }) => {
+const EasyLevelsScreen = ({ navigation }) => {
+  // Change the colour of the level buttons, depending on the state
+  // (was the level previously completed or not)
   const EasyLevelsColorBackground = "rgba(56,167,63,1)";
   const EasyLevelsColorBackgroundCompleted = "rgba(38,100,42,1)";
 
   const EasyLevelsColorOutline = "rgba(49,133,53,1)";
   const EasyLevelsColorOutlineCompleted = "rgba(31,78,33,1)";
 
-  // Take the parameters from the CrosswordScreen when the level is completed
-  // const { levelCompleted, completedLevelName } = route.params;
+  // Declare array for which the state of the levels will be saved
   const [completedLevels, setCompletedLevels] = useState([]);
 
   // Load the completed levels on component mount
@@ -30,6 +31,11 @@ const EasyLevelsScreen = ({ navigation, route }) => {
     };
     loadCompletedLevelsData();
   }, []);
+
+  // Declare the data for all of the levels
+  // TODO add more aspects such as
+  // - what hints will the user get after completing the level
+  // - number of credits
   const levels = [
     {
       levelName: "E1",
@@ -78,11 +84,6 @@ const EasyLevelsScreen = ({ navigation, route }) => {
       ],
       ROW_CLUES: ["Clue for Row 1", "Clue for Row 2"],
     },
-    // Add more levels with their corresponding GRID_DATA and ROW_CLUES
-    // { level: "E3", color: EasyLevelsColorBackground, GRID_DATA: ..., ROW_CLUES: ... },
-    // { level: "E4", color: EasyLevelsColorBackground, GRID_DATA: ..., ROW_CLUES: ... },
-    // ...
-
     {
       levelName: "E4",
       color: EasyLevelsColorBackground,
@@ -134,6 +135,7 @@ const EasyLevelsScreen = ({ navigation, route }) => {
     },
   ];
 
+  // Pass all of the data to the CrosswordScreen
   const handleLevelPress = (levelName, GRID_DATA, ROW_CLUES, levelPoints) => {
     navigation.navigate("CrosswordScreen", {
       levelName,
@@ -144,7 +146,7 @@ const EasyLevelsScreen = ({ navigation, route }) => {
   };
 
   const renderLevel = ({ item }) => {
-    // Check if the level is completed and set the color accordingly
+    // Check if the level is completed and set the colour accordingly
     const backgroundColor = completedLevels.includes(item.levelName)
       ? EasyLevelsColorBackgroundCompleted
       : item.color;
@@ -177,17 +179,10 @@ const EasyLevelsScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <CustomHeader
-        // import nazwy levela
-        title="Easy Levels"
-      />
-      {/* <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Icon name="arrow-left" size={20} color="black" />
-      </TouchableOpacity> */}
+      {/* Display Custom header */}
+      <CustomHeader title="Easy Levels" />
 
+      {/* Display all of the levels in a form of two columns */}
       <FlatList
         data={levels}
         renderItem={renderLevel}

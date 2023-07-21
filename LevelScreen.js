@@ -1,6 +1,9 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
+// Do Wyjebania
+// Do Wyjebania
+// Do Wyjebania
 const LevelScreen = ({ route, navigation }) => {
   const { level } = route.params;
 

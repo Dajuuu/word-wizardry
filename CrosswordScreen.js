@@ -18,42 +18,48 @@ import {
   decrementClueCount,
   loadClueCount,
   initializeClueCounts,
-  BASE_CLUE_USES,
 } from "./ClueManager"; // Import the clue count functions
+import { Asset } from "expo-asset";
 import { PointsContext } from "./PointsContext";
 import { CreditsContext } from "./CreditsContext";
 import BuyClueOverlay from "./BuyHintOverlay";
 import CustomKeyboard from "./CustomKeyboard";
 import CustomHeader from "./CustomHeader";
-import { Asset } from "expo-asset";
 
 const CrosswordApp = ({ route }) => {
   const navigation = useNavigation();
 
-  // Add points
+  // Add points and check the points balance. Needed when completing the level
   const { addPoints } = useContext(PointsContext);
   const { points } = useContext(PointsContext);
 
-  const { removeCredits } = useContext(CreditsContext);
+  // credits removal - test
+  // const { removeCredits } = useContext(CreditsContext);
 
-  // Hook needed when user runs out of the clues and choses to buy additional one
+  // Hooks needed when user runs out of the clues and choses to buy additional one
   const [showBuyClueOverlay1, setShowBuyClueOverlay1] = useState(false);
   const [showBuyClueOverlay2, setShowBuyClueOverlay2] = useState(false);
   const [showBuyClueOverlay3, setShowBuyClueOverlay3] = useState(false);
 
+  // Import data/parameters for a given level
   const { GRID_DATA, ROW_CLUES, levelPoints, levelName } = route.params;
   const [hiddenGrid, setHiddenGrid] = useState(() =>
     GRID_DATA.map((row) => row.map(() => ""))
   );
+
+  // Information on what box/row is selected by the user
   const [selectedBox, setSelectedBox] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
-  // const [isModalVisible, setIsModalVisible] = useState(false);
+
+  // Stores information if the user completed the level
   const [levelCompleted, setLevelCompleted] = useState(false);
 
   // This hook determines whether the level was previously completed or not
   // If it was, then the keyboard will not be visible for the user, and so
   // no changes for the given grid can be made
   const [checkIfLevelCompleted, setCheckIfLevelCompleted] = useState(false);
+
+  // TODO check what does this is doing
   const inputRefs = useRef([]);
 
   // Initialize clue counts
@@ -72,12 +78,12 @@ const CrosswordApp = ({ route }) => {
     setClueCount3(count3);
   };
 
+  // Initialise data
   useEffect(() => {
-    // Load saved user input for the given level
-    loadUserInput();
+    loadUserInput(); // Load saved user input for the given level
     checkLevelCompletion(); // Check if level is already completed
-    initializeClueCounts();
-    loadClueCounts();
+    initializeClueCounts(); // TODO Probaply it needs to be deleted because of the function below
+    loadClueCounts(); // Load the clue counts for the user
 
     // Cache the hints icons
     const cacheIcon = async () => {
@@ -103,6 +109,7 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
+  // Save the user input to AsyncStorage
   const saveUserInput = async () => {
     try {
       const userInputKey = `userInput:${route.params.levelName}`;
@@ -114,7 +121,7 @@ const CrosswordApp = ({ route }) => {
       console.log("Error saving user input:", error);
     }
   };
-
+  // Load the user input from AsyncStorage
   const loadUserInput = async () => {
     try {
       const userInputKey = `userInput:${route.params.levelName}`;
@@ -134,6 +141,7 @@ const CrosswordApp = ({ route }) => {
       console.log("Error loading user input:", error);
     }
   };
+  // Delete the input (if needed)
   const deleteUserInput = async () => {
     try {
       const userInputKey = `userInput:${route.params.levelName}`;
@@ -143,11 +151,13 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
+  // Determine which box is selected
   const handleBoxSelection = (rowIndex, columnIndex) => {
     setSelectedBox({ rowIndex, columnIndex });
     setSelectedRow(rowIndex);
   };
 
+  // Fill boxes behaviour
   const handleBoxInput = (text, rowIndex, columnIndex) => {
     const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
     const inputtedLetter = text.toUpperCase();
@@ -173,13 +183,14 @@ const CrosswordApp = ({ route }) => {
       }
     };
 
+    // TODO it was to increase performance - see what can be done here
     clearTimeout(inputRefs.current[rowIndex][columnIndex].timer);
     inputRefs.current[rowIndex][columnIndex].timer = setTimeout(
       updateHiddenGrid,
       1
     );
 
-    // Select the box to the right
+    // Select the box to the right, when previous box has a letter entered
     if (columnIndex < GRID_DATA[rowIndex].length - 1) {
       const nextColumnIndex = columnIndex + 1;
       handleBoxSelection(rowIndex, nextColumnIndex);
@@ -188,6 +199,7 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
+  // Function to deal with button presses - more specific the keyboard
   const handleKeyPress = (key) => {
     if (selectedBox) {
       const { rowIndex, columnIndex } = selectedBox;
@@ -197,7 +209,7 @@ const CrosswordApp = ({ route }) => {
         handleBoxInput("", rowIndex, columnIndex);
         inputRefs.current[rowIndex][columnIndex].focus();
 
-        // Move the selection to the left
+        // Move the selection to the left after pressing the backspace
         const nextColumnIndex = columnIndex - 1;
         if (nextColumnIndex >= 0) {
           handleBoxSelection(rowIndex, nextColumnIndex);
@@ -227,6 +239,7 @@ const CrosswordApp = ({ route }) => {
       // Display updated clue count
       console.log(`Clue ${index} remaining uses: ${updatedClueCount}`);
 
+      // Hint 1 - reveal letter in a specific position
       if (index === 1 && selectedBox) {
         // Handle clue 1
         const { rowIndex, columnIndex } = selectedBox;
@@ -241,7 +254,7 @@ const CrosswordApp = ({ route }) => {
         // Update clue count
         setClueCount1(updatedClueCount);
 
-        // Select the box to the right
+        // Select the box to the right after the lttter was put in a box using this hint
         if (columnIndex < GRID_DATA[rowIndex].length - 1) {
           const nextColumnIndex = columnIndex + 1;
           handleBoxSelection(rowIndex, nextColumnIndex);
@@ -250,6 +263,7 @@ const CrosswordApp = ({ route }) => {
         }
       }
 
+      // Hint 2 - reveal whole row (all letters)
       if (index === 2 && selectedRow !== null) {
         // Handle clue 2
         const newHiddenGrid = [...hiddenGrid];
@@ -266,6 +280,9 @@ const CrosswordApp = ({ route }) => {
         // Update clue count
         setClueCount2(updatedClueCount);
       }
+
+      // Hint 3 - reveal two letters in random positions
+      // Problem - letters are inputed inside letters already revealed
       if (index === 3 && selectedRow !== null) {
         // Handle clue 3
         const newHiddenGrid = [...hiddenGrid];
@@ -297,7 +314,7 @@ const CrosswordApp = ({ route }) => {
         // Update clue count
         setClueCount3(updatedClueCount);
       }
-      // Check if all boxes are filled correctly
+      // Check if all boxes are filled correctly and determine if level is finished
       const isLevelFinished = hiddenGrid.every((row) =>
         row.every((box) => box.isCorrect)
       );
@@ -321,7 +338,7 @@ const CrosswordApp = ({ route }) => {
   };
 
   const closeModal = async () => {
-    // setIsModalVisible(false);
+    // After closing the modal declare setLevelCompleted to false to properly close the overlay
     setLevelCompleted(false);
     // Add points on closing the box
     // Small fix for the points doubling in some cases
@@ -332,46 +349,50 @@ const CrosswordApp = ({ route }) => {
 
     // Delete saved user input for the given level
     // deleteUserInput();
+
+    // Save the name of the completed level to the AsyncStorage
     await saveCompletedLevel(levelName);
-    // Navigate back to the level seclection screen with completion status and level name as parameters
-    console.log("Points added - navigating to the Easy levels");
+    // Navigate back to the level selection screen with completion status and level name as parameters
+    console.log("Points added - navigating to the difficulty selection");
     navigation.navigate("GameScreen", {
       levelCompleted: true,
       completedLevelName: levelName,
     });
+
     // Remove credits - test
     // removeCredits(100);
   };
 
-  // Clue overlay when buying additonal one
+  // Clue overlay when buying additonal one, appropriate data is passed, based on which clue was selected
+  // Variables to determine the cost for particular hint
+  const creditsCostHint1 = 10;
+  const creditsCostHint2 = 50;
+  const creditsCostHint3 = 30;
+
+  // Overlay for hint 1
   const renderBuyClueOverlay1 = clueCount1 === 0 && (
     <BuyClueOverlay
       visible={showBuyClueOverlay1}
       onClose={() => setShowBuyClueOverlay1(false)}
       onBuyClue={async () => {
-        // Add your logic to handle buying the clue here
-        // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay1(false); // Close the overlay after buying
-        // Call the callback with the updated clueCount1
         setClueCount1(clueCount1 + 1); // Update the clue count
       }}
       clueNumber={1} // Pass the clue number as a prop
-      creditsDecrement={10}
-      // removeCredits={removeCredits} // Pass the removeCredits function here
+      creditsDecrement={creditsCostHint1} // Remove Credits when buying the hint
     />
   );
+  // Overlay for hint 2
   const renderBuyClueOverlay2 = clueCount2 === 0 && (
     <BuyClueOverlay
       visible={showBuyClueOverlay2}
       onClose={() => setShowBuyClueOverlay2(false)}
       onBuyClue={async () => {
-        // Add your logic to handle buying the clue here
-        // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay2(false); // Close the overlay after buying
         setClueCount2(clueCount2 + 1); // Update the clue count
       }}
       clueNumber={2} // Pass the clue number as a prop
-      creditsDecrement={50}
+      creditsDecrement={creditsCostHint2} // Remove Credits when buying the hint
     />
   );
   const renderBuyClueOverlay3 = clueCount3 === 0 && (
@@ -379,13 +400,11 @@ const CrosswordApp = ({ route }) => {
       visible={showBuyClueOverlay3}
       onClose={() => setShowBuyClueOverlay3(false)}
       onBuyClue={async () => {
-        // Add your logic to handle buying the clue here
-        // For example, you can open a payment gateway, update the clue count, etc.
         setShowBuyClueOverlay3(false); // Close the overlay after buying
         setClueCount3(clueCount3 + 1); // Update the clue count
       }}
       clueNumber={3} // Pass the clue number as a prop
-      creditsDecrement={50}
+      creditsDecrement={creditsCostHint3} // Remove Credits when buying the hint
     />
   );
 
@@ -393,8 +412,7 @@ const CrosswordApp = ({ route }) => {
     <View style={styles.container}>
       {/* Custom header component */}
       <CustomHeader
-        // import nazwy levela
-        title={levelName}
+        title={levelName} // import the level name to the header
       />
 
       {/* Grid */}

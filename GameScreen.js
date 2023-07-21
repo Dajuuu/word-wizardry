@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 const GameScreen = ({ navigation }) => {
+  // Declare the difficulty levels
   const difficultyLevels = [
     {
       level: "Easy",
@@ -54,11 +55,10 @@ const GameScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <CustomHeader
-        // import nazwy levela
-        title="Choose Difficulty"
-      />
+      {/* Display Custom header */}
+      <CustomHeader title="Choose Difficulty" />
       <ScrollView style={{ width: "100%" }}>
+        {/* Display all difficulty levels */}
         {difficultyLevels.map((level, index) => (
           <TouchableOpacity
             key={index}
