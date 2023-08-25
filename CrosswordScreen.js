@@ -36,6 +36,9 @@ const CrosswordApp = ({ route }) => {
   // credits removal - test
   // const { removeCredits } = useContext(CreditsContext);
 
+  // A hook for the 3rd hint - if there are no avaiable spaces for a given row, the button of the clue is locked
+  const [availableSpaces, setAvailableSpaces] = useState(true);
+
   // Hooks needed when user runs out of the clues and choses to buy additional one
   const [showBuyClueOverlay1, setShowBuyClueOverlay1] = useState(false);
   const [showBuyClueOverlay2, setShowBuyClueOverlay2] = useState(false);
@@ -288,32 +291,53 @@ const CrosswordApp = ({ route }) => {
         const newHiddenGrid = [...hiddenGrid];
         const rowLength = newHiddenGrid[selectedRow].length;
 
-        // Generate two random positions within the row
-        const randomPosition1 = Math.floor(Math.random() * rowLength);
-        let randomPosition2;
-        do {
-          randomPosition2 = Math.floor(Math.random() * rowLength);
-        } while (randomPosition2 === randomPosition1);
+        // Create an array to keep track of available positions
+        const availablePositions = [];
+        for (let i = 0; i < rowLength; i++) {
+          if (!newHiddenGrid[selectedRow][i].isCorrect) {
+            availablePositions.push(i);
+          }
+        }
 
-        // Set the letters at the random positions
-        const hiddenLetter1 =
-          GRID_DATA[selectedRow][randomPosition1].toUpperCase();
-        const hiddenLetter2 =
-          GRID_DATA[selectedRow][randomPosition2].toUpperCase();
-        newHiddenGrid[selectedRow][randomPosition1] = {
-          letter: hiddenLetter1,
-          isCorrect: true,
-        };
-        newHiddenGrid[selectedRow][randomPosition2] = {
-          letter: hiddenLetter2,
-          isCorrect: true,
-        };
+        // Ensure there are enough available positions to reveal letters
+        if (availablePositions.length >= 2) {
+          // Generate two random positions from the available positions
+          const randomIndex1 = Math.floor(
+            Math.random() * availablePositions.length
+          );
+          let randomIndex2;
+          do {
+            randomIndex2 = Math.floor(
+              Math.random() * availablePositions.length
+            );
+          } while (randomIndex2 === randomIndex1);
 
-        setHiddenGrid(newHiddenGrid);
-        saveUserInput();
-        // Update clue count
-        setClueCount3(updatedClueCount);
+          const randomPosition1 = availablePositions[randomIndex1];
+          const randomPosition2 = availablePositions[randomIndex2];
+
+          // Set the letters at the random positions
+          const hiddenLetter1 =
+            GRID_DATA[selectedRow][randomPosition1].toUpperCase();
+          const hiddenLetter2 =
+            GRID_DATA[selectedRow][randomPosition2].toUpperCase();
+          newHiddenGrid[selectedRow][randomPosition1] = {
+            letter: hiddenLetter1,
+            isCorrect: true,
+          };
+          newHiddenGrid[selectedRow][randomPosition2] = {
+            letter: hiddenLetter2,
+            isCorrect: true,
+          };
+
+          setHiddenGrid(newHiddenGrid);
+          saveUserInput();
+          // Update clue count
+          setClueCount3(updatedClueCount);
+        } else {
+          console.log("Not enough available positions to reveal letters.");
+        }
       }
+
       // Check if all boxes are filled correctly and determine if level is finished
       const isLevelFinished = hiddenGrid.every((row) =>
         row.every((box) => box.isCorrect)
@@ -538,7 +562,7 @@ const CrosswordApp = ({ route }) => {
 
                 {/* Clue count container */}
                 <View style={styles.clueCountContainer}>
-                  <Text style={styles.clueCountText}>{clueCount1}</Text>
+                  <Text style={styles.clueCountText}>{clueCount2}</Text>
                 </View>
               </View>
             </TouchableOpacity>
