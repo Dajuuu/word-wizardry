@@ -233,17 +233,15 @@ const CrosswordApp = ({ route }) => {
     const clueCount = await loadClueCount(index);
 
     if (clueCount > 0) {
-      // Decrement clue count for the given index
-      await decrementClueCount(index);
-
-      // Retrieve the updated clue count after decrementing
-      const updatedClueCount = await loadClueCount(index);
-
       // Display updated clue count
       console.log(`Clue ${index} remaining uses: ${updatedClueCount}`);
-
+      // Retrieve the updated clue count after decrementing
+      const updatedClueCount = await loadClueCount(index);
       // Hint 1 - reveal letter in a specific position
       if (index === 1 && selectedBox) {
+        // Decrement clue count for the given index
+        await decrementClueCount(index);
+
         // Handle clue 1
         const { rowIndex, columnIndex } = selectedBox;
         const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
@@ -268,6 +266,10 @@ const CrosswordApp = ({ route }) => {
 
       // Hint 2 - reveal whole row (all letters)
       if (index === 2 && selectedRow !== null) {
+        // Decrement clue count for the given index
+        await decrementClueCount(index);
+        // Retrieve the updated clue count after decrementing
+        const updatedClueCount = await loadClueCount(index);
         // Handle clue 2
         const newHiddenGrid = [...hiddenGrid];
         const rowLength = newHiddenGrid[selectedRow].length;
@@ -301,6 +303,12 @@ const CrosswordApp = ({ route }) => {
 
         // Ensure there are enough available positions to reveal letters
         if (availablePositions.length >= 2) {
+          // Decrement clue count for the given index
+          await decrementClueCount(index);
+
+          // Retrieve the updated clue count after decrementing
+          const updatedClueCount = await loadClueCount(index);
+
           // Generate two random positions from the available positions
           const randomIndex1 = Math.floor(
             Math.random() * availablePositions.length
