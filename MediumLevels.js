@@ -112,8 +112,9 @@ const MediumLevelsScreen = ({ navigation }) => {
   // TODO
 
   // Usage: Specify an array of keys to delete
-  const keysToDelete = ["credits"];
-  // const keysToDelete = ["completedLevels"];
+  // const keysToDelete = ["credits"];
+  const keysToDelete = ["completedLevels"];
+  // console.log(keysToDelete);
   // deleteRecords(keysToDelete);
 
   const keyExtractor = (item) => item.level;

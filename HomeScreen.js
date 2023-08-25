@@ -27,6 +27,10 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate("GameScreen");
   };
 
+  const handleTrophyButtonPress = () => {
+    navigation.navigate("Achievements");
+  };
+
   const handleSettingsButtonPress = () => {
     setSettingsVisible(true);
   };
@@ -103,7 +107,10 @@ const HomeScreen = ({ navigation }) => {
             style={[styles.buttonIcon, { fontSize: iconWidth }]}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleTrophyButtonPress}
+        >
           <Icon
             name="trophy"
             style={[styles.buttonIcon, { fontSize: iconWidth }]}

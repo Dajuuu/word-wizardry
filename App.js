@@ -11,6 +11,7 @@ import EasyLevelsScreen from "./EasyLevels";
 import MediumLevelsScreen from "./MediumLevels";
 import CrosswordApp from "./CrosswordScreen";
 import LevelScreen from "./LevelScreen";
+import Achievements from "./Achievements";
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ const App = () => {
             <Stack.Screen name="MediumLevels" component={MediumLevelsScreen} />
             <Stack.Screen name="LevelScreen" component={LevelScreen} />
             <Stack.Screen name="CrosswordScreen" component={CrosswordApp} />
+            <Stack.Screen name="Achievements" component={Achievements} />
           </Stack.Navigator>
         </NavigationContainer>
       </CreditsProvider>
