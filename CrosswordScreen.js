@@ -234,33 +234,42 @@ const CrosswordApp = ({ route }) => {
 
     if (clueCount > 0) {
       // Display updated clue count
-      console.log(`Clue ${index} remaining uses: ${updatedClueCount}`);
+      // console.log(`Clue ${index} remaining uses: ${updatedClueCount}`);
       // Retrieve the updated clue count after decrementing
       const updatedClueCount = await loadClueCount(index);
+
       // Hint 1 - reveal letter in a specific position
       if (index === 1 && selectedBox) {
-        // Decrement clue count for the given index
-        await decrementClueCount(index);
-
-        // Handle clue 1
         const { rowIndex, columnIndex } = selectedBox;
-        const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
-        const newHiddenGrid = [...hiddenGrid];
-        newHiddenGrid[rowIndex][columnIndex] = {
-          letter: hiddenLetter,
-          isCorrect: true,
-        };
-        setHiddenGrid(newHiddenGrid);
-        saveUserInput();
-        // Update clue count
-        setClueCount1(updatedClueCount);
+        const isBoxCorrect = hiddenGrid[rowIndex][columnIndex].isCorrect;
 
-        // Select the box to the right after the lttter was put in a box using this hint
-        if (columnIndex < GRID_DATA[rowIndex].length - 1) {
-          const nextColumnIndex = columnIndex + 1;
-          handleBoxSelection(rowIndex, nextColumnIndex);
-          const nextInputRef = inputRefs.current[rowIndex][nextColumnIndex];
-          nextInputRef && nextInputRef.focus();
+        if (!isBoxCorrect) {
+          // Decrement clue count for the given index
+          await decrementClueCount(index);
+          // Retrieve the updated clue count after decrementing
+          const updatedClueCount = await loadClueCount(index);
+
+          // Handle clue 1
+          const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
+          const newHiddenGrid = [...hiddenGrid];
+          newHiddenGrid[rowIndex][columnIndex] = {
+            letter: hiddenLetter,
+            isCorrect: true,
+          };
+          setHiddenGrid(newHiddenGrid);
+          saveUserInput();
+          // Update clue count
+          setClueCount1(updatedClueCount);
+
+          // Select the box to the right after the letter was put in a box using this hint
+          if (columnIndex < GRID_DATA[rowIndex].length - 1) {
+            const nextColumnIndex = columnIndex + 1;
+            handleBoxSelection(rowIndex, nextColumnIndex);
+            const nextInputRef = inputRefs.current[rowIndex][nextColumnIndex];
+            nextInputRef && nextInputRef.focus();
+          }
+        } else {
+          console.log("Selected box is already correct. Clue not used.");
         }
       }
 
