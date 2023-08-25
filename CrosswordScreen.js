@@ -275,24 +275,33 @@ const CrosswordApp = ({ route }) => {
 
       // Hint 2 - reveal whole row (all letters)
       if (index === 2 && selectedRow !== null) {
-        // Decrement clue count for the given index
-        await decrementClueCount(index);
-        // Retrieve the updated clue count after decrementing
-        const updatedClueCount = await loadClueCount(index);
-        // Handle clue 2
-        const newHiddenGrid = [...hiddenGrid];
-        const rowLength = newHiddenGrid[selectedRow].length;
-        for (let i = 0; i < rowLength; i++) {
-          const hiddenLetter = GRID_DATA[selectedRow][i].toUpperCase();
-          newHiddenGrid[selectedRow][i] = {
-            letter: hiddenLetter,
-            isCorrect: true,
-          };
+        const isRowCorrect = hiddenGrid[selectedRow].every(
+          (box) => box.isCorrect
+        );
+
+        if (!isRowCorrect) {
+          // Decrement clue count for the given index
+          await decrementClueCount(index);
+          // Retrieve the updated clue count after decrementing
+          const updatedClueCount = await loadClueCount(index);
+
+          // Handle clue 2
+          const newHiddenGrid = [...hiddenGrid];
+          const rowLength = newHiddenGrid[selectedRow].length;
+          for (let i = 0; i < rowLength; i++) {
+            const hiddenLetter = GRID_DATA[selectedRow][i].toUpperCase();
+            newHiddenGrid[selectedRow][i] = {
+              letter: hiddenLetter,
+              isCorrect: true,
+            };
+          }
+          setHiddenGrid(newHiddenGrid);
+          saveUserInput();
+          // Update clue count
+          setClueCount2(updatedClueCount);
+        } else {
+          console.log("Selected row is already correct. Clue not used.");
         }
-        setHiddenGrid(newHiddenGrid);
-        saveUserInput();
-        // Update clue count
-        setClueCount2(updatedClueCount);
       }
 
       // Hint 3 - reveal two letters in random positions
