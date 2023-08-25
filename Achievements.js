@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   Modal,
+  ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomHeader from "./CustomHeader";
@@ -21,6 +22,10 @@ const Achievements = () => {
   const [unlockedAchievementIndexes, setUnlockedAchievementIndexes] = useState(
     []
   );
+  const [isLoading, setIsLoading] = useState(true); // New loading state
+
+  const [creditsAdded, setCreditsAdded] = useState(false);
+
   const { addCredits } = useContext(CreditsContext);
   useEffect(() => {
     async function fetchCompletedLevels() {
@@ -34,24 +39,34 @@ const Achievements = () => {
             level.startsWith("E")
           ).length;
           setEasyLevelsCompletedCount(easyCompleted);
+
+          const unlockedIndexes = achievementsList
+            .filter((achievement) => achievement.hideOverlayCondition)
+            .map((achievement) => achievement.achivIndex);
+
+          setUnlockedAchievementIndexes(unlockedIndexes);
+
+          // Adding credits
+          if (!creditsAdded) {
+            unlockedIndexes.forEach((index) => {
+              const achievement = achievementsList.find(
+                (ach) => ach.achivIndex === index
+              );
+              addCredits(achievement.creditsIncrese);
+            });
+            setCreditsAdded(true);
+          }
+
+          setIsLoading(false); // Set loading to false when done
         }
       } catch (error) {
         console.error("Error fetching completed levels:", error);
+        setIsLoading(false); // Set loading to false even on error
       }
     }
 
     fetchCompletedLevels();
-  }, []);
-
-  useEffect(() => {
-    // Determine unlocked achievement indexes based on hideOverlayCondition
-    const unlockedIndexes = achievementsList
-      .filter((achievement) => achievement.hideOverlayCondition)
-      .map((achievement) => achievement.achivIndex);
-
-    setUnlockedAchievementIndexes(unlockedIndexes);
-  }, []);
-  console.log(unlockedAchievementIndexes);
+  }, [addCredits, creditsAdded]);
 
   const achievementsList = [
     {
@@ -70,16 +85,22 @@ const Achievements = () => {
     },
     {
       achivIndex: 2,
+      creditsIncrese: 100,
       level: "Medium",
       achivDesc: "Complete 4 Easy levels",
       colorFront: "rgb(194, 178, 163)",
       hideOverlayCondition: easyLevelsCompletedCount >= 4,
     },
     {
+      creditsIncrese: 100,
+      achivIndex: 3,
       level: "Hard",
       colorFront: "rgb(194, 178, 163)",
+      hideOverlayCondition: easyLevelsCompletedCount >= 5,
     },
     {
+      creditsIncrese: 100,
+      achivIndex: 4,
       level: "Themed",
       colorFront: "rgb(194, 178, 163)",
     },
@@ -136,7 +157,7 @@ const Achievements = () => {
                   {selectedAchievement.achivDesc}
                 </Text>
                 <Text style={styles.modalDescText}>
-                  Credits added: {selectedAchievement.creditIncrese}
+                  Credits added: {selectedAchievement.creditsIncrese}
                 </Text>
               </>
             )}
