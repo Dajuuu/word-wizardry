@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -6,13 +6,22 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  Modal,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomHeader from "./CustomHeader";
+import { CreditsContext } from "./CreditsContext";
 
-const Achievements = ({ navigation }) => {
-  const [easyCompletedCount, setEasyCompletedCount] = useState(0);
-
+const Achievements = () => {
+  // Hook that determimes how many Easy levels were completed
+  const [easyLevelsCompletedCount, setEasyLevelsCompletedCount] = useState(0);
+  const [selectedAchievement, setSelectedAchievement] = useState(null); // Store the selected achievement
+  const [isModalVisible, setIsModalVisible] = useState(false); // Control modal visibility
+  const [unlockedAchievements, setUnlockedAchievements] = useState([]);
+  const [unlockedAchievementIndexes, setUnlockedAchievementIndexes] = useState(
+    []
+  );
+  const { addCredits } = useContext(CreditsContext);
   useEffect(() => {
     async function fetchCompletedLevels() {
       try {
@@ -24,7 +33,7 @@ const Achievements = ({ navigation }) => {
           const easyCompleted = completedLevels.filter((level) =>
             level.startsWith("E")
           ).length;
-          setEasyCompletedCount(easyCompleted);
+          setEasyLevelsCompletedCount(easyCompleted);
         }
       } catch (error) {
         console.error("Error fetching completed levels:", error);
@@ -34,20 +43,37 @@ const Achievements = ({ navigation }) => {
     fetchCompletedLevels();
   }, []);
 
+  useEffect(() => {
+    // Determine unlocked achievement indexes based on hideOverlayCondition
+    const unlockedIndexes = achievementsList
+      .filter((achievement) => achievement.hideOverlayCondition)
+      .map((achievement) => achievement.achivIndex);
+
+    setUnlockedAchievementIndexes(unlockedIndexes);
+  }, []);
+  console.log(unlockedAchievementIndexes);
+
   const achievementsList = [
     {
+      achivIndex: 1,
       level: "Easy",
       achivDesc: "Complete 2 Easy levels",
       colorFront: "rgb(194, 178, 163)",
       imageSource: require("./assets/LevelDifficultyImages/easy.png"),
-      // Define the condition on which the achievment will be unlocked
-      hideOverlayCondition: easyCompletedCount >= 2,
+      // Define the condition on which the achievement will be unlocked
+      hideOverlayCondition: easyLevelsCompletedCount >= 2,
+      // Might be useful later
+      creditsIncrese: 100,
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
     },
     {
+      achivIndex: 2,
       level: "Medium",
       achivDesc: "Complete 4 Easy levels",
       colorFront: "rgb(194, 178, 163)",
-      hideOverlayCondition: easyCompletedCount >= 4,
+      hideOverlayCondition: easyLevelsCompletedCount >= 4,
     },
     {
       level: "Hard",
@@ -59,11 +85,14 @@ const Achievements = ({ navigation }) => {
     },
   ];
 
-  const handleDifficultyPress = (screen) => {
-    navigation.navigate(screen, {
-      levelCompleted: false,
-      completedLevelName: "E0",
-    });
+  const openAchievementModal = (achievement) => {
+    setSelectedAchievement(achievement);
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setSelectedAchievement(null);
   };
 
   return (
@@ -71,7 +100,7 @@ const Achievements = ({ navigation }) => {
       <CustomHeader title="Achievements" />
       <ScrollView style={{ width: "100%" }}>
         {achievementsList.map((level, index) => (
-          <View
+          <TouchableOpacity
             key={index}
             style={[
               styles.difficultyBox,
@@ -79,14 +108,44 @@ const Achievements = ({ navigation }) => {
                 backgroundColor: level.colorFront,
               },
             ]}
+            onPress={() => openAchievementModal(level)} // Open modal on press
           >
             <Image source={level.imageSource} style={styles.image} />
             <Text style={styles.difficultyText}>{level.level}</Text>
             <Text style={styles.descText}>{level.achivDesc}</Text>
-            {!level.hideOverlayCondition && <View style={styles.darkOverlay} />}
-          </View>
+            {!unlockedAchievementIndexes.includes(level.achivIndex) && (
+              <View style={styles.darkOverlay} />
+            )}
+          </TouchableOpacity>
         ))}
       </ScrollView>
+      {/* Modal */}
+      <Modal visible={isModalVisible} animationType="slide" transparent>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            {selectedAchievement && (
+              <>
+                <Image
+                  source={selectedAchievement.imageSource}
+                  style={styles.modalImage}
+                />
+                <Text style={styles.modalHeaderText}>
+                  {selectedAchievement.level}
+                </Text>
+                <Text style={styles.modalDescText}>
+                  {selectedAchievement.achivDesc}
+                </Text>
+                <Text style={styles.modalDescText}>
+                  Credits added: {selectedAchievement.creditIncrese}
+                </Text>
+              </>
+            )}
+            <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -135,6 +194,45 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0,0,0,0.5)",
     borderRadius: 8,
+  },
+
+  // Modal/overlay
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalImage: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+  },
+  modalHeaderText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  modalDescText: {
+    fontSize: 16,
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  closeButton: {
+    backgroundColor: "#f0f0f0",
+    padding: 10,
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
   },
 });
 
