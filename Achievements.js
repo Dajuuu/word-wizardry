@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,19 +7,47 @@ import {
   ScrollView,
   Image,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomHeader from "./CustomHeader";
+
 const Achievements = ({ navigation }) => {
-  // Declare the difficulty levels
+  const [easyCompletedCount, setEasyCompletedCount] = useState(0);
+
+  useEffect(() => {
+    async function fetchCompletedLevels() {
+      try {
+        const completedLevelsString = await AsyncStorage.getItem(
+          "completedLevels"
+        );
+        if (completedLevelsString) {
+          const completedLevels = JSON.parse(completedLevelsString);
+          const easyCompleted = completedLevels.filter((level) =>
+            level.startsWith("E")
+          ).length;
+          setEasyCompletedCount(easyCompleted);
+        }
+      } catch (error) {
+        console.error("Error fetching completed levels:", error);
+      }
+    }
+
+    fetchCompletedLevels();
+  }, []);
+
   const achievementsList = [
     {
       level: "Easy",
       achivDesc: "Complete 2 Easy levels",
       colorFront: "rgb(194, 178, 163)",
       imageSource: require("./assets/LevelDifficultyImages/easy.png"),
+      // Define the condition on which the achievment will be unlocked
+      hideOverlayCondition: easyCompletedCount >= 2,
     },
     {
       level: "Medium",
+      achivDesc: "Complete 4 Easy levels",
       colorFront: "rgb(194, 178, 163)",
+      hideOverlayCondition: easyCompletedCount >= 4,
     },
     {
       level: "Hard",
@@ -31,13 +59,7 @@ const Achievements = ({ navigation }) => {
     },
   ];
 
-  const isEasyCompleted = {
-    Easy: true,
-  };
-
   const handleDifficultyPress = (screen) => {
-    // Small fix for the route parameters for the EasyLevels
-    // TypeError: Cannot read property 'levelCompleted' of undefined
     navigation.navigate(screen, {
       levelCompleted: false,
       completedLevelName: "E0",
@@ -46,10 +68,8 @@ const Achievements = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Display Custom header */}
       <CustomHeader title="Achievements" />
       <ScrollView style={{ width: "100%" }}>
-        {/* Display all difficulty levels */}
         {achievementsList.map((level, index) => (
           <View
             key={index}
@@ -63,16 +83,7 @@ const Achievements = ({ navigation }) => {
             <Image source={level.imageSource} style={styles.image} />
             <Text style={styles.difficultyText}>{level.level}</Text>
             <Text style={styles.descText}>{level.achivDesc}</Text>
-            <View
-              style={[
-                styles.darkOverlay,
-                {
-                  backgroundColor: isEasyCompleted[level.level]
-                    ? "rgba(0,0,0,0)" // Set transparent background when completed
-                    : "rgba(0,0,0,0.5)", // Use the original overlay color
-                },
-              ]}
-            />
+            {!level.hideOverlayCondition && <View style={styles.darkOverlay} />}
           </View>
         ))}
       </ScrollView>
