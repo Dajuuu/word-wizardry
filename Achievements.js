@@ -198,7 +198,6 @@ const styles = StyleSheet.create({
     left: 10,
     width: 100,
     height: 100,
-    // marginRight: 10,
     alignSelf: "flex-start",
   },
   darkOverlay: {
