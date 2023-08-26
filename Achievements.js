@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,66 +7,37 @@ import {
   ScrollView,
   Image,
   Modal,
-  ActivityIndicator,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomHeader from "./CustomHeader";
-import { CreditsContext } from "./CreditsContext";
+import {
+  fetchCompletedLevels,
+  determineUnlockedAchievements,
+} from "./AchievementUtils"; // Import the utility functions
 
 const Achievements = () => {
-  // Hook that determimes how many Easy levels were completed
+  const [loading, setLoading] = useState(true); // Add a loading state
+
   const [easyLevelsCompletedCount, setEasyLevelsCompletedCount] = useState(0);
-  const [selectedAchievement, setSelectedAchievement] = useState(null); // Store the selected achievement
-  const [isModalVisible, setIsModalVisible] = useState(false); // Control modal visibility
-  const [unlockedAchievements, setUnlockedAchievements] = useState([]);
+  const [selectedAchievement, setSelectedAchievement] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [unlockedAchievementIndexes, setUnlockedAchievementIndexes] = useState(
     []
   );
-  const [isLoading, setIsLoading] = useState(true); // New loading state
 
-  const [creditsAdded, setCreditsAdded] = useState(false);
-
-  const { addCredits } = useContext(CreditsContext);
   useEffect(() => {
-    async function fetchCompletedLevels() {
-      try {
-        const completedLevelsString = await AsyncStorage.getItem(
-          "completedLevels"
-        );
-        if (completedLevelsString) {
-          const completedLevels = JSON.parse(completedLevelsString);
-          const easyCompleted = completedLevels.filter((level) =>
-            level.startsWith("E")
-          ).length;
-          setEasyLevelsCompletedCount(easyCompleted);
+    fetchCompletedLevels().then((completedCount) => {
+      setEasyLevelsCompletedCount(completedCount);
+      setLoading(false); // Set loading to false once data is fetched
+    });
+  }, []);
 
-          const unlockedIndexes = achievementsList
-            .filter((achievement) => achievement.hideOverlayCondition)
-            .map((achievement) => achievement.achivIndex);
-
-          setUnlockedAchievementIndexes(unlockedIndexes);
-
-          // Adding credits
-          if (!creditsAdded) {
-            unlockedIndexes.forEach((index) => {
-              const achievement = achievementsList.find(
-                (ach) => ach.achivIndex === index
-              );
-              addCredits(achievement.creditsIncrese);
-            });
-            setCreditsAdded(true);
-          }
-
-          setIsLoading(false); // Set loading to false when done
-        }
-      } catch (error) {
-        console.error("Error fetching completed levels:", error);
-        setIsLoading(false); // Set loading to false even on error
-      }
-    }
-
-    fetchCompletedLevels();
-  }, [addCredits, creditsAdded]);
+  useEffect(() => {
+    const unlockedIndexes = determineUnlockedAchievements(
+      achievementsList,
+      easyLevelsCompletedCount
+    );
+    setUnlockedAchievementIndexes(unlockedIndexes);
+  }, [easyLevelsCompletedCount]);
 
   const achievementsList = [
     {
@@ -119,27 +90,31 @@ const Achievements = () => {
   return (
     <View style={styles.container}>
       <CustomHeader title="Achievements" />
-      <ScrollView style={{ width: "100%" }}>
-        {achievementsList.map((level, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.difficultyBox,
-              {
-                backgroundColor: level.colorFront,
-              },
-            ]}
-            onPress={() => openAchievementModal(level)} // Open modal on press
-          >
-            <Image source={level.imageSource} style={styles.image} />
-            <Text style={styles.difficultyText}>{level.level}</Text>
-            <Text style={styles.descText}>{level.achivDesc}</Text>
-            {!unlockedAchievementIndexes.includes(level.achivIndex) && (
-              <View style={styles.darkOverlay} />
-            )}
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      {loading ? ( // Show loading message while data is being fetched
+        <Text>Loading...</Text>
+      ) : (
+        <ScrollView style={{ width: "100%" }}>
+          {achievementsList.map((level, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.difficultyBox,
+                {
+                  backgroundColor: level.colorFront,
+                },
+              ]}
+              onPress={() => openAchievementModal(level)} // Open modal on press
+            >
+              <Image source={level.imageSource} style={styles.image} />
+              <Text style={styles.difficultyText}>{level.level}</Text>
+              <Text style={styles.descText}>{level.achivDesc}</Text>
+              {!unlockedAchievementIndexes.includes(level.achivIndex) && (
+                <View style={styles.darkOverlay} />
+              )}
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      )}
       {/* Modal */}
       <Modal visible={isModalVisible} animationType="slide" transparent>
         <View style={styles.modalContainer}>
