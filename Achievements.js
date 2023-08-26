@@ -13,6 +13,7 @@ import {
   fetchCompletedLevels,
   determineUnlockedAchievements,
 } from "./AchievementUtils"; // Import the utility functions
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const Achievements = () => {
   const [loading, setLoading] = useState(true); // Add a loading state
@@ -75,6 +76,18 @@ const Achievements = () => {
       level: "Themed",
       colorFront: "rgb(194, 178, 163)",
     },
+    {
+      creditsIncrese: 100,
+      achivIndex: 4,
+      level: "Themed",
+      colorFront: "rgb(194, 178, 163)",
+    },
+    {
+      creditsIncrese: 100,
+      achivIndex: 4,
+      level: "Themed",
+      colorFront: "rgb(194, 178, 163)",
+    },
   ];
 
   const openAchievementModal = (achievement) => {
@@ -90,31 +103,33 @@ const Achievements = () => {
   return (
     <View style={styles.container}>
       <CustomHeader title="Achievements" />
-      {loading ? ( // Show loading message while data is being fetched
-        <Text>Loading...</Text>
-      ) : (
-        <ScrollView style={{ width: "100%" }}>
-          {achievementsList.map((level, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.difficultyBox,
-                {
-                  backgroundColor: level.colorFront,
-                },
-              ]}
-              onPress={() => openAchievementModal(level)} // Open modal on press
-            >
-              <Image source={level.imageSource} style={styles.image} />
-              <Text style={styles.difficultyText}>{level.level}</Text>
-              <Text style={styles.descText}>{level.achivDesc}</Text>
-              {!unlockedAchievementIndexes.includes(level.achivIndex) && (
-                <View style={styles.darkOverlay} />
-              )}
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      )}
+      <ScrollView style={{ width: "100%" }}>
+        {achievementsList.map((level, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[
+              styles.difficultyBox,
+              {
+                backgroundColor: level.colorFront,
+              },
+            ]}
+            onPress={() => openAchievementModal(level)} // Open modal on press
+          >
+            <Image source={level.imageSource} style={styles.image} />
+            <Text style={styles.difficultyText}>{level.level}</Text>
+            <Text style={styles.descText}>{level.achivDesc}</Text>
+            {!unlockedAchievementIndexes.includes(level.achivIndex) && (
+              <View style={styles.darkOverlay} />
+            )}
+            {unlockedAchievementIndexes.includes(level.achivIndex) && (
+              <View style={styles.checkmarkContainer}>
+                <Icon name="check" style={styles.checkmarkIcon} />
+              </View>
+            )}
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
       {/* Modal */}
       <Modal visible={isModalVisible} animationType="slide" transparent>
         <View style={styles.modalContainer}>
@@ -229,6 +244,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#333",
+  },
+
+  // Check styling
+  checkmarkContainer: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    backgroundColor: "rgba(45,133,45,1)",
+    borderRadius: 20,
+    padding: 5,
+  },
+  checkmarkIcon: {
+    color: "white",
+    fontSize: 16,
   },
 });
 
