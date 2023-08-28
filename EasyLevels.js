@@ -49,6 +49,10 @@ const EasyLevelsScreen = ({ navigation }) => {
         ["W", "I", "N", "T", "E", "R"],
         ["R", "O", "C", "K", "E", "T"],
       ],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
       ROW_CLUES: [
         "1. Desert plant known for its spikes.",
         "2. Puzzle with irregularly shaped pieces.",
@@ -64,6 +68,10 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "E3",
@@ -83,6 +91,10 @@ const EasyLevelsScreen = ({ navigation }) => {
         ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
       ],
       ROW_CLUES: ["Clue for Row 1", "Clue for Row 2"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "E4",
@@ -90,6 +102,10 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "E5",
@@ -97,6 +113,10 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "E6",
@@ -104,6 +124,10 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "E7",
@@ -111,6 +135,10 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 1,
+      clueCount2Increase: 1,
+      clueCount3Increase: 1,
+      creditsIncrease: 100,
     },
     {
       levelName: "E8",
@@ -118,6 +146,10 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "E9",
@@ -125,6 +157,10 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 1,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 200,
     },
     {
       levelName: "E10",
@@ -132,16 +168,33 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 1,
+      clueCount2Increase: 1,
+      clueCount3Increase: 1,
+      creditsIncrease: 100,
     },
   ];
 
   // Pass all of the data to the CrosswordScreen
-  const handleLevelPress = (levelName, GRID_DATA, ROW_CLUES, levelPoints) => {
+  const handleLevelPress = (
+    levelName,
+    GRID_DATA,
+    ROW_CLUES,
+    levelPoints,
+    clueCount1Increase,
+    clueCount2Increase,
+    clueCount3Increase,
+    creditsIncrease
+  ) => {
     navigation.navigate("CrosswordScreen", {
       levelName,
       GRID_DATA,
       ROW_CLUES,
       levelPoints,
+      clueCount1Increase,
+      clueCount2Increase,
+      clueCount3Increase,
+      creditsIncrease,
     });
   };
 
@@ -163,7 +216,11 @@ const EasyLevelsScreen = ({ navigation }) => {
             item.levelName,
             item.GRID_DATA,
             item.ROW_CLUES,
-            item.levelPoints
+            item.levelPoints,
+            item.clueCount1Increase,
+            item.clueCount2Increase,
+            item.clueCount3Increase,
+            item.creditsIncrease
           )
         }
       >

@@ -107,6 +107,18 @@ const TestingGamingScreen = ({ navigation }) => {
     }
   };
 
+  const deleteAllUserInput = async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys(); // Get all keys in AsyncStorage
+      const userInputKeys = keys.filter((key) => key.startsWith("userInput:")); // Filter keys that start with "userInput:"
+      await AsyncStorage.multiRemove(userInputKeys); // Remove the keys and their corresponding values
+      console.log("All userInput fields deleted");
+    } catch (error) {
+      console.error("Error deleting userInput fields:", error);
+    }
+  };
+
+  // deleteAllUserInput();
   // TODO
   // TODO
   // TODO
@@ -115,6 +127,7 @@ const TestingGamingScreen = ({ navigation }) => {
   // const keysToDelete = ["credits"];
   const keysToDelete = ["completedLevels"];
   // console.log(keysToDelete);
+
   // deleteRecords(keysToDelete);
 
   const keyExtractor = (item) => item.level;

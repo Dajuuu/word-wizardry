@@ -34,7 +34,7 @@ const CrosswordApp = ({ route }) => {
   const { points } = useContext(PointsContext);
 
   // credits removal - test
-  // const { removeCredits } = useContext(CreditsContext);
+  const { addCredits } = useContext(CreditsContext);
 
   // A hook for the 3rd hint - if there are no avaiable spaces for a given row, the button of the clue is locked
   const [availableSpaces, setAvailableSpaces] = useState(true);
@@ -45,7 +45,17 @@ const CrosswordApp = ({ route }) => {
   const [showBuyClueOverlay3, setShowBuyClueOverlay3] = useState(false);
 
   // Import data/parameters for a given level
-  const { GRID_DATA, ROW_CLUES, levelPoints, levelName } = route.params;
+  const {
+    levelName,
+    GRID_DATA,
+    ROW_CLUES,
+    levelPoints,
+    clueCount1Increase,
+    clueCount2Increase,
+    clueCount3Increase,
+    creditsIncrease,
+  } = route.params;
+
   const [hiddenGrid, setHiddenGrid] = useState(() =>
     GRID_DATA.map((row) => row.map(() => ""))
   );
@@ -387,8 +397,10 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
+  console.log(clueCount1 + clueCount1Increase);
   const closeModal = async () => {
     // After closing the modal declare setLevelCompleted to false to properly close the overlay
+    console.log("Before increse" + clueCount1);
     setLevelCompleted(false);
     // Add points on closing the box
     // Small fix for the points doubling in some cases
@@ -399,7 +411,10 @@ const CrosswordApp = ({ route }) => {
 
     // Delete saved user input for the given level
     // deleteUserInput();
-
+    setClueCount1(clueCount1 + clueCount1Increase); // Update the clue count
+    setClueCount2(clueCount2 + clueCount2Increase); // Update the clue count
+    setClueCount3(clueCount3 + clueCount3Increase); // Update the clue count
+    addCredits(creditsIncrease);
     // Save the name of the completed level to the AsyncStorage
     await saveCompletedLevel(levelName);
     // Navigate back to the level selection screen with completion status and level name as parameters
@@ -408,6 +423,8 @@ const CrosswordApp = ({ route }) => {
       levelCompleted: true,
       completedLevelName: levelName,
     });
+
+    // Add clues and credits on level completion ()
 
     // Remove credits - test
     // removeCredits(100);
