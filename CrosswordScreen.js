@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
+import { incrementClueCount } from "./ClueManager";
 
 import {
   decrementClueCount,
@@ -397,7 +398,7 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
-  console.log(clueCount1 + clueCount1Increase);
+  // console.log(clueCount1 + clueCount1Increase);
   const closeModal = async () => {
     // After closing the modal declare setLevelCompleted to false to properly close the overlay
     console.log("Before increse" + clueCount1);
@@ -411,9 +412,9 @@ const CrosswordApp = ({ route }) => {
 
     // Delete saved user input for the given level
     // deleteUserInput();
-    setClueCount1(clueCount1 + clueCount1Increase); // Update the clue count
-    setClueCount2(clueCount2 + clueCount2Increase); // Update the clue count
-    setClueCount3(clueCount3 + clueCount3Increase); // Update the clue count
+    incrementClueCount(1, clueCount1Increase);
+    incrementClueCount(2, clueCount2Increase);
+    incrementClueCount(3, clueCount3Increase);
     addCredits(creditsIncrease);
     // Save the name of the completed level to the AsyncStorage
     await saveCompletedLevel(levelName);

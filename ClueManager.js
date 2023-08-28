@@ -35,11 +35,11 @@ export const decrementClueCount = async (clueIndex) => {
 };
 
 // Increment the number of uses for a particular hint
-export const incrementClueCount = async (clueIndex) => {
+export const incrementClueCount = async (clueIndex, increaseAmount) => {
   try {
     const clueCountKey = `${CLUE_COUNT_STORAGE_KEY_PREFIX}${clueIndex}`;
     const clueCount = await loadClueCount(clueIndex);
-    const updatedCount = clueCount + 1;
+    const updatedCount = clueCount + increaseAmount;
     await AsyncStorage.setItem(clueCountKey, updatedCount.toString());
   } catch (error) {
     console.error(

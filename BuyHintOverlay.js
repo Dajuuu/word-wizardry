@@ -22,7 +22,7 @@ const BuyClueOverlay = ({
       // Decrement credits by creditsDecrement
       removeCredits(creditsDecrement);
       // Increment the clue count for the purchased clue
-      incrementClueCount(clueNumber);
+      incrementClueCount(clueNumber, 1);
       // Call the onBuyClue function to handle the rest of the logic (if needed)
       onBuyClue();
     }
