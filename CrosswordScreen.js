@@ -661,12 +661,53 @@ const CrosswordApp = ({ route }) => {
                 />
               </View>
               <Text style={styles.overlayText}>Level Complete!</Text>
-              <Text style={styles.overlayText}>
+              {/* <Text style={styles.overlayText}>
                 You got: {levelPoints} points
-              </Text>
-              <Text style={styles.overlayText}>
-                Your total score {points + levelPoints}
-              </Text>
+              </Text> */}
+              <View style={styles.scoreBox}>
+                <Text style={styles.overlayText}>Score</Text>
+                <Text style={styles.overlayText}>{points + levelPoints}</Text>
+              </View>
+              {/* Rewards section */}
+              <Text style={styles.overlayText}>Rewards</Text>
+              <View style={styles.singleButtonContainer}>
+                <Image
+                  source={require("./assets/credits.png")}
+                  style={styles.hintImage}
+                />
+                <Text>x{creditsIncrease}</Text>
+              </View>
+              <View style={styles.singleButtonContainer}>
+                {clueCount1Increase !== 0 && (
+                  <>
+                    <Image
+                      source={require("./assets/hint1-mag-glass.png")}
+                      style={styles.hintImage}
+                    />
+                    <Text>x{clueCount1Increase}</Text>
+                  </>
+                )}
+
+                {clueCount2Increase !== 0 && (
+                  <>
+                    <Image
+                      source={require("./assets/hint2-bulb.png")}
+                      style={styles.hintImage}
+                    />
+                    <Text>x{clueCount1Increase}</Text>
+                  </>
+                )}
+                {clueCount3Increase !== 0 && (
+                  <>
+                    <Image
+                      source={require("./assets/hint3-dice.png")}
+                      style={styles.hintImage}
+                    />
+                    <Text>x{clueCount1Increase}</Text>
+                  </>
+                )}
+              </View>
+
               <TouchableOpacity
                 style={styles.goBackButton}
                 onPress={closeModal}
@@ -743,6 +784,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 18,
     alignItems: "center",
+    width: "80%",
   },
   overlayText: {
     fontSize: 20,
@@ -832,6 +874,14 @@ const styles = StyleSheet.create({
   },
   iconStyle: {
     fontSize: 30,
+  },
+  scoreBox: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "grey",
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    width: "80%",
   },
 });
 
