@@ -125,10 +125,11 @@ const TestingGamingScreen = ({ navigation }) => {
 
   // Usage: Specify an array of keys to delete
   // const keysToDelete = ["credits"];
-  const keysToDelete = ["completedLevels"];
+  // const keysToDelete = ["completedLevels"];
+  const keysToDelete = ["clueCount_1", "clueCount_2", "clueCount_3"];
   // console.log(keysToDelete);
 
-  // deleteRecords(keysToDelete);
+  deleteRecords(keysToDelete);
 
   const keyExtractor = (item) => item.level;
 

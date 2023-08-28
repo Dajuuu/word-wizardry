@@ -14,6 +14,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
 import { incrementClueCount } from "./ClueManager";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 import {
   decrementClueCount,
@@ -558,7 +559,7 @@ const CrosswordApp = ({ route }) => {
       </ScrollView>
 
       {/* Clues and hints */}
-      {selectedRow !== null && (
+      {selectedRow !== null && !checkIfLevelCompleted && (
         <View style={styles.clueContainer}>
           <Text style={styles.clueText}>{ROW_CLUES[selectedRow]}</Text>
 
@@ -643,7 +644,7 @@ const CrosswordApp = ({ route }) => {
         <CustomKeyboard onKeyPress={handleKeyPress} />
       )}
 
-      {/* Display overlay if level is compeleted */}
+      {/* Display overlay if level is completed */}
       {levelCompleted && (
         <Modal
           visible={levelCompleted}
@@ -653,7 +654,13 @@ const CrosswordApp = ({ route }) => {
         >
           <View style={styles.overlay}>
             <View style={styles.overlayBox}>
-              <Text style={styles.overlayText}>Level Completed!</Text>
+              <View style={styles.iconContainer}>
+                <Icon
+                  name="check"
+                  style={[styles.iconStyle, { color: "white" }]}
+                />
+              </View>
+              <Text style={styles.overlayText}>Level Complete!</Text>
               <Text style={styles.overlayText}>
                 You got: {levelPoints} points
               </Text>
@@ -734,7 +741,7 @@ const styles = StyleSheet.create({
   overlayBox: {
     backgroundColor: "#fff",
     padding: 20,
-    borderRadius: 8,
+    borderRadius: 18,
     alignItems: "center",
   },
   overlayText: {
@@ -814,6 +821,17 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     color: "#333",
+  },
+  iconContainer: {
+    // position: "absolute",
+    // top: windowHeight * 0.1,
+    backgroundColor: "rgba(44, 122, 47,1)",
+    padding: 20,
+    borderRadius: 100,
+    marginBottom: 15,
+  },
+  iconStyle: {
+    fontSize: 30,
   },
 });
 
