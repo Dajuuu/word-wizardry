@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import CustomHeader from "./CustomHeader";
 import { loadCompletedLevels } from "./AsyncStorageUtils";
 
-const TestingGamingScreen = ({ navigation }) => {
+const HardLevelsScreen = ({ navigation }) => {
   // Change the colour of the level buttons, depending on the state
   // (was the level previously completed or not)
   const EasyLevelsColorBackground = "rgba(56,167,63,1)";
@@ -242,4 +242,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TestingGamingScreen;
+export default HardLevelsScreen;

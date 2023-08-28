@@ -9,6 +9,9 @@ import HomeScreen from "./HomeScreen";
 import GameScreen from "./GameScreen";
 import EasyLevelsScreen from "./EasyLevels";
 import MediumLevelsScreen from "./MediumLevels";
+import HardLevelsScreen from "./HardLevels";
+import ThemedLevelsScreen from "./ThemedLevels";
+import TestingGamingScreen from "./TestingGamingScreen";
 import CrosswordApp from "./CrosswordScreen";
 import LevelScreen from "./LevelScreen";
 import Achievements from "./Achievements";
@@ -32,6 +35,13 @@ const App = () => {
             <Stack.Screen name="GameScreen" component={GameScreen} />
             <Stack.Screen name="EasyLevels" component={EasyLevelsScreen} />
             <Stack.Screen name="MediumLevels" component={MediumLevelsScreen} />
+            <Stack.Screen name="HardLevels" component={HardLevelsScreen} />
+            <Stack.Screen name="ThemedLevels" component={ThemedLevelsScreen} />
+            {/* Testing screen  */}
+            <Stack.Screen
+              name="TestingGamingScreen"
+              component={TestingGamingScreen}
+            />
             <Stack.Screen name="LevelScreen" component={LevelScreen} />
             <Stack.Screen name="CrosswordScreen" component={CrosswordApp} />
             <Stack.Screen name="Achievements" component={Achievements} />

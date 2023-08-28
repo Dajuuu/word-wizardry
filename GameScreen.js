@@ -42,6 +42,12 @@ const GameScreen = ({ navigation }) => {
       colorBack: "rgba(67,15,162,1)",
       screen: "ThemedLevels",
     },
+    {
+      level: "Testing ground",
+      colorFront: "rgba(87,96,87,1)",
+      colorBack: "rgba(74,82,74,1)",
+      screen: "TestingGamingScreen",
+    },
   ];
 
   const handleDifficultyPress = (screen) => {
