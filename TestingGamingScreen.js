@@ -9,7 +9,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-const MediumLevelsScreen = ({ navigation }) => {
+const TestingGamingScreen = ({ navigation }) => {
   const levels = [
     {
       level: "E1",
@@ -176,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MediumLevelsScreen;
+export default TestingGamingScreen;

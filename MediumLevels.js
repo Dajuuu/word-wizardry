@@ -11,14 +11,14 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import CustomHeader from "./CustomHeader";
 import { loadCompletedLevels } from "./AsyncStorageUtils";
 
-const TestingGamingScreen = ({ navigation }) => {
+const MediumLevelsScreen = ({ navigation }) => {
   // Change the colour of the level buttons, depending on the state
   // (was the level previously completed or not)
-  const EasyLevelsColorBackground = "rgba(56,167,63,1)";
-  const EasyLevelsColorBackgroundCompleted = "rgba(38,100,42,1)";
+  const MediumLevelsColorBackground = "rgba(246,197,58,1)";
+  const MediumLevelsColorBackgroundCompleted = "rgba(235,189,56,1)";
 
-  const EasyLevelsColorOutline = "rgba(49,133,53,1)";
-  const EasyLevelsColorOutlineCompleted = "rgba(31,78,33,1)";
+  const MediumLevelsColorOutline = "rgba(205,165,49,1)";
+  const MediumLevelsColorOutlineCompleted = "rgba(183,147,43,1)";
 
   // Declare array for which the state of the levels will be saved
   const [completedLevels, setCompletedLevels] = useState([]);
@@ -38,8 +38,8 @@ const TestingGamingScreen = ({ navigation }) => {
   // - number of credits
   const levels = [
     {
-      levelName: "E1",
-      color: EasyLevelsColorBackground,
+      levelName: "M1",
+      color: MediumLevelsColorBackground,
       levelPoints: 10,
       GRID_DATA: [
         ["C", "A", "C", "T", "U", "S"],
@@ -59,15 +59,15 @@ const TestingGamingScreen = ({ navigation }) => {
       ],
     },
     {
-      levelName: "E2",
-      color: EasyLevelsColorBackground,
+      levelName: "M2",
+      color: MediumLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
-      levelName: "E3",
-      color: EasyLevelsColorBackground,
+      levelName: "M3",
+      color: MediumLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [
         ["F", "F", "F", "F", "F", "F", "F", "F", "F", "F"],
@@ -85,50 +85,50 @@ const TestingGamingScreen = ({ navigation }) => {
       ROW_CLUES: ["Clue for Row 1", "Clue for Row 2"],
     },
     {
-      levelName: "E4",
-      color: EasyLevelsColorBackground,
+      levelName: "M4",
+      color: MediumLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
-      levelName: "E5",
-      color: EasyLevelsColorBackground,
+      levelName: "M5",
+      color: MediumLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
-      levelName: "E6",
-      color: EasyLevelsColorBackground,
+      levelName: "M6",
+      color: MediumLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
-      levelName: "E7",
-      color: EasyLevelsColorBackground,
+      levelName: "M7",
+      color: MediumLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
-      levelName: "E8",
-      color: EasyLevelsColorBackground,
+      levelName: "M8",
+      color: MediumLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
-      levelName: "E9",
-      color: EasyLevelsColorBackground,
+      levelName: "M9",
+      color: MediumLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
     },
     {
-      levelName: "E10",
-      color: EasyLevelsColorBackground,
+      levelName: "M10",
+      color: MediumLevelsColorBackground,
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
@@ -148,12 +148,12 @@ const TestingGamingScreen = ({ navigation }) => {
   const renderLevel = ({ item }) => {
     // Check if the level is completed and set the colour accordingly
     const backgroundColor = completedLevels.includes(item.levelName)
-      ? EasyLevelsColorBackgroundCompleted
+      ? MediumLevelsColorBackgroundCompleted
       : item.color;
 
     const borderColor = completedLevels.includes(item.levelName)
-      ? EasyLevelsColorOutlineCompleted
-      : EasyLevelsColorOutline;
+      ? MediumLevelsColorOutlineCompleted
+      : MediumLevelsColorOutline;
 
     return (
       <TouchableOpacity
@@ -180,7 +180,7 @@ const TestingGamingScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Display Custom header */}
-      <CustomHeader title="Easy Levels" />
+      <CustomHeader title="Medium Levels" />
 
       {/* Display all of the levels in a form of two columns */}
       <FlatList
@@ -242,4 +242,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TestingGamingScreen;
+export default MediumLevelsScreen;
