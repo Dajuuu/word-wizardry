@@ -11,6 +11,7 @@ import {
   Modal,
   Image,
   Animated,
+  Easing,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
@@ -38,8 +39,6 @@ const CrosswordApp = ({ route }) => {
 
   // credits removal - test
   const { addCredits } = useContext(CreditsContext);
-
-  const [fadeAnim] = useState(new Animated.Value(0));
 
   // A hook for the 3rd hint - if there are no avaiable spaces for a given row, the button of the clue is locked
   const [availableSpaces, setAvailableSpaces] = useState(true);
@@ -95,7 +94,8 @@ const CrosswordApp = ({ route }) => {
     setClueCount2(count2);
     setClueCount3(count3);
   };
-
+  const [fadeAnim] = useState(new Animated.Value(0));
+  const opacityValue = useRef(new Animated.Value(1)).current;
   const [displayedPoints, setDisplayedPoints] = useState(levelPoints);
 
   // Initialise data
@@ -492,6 +492,7 @@ const CrosswordApp = ({ route }) => {
     }
   }, [levelCompleted]);
 
+  // Animation to show the points gradually increasing
   useEffect(() => {
     let interval;
 
@@ -499,7 +500,7 @@ const CrosswordApp = ({ route }) => {
       setDisplayedPoints(levelPoints);
 
       const targetPoints = levelPoints + points;
-      const steps = 10; // Adjust the number of steps as needed
+      const steps = 20; // Adjust the number of steps as needed
       const stepValue = Math.ceil((targetPoints - levelPoints) / steps);
 
       interval = setInterval(() => {
@@ -510,13 +511,34 @@ const CrosswordApp = ({ route }) => {
         } else {
           clearInterval(interval);
         }
-      }, 10); // Adjust the interval duration as needed
+      }, 2); // Adjust the interval duration as needed
     }
 
     return () => {
       clearInterval(interval);
     };
   }, [levelCompleted]);
+
+  useEffect(() => {
+    // Create a sequence animation
+    const sequenceAnimation = Animated.sequence([
+      Animated.timing(opacityValue, {
+        toValue: 0.6, // Semi-transparent
+        duration: 1500, // Duration for fading out
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacityValue, {
+        toValue: 1, // Fully opaque
+        duration: 1000, // Duration for fading in
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ]);
+
+    // Start the sequence animation and loop it
+    Animated.loop(sequenceAnimation).start();
+  }, [opacityValue]);
 
   return (
     <View style={styles.container}>
@@ -707,7 +729,11 @@ const CrosswordApp = ({ route }) => {
                 Level Complete!
               </Animated.Text>
               <View style={styles.scoreBox}>
-                <Text style={styles.scoreText}>Total Score:</Text>
+                <Animated.Text
+                  style={[styles.scoreText, { opacity: opacityValue }]}
+                >
+                  Total Score:
+                </Animated.Text>
                 <Text style={styles.scoreTextValue}>{displayedPoints}</Text>
               </View>
               {/* Rewards section */}
