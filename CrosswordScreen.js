@@ -97,6 +97,7 @@ const CrosswordApp = ({ route }) => {
   const [fadeAnim] = useState(new Animated.Value(0));
   const opacityValue = useRef(new Animated.Value(1)).current;
   const [displayedPoints, setDisplayedPoints] = useState(levelPoints);
+  const [rewardsAnimation] = useState(new Animated.Value(0));
 
   // Initialise data
   useEffect(() => {
@@ -541,6 +542,18 @@ const CrosswordApp = ({ route }) => {
     Animated.loop(sequenceAnimation).start();
   }, [opacityValue]);
 
+  // Rewards pop up animation
+  useEffect(() => {
+    if (levelCompleted) {
+      // Start rewards animation
+      Animated.timing(rewardsAnimation, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [levelCompleted, rewardsAnimation]);
+
   return (
     <View style={styles.container}>
       {/* Custom header component */}
@@ -740,11 +753,33 @@ const CrosswordApp = ({ route }) => {
               {/* Rewards section */}
               <Text style={styles.rewardsTitleText}>Rewards</Text>
               <View style={styles.rowDirectionContainer}>
-                <Image
+                <Animated.Image
                   source={require("./assets/credits.png")}
-                  style={styles.creditsIcon}
+                  style={[
+                    styles.creditsIcon,
+                    {
+                      opacity: rewardsAnimation,
+                      transform: [
+                        {
+                          scale: rewardsAnimation.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [0.5, 1],
+                          }),
+                        },
+                      ],
+                    },
+                  ]}
                 />
-                <Text style={styles.rewardsText}>x{creditsIncrease}</Text>
+                <Animated.Text
+                  style={[
+                    styles.rewardsText,
+                    {
+                      opacity: rewardsAnimation,
+                    },
+                  ]}
+                >
+                  x{creditsIncrease}
+                </Animated.Text>
               </View>
               <View
                 style={[
