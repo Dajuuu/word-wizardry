@@ -10,6 +10,7 @@ import {
   ScrollView,
   Modal,
   Image,
+  Animated,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
@@ -37,6 +38,8 @@ const CrosswordApp = ({ route }) => {
 
   // credits removal - test
   const { addCredits } = useContext(CreditsContext);
+
+  const [fadeAnim] = useState(new Animated.Value(0));
 
   // A hook for the 3rd hint - if there are no avaiable spaces for a given row, the button of the clue is locked
   const [availableSpaces, setAvailableSpaces] = useState(true);
@@ -477,6 +480,16 @@ const CrosswordApp = ({ route }) => {
     />
   );
 
+  useEffect(() => {
+    if (levelCompleted) {
+      Animated.timing(fadeAnim, {
+        toValue: 1, // Final value for opacity: 1
+        duration: 1500, // Animation duration in milliseconds
+        useNativeDriver: true, // Use native driver for performance
+      }).start();
+    }
+  }, [levelCompleted]);
+
   return (
     <View style={styles.container}>
       {/* Custom header component */}
@@ -660,7 +673,11 @@ const CrosswordApp = ({ route }) => {
                   style={[styles.iconStyle, { color: "white" }]}
                 />
               </View>
-              <Text style={styles.overlayText}>Level Complete!</Text>
+              <Animated.Text
+                style={[styles.overlayText, { opacity: fadeAnim }]}
+              >
+                Level Complete!
+              </Animated.Text>
               {/* <Text style={styles.overlayText}>
                 You got: {levelPoints} points
               </Text> */}
