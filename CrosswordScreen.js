@@ -909,6 +909,7 @@ const styles = StyleSheet.create({
   hintText: {
     marginHorizontal: 5,
     fontSize: 15,
+    fontWeight: "bold",
   },
 
   imageSpacing: {
@@ -950,10 +951,18 @@ const styles = StyleSheet.create({
   scoreBox: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "grey",
+    backgroundColor: "rgb(166, 166, 166)",
     paddingHorizontal: 20,
     borderRadius: 10,
     width: "80%",
+    elevation: 8, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   scoreText: {
     fontSize: 20,
