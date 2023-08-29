@@ -745,7 +745,13 @@ const CrosswordApp = ({ route }) => {
                 />
                 <Text style={styles.rewardsText}>x{creditsIncrease}</Text>
               </View>
-              <View style={[styles.rowDirectionContainer, { marginTop: 5 }]}>
+              <View
+                style={[
+                  styles.rowDirectionContainer,
+                  styles.hintsBackground,
+                  { marginTop: 5 },
+                ]}
+              >
                 {clueCount1Increase !== 0 && (
                   <>
                     <View style={styles.imageSpacing}>
@@ -989,6 +995,21 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.3,
     shadowRadius: 4,
+  },
+  hintsBackground: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgb(166, 166, 166)",
+    padding: 10,
+    borderRadius: 10,
+    // elevation: 8, // Android shadow
+    // shadowColor: "#000", // iOS shadow
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.3,
+    // shadowRadius: 4,
   },
   scoreText: {
     fontSize: 20,
