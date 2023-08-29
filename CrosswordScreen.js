@@ -96,6 +96,8 @@ const CrosswordApp = ({ route }) => {
     setClueCount3(count3);
   };
 
+  const [displayedPoints, setDisplayedPoints] = useState(levelPoints);
+
   // Initialise data
   useEffect(() => {
     loadUserInput(); // Load saved user input for the given level
@@ -480,6 +482,7 @@ const CrosswordApp = ({ route }) => {
     />
   );
 
+  // Animation for "Level Completed" text
   useEffect(() => {
     if (levelCompleted) {
       Animated.timing(fadeAnim, {
@@ -487,6 +490,18 @@ const CrosswordApp = ({ route }) => {
         duration: 1500, // Animation duration in milliseconds
         useNativeDriver: true, // Use native driver for performance
       }).start();
+    }
+  }, [levelCompleted]);
+
+  useEffect(() => {
+    if (levelCompleted) {
+      setDisplayedPoints(levelPoints);
+
+      // Delayed update to simulate the animation
+      const delay = 1500; // Adjust this value as needed
+      setTimeout(() => {
+        setDisplayedPoints(levelPoints + points);
+      }, delay);
     }
   }, [levelCompleted]);
 
@@ -683,7 +698,7 @@ const CrosswordApp = ({ route }) => {
               </Text> */}
               <View style={styles.scoreBox}>
                 <Text style={styles.overlayText}>Score</Text>
-                <Text style={styles.overlayText}>{points + levelPoints}</Text>
+                <Text style={styles.overlayText}>{displayedPoints}</Text>
               </View>
               {/* Rewards section */}
               <Text style={styles.overlayText}>Rewards</Text>
