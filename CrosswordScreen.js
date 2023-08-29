@@ -615,7 +615,7 @@ const CrosswordApp = ({ route }) => {
             >
               {/* Render Buy Hint overlay */}
               {renderBuyClueOverlay1}
-              <View style={styles.singleButtonContainer}>
+              <View style={styles.rowDirectionContainer}>
                 {/* Render the icon */}
                 <Image
                   source={require("./assets/hint1-mag-glass.png")}
@@ -639,7 +639,7 @@ const CrosswordApp = ({ route }) => {
             >
               {/* Render Buy Hint overlay */}
               {renderBuyClueOverlay2}
-              <View style={styles.singleButtonContainer}>
+              <View style={styles.rowDirectionContainer}>
                 {/* Render the icon */}
                 <Image
                   source={require("./assets/hint2-bulb.png")}
@@ -663,7 +663,7 @@ const CrosswordApp = ({ route }) => {
             >
               {/* Render Buy Hint overlay */}
               {renderBuyClueOverlay3}
-              <View style={styles.singleButtonContainer}>
+              <View style={styles.rowDirectionContainer}>
                 {/* Render the icon */}
                 <Image
                   source={require("./assets/hint3-dice.png")}
@@ -711,41 +711,48 @@ const CrosswordApp = ({ route }) => {
                 <Text style={styles.scoreTextValue}>{displayedPoints}</Text>
               </View>
               {/* Rewards section */}
-              <Text style={styles.overlayText}>Rewards</Text>
-              <View style={styles.singleButtonContainer}>
+              <Text style={styles.rewardsTitleText}>Rewards</Text>
+              <View style={styles.rowDirectionContainer}>
                 <Image
                   source={require("./assets/credits.png")}
-                  style={styles.hintImage}
+                  style={styles.creditsIcon}
                 />
-                <Text>x{creditsIncrease}</Text>
+                <Text style={styles.rewardsText}>x{creditsIncrease}</Text>
               </View>
-              <View style={styles.singleButtonContainer}>
+              <View style={[styles.rowDirectionContainer, { marginTop: 5 }]}>
                 {clueCount1Increase !== 0 && (
                   <>
-                    <Image
-                      source={require("./assets/hint1-mag-glass.png")}
-                      style={styles.hintImage}
-                    />
-                    <Text>x{clueCount1Increase}</Text>
+                    <View style={styles.imageSpacing}>
+                      <Image
+                        source={require("./assets/hint1-mag-glass.png")}
+                        style={styles.hintImage}
+                      />
+                      <Text style={styles.hintText}>x{clueCount1Increase}</Text>
+                    </View>
                   </>
                 )}
 
                 {clueCount2Increase !== 0 && (
                   <>
-                    <Image
-                      source={require("./assets/hint2-bulb.png")}
-                      style={styles.hintImage}
-                    />
-                    <Text>x{clueCount1Increase}</Text>
+                    <View style={styles.imageSpacing}>
+                      <Image
+                        source={require("./assets/hint2-bulb.png")}
+                        style={styles.hintImage}
+                      />
+                      <Text style={styles.hintText}>x{clueCount2Increase}</Text>
+                    </View>
                   </>
                 )}
+
                 {clueCount3Increase !== 0 && (
                   <>
-                    <Image
-                      source={require("./assets/hint3-dice.png")}
-                      style={styles.hintImage}
-                    />
-                    <Text>x{clueCount1Increase}</Text>
+                    <View style={styles.imageSpacing}>
+                      <Image
+                        source={require("./assets/hint3-dice.png")}
+                        style={styles.hintImage}
+                      />
+                      <Text style={styles.hintText}>x{clueCount3Increase}</Text>
+                    </View>
                   </>
                 )}
               </View>
@@ -833,6 +840,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
+  rewardsTitleText: {
+    marginTop: 10,
+    fontSize: 25,
+    fontWeight: "bold",
+  },
+  rewardsText: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
   goBackButton: {
     backgroundColor: "green",
     paddingHorizontal: 20,
@@ -877,7 +893,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
   },
-  singleButtonContainer: {
+  rowDirectionContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -885,8 +901,22 @@ const styles = StyleSheet.create({
     // ...
   },
   hintImage: {
-    width: 24,
-    height: 24,
+    width: 32,
+    height: 32,
+    // Add other styles for the icon if needed
+    // ...
+  },
+  hintText: {
+    marginHorizontal: 5,
+    fontSize: 15,
+  },
+
+  imageSpacing: {
+    paddingHorizontal: 10,
+  },
+  creditsIcon: {
+    width: 36,
+    height: 36,
     // Add other styles for the icon if needed
     // ...
   },
