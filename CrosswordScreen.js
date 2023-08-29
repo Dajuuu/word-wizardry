@@ -407,7 +407,6 @@ const CrosswordApp = ({ route }) => {
   // console.log(clueCount1 + clueCount1Increase);
   const closeModal = async () => {
     // After closing the modal declare setLevelCompleted to false to properly close the overlay
-    console.log("Before increse" + clueCount1);
     setLevelCompleted(false);
     // Add points on closing the box
     // Small fix for the points doubling in some cases
@@ -423,14 +422,14 @@ const CrosswordApp = ({ route }) => {
     incrementClueCount(3, clueCount3Increase);
     addCredits(creditsIncrease);
     // Save the name of the completed level to the AsyncStorage
-    await saveCompletedLevel(levelName);
+
     // Navigate back to the level selection screen with completion status and level name as parameters
     console.log("Points added - navigating to the difficulty selection");
     navigation.navigate("GameScreen", {
       levelCompleted: true,
       completedLevelName: levelName,
     });
-
+    await saveCompletedLevel(levelName);
     // Add clues and credits on level completion ()
 
     // Remove credits - test
@@ -494,15 +493,29 @@ const CrosswordApp = ({ route }) => {
   }, [levelCompleted]);
 
   useEffect(() => {
+    let interval;
+
     if (levelCompleted) {
       setDisplayedPoints(levelPoints);
 
-      // Delayed update to simulate the animation
-      const delay = 1500; // Adjust this value as needed
-      setTimeout(() => {
-        setDisplayedPoints(levelPoints + points);
-      }, delay);
+      const targetPoints = levelPoints + points;
+      const steps = 10; // Adjust the number of steps as needed
+      const stepValue = Math.ceil((targetPoints - levelPoints) / steps);
+
+      interval = setInterval(() => {
+        if (displayedPoints < targetPoints) {
+          setDisplayedPoints((prevPoints) =>
+            Math.min(prevPoints + stepValue, targetPoints)
+          );
+        } else {
+          clearInterval(interval);
+        }
+      }, 10); // Adjust the interval duration as needed
     }
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [levelCompleted]);
 
   return (
@@ -693,12 +706,9 @@ const CrosswordApp = ({ route }) => {
               >
                 Level Complete!
               </Animated.Text>
-              {/* <Text style={styles.overlayText}>
-                You got: {levelPoints} points
-              </Text> */}
               <View style={styles.scoreBox}>
-                <Text style={styles.overlayText}>Score</Text>
-                <Text style={styles.overlayText}>{displayedPoints}</Text>
+                <Text style={styles.scoreText}>Total Score:</Text>
+                <Text style={styles.scoreTextValue}>{displayedPoints}</Text>
               </View>
               {/* Rewards section */}
               <Text style={styles.overlayText}>Rewards</Text>
@@ -807,19 +817,19 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0,0,0,0.6)",
     justifyContent: "center",
     alignItems: "center",
   },
   overlayBox: {
-    backgroundColor: "#fff",
+    backgroundColor: "rgba(250,234,219,1)",
     padding: 20,
     borderRadius: 18,
     alignItems: "center",
     width: "80%",
   },
   overlayText: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
     marginBottom: 10,
   },
@@ -914,6 +924,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     width: "80%",
+  },
+  scoreText: {
+    fontSize: 20,
+    marginVertical: 10,
+  },
+  scoreTextValue: {
+    fontSize: 30,
+    marginBottom: 10,
+    fontWeight: "bold",
   },
 });
 
