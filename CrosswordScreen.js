@@ -519,6 +519,7 @@ const CrosswordApp = ({ route }) => {
     };
   }, [levelCompleted]);
 
+  // Used for opacity animation
   useEffect(() => {
     // Create a sequence animation
     const sequenceAnimation = Animated.sequence([
@@ -748,7 +749,10 @@ const CrosswordApp = ({ route }) => {
               <View
                 style={[
                   styles.rowDirectionContainer,
-                  styles.hintsBackground,
+                  (clueCount1Increase !== 0 ||
+                    clueCount2Increase !== 0 ||
+                    clueCount3Increase !== 0) &&
+                    styles.hintsBackground,
                   { marginTop: 5 },
                 ]}
               >
