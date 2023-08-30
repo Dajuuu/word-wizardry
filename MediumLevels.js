@@ -57,6 +57,10 @@ const MediumLevelsScreen = ({ navigation }) => {
         "5. Coldest season of the year.",
         "6. Vehicle used for space travel.",
       ],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "M2",
@@ -64,7 +68,12 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
+
     {
       levelName: "M3",
       color: MediumLevelsColorBackground,
@@ -83,6 +92,10 @@ const MediumLevelsScreen = ({ navigation }) => {
         ["F", "H", "1", "2", "2", "4", "F", "F", "F", "F"],
       ],
       ROW_CLUES: ["Clue for Row 1", "Clue for Row 2"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "M4",
@@ -90,6 +103,10 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "M5",
@@ -97,6 +114,10 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "M6",
@@ -104,6 +125,10 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "M7",
@@ -111,6 +136,10 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "M8",
@@ -118,6 +147,10 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "M9",
@@ -125,6 +158,10 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
     {
       levelName: "M10",
@@ -132,16 +169,33 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
     },
   ];
 
   // Pass all of the data to the CrosswordScreen
-  const handleLevelPress = (levelName, GRID_DATA, ROW_CLUES, levelPoints) => {
+  const handleLevelPress = (
+    levelName,
+    GRID_DATA,
+    ROW_CLUES,
+    levelPoints,
+    clueCount1Increase,
+    clueCount2Increase,
+    clueCount3Increase,
+    creditsIncrease
+  ) => {
     navigation.navigate("CrosswordScreen", {
       levelName,
       GRID_DATA,
       ROW_CLUES,
       levelPoints,
+      clueCount1Increase,
+      clueCount2Increase,
+      clueCount3Increase,
+      creditsIncrease,
     });
   };
 
@@ -163,7 +217,11 @@ const MediumLevelsScreen = ({ navigation }) => {
             item.levelName,
             item.GRID_DATA,
             item.ROW_CLUES,
-            item.levelPoints
+            item.levelPoints,
+            item.clueCount1Increase,
+            item.clueCount2Increase,
+            item.clueCount3Increase,
+            item.creditsIncrease
           )
         }
       >
