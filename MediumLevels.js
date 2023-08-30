@@ -1,29 +1,20 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-} from "react-native";
-
-import Icon from "react-native-vector-icons/FontAwesome5";
+import { View, StyleSheet, FlatList } from "react-native";
 import CustomHeader from "./CustomHeader";
 import { loadCompletedLevels } from "./AsyncStorageUtils";
+import LevelScreen from "./LevelScreen"; // Import the LevelButton component
 
 const MediumLevelsScreen = ({ navigation }) => {
-  // Change the colour of the level buttons, depending on the state
-  // (was the level previously completed or not)
+  // Define color constants
   const MediumLevelsColorBackground = "rgba(246,197,58,1)";
-  const MediumLevelsColorBackgroundCompleted = "rgba(235,189,56,1)";
-
+  const MediumLevelsColorBackgroundCompleted = "rgba(195, 156, 45, 1)";
   const MediumLevelsColorOutline = "rgba(205,165,49,1)";
-  const MediumLevelsColorOutlineCompleted = "rgba(183,147,43,1)";
+  const MediumLevelsColorOutlineCompleted = "rgba(154, 123, 37,1)";
 
-  // Declare array for which the state of the levels will be saved
+  // Declare state for completed levels
   const [completedLevels, setCompletedLevels] = useState([]);
 
-  // Load the completed levels on component mount
+  // Load completed levels on component mount
   useEffect(() => {
     const loadCompletedLevelsData = async () => {
       const levels = await loadCompletedLevels();
@@ -32,10 +23,7 @@ const MediumLevelsScreen = ({ navigation }) => {
     loadCompletedLevelsData();
   }, []);
 
-  // Declare the data for all of the levels
-  // TODO add more aspects such as
-  // - what hints will the user get after completing the level
-  // - number of credits
+  // Define level data
   const levels = [
     {
       levelName: "M1",
@@ -49,6 +37,10 @@ const MediumLevelsScreen = ({ navigation }) => {
         ["W", "I", "N", "T", "E", "R"],
         ["R", "O", "C", "K", "E", "T"],
       ],
+      clueCount1Increase: 0,
+      clueCount2Increase: 0,
+      clueCount3Increase: 0,
+      creditsIncrease: 0,
       ROW_CLUES: [
         "1. Desert plant known for its spikes.",
         "2. Puzzle with irregularly shaped pieces.",
@@ -57,10 +49,6 @@ const MediumLevelsScreen = ({ navigation }) => {
         "5. Coldest season of the year.",
         "6. Vehicle used for space travel.",
       ],
-      clueCount1Increase: 0,
-      clueCount2Increase: 0,
-      clueCount3Increase: 0,
-      creditsIncrease: 0,
     },
     {
       levelName: "M2",
@@ -73,7 +61,6 @@ const MediumLevelsScreen = ({ navigation }) => {
       clueCount3Increase: 0,
       creditsIncrease: 0,
     },
-
     {
       levelName: "M3",
       color: MediumLevelsColorBackground,
@@ -136,10 +123,10 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
-      clueCount1Increase: 0,
+      clueCount1Increase: 1,
       clueCount2Increase: 0,
       clueCount3Increase: 0,
-      creditsIncrease: 0,
+      creditsIncrease: 100,
     },
     {
       levelName: "M8",
@@ -147,10 +134,10 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
-      clueCount1Increase: 0,
+      clueCount1Increase: 1,
       clueCount2Increase: 0,
       clueCount3Increase: 0,
-      creditsIncrease: 0,
+      creditsIncrease: 100,
     },
     {
       levelName: "M9",
@@ -158,10 +145,10 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
-      clueCount1Increase: 0,
-      clueCount2Increase: 0,
+      clueCount1Increase: 1,
+      clueCount2Increase: 1,
       clueCount3Increase: 0,
-      creditsIncrease: 0,
+      creditsIncrease: 200,
     },
     {
       levelName: "M10",
@@ -169,82 +156,38 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelPoints: 15,
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
-      clueCount1Increase: 0,
-      clueCount2Increase: 0,
-      clueCount3Increase: 0,
-      creditsIncrease: 0,
+      clueCount1Increase: 1,
+      clueCount2Increase: 1,
+      clueCount3Increase: 1,
+      creditsIncrease: 100,
     },
   ];
 
-  // Pass all of the data to the CrosswordScreen
-  const handleLevelPress = (
-    levelName,
-    GRID_DATA,
-    ROW_CLUES,
-    levelPoints,
-    clueCount1Increase,
-    clueCount2Increase,
-    clueCount3Increase,
-    creditsIncrease
-  ) => {
-    navigation.navigate("CrosswordScreen", {
-      levelName,
-      GRID_DATA,
-      ROW_CLUES,
-      levelPoints,
-      clueCount1Increase,
-      clueCount2Increase,
-      clueCount3Increase,
-      creditsIncrease,
-    });
-  };
-
-  const renderLevel = ({ item }) => {
-    // Check if the level is completed and set the colour accordingly
-    const backgroundColor = completedLevels.includes(item.levelName)
-      ? MediumLevelsColorBackgroundCompleted
-      : item.color;
-
-    const borderColor = completedLevels.includes(item.levelName)
-      ? MediumLevelsColorOutlineCompleted
-      : MediumLevelsColorOutline;
-
-    return (
-      <TouchableOpacity
-        style={[styles.levelBox, { backgroundColor, borderColor }]}
-        onPress={() =>
-          handleLevelPress(
-            item.levelName,
-            item.GRID_DATA,
-            item.ROW_CLUES,
-            item.levelPoints,
-            item.clueCount1Increase,
-            item.clueCount2Increase,
-            item.clueCount3Increase,
-            item.creditsIncrease
-          )
-        }
-      >
-        <Text style={styles.levelText}>{item.levelName}</Text>
-        {completedLevels.includes(item.levelName) && (
-          <Text style={styles.completedText}>Completed</Text>
-        )}
-      </TouchableOpacity>
-    );
-  };
-
-  const keyExtractor = (item) => item.levelName;
-
   return (
     <View style={styles.container}>
-      {/* Display Custom header */}
-      <CustomHeader title="Medium Levels" />
+      <CustomHeader title="Medium Level" />
 
-      {/* Display all of the levels in a form of two columns */}
       <FlatList
         data={levels}
-        renderItem={renderLevel}
-        keyExtractor={keyExtractor}
+        renderItem={({ item }) => (
+          <LevelScreen
+            levelName={item.levelName}
+            color={MediumLevelsColorBackground}
+            completedColor={MediumLevelsColorBackgroundCompleted} // Use completed color
+            outlineColor={MediumLevelsColorOutline} // Use outline color
+            completedOutlineColor={MediumLevelsColorOutlineCompleted} // Use completed outline color
+            completedLevels={completedLevels}
+            GRID_DATA={item.GRID_DATA}
+            ROW_CLUES={item.ROW_CLUES}
+            levelPoints={item.levelPoints}
+            clueCount1Increase={item.clueCount1Increase}
+            clueCount2Increase={item.clueCount2Increase}
+            clueCount3Increase={item.clueCount3Increase}
+            creditsIncrease={item.creditsIncrease}
+            navigation={navigation}
+          />
+        )}
+        keyExtractor={(item) => item.levelName}
         numColumns={2}
         columnWrapperStyle={styles.column}
       />
@@ -259,44 +202,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#b1fa9f",
   },
-  backButton: {
-    position: "absolute",
-    top: 30,
-    left: 20,
-  },
-  backButtonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#000",
-  },
   column: {
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  levelBox: {
-    width: "45%",
-    height: 150,
-    borderRadius: 8,
-    marginVertical: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    // borderRadius: 5,
-    margin: 5,
-    // borderColor: "#318535",
-    borderBottomWidth: 12,
-    borderLeftWidth: 12,
-  },
-  levelText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#fff",
-  },
-  completedText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "white",
-    marginTop: 5,
   },
 });
 
