@@ -5,13 +5,16 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Image,
-  Modal,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 import {
   fetchCompletedEasyLevels,
-  determineUnlockedAchievements,
+  fetchCompletedMediumLevels,
+  fetchCompletedHardLevels,
+  fetchCompletedThemedLevels,
+  determineUnlockedEasyAchievements,
+  determineUnlockedMediumAchievements,
+  determineUnlockedHardAchievements,
 } from "./AchievementUtils"; // Import the utility functions
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -19,26 +22,69 @@ const Achievements = () => {
   const [loading, setLoading] = useState(true); // Add a loading state
 
   const [easyLevelsCompletedCount, setEasyLevelsCompletedCount] = useState(0);
-  const [selectedAchievement, setSelectedAchievement] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [mediumLevelsCompletedCount, setMediumLevelsCompletedCount] =
+    useState(0);
+  // Add states for hard and themed levels completed count
+  const [hardLevelsCompletedCount, setHardLevelsCompletedCount] = useState(0);
+  const [themedLevelsCompletedCount, setThemedLevelsCompletedCount] =
+    useState(0);
   const [unlockedAchievementIndexes, setUnlockedAchievementIndexes] = useState(
     []
   );
 
   useEffect(() => {
-    fetchCompletedEasyLevels().then((completedCount) => {
-      setEasyLevelsCompletedCount(completedCount);
-      setLoading(false); // Set loading to false once data is fetched
+    // Fetch completed easy levels
+    fetchCompletedEasyLevels().then((completedEasyCount) => {
+      setEasyLevelsCompletedCount(completedEasyCount);
+      // console.log(completedEasyCount);
     });
+    // Fetch completed medium levels
+    fetchCompletedMediumLevels().then((completedMediumCount) => {
+      setMediumLevelsCompletedCount(completedMediumCount);
+      // console.log(completedMediumCount);
+    });
+
+    // Fetch completed hard levels
+    fetchCompletedHardLevels().then((completedHardCount) => {
+      setHardLevelsCompletedCount(completedHardCount);
+      // console.log(completedHardCount);
+    });
+
+    // Fetch completed themed levels
+    fetchCompletedThemedLevels().then((completedThemedCount) => {
+      setThemedLevelsCompletedCount(completedThemedCount);
+      // console.log(completedThemedCount);
+    });
+
+    setLoading(false); // Set loading to false once data is fetched
   }, []);
 
   useEffect(() => {
-    const unlockedIndexes = determineUnlockedAchievements(
+    const unlockedIndexes = determineUnlockedEasyAchievements(
       achievementsList,
       easyLevelsCompletedCount
     );
     setUnlockedAchievementIndexes(unlockedIndexes);
+    // console.log(unlockedIndexes);
   }, [easyLevelsCompletedCount]);
+
+  useEffect(() => {
+    const unlockedIndexes = determineUnlockedMediumAchievements(
+      achievementsList,
+      mediumLevelsCompletedCount
+    );
+    setUnlockedAchievementIndexes(unlockedIndexes);
+    console.log(unlockedIndexes);
+  }, [mediumLevelsCompletedCount]);
+
+  useEffect(() => {
+    const unlockedIndexes = determineUnlockedHardAchievements(
+      achievementsList,
+      hardLevelsCompletedCount
+    );
+    setUnlockedAchievementIndexes(unlockedIndexes);
+    // console.log(unlockedIndexes);
+  }, [hardLevelsCompletedCount]);
 
   const achievementsList = [
     {
@@ -55,14 +101,14 @@ const Achievements = () => {
       level: "Progressing Prodigy",
       achivDesc: "Complete 5 Easy levels. You are half way through!",
       colorFront: "rgba(68, 205, 78, 0.5)",
-      hideOverlayCondition: easyLevelsCompletedCount >= 4,
+      hideOverlayCondition: easyLevelsCompletedCount >= 3,
     },
     {
       achivIndex: 3,
       level: "Flawless Foundations",
       achivDesc: "Complete all Easy levels. Good job!",
       colorFront: "rgba(68, 205, 78, 0.5)",
-      hideOverlayCondition: easyLevelsCompletedCount >= 10,
+      hideOverlayCondition: easyLevelsCompletedCount >= 3,
     },
     // Medium levels
     {
@@ -77,14 +123,14 @@ const Achievements = () => {
       level: "Moderate Conqueror",
       achivDesc: "Complete 5 Medium levels. Keep it up!",
       colorFront: "rgba(255, 217, 60, 0.6)",
-      hideOverlayCondition: easyLevelsCompletedCount >= 5,
+      hideOverlayCondition: mediumLevelsCompletedCount >= 2,
     },
     {
       achivIndex: 6,
       level: "Intermediate Mastery",
       achivDesc: "Complete all Easy levels. A true word master!",
       colorFront: "rgba(255, 217, 60, 0.6)",
-      hideOverlayCondition: easyLevelsCompletedCount >= 10,
+      hideOverlayCondition: mediumLevelsCompletedCount >= 2,
     },
     // Hard levels
     {
@@ -92,7 +138,7 @@ const Achievements = () => {
       level: "Hardship Initiate",
       achivDesc: "Complete 2 Hard levels.",
       colorFront: "rgba(119, 52, 47, 1)",
-      hideOverlayCondition: easyLevelsCompletedCount >= 3,
+      hideOverlayCondition: easyLevelsCompletedCount >= 2,
     },
     {
       achivIndex: 8,
@@ -111,15 +157,15 @@ const Achievements = () => {
     },
   ];
 
-  const openAchievementModal = (achievement) => {
-    setSelectedAchievement(achievement);
-    setIsModalVisible(true);
-  };
+  // const openAchievementModal = (achievement) => {
+  //   setSelectedAchievement(achievement);
+  //   setIsModalVisible(true);
+  // };
 
-  const closeModal = () => {
-    setIsModalVisible(false);
-    setSelectedAchievement(null);
-  };
+  // const closeModal = () => {
+  //   setIsModalVisible(false);
+  //   setSelectedAchievement(null);
+  // };
 
   return (
     <View style={styles.container}>

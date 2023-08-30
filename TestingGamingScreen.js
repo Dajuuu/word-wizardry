@@ -129,7 +129,7 @@ const TestingGamingScreen = ({ navigation }) => {
   // const keysToDelete = ["clueCount_1", "clueCount_2", "clueCount_3"];
   // console.log(keysToDelete);
 
-  deleteRecords(keysToDelete);
+  // deleteRecords(keysToDelete);
 
   const keyExtractor = (item) => item.level;
 
