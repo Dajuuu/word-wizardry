@@ -107,7 +107,8 @@ const styles = StyleSheet.create({
   },
   difficultyText: {
     fontSize: 30,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "AppFontBold",
     color: "black",
     alignSelf: "flex-end",
     right: 20,

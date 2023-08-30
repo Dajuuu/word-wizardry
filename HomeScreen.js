@@ -220,7 +220,8 @@ const styles = StyleSheet.create({
   },
   playButtonText: {
     fontSize: 44,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "AppFont",
     // alignSelf: "center",
     color: "#fff",
   },
@@ -287,7 +288,8 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     fontSize: 16,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "AppFont",
     color: "#fff",
   },
   // playButtonContainer: {

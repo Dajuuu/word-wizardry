@@ -1,9 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { PointsProvider } from "./PointsContext";
 import { CreditsProvider } from "./CreditsContext";
+import { Asset } from "expo-asset";
+import * as Font from "expo-font";
 
 import HomeScreen from "./HomeScreen";
 import GameScreen from "./GameScreen";
@@ -18,7 +20,35 @@ import Achievements from "./Achievements";
 
 const Stack = createStackNavigator();
 
-const App = () => {
+export default function App() {
+  // Hooks needed for the loading screen and fonts
+  // const [loading, setLoading] = useState(true);
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    // Close the loading screen after x seconds
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 2000);
+
+    // Load the fonts that will be used within the app
+    const loadFont = async () => {
+      await Font.loadAsync({
+        AppFont: require("./assets/fonts/Quicksand-Regular.ttf"),
+        AppFontBold: require("./assets/fonts/Quicksand-Bold.ttf"),
+      });
+      setFontLoaded(true);
+    };
+    loadFont();
+
+    // Cache the images
+    // cacheImages();
+  }, []);
+
+  if (!fontLoaded) {
+    return null;
+  }
+
   return (
     <PointsProvider>
       <CreditsProvider>
@@ -50,6 +80,4 @@ const App = () => {
       </CreditsProvider>
     </PointsProvider>
   );
-};
-
-export default App;
+}
