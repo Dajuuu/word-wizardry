@@ -98,6 +98,8 @@ const CrosswordApp = ({ route }) => {
   const opacityValue = useRef(new Animated.Value(1)).current;
   const [displayedPoints, setDisplayedPoints] = useState(levelPoints);
   const [rewardsAnimation] = useState(new Animated.Value(0));
+  const [showButton, setShowButton] = useState(false);
+  const fadeAnimButton = useState(new Animated.Value(0))[0];
 
   const [cluesAnimations] = useState([
     new Animated.Value(0), // For hint 1
@@ -559,6 +561,7 @@ const CrosswordApp = ({ route }) => {
     }
   }, [levelCompleted, rewardsAnimation]);
 
+  // Animations for hint icons
   useEffect(() => {
     let delay = 0; // Initial delay for the first hint
 
@@ -567,31 +570,31 @@ const CrosswordApp = ({ route }) => {
         // Start animation for hint 1
         Animated.timing(cluesAnimations[0], {
           toValue: 1,
-          duration: 500,
+          duration: 400,
           delay,
           useNativeDriver: true,
         }).start();
 
-        delay += 200; // Add delay for the next hint
+        delay += 100; // Add delay for the next hint
       }
 
       if (clueCount2Increase !== 0) {
         // Start animation for hint 2
         Animated.timing(cluesAnimations[1], {
           toValue: 1,
-          duration: 500,
+          duration: 400,
           delay,
           useNativeDriver: true,
         }).start();
 
-        delay += 200; // Add delay for the next hint
+        delay += 100; // Add delay for the next hint
       }
 
       if (clueCount3Increase !== 0) {
         // Start animation for hint 3
         Animated.timing(cluesAnimations[2], {
           toValue: 1,
-          duration: 500,
+          duration: 400,
           delay,
           useNativeDriver: true,
         }).start();
@@ -604,6 +607,19 @@ const CrosswordApp = ({ route }) => {
     clueCount3Increase,
     cluesAnimations,
   ]);
+
+  // Delay to show the go back button
+  useEffect(() => {
+    if (levelCompleted) {
+      const timeout = setTimeout(() => {
+        setShowButton(true);
+      }, 1800);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [levelCompleted]);
 
   return (
     <View style={styles.container}>
@@ -918,12 +934,14 @@ const CrosswordApp = ({ route }) => {
                 )}
               </View>
 
-              <TouchableOpacity
-                style={styles.goBackButton}
-                onPress={closeModal}
-              >
-                <Text style={styles.goBackButtonText}>Go Back</Text>
-              </TouchableOpacity>
+              {showButton && (
+                <TouchableOpacity
+                  style={styles.goBackButton}
+                  onPress={closeModal}
+                >
+                  <Text style={styles.goBackButtonText}>Go Back</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </Modal>
