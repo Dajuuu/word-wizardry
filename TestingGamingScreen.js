@@ -118,14 +118,14 @@ const TestingGamingScreen = ({ navigation }) => {
     }
   };
 
-  deleteAllUserInput();
+  // deleteAllUserInput();
   // TODO
   // TODO
   // TODO
 
   // Usage: Specify an array of keys to delete
-  const keysToDelete = ["credits", "clueCount_1", "clueCount_2", "clueCount_3"];
-  // const keysToDelete = ["completedLevels"];
+  // const keysToDelete = ["credits", "clueCount_1", "clueCount_2", "clueCount_3"];
+  const keysToDelete = ["unlockedAchievements"];
   // const keysToDelete = ["clueCount_1", "clueCount_2", "clueCount_3"];
   // console.log(keysToDelete);
 

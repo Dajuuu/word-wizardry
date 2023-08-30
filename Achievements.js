@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 import {
-  fetchCompletedLevels,
+  fetchCompletedEasyLevels,
   determineUnlockedAchievements,
 } from "./AchievementUtils"; // Import the utility functions
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -26,7 +26,7 @@ const Achievements = () => {
   );
 
   useEffect(() => {
-    fetchCompletedLevels().then((completedCount) => {
+    fetchCompletedEasyLevels().then((completedCount) => {
       setEasyLevelsCompletedCount(completedCount);
       setLoading(false); // Set loading to false once data is fetched
     });
@@ -43,50 +43,71 @@ const Achievements = () => {
   const achievementsList = [
     {
       achivIndex: 1,
-      level: "Easy",
-      achivDesc: "Complete 2 Easy levels",
-      colorFront: "rgb(194, 178, 163)",
-      imageSource: require("./assets/LevelDifficultyImages/easy.png"),
+      level: "Novice Explorer",
+      achivDesc: "Complete 2 Easy levels.",
+      colorFront: "rgba(68, 205, 78, 0.5)",
+      // imageSource: require("./assets/LevelDifficultyImages/easy.png"),
       // Define the condition on which the achievement will be unlocked
       hideOverlayCondition: easyLevelsCompletedCount >= 2,
-      // Might be useful later
-      creditsIncrese: 100,
-      clueCount1Increase: 0,
-      clueCount2Increase: 0,
-      clueCount3Increase: 0,
     },
     {
       achivIndex: 2,
-      creditsIncrese: 100,
-      level: "Medium",
-      achivDesc: "Complete 4 Easy levels",
-      colorFront: "rgb(194, 178, 163)",
+      level: "Progressing Prodigy",
+      achivDesc: "Complete 5 Easy levels. You are half way through!",
+      colorFront: "rgba(68, 205, 78, 0.5)",
       hideOverlayCondition: easyLevelsCompletedCount >= 4,
     },
     {
-      creditsIncrese: 100,
       achivIndex: 3,
-      level: "Hard",
-      colorFront: "rgb(194, 178, 163)",
+      level: "Flawless Foundations",
+      achivDesc: "Complete all Easy levels. Good job!",
+      colorFront: "rgba(68, 205, 78, 0.5)",
+      hideOverlayCondition: easyLevelsCompletedCount >= 10,
+    },
+    // Medium levels
+    {
+      achivIndex: 4,
+      level: "Moderate Milestones",
+      achivDesc: "Complete 2 Medium levels.",
+      colorFront: "rgba(255, 217, 60, 0.6)",
+      hideOverlayCondition: easyLevelsCompletedCount >= 2,
+    },
+    {
+      achivIndex: 5,
+      level: "Moderate Conqueror",
+      achivDesc: "Complete 5 Medium levels. Keep it up!",
+      colorFront: "rgba(255, 217, 60, 0.6)",
       hideOverlayCondition: easyLevelsCompletedCount >= 5,
     },
     {
-      creditsIncrese: 100,
-      achivIndex: 4,
-      level: "Themed",
-      colorFront: "rgb(194, 178, 163)",
+      achivIndex: 6,
+      level: "Intermediate Mastery",
+      achivDesc: "Complete all Easy levels. A true word master!",
+      colorFront: "rgba(255, 217, 60, 0.6)",
+      hideOverlayCondition: easyLevelsCompletedCount >= 10,
+    },
+    // Hard levels
+    {
+      achivIndex: 7,
+      level: "Hardship Initiate",
+      achivDesc: "Complete 2 Hard levels.",
+      colorFront: "rgba(119, 52, 47, 1)",
+      hideOverlayCondition: easyLevelsCompletedCount >= 3,
     },
     {
-      creditsIncrese: 100,
-      achivIndex: 4,
-      level: "Themed",
-      colorFront: "rgb(194, 178, 163)",
+      achivIndex: 8,
+      level: "Formidable Feats",
+      achivDesc: "Complete 5 Hard levels. Now, that is impressive!",
+      colorFront: "rgba(255, 217, 60, 0.6)",
+      hideOverlayCondition: easyLevelsCompletedCount >= 5,
     },
     {
-      creditsIncrese: 100,
-      achivIndex: 4,
-      level: "Themed",
-      colorFront: "rgb(194, 178, 163)",
+      achivIndex: 9,
+      level: "Hardened Victor",
+      achivDesc:
+        "Complete all Hard levels. Bet everyone hates playing Scrabble with you.",
+      colorFront: "rgba(255, 217, 60, 0.6)",
+      hideOverlayCondition: easyLevelsCompletedCount >= 10,
     },
   ];
 
@@ -105,7 +126,7 @@ const Achievements = () => {
       <CustomHeader title="Achievements" />
       <ScrollView style={{ width: "100%" }}>
         {achievementsList.map((level, index) => (
-          <TouchableOpacity
+          <View
             key={index}
             style={[
               styles.difficultyBox,
@@ -113,9 +134,8 @@ const Achievements = () => {
                 backgroundColor: level.colorFront,
               },
             ]}
-            onPress={() => openAchievementModal(level)} // Open modal on press
           >
-            <Image source={level.imageSource} style={styles.image} />
+            {/* <Image source={level.imageSource} style={styles.image} /> */}
             <Text style={styles.difficultyText}>{level.level}</Text>
             <Text style={styles.descText}>{level.achivDesc}</Text>
             {!unlockedAchievementIndexes.includes(level.achivIndex) && (
@@ -126,12 +146,12 @@ const Achievements = () => {
                 <Icon name="check" style={styles.checkmarkIcon} />
               </View>
             )}
-          </TouchableOpacity>
+          </View>
         ))}
       </ScrollView>
 
       {/* Modal */}
-      <Modal visible={isModalVisible} animationType="slide" transparent>
+      {/* <Modal visible={isModalVisible} animationType="slide" transparent>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             {selectedAchievement && (
@@ -156,7 +176,7 @@ const Achievements = () => {
             </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
     </View>
   );
 };
@@ -170,27 +190,31 @@ const styles = StyleSheet.create({
   },
   difficultyBox: {
     width: "90%",
-    height: 150,
+    height: 120,
     borderRadius: 8,
     // margin: 10,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
     marginVertical: 5,
+    borderColor: "black",
+    borderWidth: 1,
   },
   difficultyText: {
-    fontSize: 30,
-    fontWeight: "bold",
+    fontSize: 25,
+    fontFamily: "AppFontBold",
     color: "black",
     alignSelf: "flex-end",
     right: 20,
   },
   descText: {
-    fontSize: 15,
-    fontWeight: "bold",
+    fontSize: 16,
+    fontFamily: "AppFont",
     color: "black",
     alignSelf: "flex-end",
     right: 20,
+    textAlign: "right",
+    maxWidth: "70%",
   },
   image: {
     position: "absolute",
@@ -248,11 +272,11 @@ const styles = StyleSheet.create({
   // Check styling
   checkmarkContainer: {
     position: "absolute",
-    top: 10,
-    right: 10,
+    top: 14,
+    left: 14,
     backgroundColor: "rgba(45,133,45,1)",
     borderRadius: 20,
-    padding: 5,
+    padding: 8,
   },
   checkmarkIcon: {
     color: "white",

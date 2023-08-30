@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Function to fetch completed levels and return the count
-export async function fetchCompletedLevels() {
+export async function fetchCompletedEasyLevels() {
   try {
     const completedLevelsString = await AsyncStorage.getItem("completedLevels");
     if (completedLevelsString) {
