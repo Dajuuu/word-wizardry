@@ -1,49 +1,72 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-// Do Wyjebania
-// Do Wyjebania
-// Do Wyjebania
-const LevelScreen = ({ route, navigation }) => {
-  const { level } = route.params;
+const LevelScreen = ({
+  levelName,
+  color,
+  outlineColor,
+  completedLevels,
+  completedColor,
+  completedOutlineColor,
+  GRID_DATA,
+  ROW_CLUES,
+  levelPoints,
+  clueCount1Increase,
+  clueCount2Increase,
+  clueCount3Increase,
+  creditsIncrease,
+  navigation,
+}) => {
+  const isCompleted = completedLevels.includes(levelName);
+  const backgroundColor = isCompleted ? completedColor : color;
+  const borderColor = isCompleted ? completedOutlineColor : outlineColor;
+
+  const handlePress = () => {
+    navigation.navigate("CrosswordScreen", {
+      levelName,
+      GRID_DATA,
+      ROW_CLUES,
+      levelPoints,
+      clueCount1Increase,
+      clueCount2Increase,
+      clueCount3Increase,
+      creditsIncrease,
+    });
+  };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.levelText}>Level: {level}</Text>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={styles.backButtonText}>Go Back</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      style={[styles.levelBox, { backgroundColor, borderColor }]}
+      onPress={handlePress}
+    >
+      <Text style={styles.levelText}>{levelName}</Text>
+      {isCompleted && <Text style={styles.completedText}>Completed</Text>}
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  levelBox: {
+    width: "45%",
+    height: 150,
+    borderRadius: 8,
+    marginVertical: 5,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    margin: 5,
+    borderBottomWidth: 12,
+    borderLeftWidth: 12,
   },
   levelText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  backButton: {
-    width: 120,
-    height: 40,
-    borderRadius: 8,
-    backgroundColor: "#007bff",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  backButtonText: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#fff",
+  },
+  completedText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+    marginTop: 5,
   },
 });
 
