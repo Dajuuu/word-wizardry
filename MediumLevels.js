@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#b1fa9f",
+    backgroundColor: "rgba(246, 197, 58, 0.45)",
   },
   column: {
     flex: 1,
