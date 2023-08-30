@@ -99,6 +99,11 @@ const CrosswordApp = ({ route }) => {
   const [displayedPoints, setDisplayedPoints] = useState(levelPoints);
   const [rewardsAnimation] = useState(new Animated.Value(0));
 
+  const [cluesAnimations] = useState([
+    new Animated.Value(0), // For hint 1
+    new Animated.Value(0), // For hint 2
+    new Animated.Value(0), // For hint 3
+  ]);
   // Initialise data
   useEffect(() => {
     loadUserInput(); // Load saved user input for the given level
@@ -525,7 +530,7 @@ const CrosswordApp = ({ route }) => {
     // Create a sequence animation
     const sequenceAnimation = Animated.sequence([
       Animated.timing(opacityValue, {
-        toValue: 0.6, // Semi-transparent
+        toValue: 0.5, // Semi-transparent
         duration: 1500, // Duration for fading out
         easing: Easing.linear,
         useNativeDriver: true,
@@ -553,6 +558,52 @@ const CrosswordApp = ({ route }) => {
       }).start();
     }
   }, [levelCompleted, rewardsAnimation]);
+
+  useEffect(() => {
+    let delay = 0; // Initial delay for the first hint
+
+    if (levelCompleted) {
+      if (clueCount1Increase !== 0) {
+        // Start animation for hint 1
+        Animated.timing(cluesAnimations[0], {
+          toValue: 1,
+          duration: 500,
+          delay,
+          useNativeDriver: true,
+        }).start();
+
+        delay += 200; // Add delay for the next hint
+      }
+
+      if (clueCount2Increase !== 0) {
+        // Start animation for hint 2
+        Animated.timing(cluesAnimations[1], {
+          toValue: 1,
+          duration: 500,
+          delay,
+          useNativeDriver: true,
+        }).start();
+
+        delay += 200; // Add delay for the next hint
+      }
+
+      if (clueCount3Increase !== 0) {
+        // Start animation for hint 3
+        Animated.timing(cluesAnimations[2], {
+          toValue: 1,
+          duration: 500,
+          delay,
+          useNativeDriver: true,
+        }).start();
+      }
+    }
+  }, [
+    levelCompleted,
+    clueCount1Increase,
+    clueCount2Increase,
+    clueCount3Increase,
+    cluesAnimations,
+  ]);
 
   return (
     <View style={styles.container}>
@@ -792,39 +843,78 @@ const CrosswordApp = ({ route }) => {
                 ]}
               >
                 {clueCount1Increase !== 0 && (
-                  <>
-                    <View style={styles.imageSpacing}>
-                      <Image
-                        source={require("./assets/hint1-mag-glass.png")}
-                        style={styles.hintImage}
-                      />
-                      <Text style={styles.hintText}>x{clueCount1Increase}</Text>
-                    </View>
-                  </>
+                  <Animated.View
+                    style={[
+                      styles.imageSpacing,
+                      {
+                        opacity: cluesAnimations[0],
+                        transform: [
+                          {
+                            translateY: cluesAnimations[0].interpolate({
+                              inputRange: [0, 1],
+                              outputRange: [100, 0],
+                            }),
+                          },
+                        ],
+                      },
+                    ]}
+                  >
+                    <Image
+                      source={require("./assets/hint1-mag-glass.png")}
+                      style={styles.hintImage}
+                    />
+                    <Text style={styles.hintText}>x{clueCount1Increase}</Text>
+                  </Animated.View>
                 )}
 
                 {clueCount2Increase !== 0 && (
-                  <>
-                    <View style={styles.imageSpacing}>
-                      <Image
-                        source={require("./assets/hint2-bulb.png")}
-                        style={styles.hintImage}
-                      />
-                      <Text style={styles.hintText}>x{clueCount2Increase}</Text>
-                    </View>
-                  </>
+                  <Animated.View
+                    style={[
+                      styles.imageSpacing,
+                      {
+                        opacity: cluesAnimations[1],
+                        transform: [
+                          {
+                            translateY: cluesAnimations[1].interpolate({
+                              inputRange: [0, 1],
+                              outputRange: [100, 0],
+                            }),
+                          },
+                        ],
+                      },
+                    ]}
+                  >
+                    <Image
+                      source={require("./assets/hint2-bulb.png")}
+                      style={styles.hintImage}
+                    />
+                    <Text style={styles.hintText}>x{clueCount2Increase}</Text>
+                  </Animated.View>
                 )}
 
                 {clueCount3Increase !== 0 && (
-                  <>
-                    <View style={styles.imageSpacing}>
-                      <Image
-                        source={require("./assets/hint3-dice.png")}
-                        style={styles.hintImage}
-                      />
-                      <Text style={styles.hintText}>x{clueCount3Increase}</Text>
-                    </View>
-                  </>
+                  <Animated.View
+                    style={[
+                      styles.imageSpacing,
+                      {
+                        opacity: cluesAnimations[2],
+                        transform: [
+                          {
+                            translateY: cluesAnimations[2].interpolate({
+                              inputRange: [0, 1],
+                              outputRange: [100, 0],
+                            }),
+                          },
+                        ],
+                      },
+                    ]}
+                  >
+                    <Image
+                      source={require("./assets/hint3-dice.png")}
+                      style={styles.hintImage}
+                    />
+                    <Text style={styles.hintText}>x{clueCount3Increase}</Text>
+                  </Animated.View>
                 )}
               </View>
 
