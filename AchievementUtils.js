@@ -91,13 +91,18 @@ export function determineUnlockedEasyAchievements(
   achievementsList,
   easyLevelsCompletedCount
 ) {
-  return determineUnlockedAchievements(
-    achievementsList,
-    easyLevelsCompletedCount,
-    0,
-    0,
-    0
-  );
+  return achievementsList
+    .filter((achievement) => achievement.hideOverlayCondition)
+    .map((achievement) => achievement.achivIndex)
+    .filter((index) => {
+      const conditionIndex = achievementsList.find(
+        (achievement) => achievement.achivIndex === index
+      );
+      return (
+        conditionIndex &&
+        conditionIndex.hideOverlayCondition <= easyLevelsCompletedCount
+      );
+    });
 }
 
 export function determineUnlockedMediumAchievements(

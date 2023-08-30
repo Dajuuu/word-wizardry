@@ -62,29 +62,37 @@ const Achievements = () => {
   useEffect(() => {
     const unlockedIndexes = determineUnlockedEasyAchievements(
       achievementsList,
-      easyLevelsCompletedCount
-    );
-    setUnlockedAchievementIndexes(unlockedIndexes);
-    // console.log(unlockedIndexes);
-  }, [easyLevelsCompletedCount]);
-
-  useEffect(() => {
-    const unlockedIndexes = determineUnlockedMediumAchievements(
-      achievementsList,
-      mediumLevelsCompletedCount
+      easyLevelsCompletedCount,
+      mediumLevelsCompletedCount,
+      hardLevelsCompletedCount,
+      themedLevelsCompletedCount
     );
     setUnlockedAchievementIndexes(unlockedIndexes);
     console.log(unlockedIndexes);
-  }, [mediumLevelsCompletedCount]);
+  }, [
+    easyLevelsCompletedCount,
+    mediumLevelsCompletedCount,
+    hardLevelsCompletedCount,
+    themedLevelsCompletedCount,
+  ]);
 
-  useEffect(() => {
-    const unlockedIndexes = determineUnlockedHardAchievements(
-      achievementsList,
-      hardLevelsCompletedCount
-    );
-    setUnlockedAchievementIndexes(unlockedIndexes);
-    // console.log(unlockedIndexes);
-  }, [hardLevelsCompletedCount]);
+  // useEffect(() => {
+  //   const unlockedIndexes = determineUnlockedMediumAchievements(
+  //     achievementsList,
+  //     mediumLevelsCompletedCount
+  //   );
+  //   setUnlockedAchievementIndexes(unlockedIndexes);
+  //   console.log(unlockedIndexes);
+  // }, [mediumLevelsCompletedCount]);
+
+  // useEffect(() => {
+  //   const unlockedIndexes = determineUnlockedHardAchievements(
+  //     achievementsList,
+  //     hardLevelsCompletedCount
+  //   );
+  //   setUnlockedAchievementIndexes(unlockedIndexes);
+  //   // console.log(unlockedIndexes);
+  // }, [hardLevelsCompletedCount]);
 
   const achievementsList = [
     {
@@ -116,21 +124,21 @@ const Achievements = () => {
       level: "Moderate Milestones",
       achivDesc: "Complete 2 Medium levels.",
       colorFront: "rgba(255, 217, 60, 0.6)",
-      hideOverlayCondition: easyLevelsCompletedCount >= 2,
+      hideOverlayCondition: mediumLevelsCompletedCount >= 2,
     },
     {
       achivIndex: 5,
       level: "Moderate Conqueror",
       achivDesc: "Complete 5 Medium levels. Keep it up!",
       colorFront: "rgba(255, 217, 60, 0.6)",
-      hideOverlayCondition: mediumLevelsCompletedCount >= 2,
+      hideOverlayCondition: mediumLevelsCompletedCount >= 4,
     },
     {
       achivIndex: 6,
       level: "Intermediate Mastery",
       achivDesc: "Complete all Easy levels. A true word master!",
       colorFront: "rgba(255, 217, 60, 0.6)",
-      hideOverlayCondition: mediumLevelsCompletedCount >= 2,
+      hideOverlayCondition: mediumLevelsCompletedCount >= 10,
     },
     // Hard levels
     {
@@ -138,7 +146,7 @@ const Achievements = () => {
       level: "Hardship Initiate",
       achivDesc: "Complete 2 Hard levels.",
       colorFront: "rgba(119, 52, 47, 1)",
-      hideOverlayCondition: easyLevelsCompletedCount >= 2,
+      hideOverlayCondition: easyLevelsCompletedCount >= 4,
     },
     {
       achivIndex: 8,
