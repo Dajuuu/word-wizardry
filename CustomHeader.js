@@ -123,10 +123,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: "bold",
     flex: 1,
     textAlign: "center",
-    // paddingBottom: 5,
+    fontFamily: "AppFontBold",
   },
   titleContainer: {
     flex: 1,
@@ -136,10 +135,10 @@ const styles = StyleSheet.create({
   },
   creditsText: {
     fontSize: 16,
-    fontWeight: "bold",
     flexWrap: "wrap",
     maxWidth: "70%",
     alignSelf: "center",
+    fontFamily: "AppFontBold",
   },
   creditsContainer: {
     backgroundColor: "#ebb381",

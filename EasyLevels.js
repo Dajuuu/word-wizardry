@@ -165,7 +165,7 @@ const EasyLevelsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <CustomHeader title="Easy Levelsdd" />
+      <CustomHeader title="Easy Levels" />
 
       <FlatList
         data={levels}
