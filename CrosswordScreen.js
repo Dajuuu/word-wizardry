@@ -99,7 +99,7 @@ const CrosswordApp = ({ route }) => {
   const [displayedPoints, setDisplayedPoints] = useState(levelPoints);
   const [rewardsAnimation] = useState(new Animated.Value(0));
   const [showButton, setShowButton] = useState(false);
-  const fadeAnimButton = useState(new Animated.Value(0))[0];
+  const fadeAnimButton = new Animated.Value(0);
 
   const [cluesAnimations] = useState([
     new Animated.Value(0), // For hint 1
@@ -610,16 +610,25 @@ const CrosswordApp = ({ route }) => {
 
   // Delay to show the go back button
   useEffect(() => {
-    if (levelCompleted) {
-      const timeout = setTimeout(() => {
+    const startAnimation = () => {
+      // Start the fade-in animation
+      Animated.timing(fadeAnimButton, {
+        toValue: 1,
+        duration: 500, // Adjust the duration as needed
+        useNativeDriver: true,
+      }).start(() => {
         setShowButton(true);
-      }, 1800);
+      });
+    };
+
+    if (levelCompleted) {
+      const timeout = setTimeout(startAnimation, 200); // Delay the animation for 1.8 seconds
 
       return () => {
         clearTimeout(timeout);
       };
     }
-  }, [levelCompleted]);
+  }, [levelCompleted, fadeAnimButton]);
 
   return (
     <View style={styles.container}>
@@ -935,12 +944,14 @@ const CrosswordApp = ({ route }) => {
               </View>
 
               {showButton && (
-                <TouchableOpacity
-                  style={styles.goBackButton}
-                  onPress={closeModal}
-                >
-                  <Text style={styles.goBackButtonText}>Go Back</Text>
-                </TouchableOpacity>
+                <Animated.View style={{ opacity: fadeAnimButton }}>
+                  <TouchableOpacity
+                    style={styles.goBackButton}
+                    onPress={closeModal}
+                  >
+                    <Text style={styles.goBackButtonText}>Continue</Text>
+                  </TouchableOpacity>
+                </Animated.View>
               )}
             </View>
           </View>
