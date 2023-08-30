@@ -148,7 +148,7 @@ const EasyLevelsScreen = ({ navigation }) => {
       ROW_CLUES: ["Input F"],
       clueCount1Increase: 1,
       clueCount2Increase: 0,
-      clueCount3Increase: 1,
+      clueCount3Increase: 0,
       creditsIncrease: 100,
     },
     {
@@ -158,7 +158,7 @@ const EasyLevelsScreen = ({ navigation }) => {
       GRID_DATA: [["F", "F", "F", "F", "F"]],
       ROW_CLUES: ["Input F"],
       clueCount1Increase: 1,
-      clueCount2Increase: 0,
+      clueCount2Increase: 1,
       clueCount3Increase: 0,
       creditsIncrease: 200,
     },

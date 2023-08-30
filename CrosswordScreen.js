@@ -548,7 +548,7 @@ const CrosswordApp = ({ route }) => {
       // Start rewards animation
       Animated.timing(rewardsAnimation, {
         toValue: 1,
-        duration: 500,
+        duration: 1200,
         useNativeDriver: true,
       }).start();
     }
