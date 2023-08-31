@@ -113,17 +113,39 @@ const HomeScreen = ({ navigation }) => {
     startCrownIconColorAnimation();
   });
 
-  const handleSoundPlayOnClick = async () => {
-    if (!soundObject) {
-      const loadedSound = await SoundManager.loadSound(
-        require("./assets/sounds/buttonClick.mp3")
-      );
-      setSoundObject(loadedSound);
+  // const handleSoundPlayOnClick = async () => {
+  //   // Load the sound file
+  //   const soundObject = new Audio.Sound();
+  //   try {
+  //     await soundObject.loadAsync(require("./assets/sounds/buttonClick.mp3"));
+  //     soundObject.playAsync(); // Remove the 'await' keyword here
+  //     // Additional logic for button click
+  //     // ...
+  //   } catch (error) {
+  //     console.error("Error playing sound:", error);
+  //   }
+  // };
+
+  const [soundLoaded, setSoundLoaded] = useState(false);
+
+  const loadSound = async () => {
+    const sound = new Audio.Sound();
+    try {
+      await sound.loadAsync(require("./assets/sounds/buttonClick.mp3"));
+      setSoundObject(sound);
+      setSoundLoaded(true);
+    } catch (error) {
+      console.error("Error loading sound:", error);
     }
+  };
+
+  useEffect(() => {
+    loadSound(); // Load sound when the component mounts
+  }, []); // Empty dependency array ensures the effect runs once
+
+  const handleSoundPlayOnClick = async () => {
     if (soundObject) {
       await soundObject.replayAsync();
-      // Additional logic for button click
-      // ...
     }
   };
 
@@ -138,6 +160,7 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.button}
             onPress={handleSoundPlayOnClick}
+            disabled={!soundLoaded}
           >
             <Icon
               name="user"
