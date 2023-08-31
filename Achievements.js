@@ -212,6 +212,7 @@ const Achievements = () => {
   //   setIsModalVisible(false);
   //   setSelectedAchievement(null);
   // };
+  // TODO change the name of the function
   const startBorderColorAnimation = () => {
     Animated.loop(
       Animated.timing(borderColorAnimation, {

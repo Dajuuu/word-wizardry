@@ -23,6 +23,8 @@ const HomeScreen = ({ navigation }) => {
   let playButtonPosition = windowHeight / 2.5;
   const { points } = useContext(PointsContext);
 
+  // Initialize animation value
+  const crownIconColorAnimation = new Animated.Value(0);
   const [settingsVisible, setSettingsVisible] = useState(false);
 
   const handlePlayButtonPress = () => {
@@ -92,6 +94,20 @@ const HomeScreen = ({ navigation }) => {
     };
   }, []);
 
+  const startCrownIconColorAnimation = () => {
+    Animated.loop(
+      Animated.timing(crownIconColorAnimation, {
+        toValue: 1,
+        duration: 4000,
+        useNativeDriver: false,
+      })
+    ).start();
+  };
+
+  useEffect(() => {
+    startCrownIconColorAnimation();
+  });
+
   return (
     <ImageBackground
       source={require("./assets/BackgroundImages/2.png")} // Replace with your image source
@@ -107,12 +123,7 @@ const HomeScreen = ({ navigation }) => {
               solid
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Icon
-              name="crown"
-              style={[styles.buttonIcon, { fontSize: iconWidth }]}
-            />
-          </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.button}
             onPress={handleTrophyButtonPress}
@@ -137,11 +148,30 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         {/* Points container */}
-        <View style={styles.scoreContainer}>
+        <TouchableOpacity style={styles.scoreContainer}>
+          <Animated.View
+            style={[
+              styles.buttonLeaderBoard,
+              {
+                backgroundColor: crownIconColorAnimation.interpolate({
+                  inputRange: [0, 0.5, 1],
+                  outputRange: [
+                    "rgba(183,137,95,0.8)",
+                    "rgba(213,203,47,0.8)",
+                    "rgba(183,137,95,0.8)",
+                  ], // Define the colors for the animation
+                }),
+              },
+            ]}
+          >
+            <Icon
+              name="crown"
+              style={[styles.buttonIcon, { fontSize: iconWidth }]}
+            />
+          </Animated.View>
           <Text style={styles.scoreText}>Your points</Text>
           <Text style={styles.scoreTextValue}>{points}</Text>
-        </View>
-
+        </TouchableOpacity>
         {/* animate the play button */}
         <Animated.View>
           <TouchableOpacity
@@ -212,6 +242,7 @@ const styles = StyleSheet.create({
     padding: 12,
     paddingHorizontal: 14,
     // backgroundColor: "#ebb381",
+    // backgroundColor: "rgba(69,84,62,1)",
     backgroundColor: "rgba(69,84,62,1)",
     borderRadius: 20,
     shadowColor: "rgba(0,0,0, .4)", // IOS
@@ -220,9 +251,34 @@ const styles = StyleSheet.create({
     shadowRadius: 1, //IOS
     elevation: 5, // Android
   },
+
+  buttonLeaderBoard: {
+    position: "absolute",
+    // justifyContent: "center",
+    alignItems: "center",
+    top: -15,
+    right: -15,
+    // backgroundColor: "#ccc",
+    // borderRadius: 15,
+    // padding: 10,
+    // width: 60,
+    padding: 10,
+    // paddingHorizontal: 1,
+    // paddingVertical: 10,
+    // backgroundColor: "#ebb381",
+    backgroundColor: "rgba(183,137,95,1)",
+    borderRadius: 20,
+    shadowColor: "rgba(0,0,0, .4)", // IOS
+    shadowOffset: { height: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    elevation: 5, // Android
+    transform: [{ rotate: "15deg" }],
+  },
   buttonIcon: {
     justifyContent: "center",
-    color: "rgba(189,203,183,1)",
+    // color: "rgba(189,203,183,1)",
+    color: "white",
   },
 
   // Score container
