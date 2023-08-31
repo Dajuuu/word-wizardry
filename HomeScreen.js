@@ -11,6 +11,7 @@ import {
   Switch,
 } from "react-native";
 import SettingsOverlay from "./SettingsOverlay";
+import { LinearGradient } from "expo-linear-gradient";
 
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -146,7 +147,14 @@ const HomeScreen = ({ navigation }) => {
           ]}
           onPress={handlePlayButtonPress}
         >
-          <Text style={styles.playButtonText}>Play</Text>
+          <LinearGradient
+            colors={["rgba(112,212,79,1)", "rgba(55,111,38,1)"]} // Specify your gradient colors
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={styles.playButtonGradient}
+          >
+            <Text style={styles.playButtonText}>Play</Text>
+          </LinearGradient>
         </TouchableOpacity>
       </Animated.View>
 
@@ -208,20 +216,38 @@ const styles = StyleSheet.create({
     color: "white",
   },
   playButton: {
-    backgroundColor: "green",
-    paddingHorizontal: 40,
-    paddingVertical: 20,
-    borderRadius: 50,
-    marginBottom: 20,
+    paddingHorizontal: 130,
+    paddingVertical: 50,
+    borderRadius: 40,
+    // marginBottom: 20,
+    // borderBlockColor: "rgba(71,150,46,1)",
+    // borderWidth: 1,
     // top: 300,
     // alignItems: "center",
     // width: "70%",
     // height: "40%",
+    elevation: 8, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  playButtonGradient: {
+    ...StyleSheet.absoluteFill,
+    borderRadius: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    // borderBlockColor: "rgba(71,150,46,1)",
+    // borderWidth: 1,
   },
   playButtonText: {
     fontSize: 44,
     // fontWeight: "bold",
-    fontFamily: "AppFont",
+    fontFamily: "AppFontBold",
     // alignSelf: "center",
     color: "#fff",
   },
@@ -308,6 +334,12 @@ const styles = StyleSheet.create({
   //   fontWeight: "bold",
   //   color: "#fff",
   // },
+  playButtonContainer: {
+    position: "absolute",
+    backgroundColor: "transparent",
+    borderRadius: 30,
+    paddingHorizontal: 20,
+  },
 });
 
 export default HomeScreen;
