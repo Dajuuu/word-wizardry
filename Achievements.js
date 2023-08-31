@@ -216,7 +216,7 @@ const Achievements = () => {
     Animated.loop(
       Animated.timing(borderColorAnimation, {
         toValue: 1,
-        duration: 2000,
+        duration: 6000,
         useNativeDriver: false,
       })
     ).start();
@@ -245,14 +245,17 @@ const Achievements = () => {
             style={[
               styles.difficultyBox,
               {
-                backgroundColor: level.colorFront,
-                borderColor:
+                backgroundColor:
                   level.achivIndex === 13
                     ? borderColorAnimation.interpolate({
                         inputRange: [0, 0.5, 1],
-                        outputRange: ["black", "gold", "black"], // Define the colors for the animation
+                        outputRange: [
+                          "rgba(40,196,185,0.6)",
+                          "rgba(208,95,224,0.7)",
+                          "rgba(40,196,185,0.6)",
+                        ], // Define the colors for the animation
                       })
-                    : "black", // Use the default border color for other achievements
+                    : level.colorFront, // Use the default border color for other achievements
               },
             ]}
           >
