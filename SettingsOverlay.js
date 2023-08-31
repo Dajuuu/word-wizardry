@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,9 +7,32 @@ import {
   StyleSheet,
   Switch,
 } from "react-native";
+import { Audio } from "expo-av";
 
 // Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
+  // Attach sound file to the hook
+  const [soundObject, setSoundObject] = useState(null);
+  const loadSound = async () => {
+    const sound = new Audio.Sound();
+    try {
+      await sound.loadAsync(require("./assets/sounds/buttonClick.mp3"));
+      setSoundObject(sound);
+    } catch (error) {
+      console.error("Error loading sound:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadSound(); // Load sound when the component mounts
+  }, []); // Empty dependency array ensures the effect runs once
+
+  const handleSoundPlayOnClick = async () => {
+    if (soundObject) {
+      await soundObject.replayAsync();
+    }
+  };
+
   return (
     // Modal props
     <Modal
@@ -33,7 +56,13 @@ const SettingsOverlay = ({ visible, onClose }) => {
             </View>
             <Switch />
           </View>
-          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => {
+              handleSoundPlayOnClick();
+              onClose();
+            }}
+          >
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
         </View>

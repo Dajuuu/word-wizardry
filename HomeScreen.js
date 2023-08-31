@@ -24,6 +24,7 @@ const HomeScreen = ({ navigation }) => {
   let playButtonPosition = windowHeight / 2.5;
   const { points } = useContext(PointsContext);
 
+  // Attach sound file to the hook
   const [soundObject, setSoundObject] = useState(null);
 
   // Initialize animation value
@@ -125,14 +126,11 @@ const HomeScreen = ({ navigation }) => {
   //   }
   // };
 
-  const [soundLoaded, setSoundLoaded] = useState(false);
-
   const loadSound = async () => {
     const sound = new Audio.Sound();
     try {
       await sound.loadAsync(require("./assets/sounds/buttonClick.mp3"));
       setSoundObject(sound);
-      setSoundLoaded(true);
     } catch (error) {
       console.error("Error loading sound:", error);
     }

@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import SettingsOverlay from "./SettingsOverlay";
 import { CreditsContext } from "./CreditsContext";
 import { Asset } from "expo-asset";
+import { Audio } from "expo-av";
 
 import { PointsContext } from "./PointsContext";
 
@@ -19,6 +20,8 @@ import { PointsContext } from "./PointsContext";
 const windowHeight = Dimensions.get("window").height;
 
 const CustomHeader = ({ title }) => {
+  // Attach sound file to the hook
+  const [soundObject, setSoundObject] = useState(null);
   // Cache the credits icon
   useEffect(() => {
     const cacheIcon = async () => {
@@ -41,6 +44,27 @@ const CustomHeader = ({ title }) => {
   const handleCloseSettings = () => {
     setSettingsVisible(false);
   };
+
+  const loadSound = async () => {
+    const sound = new Audio.Sound();
+    try {
+      await sound.loadAsync(require("./assets/sounds/buttonClick.mp3"));
+      setSoundObject(sound);
+    } catch (error) {
+      console.error("Error loading sound:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadSound(); // Load sound when the component mounts
+  }, []); // Empty dependency array ensures the effect runs once
+
+  const handleSoundPlayOnClick = async () => {
+    if (soundObject) {
+      await soundObject.replayAsync();
+    }
+  };
+
   /* // Because on the Android status bar is shown, I want to make a small
       adjustment // to make sure that the status bar is not colliding with
       anything */
@@ -49,7 +73,10 @@ const CustomHeader = ({ title }) => {
       {/* Icon on the left (go back) */}
       <TouchableOpacity
         style={[styles.leftButton, styles.button, { marginRight: 10 }]}
-        onPress={() => navigation.goBack()}
+        onPress={() => {
+          handleSoundPlayOnClick();
+          navigation.goBack();
+        }}
       >
         <Icon name="arrow-left" style={[styles.buttonIcon]} />
       </TouchableOpacity>
@@ -57,7 +84,10 @@ const CustomHeader = ({ title }) => {
       {/* Icon next to the one on the left (settings) */}
       <TouchableOpacity
         style={[styles.leftButton, styles.button]}
-        onPress={handleSettingsButtonPress}
+        onPress={() => {
+          handleSoundPlayOnClick();
+          handleSettingsButtonPress();
+        }}
       >
         <SettingsOverlay
           visible={settingsVisible}

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-
+import { Audio } from "expo-av";
 const LevelScreen = ({
   levelName,
   color,
@@ -20,7 +20,26 @@ const LevelScreen = ({
   const isCompleted = completedLevels.includes(levelName);
   const backgroundColor = isCompleted ? completedColor : color;
   const borderColor = isCompleted ? completedOutlineColor : outlineColor;
+  const [soundObject, setSoundObject] = useState(null);
+  const loadSound = async () => {
+    const sound = new Audio.Sound();
+    try {
+      await sound.loadAsync(require("./assets/sounds/buttonClick.mp3"));
+      setSoundObject(sound);
+    } catch (error) {
+      console.error("Error loading sound:", error);
+    }
+  };
 
+  useEffect(() => {
+    loadSound(); // Load sound when the component mounts
+  }, []); // Empty dependency array ensures the effect runs once
+
+  const handleSoundPlayOnClick = async () => {
+    if (soundObject) {
+      await soundObject.replayAsync();
+    }
+  };
   const handlePress = () => {
     navigation.navigate("CrosswordScreen", {
       levelName,
@@ -37,7 +56,10 @@ const LevelScreen = ({
   return (
     <TouchableOpacity
       style={[styles.levelBox, { backgroundColor, borderColor }]}
-      onPress={handlePress}
+      onPress={() => {
+        handleSoundPlayOnClick();
+        handlePress();
+      }}
     >
       <Text style={styles.levelText}>{levelName}</Text>
       {isCompleted && <Text style={styles.completedText}>Completed</Text>}

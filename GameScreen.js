@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,7 +8,40 @@ import {
   Image,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
+
+import { Audio } from "expo-av";
+
 const GameScreen = ({ navigation }) => {
+  const [soundObject, setSoundObject] = useState(null);
+  const loadSound = async () => {
+    const sound = new Audio.Sound();
+    try {
+      await sound.loadAsync(require("./assets/sounds/buttonClick.mp3"));
+      setSoundObject(sound);
+    } catch (error) {
+      console.error("Error loading sound:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadSound(); // Load sound when the component mounts
+  }, []); // Empty dependency array ensures the effect runs once
+
+  const handleSoundPlayOnClick = async () => {
+    if (soundObject) {
+      await soundObject.replayAsync();
+    }
+  };
+
+  const handleDifficultyPress = (screen) => {
+    // Small fix for the route parameters for the EasyLevels
+    // TypeError: Cannot read property 'levelCompleted' of undefined
+    navigation.navigate(screen, {
+      levelCompleted: false,
+      completedLevelName: "E0",
+    });
+  };
+
   // Declare the difficulty levels
   const difficultyLevels = [
     {
@@ -32,12 +65,6 @@ const GameScreen = ({ navigation }) => {
       screen: "HardLevels",
       imageSource: require("./assets/LevelDifficultyImages/star-hard.png"),
     },
-    // {
-    //   level: "Expert",
-    //   colorFront: "rgba(197,8,34,1)",
-    //   colorBack: "rgba(136,16,32,1)",
-    //   screen: "ExpertLevels",
-    // },
     {
       level: "Themed",
       colorFront: "rgba(87,15,216,1)",
@@ -52,15 +79,6 @@ const GameScreen = ({ navigation }) => {
       screen: "TestingGamingScreen",
     },
   ];
-
-  const handleDifficultyPress = (screen) => {
-    // Small fix for the route parameters for the EasyLevels
-    // TypeError: Cannot read property 'levelCompleted' of undefined
-    navigation.navigate(screen, {
-      levelCompleted: false,
-      completedLevelName: "E0",
-    });
-  };
 
   return (
     <View style={styles.container}>
@@ -78,7 +96,10 @@ const GameScreen = ({ navigation }) => {
                 borderColor: level.colorBack,
               },
             ]}
-            onPress={() => handleDifficultyPress(level.screen)}
+            onPress={() => {
+              handleSoundPlayOnClick();
+              handleDifficultyPress(level.screen);
+            }}
           >
             <Image source={level.imageSource} style={styles.image} />
             <Text style={styles.difficultyText}>{level.level}</Text>
