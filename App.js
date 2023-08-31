@@ -7,6 +7,7 @@ import { CreditsProvider } from "./CreditsContext";
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
 
+// Screens
 import HomeScreen from "./HomeScreen";
 import GameScreen from "./GameScreen";
 import EasyLevelsScreen from "./EasyLevels";
@@ -17,6 +18,9 @@ import TestingGamingScreen from "./TestingGamingScreen";
 import CrosswordApp from "./CrosswordScreen";
 import LevelScreen from "./LevelScreen";
 import Achievements from "./Achievements";
+
+// SoundManager
+import * as SoundManager from "./SoundManager";
 
 const Stack = createStackNavigator();
 
@@ -30,6 +34,9 @@ export default function App() {
     // setTimeout(() => {
     //   setLoading(false);
     // }, 2000);
+
+    // Load sound effects
+    SoundManager.loadSound(require("./assets/sounds/buttonClick.mp3"));
 
     // Load the fonts that will be used within the app
     const loadFont = async () => {

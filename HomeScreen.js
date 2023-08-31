@@ -14,6 +14,7 @@ import {
 import SettingsOverlay from "./SettingsOverlay";
 import { LinearGradient } from "expo-linear-gradient";
 import { Audio } from "expo-av";
+import * as SoundManager from "./SoundManager";
 
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -23,6 +24,8 @@ const HomeScreen = ({ navigation }) => {
   let iconWidth = windowWidth / 20;
   let playButtonPosition = windowHeight / 2.5;
   const { points } = useContext(PointsContext);
+
+  const [soundObject, setSoundObject] = useState(null);
 
   // Initialize animation value
   const crownIconColorAnimation = new Animated.Value(0);
@@ -111,15 +114,16 @@ const HomeScreen = ({ navigation }) => {
   });
 
   const handleSoundPlayOnClick = async () => {
-    // Load the sound file
-    const soundObject = new Audio.Sound();
-    try {
-      await soundObject.loadAsync(require("./assets/sounds/buttonClick.mp3"));
-      await soundObject.playAsync();
+    if (!soundObject) {
+      const loadedSound = await SoundManager.loadSound(
+        require("./assets/sounds/buttonClick.mp3")
+      );
+      setSoundObject(loadedSound);
+    }
+    if (soundObject) {
+      await soundObject.replayAsync();
       // Additional logic for button click
       // ...
-    } catch (error) {
-      console.error("Error playing sound:", error);
     }
   };
 
