@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Animated,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 import {
@@ -17,6 +18,8 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 const Achievements = () => {
+  const [borderColorAnimation] = useState(new Animated.Value(0));
+
   const [loading, setLoading] = useState(true); // Add a loading state
 
   const [easyLevelsCompletedCount, setEasyLevelsCompletedCount] = useState(0);
@@ -209,18 +212,47 @@ const Achievements = () => {
   //   setIsModalVisible(false);
   //   setSelectedAchievement(null);
   // };
+  const startBorderColorAnimation = () => {
+    Animated.loop(
+      Animated.timing(borderColorAnimation, {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: false,
+      })
+    ).start();
+  };
+
+  const stopBorderColorAnimation = () => {
+    borderColorAnimation.stopAnimation();
+    borderColorAnimation.setValue(0);
+  };
+
+  useEffect(() => {
+    if (unlockedAchievementIndexes.includes(13)) {
+      startBorderColorAnimation();
+    } else {
+      stopBorderColorAnimation();
+    }
+  }, [unlockedAchievementIndexes]);
 
   return (
     <View style={styles.container}>
       <CustomHeader title="Achievements" />
       <ScrollView style={{ width: "100%" }}>
         {achievementsList.map((level, index) => (
-          <View
+          <Animated.View
             key={index}
             style={[
               styles.difficultyBox,
               {
                 backgroundColor: level.colorFront,
+                borderColor:
+                  level.achivIndex === 13
+                    ? borderColorAnimation.interpolate({
+                        inputRange: [0, 0.5, 1],
+                        outputRange: ["black", "gold", "black"], // Define the colors for the animation
+                      })
+                    : "black", // Use the default border color for other achievements
               },
             ]}
           >
@@ -235,7 +267,7 @@ const Achievements = () => {
                 <Icon name="check" style={styles.checkmarkIcon} />
               </View>
             )}
-          </View>
+          </Animated.View>
         ))}
       </ScrollView>
 
