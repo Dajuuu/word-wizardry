@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import SettingsOverlay from "./SettingsOverlay";
 import { LinearGradient } from "expo-linear-gradient";
+import { Audio } from "expo-av";
 
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -94,6 +95,7 @@ const HomeScreen = ({ navigation }) => {
     };
   }, []);
 
+  // Crown animation for the points box
   const startCrownIconColorAnimation = () => {
     Animated.loop(
       Animated.timing(crownIconColorAnimation, {
@@ -108,6 +110,19 @@ const HomeScreen = ({ navigation }) => {
     startCrownIconColorAnimation();
   });
 
+  const handleSoundPlayOnClick = async () => {
+    // Load the sound file
+    const soundObject = new Audio.Sound();
+    try {
+      await soundObject.loadAsync(require("./assets/sounds/buttonClick.mp3"));
+      await soundObject.playAsync();
+      // Additional logic for button click
+      // ...
+    } catch (error) {
+      console.error("Error playing sound:", error);
+    }
+  };
+
   return (
     <ImageBackground
       source={require("./assets/BackgroundImages/2.png")} // Replace with your image source
@@ -116,7 +131,10 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.container}>
         {/* Display buttons at the top */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleSoundPlayOnClick}
+          >
             <Icon
               name="user"
               style={[styles.buttonIcon, { fontSize: iconWidth }]}
@@ -126,7 +144,10 @@ const HomeScreen = ({ navigation }) => {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={handleTrophyButtonPress}
+            onPress={() => {
+              handleSoundPlayOnClick();
+              handleTrophyButtonPress();
+            }}
           >
             <Icon
               name="trophy"
@@ -135,7 +156,10 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={handleSettingsButtonPress}
+            onPress={() => {
+              handleSoundPlayOnClick();
+              handleSettingsButtonPress();
+            }}
           >
             <SettingsOverlay
               visible={settingsVisible}
@@ -148,7 +172,12 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         {/* Points container */}
-        <TouchableOpacity style={styles.scoreContainer}>
+        <TouchableOpacity
+          style={styles.scoreContainer}
+          onPress={() => {
+            handleSoundPlayOnClick();
+          }}
+        >
           <Animated.View
             style={[
               styles.buttonLeaderBoard,
@@ -175,6 +204,10 @@ const HomeScreen = ({ navigation }) => {
         {/* animate the play button */}
         <Animated.View>
           <TouchableOpacity
+            onPress={() => {
+              handlePlayButtonPress();
+              handleSoundPlayOnClick();
+            }}
             style={[
               styles.playButton,
               { top: playButtonPosition },
@@ -185,7 +218,6 @@ const HomeScreen = ({ navigation }) => {
                 ],
               },
             ]}
-            onPress={handlePlayButtonPress}
           >
             <LinearGradient
               colors={["rgba(112,212,79,1)", "rgba(55,111,38,1)"]} // Specify your gradient colors
