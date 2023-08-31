@@ -136,8 +136,10 @@ const HomeScreen = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
+        {/* Points container */}
         <View style={styles.scoreContainer}>
-          <Text style={styles.scoreText}>Score: {points}</Text>
+          <Text style={styles.scoreText}>Your points</Text>
+          <Text style={styles.scoreTextValue}>{points}</Text>
         </View>
 
         {/* animate the play button */}
@@ -194,39 +196,54 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: "transparent",
+    // backgroundColor: "transparent",
 
-    // paddingHorizontal: 12,
-    // paddingVertical: 8,
-    // borderRadius: 8,
-    borderWidth: 2,
-    width: "15%",
-    borderColor: "black",
+    // // paddingHorizontal: 12,
+    // // paddingVertical: 8,
+    // // borderRadius: 8,
+    // width: "15%",
+    //    borderColor: "black",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ccc",
-    borderRadius: 15,
-    padding: 10,
+    // backgroundColor: "#ccc",
+    // borderRadius: 15,
+    // padding: 10,
+    width: 60,
+    padding: 12,
+    paddingHorizontal: 14,
+    // backgroundColor: "#ebb381",
+    backgroundColor: "rgba(69,84,62,1)",
+    borderRadius: 20,
+    shadowColor: "rgba(0,0,0, .4)", // IOS
+    shadowOffset: { height: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    elevation: 5, // Android
   },
   buttonIcon: {
     justifyContent: "center",
-    color: "#333",
+    color: "rgba(189,203,183,1)",
   },
 
   // Score container
   scoreContainer: {
     width: "50%",
-    backgroundColor: "blue",
-    paddingHorizontal: 30,
+    backgroundColor: "rgba(47,57,44,0.8)",
     paddingVertical: 20,
     borderRadius: 10,
     marginVertical: 20,
   },
   scoreText: {
     alignSelf: "center",
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 26,
     color: "white",
+    fontFamily: "AppFont",
+  },
+  scoreTextValue: {
+    alignSelf: "center",
+    fontSize: 30,
+    color: "white",
+    fontFamily: "AppFontBold",
   },
   playButton: {
     paddingHorizontal: 130,
