@@ -330,7 +330,6 @@ const CrosswordApp = ({ route }) => {
       }
 
       // Hint 3 - reveal two letters in random positions
-      // Problem - letters are inputed inside letters already revealed
       if (index === 3 && selectedRow !== null) {
         // Handle clue 3
         const newHiddenGrid = [...hiddenGrid];
@@ -808,21 +807,24 @@ const CrosswordApp = ({ route }) => {
           <View style={styles.overlay}>
             <View style={styles.overlayBox}>
               <View style={styles.iconContainer}>
+                {/* Big check mark at the top of the overlay */}
                 <Icon
                   name="check"
                   style={[styles.iconStyle, { color: "white" }]}
                 />
               </View>
+              {/* Level completed text */}
               <Animated.Text
                 style={[styles.overlayText, { opacity: fadeAnim }]}
               >
                 Level Complete!
               </Animated.Text>
+              {/* Score box with information of the user's total points  */}
               <View style={styles.scoreBox}>
                 <Animated.Text
                   style={[styles.scoreText, { opacity: opacityValue }]}
                 >
-                  Total Score:
+                  Your total points:
                 </Animated.Text>
                 <Text style={styles.scoreTextValue}>{displayedPoints}</Text>
               </View>
@@ -1027,17 +1029,17 @@ const styles = StyleSheet.create({
   },
   overlayText: {
     fontSize: 25,
-    fontWeight: "bold",
     marginBottom: 10,
+    fontFamily: "AppFontBold",
   },
   rewardsTitleText: {
     marginTop: 10,
-    fontSize: 25,
-    fontWeight: "bold",
+    fontSize: 27,
+    fontFamily: "AppFontBold",
   },
   rewardsText: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontFamily: "AppFontBold",
   },
   goBackButton: {
     backgroundColor: "green",
@@ -1048,8 +1050,8 @@ const styles = StyleSheet.create({
   },
   goBackButtonText: {
     fontSize: 16,
-    fontWeight: "bold",
     color: "#fff",
+    fontFamily: "AppFontBold",
   },
   clueContainer: {
     width: "120%",
@@ -1064,6 +1066,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     // marginTop: 10,
     alignSelf: "center",
+    fontFamily: "AppFontBold",
   },
   clueButtonsContainer: {
     flexDirection: "row",
@@ -1099,7 +1102,7 @@ const styles = StyleSheet.create({
   hintText: {
     marginHorizontal: 5,
     fontSize: 15,
-    fontWeight: "bold",
+    fontFamily: "AppFontBold",
   },
 
   imageSpacing: {
@@ -1124,8 +1127,10 @@ const styles = StyleSheet.create({
   },
   clueCountText: {
     fontSize: 15,
-    fontWeight: "bold",
     color: "#333",
+    // Problem - this may be wrong for different devices - need to check that
+    marginBottom: 3,
+    fontFamily: "AppFontBold",
   },
   iconContainer: {
     // position: "absolute",
@@ -1160,18 +1165,19 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(166, 166, 166)",
     padding: 10,
     borderRadius: 10,
-    // elevation: 8, // Android shadow
-    // shadowColor: "#000", // iOS shadow
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.3,
-    // shadowRadius: 4,
+    elevation: 4, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   scoreText: {
     fontSize: 20,
     marginVertical: 10,
+    fontFamily: "AppFont",
   },
   scoreTextValue: {
     fontSize: 30,

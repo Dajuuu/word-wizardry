@@ -59,14 +59,14 @@ const styles = StyleSheet.create({
   },
   levelText: {
     fontSize: 20,
-    fontWeight: "bold",
     color: "#fff",
+    fontFamily: "AppFontBold",
   },
   completedText: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 18,
     color: "white",
     marginTop: 5,
+    fontFamily: "AppFont",
   },
 });
 
