@@ -9,6 +9,7 @@ import {
   Dimensions,
   Animated,
   Switch,
+  ImageBackground,
 } from "react-native";
 import SettingsOverlay from "./SettingsOverlay";
 import { LinearGradient } from "expo-linear-gradient";
@@ -92,74 +93,82 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      {/* Display buttons at the top */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Icon
-            name="user"
-            style={[styles.buttonIcon, { fontSize: iconWidth }]}
-            solid
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Icon
-            name="crown"
-            style={[styles.buttonIcon, { fontSize: iconWidth }]}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleTrophyButtonPress}
-        >
-          <Icon
-            name="trophy"
-            style={[styles.buttonIcon, { fontSize: iconWidth }]}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleSettingsButtonPress}
-        >
-          <SettingsOverlay
-            visible={settingsVisible}
-            onClose={handleCloseSettings}
-          />
-          <Icon
-            name="cog"
-            style={[styles.buttonIcon, { fontSize: iconWidth }]}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.scoreContainer}>
-        <Text style={styles.scoreText}>Score: {points}</Text>
-      </View>
-
-      {/* animate the play button */}
-      <Animated.View>
-        <TouchableOpacity
-          style={[
-            styles.playButton,
-            { top: playButtonPosition },
-            {
-              transform: [{ translateX: animation }, { scale: scaleAnimation }],
-            },
-          ]}
-          onPress={handlePlayButtonPress}
-        >
-          <LinearGradient
-            colors={["rgba(112,212,79,1)", "rgba(55,111,38,1)"]} // Specify your gradient colors
-            start={{ x: 0, y: 0.5 }}
-            end={{ x: 1, y: 0.5 }}
-            style={styles.playButtonGradient}
+    <ImageBackground
+      source={require("./assets/BackgroundImages/2.png")} // Replace with your image source
+      style={styles.backgroundImage}
+    >
+      <View style={styles.container}>
+        {/* Display buttons at the top */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button}>
+            <Icon
+              name="user"
+              style={[styles.buttonIcon, { fontSize: iconWidth }]}
+              solid
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Icon
+              name="crown"
+              style={[styles.buttonIcon, { fontSize: iconWidth }]}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleTrophyButtonPress}
           >
-            <Text style={styles.playButtonText}>Play</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </Animated.View>
+            <Icon
+              name="trophy"
+              style={[styles.buttonIcon, { fontSize: iconWidth }]}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleSettingsButtonPress}
+          >
+            <SettingsOverlay
+              visible={settingsVisible}
+              onClose={handleCloseSettings}
+            />
+            <Icon
+              name="cog"
+              style={[styles.buttonIcon, { fontSize: iconWidth }]}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.scoreContainer}>
+          <Text style={styles.scoreText}>Score: {points}</Text>
+        </View>
 
-      {/* Settings Overlay */}
-    </View>
+        {/* animate the play button */}
+        <Animated.View>
+          <TouchableOpacity
+            style={[
+              styles.playButton,
+              { top: playButtonPosition },
+              {
+                transform: [
+                  { translateX: animation },
+                  { scale: scaleAnimation },
+                ],
+              },
+            ]}
+            onPress={handlePlayButtonPress}
+          >
+            <LinearGradient
+              colors={["rgba(112,212,79,1)", "rgba(55,111,38,1)"]} // Specify your gradient colors
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+              style={styles.playButtonGradient}
+            >
+              <Text style={styles.playButtonText}>Play</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </Animated.View>
+
+        {/* Settings Overlay */}
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -168,9 +177,13 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
   },
-
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover", // You can adjust the resizeMode as needed
+    // zIndex:
+  },
   // Button container
   buttonContainer: {
     flexDirection: "row",
