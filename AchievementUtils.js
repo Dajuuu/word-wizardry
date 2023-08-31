@@ -67,7 +67,27 @@ export async function fetchCompletedThemedLevels() {
 
 // Function to determine unlocked achievement indexes based on hideOverlayCondition
 // Function to determine unlocked achievement indexes based on hideOverlayCondition
-export function determineUnlockedAchievements(
+// export function determineUnlockedAchievements(
+//   achievementsList,
+//   easyLevelsCompletedCount,
+//   mediumLevelsCompletedCount,
+//   hardLevelsCompletedCount,
+//   themedLevelsCompletedCount
+// ) {
+//   return achievementsList
+//     .filter((achievement) => achievement.hideOverlayCondition)
+//     .map((achievement) => achievement.achivIndex)
+//     .filter(
+//       (index) =>
+//         index <= easyLevelsCompletedCount ||
+//         index <= mediumLevelsCompletedCount ||
+//         index <= hardLevelsCompletedCount ||
+//         index <= themedLevelsCompletedCount
+//     );
+// }
+
+// Determine unlocked achievements based on different difficulty levels
+export function determineUnlockedLevelAchievements(
   achievementsList,
   easyLevelsCompletedCount,
   mediumLevelsCompletedCount,
@@ -77,74 +97,16 @@ export function determineUnlockedAchievements(
   return achievementsList
     .filter((achievement) => achievement.hideOverlayCondition)
     .map((achievement) => achievement.achivIndex)
-    .filter(
-      (index) =>
-        index <= easyLevelsCompletedCount ||
-        index <= mediumLevelsCompletedCount ||
-        index <= hardLevelsCompletedCount ||
-        index <= themedLevelsCompletedCount
-    );
-}
-
-// Determine unlocked achievements based on different difficulty levels
-export function determineUnlockedEasyAchievements(
-  achievementsList,
-  easyLevelsCompletedCount
-) {
-  return achievementsList
-    .filter((achievement) => achievement.hideOverlayCondition)
-    .map((achievement) => achievement.achivIndex)
     .filter((index) => {
       const conditionIndex = achievementsList.find(
         (achievement) => achievement.achivIndex === index
       );
       return (
-        conditionIndex &&
-        conditionIndex.hideOverlayCondition <= easyLevelsCompletedCount
+        (conditionIndex &&
+          conditionIndex.hideOverlayCondition <= easyLevelsCompletedCount) ||
+        conditionIndex.hideOverlayCondition <= mediumLevelsCompletedCount ||
+        conditionIndex.hideOverlayCondition <= hardLevelsCompletedCount ||
+        conditionIndex.hideOverlayCondition <= themedLevelsCompletedCount
       );
     });
-}
-
-export function determineUnlockedMediumAchievements(
-  achievementsList,
-  mediumLevelsCompletedCount
-) {
-  return achievementsList
-    .filter((achievement) => achievement.hideOverlayCondition)
-    .map((achievement) => achievement.achivIndex)
-    .filter((index) => {
-      const conditionIndex = achievementsList.find(
-        (achievement) => achievement.achivIndex === index
-      );
-      return (
-        conditionIndex &&
-        conditionIndex.hideOverlayCondition <= mediumLevelsCompletedCount
-      );
-    });
-}
-
-export function determineUnlockedHardAchievements(
-  achievementsList,
-  hardLevelsCompletedCount
-) {
-  return determineUnlockedAchievements(
-    achievementsList,
-    0,
-    0,
-    hardLevelsCompletedCount,
-    0
-  );
-}
-
-export function determineUnlockedThemedAchievements(
-  achievementsList,
-  themedLevelsCompletedCount
-) {
-  return determineUnlockedAchievements(
-    achievementsList,
-    0,
-    0,
-    0,
-    themedLevelsCompletedCount
-  );
 }

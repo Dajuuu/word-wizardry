@@ -12,9 +12,7 @@ import {
   fetchCompletedMediumLevels,
   fetchCompletedHardLevels,
   fetchCompletedThemedLevels,
-  determineUnlockedEasyAchievements,
-  determineUnlockedMediumAchievements,
-  determineUnlockedHardAchievements,
+  determineUnlockedLevelAchievements,
 } from "./AchievementUtils"; // Import the utility functions
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -60,7 +58,7 @@ const Achievements = () => {
   }, []);
 
   useEffect(() => {
-    const unlockedIndexes = determineUnlockedEasyAchievements(
+    const unlockedIndexes = determineUnlockedLevelAchievements(
       achievementsList,
       easyLevelsCompletedCount,
       mediumLevelsCompletedCount,
@@ -146,14 +144,14 @@ const Achievements = () => {
       level: "Hardship Initiate",
       achivDesc: "Complete 2 Hard levels.",
       colorFront: "rgba(119, 52, 47, 1)",
-      hideOverlayCondition: easyLevelsCompletedCount >= 4,
+      hideOverlayCondition: hardLevelsCompletedCount >= 2,
     },
     {
       achivIndex: 8,
       level: "Formidable Feats",
       achivDesc: "Complete 5 Hard levels. Now, that is impressive!",
       colorFront: "rgba(255, 217, 60, 0.6)",
-      hideOverlayCondition: easyLevelsCompletedCount >= 5,
+      hideOverlayCondition: hardLevelsCompletedCount >= 3,
     },
     {
       achivIndex: 9,
@@ -161,7 +159,7 @@ const Achievements = () => {
       achivDesc:
         "Complete all Hard levels. Bet everyone hates playing Scrabble with you.",
       colorFront: "rgba(255, 217, 60, 0.6)",
-      hideOverlayCondition: easyLevelsCompletedCount >= 10,
+      hideOverlayCondition: hardLevelsCompletedCount >= 5,
     },
   ];
 
