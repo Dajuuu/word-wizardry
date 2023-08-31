@@ -14,8 +14,8 @@ import {
 import SettingsOverlay from "./SettingsOverlay";
 import { LinearGradient } from "expo-linear-gradient";
 import { Audio } from "expo-av";
-
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { useSound } from "./SoundManager";
 
 const HomeScreen = ({ navigation }) => {
   const windowWidth = Dimensions.get("window").width;
@@ -23,9 +23,6 @@ const HomeScreen = ({ navigation }) => {
   let iconWidth = windowWidth / 20;
   let playButtonPosition = windowHeight / 2.5;
   const { points } = useContext(PointsContext);
-
-  // Attach sound file to the hook
-  const [soundObject, setSoundObject] = useState(null);
 
   // Initialize animation value
   const crownIconColorAnimation = new Animated.Value(0);
@@ -125,26 +122,8 @@ const HomeScreen = ({ navigation }) => {
   //     console.error("Error playing sound:", error);
   //   }
   // };
-
-  const loadSound = async () => {
-    const sound = new Audio.Sound();
-    try {
-      await sound.loadAsync(require("./assets/sounds/buttonClick.mp3"));
-      setSoundObject(sound);
-    } catch (error) {
-      console.error("Error loading sound:", error);
-    }
-  };
-
-  useEffect(() => {
-    loadSound(); // Load sound when the component mounts
-  }, []); // Empty dependency array ensures the effect runs once
-
-  const handleSoundPlayOnClick = async () => {
-    if (soundObject) {
-      await soundObject.replayAsync();
-    }
-  };
+  // Import function that plays the sound
+  const { handleSoundPlayOnClick } = useSound();
 
   return (
     <ImageBackground

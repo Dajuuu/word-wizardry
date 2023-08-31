@@ -20,7 +20,9 @@ const LevelScreen = ({
   const isCompleted = completedLevels.includes(levelName);
   const backgroundColor = isCompleted ? completedColor : color;
   const borderColor = isCompleted ? completedOutlineColor : outlineColor;
+  // Sound hooks
   const [soundObject, setSoundObject] = useState(null);
+  const [soundLoaded, setSoundLoaded] = useState(false);
   const loadSound = async () => {
     const sound = new Audio.Sound();
     try {
@@ -32,14 +34,24 @@ const LevelScreen = ({
   };
 
   useEffect(() => {
-    loadSound(); // Load sound when the component mounts
-  }, []); // Empty dependency array ensures the effect runs once
+    loadSound();
+    return () => {
+      if (soundObject) {
+        soundObject.unloadAsync(); // Unload sound when the component unmounts
+      }
+    };
+  }, []);
 
   const handleSoundPlayOnClick = async () => {
     if (soundObject) {
-      await soundObject.replayAsync();
+      try {
+        await soundObject.replayAsync();
+      } catch (error) {
+        console.error("Error playing sound:", error);
+      }
     }
   };
+
   const handlePress = () => {
     navigation.navigate("CrosswordScreen", {
       levelName,

@@ -13,15 +13,13 @@ import SettingsOverlay from "./SettingsOverlay";
 import { CreditsContext } from "./CreditsContext";
 import { Asset } from "expo-asset";
 import { Audio } from "expo-av";
-
+import { useSound } from "./SoundManager";
 import { PointsContext } from "./PointsContext";
 
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;
 
 const CustomHeader = ({ title }) => {
-  // Attach sound file to the hook
-  const [soundObject, setSoundObject] = useState(null);
   // Cache the credits icon
   useEffect(() => {
     const cacheIcon = async () => {
@@ -45,26 +43,8 @@ const CustomHeader = ({ title }) => {
     setSettingsVisible(false);
   };
 
-  const loadSound = async () => {
-    const sound = new Audio.Sound();
-    try {
-      await sound.loadAsync(require("./assets/sounds/buttonClick.mp3"));
-      setSoundObject(sound);
-    } catch (error) {
-      console.error("Error loading sound:", error);
-    }
-  };
-
-  useEffect(() => {
-    loadSound(); // Load sound when the component mounts
-  }, []); // Empty dependency array ensures the effect runs once
-
-  const handleSoundPlayOnClick = async () => {
-    if (soundObject) {
-      await soundObject.replayAsync();
-    }
-  };
-
+  // Import function that plays the sound
+  const { handleSoundPlayOnClick } = useSound();
   /* // Because on the Android status bar is shown, I want to make a small
       adjustment // to make sure that the status bar is not colliding with
       anything */
