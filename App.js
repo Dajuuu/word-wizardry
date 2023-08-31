@@ -19,37 +19,32 @@ import CrosswordApp from "./CrosswordScreen";
 import LevelScreen from "./LevelScreen";
 import Achievements from "./Achievements";
 
-// SoundManager
-import * as SoundManager from "./SoundManager";
-
 const Stack = createStackNavigator();
 
 export default function App() {
   // Hooks needed for the loading screen and fonts
   // const [loading, setLoading] = useState(true);
   const [fontLoaded, setFontLoaded] = useState(false);
+  // Close the loading screen after x seconds
+  // setTimeout(() => {
+  //   setLoading(false);
+  // }, 2000);
+
+  // Load the fonts that will be used within the app
+  const loadFonts = async () => {
+    await Font.loadAsync({
+      AppFont: require("./assets/fonts/Quicksand-Regular.ttf"),
+      AppFontBold: require("./assets/fonts/Quicksand-Bold.ttf"),
+    });
+    setFontLoaded(true);
+  };
+
+  // Cache the images
+  // cacheImages();
 
   useEffect(() => {
-    // Close the loading screen after x seconds
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 2000);
-
-    // Load sound effects
-    SoundManager.loadSound(require("./assets/sounds/buttonClick.mp3"));
-
-    // Load the fonts that will be used within the app
-    const loadFont = async () => {
-      await Font.loadAsync({
-        AppFont: require("./assets/fonts/Quicksand-Regular.ttf"),
-        AppFontBold: require("./assets/fonts/Quicksand-Bold.ttf"),
-      });
-      setFontLoaded(true);
-    };
-    loadFont();
-
-    // Cache the images
-    // cacheImages();
+    // Load fonts and sounds
+    loadFonts();
   }, []);
 
   if (!fontLoaded) {

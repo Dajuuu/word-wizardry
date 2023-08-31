@@ -14,7 +14,6 @@ import {
 import SettingsOverlay from "./SettingsOverlay";
 import { LinearGradient } from "expo-linear-gradient";
 import { Audio } from "expo-av";
-import * as SoundManager from "./SoundManager";
 
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -160,7 +159,6 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.button}
             onPress={handleSoundPlayOnClick}
-            disabled={!soundLoaded}
           >
             <Icon
               name="user"
