@@ -4,6 +4,39 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const soundButtonClick = "./assets/sounds/buttonClick.mp3"; // Hardcoded path to button click sound file
 const soundLevelCompleted = "./assets/sounds/levelCompleted.mp3"; // Hardcoded path to level completed sound file
+const backgroundMusic = "./assets/sounds/backgroundMusic.mp3"; // Hardcoded path to level completed sound file
+
+export const useBackgroundSound = () => {
+  const [backgroundSoundLoaded, setBackgroundSoundLoaded] = useState(false);
+  const [backgroundSoundObject, setBackgroundSoundObject] = useState(null);
+
+  const loadBackgroundSound = async () => {
+    if (backgroundSoundLoaded) {
+      return;
+    }
+
+    try {
+      const { sound } = await Audio.Sound.createAsync(require(backgroundMusic));
+      setBackgroundSoundObject(sound);
+      setBackgroundSoundLoaded(true);
+      await sound.setIsLoopingAsync(true);
+      await sound.playAsync();
+    } catch (error) {
+      console.error("Error loading background sound:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadBackgroundSound();
+    return () => {
+      if (backgroundSoundObject) {
+        backgroundSoundObject.unloadAsync();
+      }
+    };
+  }, []);
+
+  return { backgroundSoundLoaded };
+};
 
 export const useButtonClickSound = () => {
   const [soundLoaded, setSoundLoaded] = useState(false);

@@ -7,6 +7,7 @@ import { CreditsProvider } from "./CreditsContext";
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
 import { SoundSettingProvider } from "./SoundSettingContext";
+import { useBackgroundSound } from "./SoundManager";
 
 // Screens
 import HomeScreen from "./HomeScreen";
@@ -25,6 +26,7 @@ const Stack = createStackNavigator();
 export default function App() {
   // Hooks needed for the loading screen and fonts
   // const [loading, setLoading] = useState(true);
+  useBackgroundSound();
   const [fontLoaded, setFontLoaded] = useState(false);
   // Close the loading screen after x seconds
   // setTimeout(() => {
