@@ -21,6 +21,7 @@ export const useBackgroundSound = () => {
       setBackgroundSoundLoaded(true);
       await sound.setIsLoopingAsync(true);
       await sound.playAsync();
+      await sound.setVolumeAsync(0.1); // Adjust to your preferred volume level (e.g., 0.5 for 50% volume)
     } catch (error) {
       console.error("Error loading background sound:", error);
     }
@@ -73,6 +74,7 @@ export const useButtonClickSound = () => {
         require(soundButtonClick)
       );
       setSoundObjectBtnClick(sound);
+      await sound.setVolumeAsync(0.3); // Adjust the volume
       setSoundLoaded(true);
     } catch (error) {
       console.error(`Error loading sound ${soundButtonClick}:`, error);
@@ -133,6 +135,7 @@ export const useLevelCompletedSound = () => {
         require(soundLevelCompleted)
       );
       setSoundObjectLvlCompleted(sound);
+      await sound.setVolumeAsync(0.3); // Adjust the volume
       setSoundLoaded(true);
     } catch (error) {
       console.error(`Error loading sound ${soundLevelCompleted}:`, error);
