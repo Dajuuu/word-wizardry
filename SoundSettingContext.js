@@ -48,7 +48,7 @@ export const SoundSettingProvider = ({ children }) => {
 };
 
 export const MusicSettingProvider = ({ children }) => {
-  const [musicEnabled, setMusicEnabled] = useState(true);
+  const [musicEnabled, setMusicEnabled] = useState(false);
 
   useEffect(() => {
     const loadMusicSetting = async () => {
