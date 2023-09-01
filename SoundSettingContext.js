@@ -32,6 +32,7 @@ export const SoundSettingProvider = ({ children }) => {
 
   const toggleSoundSetting = async (newValue) => {
     setSoundEnabled(newValue);
+    console.log(newValue);
     try {
       await AsyncStorage.setItem("soundSetting", newValue.toString());
     } catch (error) {
@@ -66,6 +67,7 @@ export const MusicSettingProvider = ({ children }) => {
 
   const toggleMusicSetting = async (newValue) => {
     setMusicEnabled(newValue);
+    console.log(newValue);
     try {
       await AsyncStorage.setItem("musicSetting", newValue.toString());
     } catch (error) {

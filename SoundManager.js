@@ -6,6 +6,7 @@ const soundButtonClick = "./assets/sounds/buttonClick.mp3"; // Hardcoded path to
 const soundLevelCompleted = "./assets/sounds/levelCompleted.mp3"; // Hardcoded path to level completed sound file
 const backgroundMusic = "./assets/sounds/backgroundMusic.mp3"; // Hardcoded path to level completed sound file
 
+// Background sound
 export const useBackgroundSound = () => {
   const [backgroundSoundLoaded, setBackgroundSoundLoaded] = useState(false);
   const [backgroundSoundObject, setBackgroundSoundObject] = useState(null);
@@ -39,27 +40,11 @@ export const useBackgroundSound = () => {
   return { backgroundSoundLoaded };
 };
 
+// Button click sound
 export const useButtonClickSound = () => {
   const [soundLoaded, setSoundLoaded] = useState(false);
   const [soundObjectBtnClick, setSoundObjectBtnClick] = useState(null);
   const [loadingSound, setLoadingSound] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(false);
-
-  useEffect(() => {
-    const loadSoundSetting = async () => {
-      try {
-        const soundSetting = await AsyncStorage.getItem("soundSetting");
-        if (soundSetting !== null) {
-          // Convert the string to a boolean
-          setSoundEnabled(soundSetting === "true");
-        }
-      } catch (error) {
-        console.error("Error fetching sound setting:", error);
-      }
-    };
-
-    loadSoundSetting(); // Fetch sound setting from AsyncStorage when component mounts
-  }, []);
 
   const loadSound = async () => {
     if (loadingSound) {
@@ -119,6 +104,7 @@ export const useButtonClickSound = () => {
   return { soundLoaded, handleButtonSoundPlay };
 };
 
+// Completed level
 export const useLevelCompletedSound = () => {
   const [soundLoaded, setSoundLoaded] = useState(false);
   const [soundObjectLvlCompleted, setSoundObjectLvlCompleted] = useState(null);
