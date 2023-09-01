@@ -50,23 +50,25 @@ export const useButtonClickSound = () => {
   };
 
   const handleButtonSoundPlay = async () => {
-    if (soundEnabled == true) {
-      // Only play sound if sound is enabled and not already loading
-      if (!soundLoaded) {
-        await loadSound(); // Load the sound if not already loaded
-      }
+    try {
+      const soundSetting = await AsyncStorage.getItem("soundSetting");
+      if (soundSetting !== null) {
+        // Convert the string to a boolean
+        const isSoundEnabled = soundSetting === "true";
 
-      if (soundObjectBtnClick) {
-        try {
-          await soundObjectBtnClick.replayAsync();
-        } catch (error) {
-          console.error(`Error playing sound ${soundButtonClick}:`, error);
-          // Attempt to reload and replay the sound
-          console.log("Attempting to reload and replay the sound...");
-          await loadSound(); // Reload the sound
-          await soundObjectBtnClick.replayAsync(); // Retry playback
+        if (isSoundEnabled) {
+          // Only play sound if sound is enabled
+          if (!soundLoaded) {
+            await loadSound(); // Load the sound if not already loaded
+          }
+
+          if (soundObjectBtnClick) {
+            await soundObjectBtnClick.replayAsync();
+          }
         }
       }
+    } catch (error) {
+      console.error(`Error playing sound ${soundButtonClick}:`, error);
     }
   };
 
@@ -108,20 +110,25 @@ export const useLevelCompletedSound = () => {
   };
 
   const handleLevelCompletedSoundPlay = async () => {
-    if (!soundLoaded) {
-      await loadSound(); // Load the sound if not already loaded
-    }
+    try {
+      const soundSetting = await AsyncStorage.getItem("soundSetting");
+      if (soundSetting !== null) {
+        // Convert the string to a boolean
+        const isSoundEnabled = soundSetting === "true";
 
-    if (soundObjectLvlCompleted) {
-      try {
-        await soundObjectLvlCompleted.replayAsync();
-      } catch (error) {
-        console.error(`Error playing sound ${soundLevelCompleted}:`, error);
-        // Attempt to reload and replay the sound
-        console.log("Attempting to reload and replay the sound...");
-        await loadSound(); // Reload the sound
-        await soundObjectLvlCompleted.replayAsync(); // Retry playback
+        if (isSoundEnabled) {
+          // Only play sound if sound is enabled
+          if (!soundLoaded) {
+            await loadSound(); // Load the sound if not already loaded
+          }
+
+          if (soundObjectLvlCompleted) {
+            await soundObjectLvlCompleted.replayAsync();
+          }
+        }
       }
+    } catch (error) {
+      console.error(`Error playing sound ${soundLevelCompleted}:`, error);
     }
   };
 

@@ -40,7 +40,7 @@ const SettingsOverlay = ({ visible, onClose }) => {
   // Update the sound settings
   const toggleSoundSetting = async (newValue) => {
     setSoundEnabled(newValue);
-    console.log(newValue);
+    console.log("Toggling sound setting:", newValue);
     try {
       // Store the new setting in AsyncStorage
       await AsyncStorage.setItem("soundSetting", newValue.toString());
