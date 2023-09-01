@@ -11,13 +11,14 @@ import {
 import { Audio } from "expo-av";
 import { useButtonClickSound } from "./SoundManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSoundSetting } from "./SoundSettingContext";
+import { useSoundSetting, useMusicSetting } from "./SoundSettingContext";
 
 // Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
   // Import function that plays the sound
   const { handleButtonSoundPlay } = useButtonClickSound();
   const { soundEnabled, toggleSoundSetting } = useSoundSetting();
+  const { musicEnabled, toggleMusicSetting } = useMusicSetting();
   return (
     // Modal props
     <Modal
@@ -40,7 +41,8 @@ const SettingsOverlay = ({ visible, onClose }) => {
             <View style={styles.switchLabelContainer}>
               <Text style={styles.switchLabel}>Music</Text>
             </View>
-            <Switch />
+            {/* Switch for turning on and off the music */}
+            <Switch value={musicEnabled} onValueChange={toggleMusicSetting} />
           </View>
           <TouchableOpacity
             style={styles.closeButton}

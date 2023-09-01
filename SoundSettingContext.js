@@ -1,23 +1,25 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Create the context
+// Create the context for sound settings
 const SoundSettingContext = createContext();
 
-// Custom hook to access the context
+// Create the context for music settings
+const MusicSettingContext = createContext();
+
+// Custom hooks to access the contexts
 export const useSoundSetting = () => useContext(SoundSettingContext);
+export const useMusicSetting = () => useContext(MusicSettingContext);
 
-// Context provider component
+// Context provider components
 export const SoundSettingProvider = ({ children }) => {
-  const [soundEnabled, setSoundEnabled] = useState(true); // Default to true, sound is enabled
+  const [soundEnabled, setSoundEnabled] = useState(true);
 
-  // Load sound setting from AsyncStorage when the app starts
   useEffect(() => {
     const loadSoundSetting = async () => {
       try {
         const soundSetting = await AsyncStorage.getItem("soundSetting");
         if (soundSetting !== null) {
-          // Convert the string to a boolean
           setSoundEnabled(soundSetting === "true");
         }
       } catch (error) {
@@ -28,7 +30,6 @@ export const SoundSettingProvider = ({ children }) => {
     loadSoundSetting();
   }, []);
 
-  // Update the sound setting and store it in AsyncStorage
   const toggleSoundSetting = async (newValue) => {
     setSoundEnabled(newValue);
     try {
@@ -42,5 +43,39 @@ export const SoundSettingProvider = ({ children }) => {
     <SoundSettingContext.Provider value={{ soundEnabled, toggleSoundSetting }}>
       {children}
     </SoundSettingContext.Provider>
+  );
+};
+
+export const MusicSettingProvider = ({ children }) => {
+  const [musicEnabled, setMusicEnabled] = useState(true);
+
+  useEffect(() => {
+    const loadMusicSetting = async () => {
+      try {
+        const musicSetting = await AsyncStorage.getItem("musicSetting");
+        if (musicSetting !== null) {
+          setMusicEnabled(musicSetting === "true");
+        }
+      } catch (error) {
+        console.error("Error fetching music setting:", error);
+      }
+    };
+
+    loadMusicSetting();
+  }, []);
+
+  const toggleMusicSetting = async (newValue) => {
+    setMusicEnabled(newValue);
+    try {
+      await AsyncStorage.setItem("musicSetting", newValue.toString());
+    } catch (error) {
+      console.error("Error saving music setting:", error);
+    }
+  };
+
+  return (
+    <MusicSettingContext.Provider value={{ musicEnabled, toggleMusicSetting }}>
+      {children}
+    </MusicSettingContext.Provider>
   );
 };
