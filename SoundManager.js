@@ -10,14 +10,21 @@ const backgroundMusic = "./assets/sounds/backgroundMusic.mp3"; // Hardcoded path
 // Background sound
 export const useBackgroundSound = () => {
   const { musicEnabled } = useMusicSetting();
-  const [backgroundSoundLoaded, setBackgroundSoundLoaded] = useState(false);
+  const [backgroundSoundLoaded, setBackgroundSoundLoaded] = useState();
   const [backgroundSoundObject, setBackgroundSoundObject] = useState(null);
 
   const loadBackgroundSound = async () => {
-    if (backgroundSoundLoaded || !musicEnabled) {
-      console.log("music is" + musicEnabled);
-      // If the background sound is already loaded or music is disabled, return
+    if (!musicEnabled) {
+      if (backgroundSoundObject) {
+        backgroundSoundObject.stopAsync(); // Stop the sound if music is disabled
+        setBackgroundSoundLoaded(false);
+        setBackgroundSoundObject(null);
+      }
       return;
+    }
+
+    if (backgroundSoundLoaded) {
+      return; // Sound is already loaded
     }
 
     try {
@@ -25,8 +32,8 @@ export const useBackgroundSound = () => {
       setBackgroundSoundObject(sound);
       setBackgroundSoundLoaded(true);
       await sound.setIsLoopingAsync(true);
+      await sound.playAsync();
       await sound.setVolumeAsync(0.1); // Adjust to your preferred volume level
-      await sound.playAsync(); // Start playing when music is enabled
     } catch (error) {
       console.error("Error loading background sound:", error);
     }
@@ -41,7 +48,6 @@ export const useBackgroundSound = () => {
     };
   }, [musicEnabled]);
 
-  // Return backgroundSoundLoaded or other necessary values
   return { backgroundSoundLoaded };
 };
 

@@ -42,7 +42,13 @@ const SettingsOverlay = ({ visible, onClose }) => {
               <Text style={styles.switchLabel}>Music</Text>
             </View>
             {/* Switch for turning on and off the music */}
-            <Switch value={musicEnabled} onValueChange={toggleMusicSetting} />
+            <Switch
+              value={musicEnabled}
+              onValueChange={(newValue) => {
+                toggleMusicSetting(newValue);
+                handleButtonSoundPlay(); // Play the sound when switching
+              }}
+            />
           </View>
           <TouchableOpacity
             style={styles.closeButton}
