@@ -8,30 +8,11 @@ import {
   Image,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
-
-import { Audio } from "expo-av";
+import { useSound } from "./SoundManager";
 
 const GameScreen = ({ navigation }) => {
-  const [soundObject, setSoundObject] = useState(null);
-  const loadSound = async () => {
-    const sound = new Audio.Sound();
-    try {
-      await sound.loadAsync(require("./assets/sounds/buttonClick.mp3"));
-      setSoundObject(sound);
-    } catch (error) {
-      console.error("Error loading sound:", error);
-    }
-  };
-
-  useEffect(() => {
-    loadSound(); // Load sound when the component mounts
-  }, []); // Empty dependency array ensures the effect runs once
-
-  const handleSoundPlayOnClick = async () => {
-    if (soundObject) {
-      await soundObject.replayAsync();
-    }
-  };
+  // Import function that plays the sound
+  const { handleSoundPlayOnClick } = useSound();
 
   const handleDifficultyPress = (screen) => {
     // Small fix for the route parameters for the EasyLevels

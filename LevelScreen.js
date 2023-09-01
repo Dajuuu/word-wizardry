@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Audio } from "expo-av";
+import { useSound } from "./SoundManager";
 const LevelScreen = ({
   levelName,
   color,
@@ -20,37 +21,8 @@ const LevelScreen = ({
   const isCompleted = completedLevels.includes(levelName);
   const backgroundColor = isCompleted ? completedColor : color;
   const borderColor = isCompleted ? completedOutlineColor : outlineColor;
-  // Sound hooks
-  const [soundObject, setSoundObject] = useState(null);
-  const [soundLoaded, setSoundLoaded] = useState(false);
-  const loadSound = async () => {
-    const sound = new Audio.Sound();
-    try {
-      await sound.loadAsync(require("./assets/sounds/buttonClick.mp3"));
-      setSoundObject(sound);
-    } catch (error) {
-      console.error("Error loading sound:", error);
-    }
-  };
-
-  useEffect(() => {
-    loadSound();
-    return () => {
-      if (soundObject) {
-        soundObject.unloadAsync(); // Unload sound when the component unmounts
-      }
-    };
-  }, []);
-
-  const handleSoundPlayOnClick = async () => {
-    if (soundObject) {
-      try {
-        await soundObject.replayAsync();
-      } catch (error) {
-        console.error("Error playing sound:", error);
-      }
-    }
-  };
+  // Import function that plays the sound
+  const { handleSoundPlayOnClick } = useSound();
 
   const handlePress = () => {
     navigation.navigate("CrosswordScreen", {
