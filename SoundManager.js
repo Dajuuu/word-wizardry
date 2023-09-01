@@ -71,9 +71,7 @@ export const useLevelCompletedSound = () => {
       // If sound is already being loaded, return to prevent concurrent loads
       return;
     }
-
     setLoadingSound(true);
-
     try {
       const { sound } = await Audio.Sound.createAsync(
         require(soundLevelCompleted)
