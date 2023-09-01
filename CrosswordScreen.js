@@ -218,12 +218,8 @@ const CrosswordApp = ({ route }) => {
       }
     };
 
-    // TODO it was to increase performance - see what can be done here
-    clearTimeout(inputRefs.current[rowIndex][columnIndex].timer);
-    inputRefs.current[rowIndex][columnIndex].timer = setTimeout(
-      updateHiddenGrid,
-      1
-    );
+    // Update hiddenGrid after a small delay (1 millisecond)
+    setTimeout(updateHiddenGrid, 1);
 
     // Select the box to the right, when previous box has a letter entered
     if (columnIndex < GRID_DATA[rowIndex].length - 1) {
@@ -958,8 +954,8 @@ const CrosswordApp = ({ route }) => {
                   <TouchableOpacity
                     style={styles.goBackButton}
                     onPress={() => {
-                      closeModal();
                       handleButtonSoundPlay();
+                      closeModal();
                     }}
                   >
                     <Text style={styles.goBackButtonText}>Continue</Text>

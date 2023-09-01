@@ -7,16 +7,27 @@ const soundLevelCompleted = "./assets/sounds/levelCompleted.mp3"; // Hardcoded p
 export const useButtonClickSound = () => {
   const [soundLoaded, setSoundLoaded] = useState(false);
   const [soundObjectBtnClick, setSoundObjectBtnClick] = useState(null);
+  const [loadingSound, setLoadingSound] = useState(false);
 
   const loadSound = async () => {
-    const soundBtn = new Audio.Sound();
+    if (loadingSound) {
+      // If sound is already being loaded, return to prevent concurrent loads
+      return;
+    }
+
+    setLoadingSound(true);
+
     try {
-      await soundBtn.loadAsync(require(soundButtonClick));
-      setSoundObjectBtnClick(soundBtn);
+      const { sound } = await Audio.Sound.createAsync(
+        require(soundButtonClick)
+      );
+      setSoundObjectBtnClick(sound);
       setSoundLoaded(true);
     } catch (error) {
       console.error(`Error loading sound ${soundButtonClick}:`, error);
       setSoundLoaded(false);
+    } finally {
+      setLoadingSound(false);
     }
   };
 
@@ -30,6 +41,10 @@ export const useButtonClickSound = () => {
         await soundObjectBtnClick.replayAsync();
       } catch (error) {
         console.error(`Error playing sound ${soundButtonClick}:`, error);
+        // Attempt to reload and replay the sound
+        console.log("Attempting to reload and replay the sound...");
+        await loadSound(); // Reload the sound
+        await soundObjectBtnClick.replayAsync(); // Retry playback
       }
     }
   };
@@ -49,16 +64,27 @@ export const useButtonClickSound = () => {
 export const useLevelCompletedSound = () => {
   const [soundLoaded, setSoundLoaded] = useState(false);
   const [soundObjectLvlCompleted, setSoundObjectLvlCompleted] = useState(null);
+  const [loadingSound, setLoadingSound] = useState(false);
 
   const loadSound = async () => {
-    const soundLvl = new Audio.Sound();
+    if (loadingSound) {
+      // If sound is already being loaded, return to prevent concurrent loads
+      return;
+    }
+
+    setLoadingSound(true);
+
     try {
-      await soundLvl.loadAsync(require(soundLevelCompleted));
-      setSoundObjectLvlCompleted(soundLvl);
+      const { sound } = await Audio.Sound.createAsync(
+        require(soundLevelCompleted)
+      );
+      setSoundObjectLvlCompleted(sound);
       setSoundLoaded(true);
     } catch (error) {
       console.error(`Error loading sound ${soundLevelCompleted}:`, error);
       setSoundLoaded(false);
+    } finally {
+      setLoadingSound(false);
     }
   };
 
@@ -72,6 +98,10 @@ export const useLevelCompletedSound = () => {
         await soundObjectLvlCompleted.replayAsync();
       } catch (error) {
         console.error(`Error playing sound ${soundLevelCompleted}:`, error);
+        // Attempt to reload and replay the sound
+        console.log("Attempting to reload and replay the sound...");
+        await loadSound(); // Reload the sound
+        await soundObjectLvlCompleted.replayAsync(); // Retry playback
       }
     }
   };
