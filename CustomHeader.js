@@ -118,11 +118,11 @@ const styles = StyleSheet.create({
   // },
   button: {
     // borderWidth: 1,
-    shadowColor: "rgba(0,0,0, .4)", // IOS
-    shadowOffset: { height: 1 }, // IOS
-    shadowOpacity: 1, // IOS
-    shadowRadius: 1, //IOS
-    elevation: 5, // Android
+    // shadowColor: "rgba(0,0,0, .4)", // IOS
+    // shadowOffset: { height: 1 }, // IOS
+    // shadowOpacity: 1, // IOS
+    // shadowRadius: 1, //IOS
+    // elevation: 5, // Android
   },
   buttonText: {
     fontSize: 16,

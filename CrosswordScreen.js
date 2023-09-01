@@ -29,6 +29,7 @@ import { CreditsContext } from "./CreditsContext";
 import BuyClueOverlay from "./BuyHintOverlay";
 import CustomKeyboard from "./CustomKeyboard";
 import CustomHeader from "./CustomHeader";
+import { useSound } from "./SoundManager";
 
 const CrosswordApp = ({ route }) => {
   const navigation = useNavigation();
@@ -106,6 +107,10 @@ const CrosswordApp = ({ route }) => {
     new Animated.Value(0), // For hint 2
     new Animated.Value(0), // For hint 3
   ]);
+
+  // Import function that plays the sound
+  const { handleSoundPlayOnClick } = useSound();
+
   // Initialise data
   useEffect(() => {
     loadUserInput(); // Load saved user input for the given level
@@ -949,7 +954,10 @@ const CrosswordApp = ({ route }) => {
                 <Animated.View style={{ opacity: fadeAnimButton }}>
                   <TouchableOpacity
                     style={styles.goBackButton}
-                    onPress={closeModal}
+                    onPress={() => {
+                      closeModal();
+                      handleSoundPlayOnClick();
+                    }}
                   >
                     <Text style={styles.goBackButtonText}>Continue</Text>
                   </TouchableOpacity>
@@ -1151,13 +1159,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "80%",
     elevation: 8, // Android shadow
-    shadowColor: "#000", // iOS shadow
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    // shadowColor: "#000", // iOS shadow
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.3,
+    // shadowRadius: 4,
   },
   hintsBackground: {
     justifyContent: "center",
@@ -1166,13 +1174,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     elevation: 4, // Android shadow
-    shadowColor: "#000", // iOS shadow
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    // shadowColor: "#000", // iOS shadow
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.3,
+    // shadowRadius: 4,
   },
   scoreText: {
     fontSize: 20,

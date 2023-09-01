@@ -78,11 +78,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#ebb381",
     borderRadius: 5,
     // borderWidth: 1,
-    shadowColor: "rgba(0,0,0, .4)", // IOS
-    shadowOffset: { height: 1 }, // IOS
-    shadowOpacity: 1, // IOS
-    shadowRadius: 1, //IOS
-    elevation: 2, // Android
+    // shadowColor: "rgba(0,0,0, .4)", // IOS
+    // shadowOffset: { height: 1 }, // IOS
+    // shadowOpacity: 1, // IOS
+    // shadowRadius: 1, //IOS
+    // elevation: 2, // Android
   },
   keyboardKeyBackspace: {
     width: "15%",

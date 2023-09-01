@@ -279,11 +279,11 @@ const styles = StyleSheet.create({
     // backgroundColor: "rgba(69,84,62,1)",
     backgroundColor: "rgba(69,84,62,1)",
     borderRadius: 20,
-    shadowColor: "rgba(0,0,0, .4)", // IOS
-    shadowOffset: { height: 1 }, // IOS
-    shadowOpacity: 1, // IOS
-    shadowRadius: 1, //IOS
-    elevation: 5, // Android
+    // shadowColor: "rgba(0,0,0, .4)", // IOS
+    // shadowOffset: { height: 1 }, // IOS
+    // shadowOpacity: 1, // IOS
+    // shadowRadius: 1, //IOS
+    // elevation: 5, // Android
   },
 
   buttonLeaderBoard: {
@@ -302,11 +302,11 @@ const styles = StyleSheet.create({
     // backgroundColor: "#ebb381",
     backgroundColor: "rgba(183,137,95,1)",
     borderRadius: 20,
-    shadowColor: "rgba(0,0,0, .4)", // IOS
-    shadowOffset: { height: 1 }, // IOS
-    shadowOpacity: 1, // IOS
-    shadowRadius: 1, //IOS
-    elevation: 5, // Android
+    // shadowColor: "rgba(0,0,0, .4)", // IOS
+    // shadowOffset: { height: 1 }, // IOS
+    // shadowOpacity: 1, // IOS
+    // shadowRadius: 1, //IOS
+    // elevation: 5, // Android
     transform: [{ rotate: "15deg" }],
   },
   buttonIcon: {
@@ -347,13 +347,13 @@ const styles = StyleSheet.create({
     // width: "70%",
     // height: "40%",
     elevation: 8, // Android shadow
-    shadowColor: "#000", // iOS shadow
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    // shadowColor: "#000", // iOS shadow
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.3,
+    // shadowRadius: 4,
   },
   playButtonGradient: {
     ...StyleSheet.absoluteFill,
