@@ -15,7 +15,7 @@ import SettingsOverlay from "./SettingsOverlay";
 import { LinearGradient } from "expo-linear-gradient";
 import { Audio } from "expo-av";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { useSound } from "./SoundManager";
+import { useButtonClickSound } from "./SoundManager";
 
 const HomeScreen = ({ navigation }) => {
   const windowWidth = Dimensions.get("window").width;
@@ -110,7 +110,7 @@ const HomeScreen = ({ navigation }) => {
     startCrownIconColorAnimation();
   });
 
-  // const handleSoundPlayOnClick = async () => {
+  // const handleButtonSoundPlay = async () => {
   //   // Load the sound file
   //   const soundObject = new Audio.Sound();
   //   try {
@@ -123,7 +123,7 @@ const HomeScreen = ({ navigation }) => {
   //   }
   // };
   // Import function that plays the sound
-  const { handleSoundPlayOnClick } = useSound();
+  const { handleButtonSoundPlay } = useButtonClickSound();
 
   return (
     <ImageBackground
@@ -135,7 +135,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={handleSoundPlayOnClick}
+            onPress={handleButtonSoundPlay}
           >
             <Icon
               name="user"
@@ -147,7 +147,7 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              handleSoundPlayOnClick();
+              handleButtonSoundPlay();
               handleTrophyButtonPress();
             }}
           >
@@ -159,7 +159,7 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              handleSoundPlayOnClick();
+              handleButtonSoundPlay();
               handleSettingsButtonPress();
             }}
           >
@@ -177,7 +177,7 @@ const HomeScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.scoreContainer}
           onPress={() => {
-            handleSoundPlayOnClick();
+            handleButtonSoundPlay();
           }}
         >
           <Animated.View
@@ -208,7 +208,7 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => {
               handlePlayButtonPress();
-              handleSoundPlayOnClick();
+              handleButtonSoundPlay();
             }}
             style={[
               styles.playButton,

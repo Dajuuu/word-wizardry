@@ -8,12 +8,12 @@ import {
   Switch,
 } from "react-native";
 import { Audio } from "expo-av";
-import { useSound } from "./SoundManager";
+import { useButtonClickSound } from "./SoundManager";
 
 // Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
   // Import function that plays the sound
-  const { handleSoundPlayOnClick } = useSound();
+  const { handleButtonSoundPlay } = useButtonClickSound();
 
   return (
     // Modal props
@@ -41,7 +41,7 @@ const SettingsOverlay = ({ visible, onClose }) => {
           <TouchableOpacity
             style={styles.closeButton}
             onPress={() => {
-              handleSoundPlayOnClick();
+              handleButtonSoundPlay();
               onClose();
             }}
           >

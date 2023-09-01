@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Audio } from "expo-av";
-import { useSound } from "./SoundManager";
+import { useButtonClickSound } from "./SoundManager";
 const LevelScreen = ({
   levelName,
   color,
@@ -22,7 +22,7 @@ const LevelScreen = ({
   const backgroundColor = isCompleted ? completedColor : color;
   const borderColor = isCompleted ? completedOutlineColor : outlineColor;
   // Import function that plays the sound
-  const { handleSoundPlayOnClick } = useSound();
+  const { handleButtonSoundPlay } = useButtonClickSound();
 
   const handlePress = () => {
     navigation.navigate("CrosswordScreen", {
@@ -41,7 +41,7 @@ const LevelScreen = ({
     <TouchableOpacity
       style={[styles.levelBox, { backgroundColor, borderColor }]}
       onPress={() => {
-        handleSoundPlayOnClick();
+        handleButtonSoundPlay();
         handlePress();
       }}
     >

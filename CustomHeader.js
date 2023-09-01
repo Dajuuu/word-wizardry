@@ -13,7 +13,7 @@ import SettingsOverlay from "./SettingsOverlay";
 import { CreditsContext } from "./CreditsContext";
 import { Asset } from "expo-asset";
 import { Audio } from "expo-av";
-import { useSound } from "./SoundManager";
+import { useButtonClickSound } from "./SoundManager";
 import { PointsContext } from "./PointsContext";
 
 // Get the height of the device
@@ -44,7 +44,7 @@ const CustomHeader = ({ title }) => {
   };
 
   // Import function that plays the sound
-  const { handleSoundPlayOnClick } = useSound();
+  const { handleButtonSoundPlay } = useButtonClickSound();
   /* // Because on the Android status bar is shown, I want to make a small
       adjustment // to make sure that the status bar is not colliding with
       anything */
@@ -54,7 +54,7 @@ const CustomHeader = ({ title }) => {
       <TouchableOpacity
         style={[styles.leftButton, styles.button, { marginRight: 10 }]}
         onPress={() => {
-          handleSoundPlayOnClick();
+          handleButtonSoundPlay();
           navigation.goBack();
         }}
       >
@@ -65,7 +65,7 @@ const CustomHeader = ({ title }) => {
       <TouchableOpacity
         style={[styles.leftButton, styles.button]}
         onPress={() => {
-          handleSoundPlayOnClick();
+          handleButtonSoundPlay();
           handleSettingsButtonPress();
         }}
       >

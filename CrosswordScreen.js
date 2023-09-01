@@ -29,7 +29,7 @@ import { CreditsContext } from "./CreditsContext";
 import BuyClueOverlay from "./BuyHintOverlay";
 import CustomKeyboard from "./CustomKeyboard";
 import CustomHeader from "./CustomHeader";
-import { useSound } from "./SoundManager";
+import { useButtonClickSound, useLevelCompletedSound } from "./SoundManager";
 
 const CrosswordApp = ({ route }) => {
   const navigation = useNavigation();
@@ -108,8 +108,9 @@ const CrosswordApp = ({ route }) => {
     new Animated.Value(0), // For hint 3
   ]);
 
-  // Import function that plays the sound
-  const { handleSoundPlayOnClick } = useSound();
+  // Import functions that plays the sound
+  const { handleButtonSoundPlay } = useButtonClickSound();
+  const { handleLevelCompletedSoundPlay } = useLevelCompletedSound();
 
   // Initialise data
   useEffect(() => {
@@ -213,6 +214,7 @@ const CrosswordApp = ({ route }) => {
       // When level is finished
       if (isLevelFinished) {
         setLevelCompleted(true);
+        handleLevelCompletedSoundPlay();
       }
     };
 
@@ -401,6 +403,7 @@ const CrosswordApp = ({ route }) => {
       // When level is finished
       if (isLevelFinished) {
         setLevelCompleted(true);
+        handleLevelCompletedSoundPlay();
       }
     } else {
       console.log(`Clue ${index} has no remaining uses.`);
@@ -567,7 +570,7 @@ const CrosswordApp = ({ route }) => {
 
   // Animations for hint icons
   useEffect(() => {
-    let delay = 0; // Initial delay for the first hint
+    let delay = 100; // Initial delay for the first hint
 
     if (levelCompleted) {
       if (clueCount1Increase !== 0) {
@@ -579,7 +582,7 @@ const CrosswordApp = ({ route }) => {
           useNativeDriver: true,
         }).start();
 
-        delay += 100; // Add delay for the next hint
+        delay += 300; // Add delay for the next hint
       }
 
       if (clueCount2Increase !== 0) {
@@ -591,14 +594,14 @@ const CrosswordApp = ({ route }) => {
           useNativeDriver: true,
         }).start();
 
-        delay += 100; // Add delay for the next hint
+        delay += 300; // Add delay for the next hint
       }
 
       if (clueCount3Increase !== 0) {
         // Start animation for hint 3
         Animated.timing(cluesAnimations[2], {
           toValue: 1,
-          duration: 400,
+          duration: 300,
           delay,
           useNativeDriver: true,
         }).start();
@@ -956,7 +959,7 @@ const CrosswordApp = ({ route }) => {
                     style={styles.goBackButton}
                     onPress={() => {
                       closeModal();
-                      handleSoundPlayOnClick();
+                      handleButtonSoundPlay();
                     }}
                   >
                     <Text style={styles.goBackButtonText}>Continue</Text>

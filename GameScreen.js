@@ -8,11 +8,11 @@ import {
   Image,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
-import { useSound } from "./SoundManager";
+import { useButtonClickSound } from "./SoundManager";
 
 const GameScreen = ({ navigation }) => {
   // Import function that plays the sound
-  const { handleSoundPlayOnClick } = useSound();
+  const { handleButtonSoundPlay } = useButtonClickSound();
 
   const handleDifficultyPress = (screen) => {
     // Small fix for the route parameters for the EasyLevels
@@ -78,7 +78,7 @@ const GameScreen = ({ navigation }) => {
               },
             ]}
             onPress={() => {
-              handleSoundPlayOnClick();
+              handleButtonSoundPlay();
               handleDifficultyPress(level.screen);
             }}
           >
