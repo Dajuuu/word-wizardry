@@ -6,6 +6,7 @@ import { PointsProvider } from "./PointsContext";
 import { CreditsProvider } from "./CreditsContext";
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
+import { SoundSettingProvider } from "./SoundSettingContext";
 
 // Screens
 import HomeScreen from "./HomeScreen";
@@ -55,29 +56,37 @@ export default function App() {
     <PointsProvider>
       <CreditsProvider>
         <NavigationContainer>
-          <StatusBar hidden></StatusBar>
-          {/* Hide system header for all of the screens */}
-          <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="GameScreen" component={GameScreen} />
-            <Stack.Screen name="EasyLevels" component={EasyLevelsScreen} />
-            <Stack.Screen name="MediumLevels" component={MediumLevelsScreen} />
-            <Stack.Screen name="HardLevels" component={HardLevelsScreen} />
-            <Stack.Screen name="ThemedLevels" component={ThemedLevelsScreen} />
-            {/* Testing screen  */}
-            <Stack.Screen
-              name="TestingGamingScreen"
-              component={TestingGamingScreen}
-            />
-            <Stack.Screen name="LevelScreen" component={LevelScreen} />
-            <Stack.Screen name="CrosswordScreen" component={CrosswordApp} />
-            <Stack.Screen name="Achievements" component={Achievements} />
-          </Stack.Navigator>
+          <SoundSettingProvider>
+            <StatusBar hidden></StatusBar>
+            {/* Hide system header for all of the screens */}
+            <Stack.Navigator
+              initialRouteName="Home"
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="GameScreen" component={GameScreen} />
+              <Stack.Screen name="EasyLevels" component={EasyLevelsScreen} />
+              <Stack.Screen
+                name="MediumLevels"
+                component={MediumLevelsScreen}
+              />
+              <Stack.Screen name="HardLevels" component={HardLevelsScreen} />
+              <Stack.Screen
+                name="ThemedLevels"
+                component={ThemedLevelsScreen}
+              />
+              {/* Testing screen  */}
+              <Stack.Screen
+                name="TestingGamingScreen"
+                component={TestingGamingScreen}
+              />
+              <Stack.Screen name="LevelScreen" component={LevelScreen} />
+              <Stack.Screen name="CrosswordScreen" component={CrosswordApp} />
+              <Stack.Screen name="Achievements" component={Achievements} />
+            </Stack.Navigator>
+          </SoundSettingProvider>
         </NavigationContainer>
       </CreditsProvider>
     </PointsProvider>

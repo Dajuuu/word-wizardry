@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -10,45 +11,13 @@ import {
 import { Audio } from "expo-av";
 import { useButtonClickSound } from "./SoundManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSoundSetting } from "./SoundSettingContext";
 
 // Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
   // Import function that plays the sound
   const { handleButtonSoundPlay } = useButtonClickSound();
-
-  const [soundEnabled, setSoundEnabled] = useState(); // Default to true, sound is enabled
-  // Import information whether the sound is turned off or on
-  const loadSoundSetting = async () => {
-    try {
-      const soundSetting = await AsyncStorage.getItem("soundSetting");
-      if (soundSetting !== null) {
-        // Convert the stored setting to a boolean
-        const isSoundEnabled = soundSetting === "true";
-        setSoundEnabled(isSoundEnabled);
-        // console.log(isSoundEnabled);
-      }
-    } catch (error) {
-      console.error("Error loading sound setting:", error);
-    }
-  };
-
-  // Load the Sound Settings
-  useEffect(() => {
-    loadSoundSetting();
-  }, []);
-
-  // Update the sound settings
-  const toggleSoundSetting = async (newValue) => {
-    setSoundEnabled(newValue);
-    console.log("Toggling sound setting:", newValue);
-    try {
-      // Store the new setting in AsyncStorage
-      await AsyncStorage.setItem("soundSetting", newValue.toString());
-    } catch (error) {
-      console.error("Error saving sound setting:", error);
-    }
-  };
-
+  const { soundEnabled, toggleSoundSetting } = useSoundSetting();
   return (
     // Modal props
     <Modal
