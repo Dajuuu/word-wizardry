@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Audio } from "expo-av";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const soundButtonClick = "./assets/sounds/buttonClick.mp3"; // Hardcoded path to button click sound file
 const soundLevelCompleted = "./assets/sounds/levelCompleted.mp3"; // Hardcoded path to level completed sound file
@@ -8,6 +9,23 @@ export const useButtonClickSound = () => {
   const [soundLoaded, setSoundLoaded] = useState(false);
   const [soundObjectBtnClick, setSoundObjectBtnClick] = useState(null);
   const [loadingSound, setLoadingSound] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(false);
+
+  useEffect(() => {
+    const loadSoundSetting = async () => {
+      try {
+        const soundSetting = await AsyncStorage.getItem("soundSetting");
+        if (soundSetting !== null) {
+          // Convert the string to a boolean
+          setSoundEnabled(soundSetting === "true");
+        }
+      } catch (error) {
+        console.error("Error fetching sound setting:", error);
+      }
+    };
+
+    loadSoundSetting(); // Fetch sound setting from AsyncStorage when component mounts
+  }, []);
 
   const loadSound = async () => {
     if (loadingSound) {
@@ -32,19 +50,22 @@ export const useButtonClickSound = () => {
   };
 
   const handleButtonSoundPlay = async () => {
-    if (!soundLoaded) {
-      await loadSound(); // Load the sound if not already loaded
-    }
+    if (soundEnabled == true) {
+      // Only play sound if sound is enabled and not already loading
+      if (!soundLoaded) {
+        await loadSound(); // Load the sound if not already loaded
+      }
 
-    if (soundObjectBtnClick) {
-      try {
-        await soundObjectBtnClick.replayAsync();
-      } catch (error) {
-        console.error(`Error playing sound ${soundButtonClick}:`, error);
-        // Attempt to reload and replay the sound
-        console.log("Attempting to reload and replay the sound...");
-        await loadSound(); // Reload the sound
-        await soundObjectBtnClick.replayAsync(); // Retry playback
+      if (soundObjectBtnClick) {
+        try {
+          await soundObjectBtnClick.replayAsync();
+        } catch (error) {
+          console.error(`Error playing sound ${soundButtonClick}:`, error);
+          // Attempt to reload and replay the sound
+          console.log("Attempting to reload and replay the sound...");
+          await loadSound(); // Reload the sound
+          await soundObjectBtnClick.replayAsync(); // Retry playback
+        }
       }
     }
   };

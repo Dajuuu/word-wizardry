@@ -16,7 +16,7 @@ const SettingsOverlay = ({ visible, onClose }) => {
   // Import function that plays the sound
   const { handleButtonSoundPlay } = useButtonClickSound();
 
-  const [soundEnabled, setSoundEnabled] = useState(true); // Default to true, sound is enabled
+  const [soundEnabled, setSoundEnabled] = useState(); // Default to true, sound is enabled
   // Import information whether the sound is turned off or on
   const loadSoundSetting = async () => {
     try {
@@ -25,6 +25,7 @@ const SettingsOverlay = ({ visible, onClose }) => {
         // Convert the stored setting to a boolean
         const isSoundEnabled = soundSetting === "true";
         setSoundEnabled(isSoundEnabled);
+        // console.log(isSoundEnabled);
       }
     } catch (error) {
       console.error("Error loading sound setting:", error);
@@ -39,6 +40,7 @@ const SettingsOverlay = ({ visible, onClose }) => {
   // Update the sound settings
   const toggleSoundSetting = async (newValue) => {
     setSoundEnabled(newValue);
+    console.log(newValue);
     try {
       // Store the new setting in AsyncStorage
       await AsyncStorage.setItem("soundSetting", newValue.toString());
