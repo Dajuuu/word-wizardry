@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Audio } from "expo-av";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useMusicSetting } from "./SoundSettingContext";
 
 const soundButtonClick = "./assets/sounds/buttonClick.mp3"; // Hardcoded path to button click sound file
 const soundLevelCompleted = "./assets/sounds/levelCompleted.mp3"; // Hardcoded path to level completed sound file
@@ -8,11 +9,14 @@ const backgroundMusic = "./assets/sounds/backgroundMusic.mp3"; // Hardcoded path
 
 // Background sound
 export const useBackgroundSound = () => {
+  const { musicEnabled } = useMusicSetting();
   const [backgroundSoundLoaded, setBackgroundSoundLoaded] = useState(false);
   const [backgroundSoundObject, setBackgroundSoundObject] = useState(null);
 
   const loadBackgroundSound = async () => {
-    if (backgroundSoundLoaded) {
+    if (backgroundSoundLoaded || !musicEnabled) {
+      console.log("music is" + musicEnabled);
+      // If the background sound is already loaded or music is disabled, return
       return;
     }
 
@@ -21,8 +25,8 @@ export const useBackgroundSound = () => {
       setBackgroundSoundObject(sound);
       setBackgroundSoundLoaded(true);
       await sound.setIsLoopingAsync(true);
-      await sound.playAsync();
-      await sound.setVolumeAsync(0.1); // Adjust to your preferred volume level (e.g., 0.5 for 50% volume)
+      await sound.setVolumeAsync(0.1); // Adjust to your preferred volume level
+      await sound.playAsync(); // Start playing when music is enabled
     } catch (error) {
       console.error("Error loading background sound:", error);
     }
@@ -35,8 +39,9 @@ export const useBackgroundSound = () => {
         backgroundSoundObject.unloadAsync();
       }
     };
-  }, []);
+  }, [musicEnabled]);
 
+  // Return backgroundSoundLoaded or other necessary values
   return { backgroundSoundLoaded };
 };
 

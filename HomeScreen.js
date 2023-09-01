@@ -16,8 +16,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Audio } from "expo-av";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useButtonClickSound } from "./SoundManager";
+import { useBackgroundSound } from "./SoundManager";
 
 const HomeScreen = ({ navigation }) => {
+  const { loadBackgroundSound } = useBackgroundSound();
+
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   let iconWidth = windowWidth / 20;
