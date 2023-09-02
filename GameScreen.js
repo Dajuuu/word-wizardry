@@ -67,7 +67,11 @@ const GameScreen = ({ navigation }) => {
       <CustomHeader title="Choose Difficulty" />
 
       {/* Adjusting the margins so there are no unneceasry boxes or lines */}
-      <ScrollView style={{ width: "100%" }}>
+      <ScrollView
+        style={{ width: "100%" }}
+        showsVerticalScrollIndicator={false} // Set this to false to hide vertical scrollbar
+        showsHorizontalScrollIndicator={false}
+      >
         {/* IOSshadow had to be put here so the shadows do work */}
         <View style={[styles.IOSshadow, { marginTop: 10, marginBottom: 20 }]}>
           {/* Display all difficulty levels */}

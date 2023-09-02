@@ -85,8 +85,8 @@ const CustomHeader = ({ title }) => {
           source={require("./assets/credits.png")}
           style={styles.creditsImage}
         />
-        {/* <Text style={styles.creditsText}>{credits}</Text> */}
-        <Text style={styles.creditsText}>230</Text>
+        <Text style={styles.creditsText}>{credits}</Text>
+        {/* <Text style={styles.creditsText}>230</Text> */}
       </View>
     </View>
   );

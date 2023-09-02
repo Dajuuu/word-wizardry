@@ -7,6 +7,7 @@ import {
   Modal,
   StyleSheet,
   Switch,
+  Dimensions,
 } from "react-native";
 import { Audio } from "expo-av";
 import { useButtonClickSound } from "./SoundManager";
@@ -18,6 +19,10 @@ import {
 } from "./SoundSettingContext";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { LinearGradient } from "expo-linear-gradient";
+
+// Get the height
+const windowHeight = Dimensions.get("window").height;
+
 // Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
   // Import function that plays the sound
@@ -143,7 +148,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   switchLabel: {
-    fontSize: 16,
+    fontSize: windowHeight * 0.028,
+    fontFamily: "AppFont",
   },
   closeButton: {
     backgroundColor: "red",
@@ -178,6 +184,15 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent", // Set a transparent background
     justifyContent: "center",
     alignItems: "center",
+    elevation: 15,
+    shadowColor: "black", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4, // Androi
   },
   closeButtonGradient: {
     // padding: 30,
