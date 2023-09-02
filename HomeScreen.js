@@ -190,9 +190,9 @@ const HomeScreen = ({ navigation }) => {
                 backgroundColor: crownIconColorAnimation.interpolate({
                   inputRange: [0, 0.5, 1],
                   outputRange: [
-                    "rgba(183,137,95,0.8)",
-                    "rgba(213,203,47,0.8)",
-                    "rgba(183,137,95,0.8)",
+                    "rgba(183,137,95,0.93)",
+                    "rgba(213,203,47,0.93)",
+                    "rgba(183,137,95,0.93)",
                   ], // Define the colors for the animation
                 }),
               },

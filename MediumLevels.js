@@ -168,6 +168,8 @@ const MediumLevelsScreen = ({ navigation }) => {
       <CustomHeader title="Medium Level" />
 
       <FlatList
+        showsVerticalScrollIndicator={false} // Set this to false to hide vertical scrollbar
+        showsHorizontalScrollIndicator={false}
         data={levels}
         renderItem={({ item }) => (
           <LevelScreen

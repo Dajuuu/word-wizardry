@@ -168,6 +168,8 @@ const HardLevelsScreen = ({ navigation }) => {
       <CustomHeader title="Themed Levels" />
 
       <FlatList
+        showsVerticalScrollIndicator={false} // Set this to false to hide vertical scrollbar
+        showsHorizontalScrollIndicator={false}
         data={levels}
         renderItem={({ item }) => (
           <LevelScreen

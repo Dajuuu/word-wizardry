@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 4, // Androi
+    elevation: 4, // Android
   },
   closeButtonGradient: {
     // padding: 30,

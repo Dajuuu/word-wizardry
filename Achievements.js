@@ -284,7 +284,7 @@ const Achievements = () => {
 
   return (
     <View style={styles.container}>
-      <CustomHeader title="Achievements" />
+      <CustomHeader title="" />
       <ScrollView style={{ width: "100%" }}>
         {achievementsList.map((level, index) => (
           <Animated.View
