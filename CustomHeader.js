@@ -52,7 +52,8 @@ const CustomHeader = ({ title }) => {
     <View style={styles.header}>
       {/* Icon on the left (go back) */}
       <TouchableOpacity
-        style={[styles.leftButton, styles.button, { marginRight: 10 }]}
+        // margin to make spacing for the next button
+        style={[styles.leftButton, { marginRight: windowHeight * 0.015 }]}
         onPress={() => {
           handleButtonSoundPlay();
           navigation.goBack();
@@ -63,7 +64,7 @@ const CustomHeader = ({ title }) => {
 
       {/* Icon next to the one on the left (settings) */}
       <TouchableOpacity
-        style={[styles.leftButton, styles.button]}
+        style={[styles.leftButton]}
         onPress={() => {
           handleButtonSoundPlay();
           handleSettingsButtonPress();
@@ -79,13 +80,13 @@ const CustomHeader = ({ title }) => {
         <Text style={styles.title}>{title}</Text>
       </View>
       {/* Display the credits on the right */}
-      <View style={[styles.creditsContainer, styles.button]}>
+      <View style={[styles.creditsContainer]}>
         <Image
           source={require("./assets/credits.png")}
           style={styles.creditsImage}
         />
-        <Text style={styles.creditsText}>{credits}</Text>
-        {/* <Text style={styles.creditsText}>300000</Text> */}
+        {/* <Text style={styles.creditsText}>{credits}</Text> */}
+        <Text style={styles.creditsText}>230</Text>
       </View>
     </View>
   );
@@ -94,20 +95,27 @@ const CustomHeader = ({ title }) => {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    alignItems: "flex-end",
-    height: windowHeight / 11,
+    alignItems: "center",
+    height: windowHeight / 10,
     backgroundColor: "#f7d7ba",
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
+    paddingHorizontal: 14,
+    borderBottomWidth: 1.5,
     borderBottomColor: "#ccc",
-    paddingBottom: 15,
   },
   leftButton: {
     // marginRight: 10,
-    padding: 12,
-    paddingHorizontal: 14,
+    padding: windowHeight * 0.022,
+    // paddingHorizontal: 14,
     backgroundColor: "#ebb381",
-    borderRadius: 20,
+    borderRadius: 200,
+    shadowColor: "black", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 4, // Android
   },
   // rightButton: {
   //   marginLeft: 10,
@@ -115,23 +123,15 @@ const styles = StyleSheet.create({
   //   backgroundColor: "#ebb381",
   //   borderRadius: 20,
   // },
-  button: {
-    // borderWidth: 1,
-    // shadowColor: "rgba(0,0,0, .4)", // IOS
-    // shadowOffset: { height: 1 }, // IOS
-    // shadowOpacity: 1, // IOS
-    // shadowRadius: 1, //IOS
-    // elevation: 5, // Android
-  },
   buttonText: {
     fontSize: 16,
     color: "#333",
   },
   buttonIcon: {
-    fontSize: 18,
+    fontSize: windowHeight * 0.024,
   },
   title: {
-    fontSize: 18,
+    fontSize: windowHeight * 0.025,
     flex: 1,
     textAlign: "center",
     fontFamily: "AppFontBold",
@@ -140,32 +140,45 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row", // Arrange the title and credits in a row
     justifyContent: "space-between", // Space them evenly along the row
-    alignItems: "center", // Center them vertically within the header
+    paddingHorizontal: 10,
+    // alignItems: "center", // Center them vertically within the header
   },
   creditsText: {
     fontSize: 16,
     flexWrap: "wrap",
     maxWidth: "70%",
-    alignSelf: "center",
+    // alignSelf: "center",
+
     fontFamily: "AppFontBold",
+    paddingRight: 10,
   },
   creditsContainer: {
+    justifyContent: "center",
     backgroundColor: "#ebb381",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    padding: 2,
+    // paddingHorizontal: 10,
+    // paddingVertical: 6,
     borderRadius: 20,
     flexDirection: "row",
     // justifyContent: "space-between", // Space them evenly along the row
     alignItems: "center", // Center them vertically within the header
     maxWidth: 110,
     minWidth: 95,
-    maxHeight: 45,
+    height: windowHeight * 0.07,
+    shadowColor: "black", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 4, // Android
   },
   creditsImage: {
-    width: 30,
-    height: 30,
-    marginRight: 5,
-    marginLeft: -5,
+    width: windowHeight * 0.04,
+    height: windowHeight * 0.04,
+    // marginRight: 5,
+    // marginLeft: -5,
   },
 });
 
