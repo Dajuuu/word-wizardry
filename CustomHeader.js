@@ -97,16 +97,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: windowHeight / 10,
-    backgroundColor: "#f7d7ba",
+    backgroundColor: "rgb(224, 195, 169)",
     paddingHorizontal: 14,
-    borderBottomWidth: 1.5,
-    borderBottomColor: "#ccc",
+    borderBottomWidth: 1,
+    borderBottomColor: "rgb(129, 103, 79)",
   },
   leftButton: {
     // marginRight: 10,
     padding: windowHeight * 0.022,
     // paddingHorizontal: 14,
-    backgroundColor: "#ebb381",
+    backgroundColor: "rgba(183, 140, 101,1)",
     borderRadius: 200,
     shadowColor: "black", // iOS shadow
     shadowOffset: {
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
   creditsContainer: {
     justifyContent: "center",
-    backgroundColor: "#ebb381",
+    backgroundColor: "rgba(183, 140, 101,1)",
     padding: 2,
     // paddingHorizontal: 10,
     // paddingVertical: 6,

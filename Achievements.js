@@ -305,7 +305,11 @@ const Achievements = () => {
           <Text style={styles.progressText}>{`${progress.toFixed(2)}%`}</Text>
         </View>
       </View>
-      <ScrollView style={{ width: "100%" }}>
+      <ScrollView
+        style={{ width: "100%", paddingTop: 20 }}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         {achievementsList.map((level, index) => (
           <Animated.View
             key={index}
@@ -332,6 +336,7 @@ const Achievements = () => {
             )}
           </Animated.View>
         ))}
+        <View style={{ marginBottom: windowHeight * 0.37 }}></View>
       </ScrollView>
 
       {/* Modal */}
@@ -515,7 +520,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   background: {
-    backgroundColor: "white",
+    backgroundColor: "rgb(224, 195, 169)",
+    // marginBottom: 20,
     // padding: 20,
     width: "100%",
     // height: windowHeight * 0.19,
@@ -525,6 +531,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
+    elevation: 14, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    // Make sure the shadow is properly calculated
+    zIndex: -100,
   },
 });
 
