@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   Animated,
+  Dimensions,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 import {
@@ -16,6 +17,9 @@ import {
   determineUnlockedLevelAchievements,
 } from "./AchievementUtils"; // Import the utility functions
 import Icon from "react-native-vector-icons/FontAwesome5";
+
+// Get the height of the device
+const windowHeight = Dimensions.get("window").height;
 
 const Achievements = () => {
   const [borderColorAnimation] = useState(new Animated.Value(0));
@@ -281,10 +285,22 @@ const Achievements = () => {
       ];
     }
   };
-
+  // Progress bar
+  const progress =
+    (unlockedAchievementIndexes.length / achievementsList.length) * 100;
   return (
     <View style={styles.container}>
       <CustomHeader title="" />
+      <View style={styles.achivTitle}>
+        <Text style={styles.achivTitleText}>Your Achievements</Text>
+        <Text style={styles.achivCountText}>
+          {unlockedAchievementIndexes.length} / {achievementsList.length}
+        </Text>
+      </View>
+      <View style={styles.progressBarContainer}>
+        <View style={[styles.progressBar, { width: `${progress}%` }]}></View>
+        <Text style={styles.progressText}>{`${progress.toFixed(2)}%`}</Text>
+      </View>
       <ScrollView style={{ width: "100%" }}>
         {achievementsList.map((level, index) => (
           <Animated.View
@@ -461,6 +477,38 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.5,
     shadowRadius: 4,
+  },
+  achivTitle: {
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  achivTitleText: {
+    fontSize: windowHeight * 0.04,
+    fontFamily: "AppFontBold",
+  },
+  achivCountText: {
+    fontSize: windowHeight * 0.035,
+    fontFamily: "AppFont",
+  },
+  progressBarContainer: {
+    width: "90%",
+    backgroundColor: "#ccc",
+    height: 25,
+    borderRadius: 10,
+    marginVertical: 10,
+  },
+  progressBar: {
+    height: "100%",
+    backgroundColor: "rgba(37,170,43,1)", // Adjust the color of the progress bar
+    borderRadius: 10,
+  },
+  progressText: {
+    position: "absolute",
+    alignSelf: "center",
+    // marginTop: 1,
+    justifyContent: "center",
+    fontFamily: "AppFont",
+    fontSize: 17,
   },
 });
 
