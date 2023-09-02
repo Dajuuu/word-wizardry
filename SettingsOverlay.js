@@ -17,7 +17,7 @@ import {
   useVibrationSetting,
 } from "./SoundSettingContext";
 import Icon from "react-native-vector-icons/FontAwesome5";
-
+import { LinearGradient } from "expo-linear-gradient";
 // Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
   // Import function that plays the sound
@@ -78,13 +78,20 @@ const SettingsOverlay = ({ visible, onClose }) => {
             />
           </View>
           <TouchableOpacity
-            style={styles.closeButton}
+            style={styles.closeButtonContainer}
             onPress={() => {
               handleButtonSoundPlay();
               onClose();
             }}
           >
-            <Icon name="times" style={styles.iconStyle} />
+            <LinearGradient
+              colors={["rgb(255, 67, 67)", "rgb(204, 53, 53)"]}
+              style={styles.closeButtonGradient}
+              start={{ x: 0.2, y: 0.8 }}
+              end={{ x: 0.5, y: 1 }}
+            >
+              <Icon name="times" style={styles.iconStyle} />
+            </LinearGradient>
           </TouchableOpacity>
         </View>
       </View>
@@ -117,9 +124,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 10,
-    backgroundColor: "white",
+    backgroundColor: "rgb(255, 225, 198)",
     padding: 8,
     borderRadius: 10,
+    elevation: 4, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
   switchLabelContainer: {
     flexDirection: "row",
@@ -137,29 +152,38 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 10,
   },
-  closeButtonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#fff",
-  },
   closeButton: {
     position: "absolute",
     top: -10,
     right: -10,
-    backgroundColor: "red", // Background color for the circle
     borderRadius: 20, // Half of the width/height to make it a circle
     width: 40, // Adjust as needed for the circle size
     height: 40,
     justifyContent: "center",
     alignItems: "center",
   },
-  closeButtonText: {
-    fontSize: 18,
-    color: "blue", // Adjust the color as needed
-  },
   iconStyle: {
     color: "white",
     fontSize: 20,
+    textAlign: "center", // Center the icon horizontally
+    lineHeight: 40,
+  },
+  closeButtonContainer: {
+    position: "absolute",
+    top: -10, // Adjust the distance from the top
+    right: -10, // Adjust the distance from the right
+    width: 40, // Adjust as needed for the circle size
+    height: 40,
+    borderRadius: 20, // Half of the width/height to make it a circle
+    backgroundColor: "transparent", // Set a transparent background
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  closeButtonGradient: {
+    // padding: 30,
+    width: "100%", // Use 100% to make it a circle
+    height: "100%", // Use 100% to make it a circle
+    borderRadius: 20, // Half of the width/height to make it a circle
   },
 });
 
