@@ -16,7 +16,7 @@ import {
   determineUnlockedLevelAchievements,
 } from "./AchievementUtils"; // Import the utility functions
 import Icon from "react-native-vector-icons/FontAwesome5";
-
+import { LinearGradient } from "expo-linear-gradient";
 const Achievements = () => {
   const [borderColorAnimation] = useState(new Animated.Value(0));
 
@@ -254,27 +254,32 @@ const Achievements = () => {
                           "rgba(40,196,185,0.6)",
                           "rgba(208,95,224,0.7)",
                           "rgba(40,196,185,0.6)",
-                        ], // Define the colors for the animation
+                        ],
                       })
-                    : level.colorFront, // Use the default border color for other achievements
+                    : "transparent", // Set the default background color to transparent
               },
             ]}
           >
-            {/* <Image source={level.imageSource} style={styles.image} /> */}
-            <Text style={styles.difficultyText}>{level.level}</Text>
-            <Text style={styles.descText}>{level.achivDesc}</Text>
-            {!unlockedAchievementIndexes.includes(level.achivIndex) && (
-              <View style={styles.darkOverlay} />
-            )}
-            {unlockedAchievementIndexes.includes(level.achivIndex) && (
-              <View style={styles.checkmarkContainer}>
-                <Icon name="check" style={styles.checkmarkIcon} />
-              </View>
-            )}
+            {/* Apply a LinearGradient for the background */}
+            <LinearGradient
+              colors={["rgba(40,196,185,0.6)", "rgba(208,95,224,0.7)"]} // Specify your gradient colors here
+              style={styles.linearGradient}
+            >
+              {/* The rest of your content */}
+              <Text style={styles.difficultyText}>{level.level}</Text>
+              <Text style={styles.descText}>{level.achivDesc}</Text>
+              {!unlockedAchievementIndexes.includes(level.achivIndex) && (
+                <View style={styles.darkOverlay} />
+              )}
+              {unlockedAchievementIndexes.includes(level.achivIndex) && (
+                <View style={styles.checkmarkContainer}>
+                  <Icon name="check" style={styles.checkmarkIcon} />
+                </View>
+              )}
+            </LinearGradient>
           </Animated.View>
         ))}
       </ScrollView>
-
       {/* Modal */}
       {/* <Modal visible={isModalVisible} animationType="slide" transparent>
         <View style={styles.modalContainer}>
@@ -402,10 +407,26 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(45,133,45,1)",
     borderRadius: 20,
     padding: 8,
+    elevation: 8, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 4,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   checkmarkIcon: {
     color: "white",
     fontSize: 16,
+    elevation: 8, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
   },
 });
 
