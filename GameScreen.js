@@ -65,27 +65,33 @@ const GameScreen = ({ navigation }) => {
     <View style={styles.container}>
       {/* Display Custom header */}
       <CustomHeader title="Choose Difficulty" />
+
+      {/* Adjusting the margins so there are no unneceasry boxes or lines */}
       <ScrollView style={{ width: "100%" }}>
-        {/* Display all difficulty levels */}
-        {difficultyLevels.map((level, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.difficultyBox,
-              {
-                backgroundColor: level.colorFront,
-                borderColor: level.colorBack,
-              },
-            ]}
-            onPress={() => {
-              handleButtonSoundPlay();
-              handleDifficultyPress(level.screen);
-            }}
-          >
-            <Image source={level.imageSource} style={styles.image} />
-            <Text style={styles.difficultyText}>{level.level}</Text>
-          </TouchableOpacity>
-        ))}
+        {/* IOSshadow had to be put here so the shadows do work */}
+        <View style={[styles.IOSshadow, { marginTop: 10, marginBottom: 20 }]}>
+          {/* Display all difficulty levels */}
+          {difficultyLevels.map((level, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.difficultyBox,
+                {
+                  backgroundColor: level.colorFront,
+                  borderColor: level.colorBack,
+                },
+              ]}
+              onPress={() => {
+                handleButtonSoundPlay();
+                handleDifficultyPress(level.screen);
+              }}
+            >
+              <Image source={level.imageSource} style={styles.image} />
+              <Text style={styles.difficultyText}>{level.level}</Text>
+              <View style={styles.cornerLine} />
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
     </View>
   );
@@ -102,13 +108,25 @@ const styles = StyleSheet.create({
     width: "90%",
     height: 150,
     borderRadius: 8,
-    // margin: 10,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
     marginVertical: 5,
-    borderBottomWidth: 12,
-    borderLeftWidth: 12,
+    // borderWidth: 6, // Set border width for all sides
+    // borderColor: "rgba(0, 0, 0, 0.4)", // Set border color
+    overflow: "hidden", // Clip child content within the border
+    borderBottomWidth: 10,
+    borderLeftWidth: 10,
+    elevation: 8,
+  },
+  IOSshadow: {
+    shadowColor: "black", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
   difficultyText: {
     fontSize: 30,
@@ -126,6 +144,16 @@ const styles = StyleSheet.create({
     height: 100,
     // marginRight: 10,
     alignSelf: "flex-start",
+  },
+  cornerLine: {
+    width: 1, // Adjust the width of the line as needed
+    height: 25, // Adjust the height of the line as needed
+    backgroundColor: "rgba(0, 0, 0, 0.25)", // Color of the line
+    position: "absolute",
+    bottom: -20,
+    left: -9,
+    zIndex: 1, // Ensure the line appears above the box
+    transform: [{ rotate: "45deg" }], // Rotate the line 45 degrees
   },
 });
 

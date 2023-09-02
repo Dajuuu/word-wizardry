@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
-    marginBottom: 10,
     paddingBottom: 15,
   },
   leftButton: {

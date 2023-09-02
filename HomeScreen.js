@@ -282,11 +282,14 @@ const styles = StyleSheet.create({
     // backgroundColor: "rgba(69,84,62,1)",
     backgroundColor: "rgba(69,84,62,1)",
     borderRadius: 20,
-    // shadowColor: "rgba(0,0,0, .4)", // IOS
-    // shadowOffset: { height: 1 }, // IOS
-    // shadowOpacity: 1, // IOS
-    // shadowRadius: 1, //IOS
-    // elevation: 5, // Android
+    // elevation: 4, // Android shadow
+    // shadowColor: "#000", // iOS shadow
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.3,
+    // shadowRadius: 4,
   },
 
   buttonLeaderBoard: {
