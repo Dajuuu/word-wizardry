@@ -238,7 +238,6 @@ const CrosswordApp = ({ route }) => {
       if (key === "") {
         // If backspace is pressed, delete the content of the selected box
         handleBoxInput("", rowIndex, columnIndex);
-        inputRefs.current[rowIndex][columnIndex].focus();
 
         // Move the selection to the left after pressing the backspace
         const nextColumnIndex = columnIndex - 1;
@@ -246,11 +245,24 @@ const CrosswordApp = ({ route }) => {
           handleBoxSelection(rowIndex, nextColumnIndex);
           const nextInputRef = inputRefs.current[rowIndex][nextColumnIndex];
           nextInputRef && nextInputRef.focus();
+        } else {
+          // If there is no next input in the same row, you can move to the previous row's last input
+          const prevRowIndex = rowIndex - 1;
+          if (prevRowIndex >= 0) {
+            const lastColumnIndex = inputRefs.current[prevRowIndex].length - 1;
+            if (lastColumnIndex >= 0) {
+              handleBoxSelection(prevRowIndex, lastColumnIndex);
+              const lastInputRef =
+                inputRefs.current[prevRowIndex][lastColumnIndex];
+              lastInputRef && lastInputRef.focus();
+            }
+          }
         }
       } else {
         // If any other key is pressed, handle it as usual
         handleBoxInput(key, rowIndex, columnIndex);
-        inputRefs.current[rowIndex][columnIndex].focus();
+        const currentInputRef = inputRefs.current[rowIndex][columnIndex];
+        currentInputRef && currentInputRef.focus();
       }
     }
   };
