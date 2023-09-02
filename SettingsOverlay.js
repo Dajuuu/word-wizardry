@@ -16,6 +16,7 @@ import {
   useMusicSetting,
   useVibrationSetting,
 } from "./SoundSettingContext";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 // Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
@@ -83,7 +84,7 @@ const SettingsOverlay = ({ visible, onClose }) => {
               onClose();
             }}
           >
-            <Text style={styles.closeButtonText}>Close</Text>
+            <Icon name="times" style={styles.iconStyle} />
           </TouchableOpacity>
         </View>
       </View>
@@ -94,28 +95,31 @@ const SettingsOverlay = ({ visible, onClose }) => {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     justifyContent: "center",
     alignItems: "center",
   },
   modal: {
-    backgroundColor: "#fff",
+    backgroundColor: "rgba(250,234,219,1)",
     padding: 20,
-    borderRadius: 8,
+    borderRadius: 18,
     alignItems: "center",
     width: "60%",
     flexDirection: "column",
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 10,
+    fontSize: 30,
+    marginBottom: 20,
+    fontFamily: "AppFontBold",
   },
   switchContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 10,
+    backgroundColor: "white",
+    padding: 8,
+    borderRadius: 10,
   },
   switchLabelContainer: {
     flexDirection: "row",
@@ -137,6 +141,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#fff",
+  },
+  closeButton: {
+    position: "absolute",
+    top: -10,
+    right: -10,
+    backgroundColor: "red", // Background color for the circle
+    borderRadius: 20, // Half of the width/height to make it a circle
+    width: 40, // Adjust as needed for the circle size
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  closeButtonText: {
+    fontSize: 18,
+    color: "blue", // Adjust the color as needed
+  },
+  iconStyle: {
+    color: "white",
+    fontSize: 20,
   },
 });
 
