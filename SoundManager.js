@@ -10,13 +10,16 @@ const backgroundMusic = "./assets/sounds/backgroundMusic.mp3"; // Hardcoded path
 // Background sound
 export const useBackgroundSound = () => {
   const { musicEnabled } = useMusicSetting();
-  const [backgroundSoundLoaded, setBackgroundSoundLoaded] = useState();
+  const [backgroundSoundLoaded, setBackgroundSoundLoaded] = useState(false);
   const [backgroundSoundObject, setBackgroundSoundObject] = useState(null);
+  const [isSoundPlaying, setIsSoundPlaying] = useState(false); // Flag to track sound playback
 
   const loadBackgroundSound = async () => {
     if (!musicEnabled) {
-      if (backgroundSoundObject) {
-        backgroundSoundObject.stopAsync(); // Stop the sound if music is disabled
+      if (backgroundSoundObject && isSoundPlaying) {
+        // Stop the sound if music is disabled and it's currently playing
+        await backgroundSoundObject.stopAsync();
+        setIsSoundPlaying(false); // Reset the flag
         setBackgroundSoundLoaded(false);
         setBackgroundSoundObject(null);
       }
@@ -34,6 +37,7 @@ export const useBackgroundSound = () => {
       await sound.setIsLoopingAsync(true);
       await sound.playAsync();
       await sound.setVolumeAsync(0.1); // Adjust to your preferred volume level
+      setIsSoundPlaying(true); // Set the flag to indicate sound is playing
     } catch (error) {
       console.error("Error loading background sound:", error);
     }
@@ -47,6 +51,17 @@ export const useBackgroundSound = () => {
       }
     };
   }, [musicEnabled]);
+
+  // Reset the isSoundPlaying flag when the backgroundSoundObject is done playing
+  useEffect(() => {
+    if (backgroundSoundObject) {
+      backgroundSoundObject.setOnPlaybackStatusUpdate((status) => {
+        if (status.didJustFinish) {
+          setIsSoundPlaying(false); // Sound finished playing, reset the flag
+        }
+      });
+    }
+  }, [backgroundSoundObject]);
 
   return { backgroundSoundLoaded };
 };

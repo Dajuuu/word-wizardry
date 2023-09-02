@@ -48,6 +48,8 @@ export const SoundSettingProvider = ({ children }) => {
 };
 
 export const MusicSettingProvider = ({ children }) => {
+  // This is the inital state of music play. It has to be false,
+  // otherwise the music will start regardless of the state of on app start
   const [musicEnabled, setMusicEnabled] = useState(false);
 
   useEffect(() => {

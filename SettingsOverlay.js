@@ -19,6 +19,23 @@ const SettingsOverlay = ({ visible, onClose }) => {
   const { handleButtonSoundPlay } = useButtonClickSound();
   const { soundEnabled, toggleSoundSetting } = useSoundSetting();
   const { musicEnabled, toggleMusicSetting } = useMusicSetting();
+
+  // Make sure the user cannot press the music switch on and off rapidly
+  const [musicCooldown, setMusicCooldown] = useState(false);
+
+  const handleMusicSwitch = async (newValue) => {
+    if (!musicCooldown) {
+      toggleMusicSetting(newValue);
+      handleButtonSoundPlay();
+
+      // Set a cooldown period (e.g., 1 second) during which the switch can't be changed
+      setMusicCooldown(true);
+      setTimeout(() => {
+        setMusicCooldown(false);
+      }, 1000); // Adjust the duration as needed
+    }
+  };
+
   return (
     // Modal props
     <Modal
@@ -42,13 +59,7 @@ const SettingsOverlay = ({ visible, onClose }) => {
               <Text style={styles.switchLabel}>Music</Text>
             </View>
             {/* Switch for turning on and off the music */}
-            <Switch
-              value={musicEnabled}
-              onValueChange={(newValue) => {
-                toggleMusicSetting(newValue);
-                handleButtonSoundPlay(); // Play the sound when switching
-              }}
-            />
+            <Switch value={musicEnabled} onValueChange={handleMusicSwitch} />
           </View>
           <TouchableOpacity
             style={styles.closeButton}
