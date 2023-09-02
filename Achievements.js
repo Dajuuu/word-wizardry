@@ -101,23 +101,18 @@ const Achievements = () => {
       achivIndex: 1,
       level: "Novice Explorer",
       achivDesc: "Complete 2 Easy levels.",
-      colorFront: "rgba(68, 205, 78, 0.5)",
-      // imageSource: require("./assets/LevelDifficultyImages/easy.png"),
-      // Define the condition on which the achievement will be unlocked
       hideOverlayCondition: easyLevelsCompletedCount >= 2,
     },
     {
       achivIndex: 2,
       level: "Progressing Prodigy",
       achivDesc: "Complete 5 Easy levels. You are half way through!",
-      colorFront: "rgba(68, 205, 78, 0.5)",
       hideOverlayCondition: easyLevelsCompletedCount >= 3,
     },
     {
       achivIndex: 3,
       level: "Flawless Foundations",
       achivDesc: "Complete all Easy levels. Good job!",
-      colorFront: "rgba(68, 205, 78, 0.5)",
       hideOverlayCondition: easyLevelsCompletedCount >= 3,
     },
     // Medium levels
@@ -125,21 +120,18 @@ const Achievements = () => {
       achivIndex: 4,
       level: "Moderate Milestones",
       achivDesc: "Complete 2 Medium levels.",
-      colorFront: "rgba(255, 217, 60, 0.6)",
       hideOverlayCondition: mediumLevelsCompletedCount >= 2,
     },
     {
       achivIndex: 5,
       level: "Moderate Conqueror",
       achivDesc: "Complete 5 Medium levels. Keep it up!",
-      colorFront: "rgba(255, 217, 60, 0.6)",
       hideOverlayCondition: mediumLevelsCompletedCount >= 4,
     },
     {
       achivIndex: 6,
       level: "Intermediate Mastery",
       achivDesc: "Complete all Medium levels. A true word master!",
-      colorFront: "rgba(255, 217, 60, 0.6)",
       hideOverlayCondition: mediumLevelsCompletedCount >= 10,
     },
     // Hard levels
@@ -147,14 +139,12 @@ const Achievements = () => {
       achivIndex: 7,
       level: "Hardship Initiate",
       achivDesc: "Complete 2 Hard levels.",
-      colorFront: "rgba(157, 70, 60, 0.8)",
       hideOverlayCondition: hardLevelsCompletedCount >= 2,
     },
     {
       achivIndex: 8,
       level: "Formidable Feats",
       achivDesc: "Complete 5 Hard levels. Now, that is impressive!",
-      colorFront: "rgba(157, 70, 60, 0.8)",
       hideOverlayCondition: hardLevelsCompletedCount >= 3,
     },
     {
@@ -162,7 +152,6 @@ const Achievements = () => {
       level: "Hardened Victor",
       achivDesc:
         "Complete all Hard levels. Bet everyone hates playing Scrabble with you.",
-      colorFront: "rgba(157, 70, 60, 0.8)",
       hideOverlayCondition: hardLevelsCompletedCount >= 5,
     },
     // Themed levels
@@ -170,14 +159,12 @@ const Achievements = () => {
       achivIndex: 10,
       level: "Theme Explorer",
       achivDesc: "Complete 2 Themed levels.",
-      colorFront: "rgba(215, 169, 246, 0.8)",
       hideOverlayCondition: themedLevelsCompletedCount >= 2,
     },
     {
       achivIndex: 11,
       level: "Imagination Unleashed",
       achivDesc: "Complete 5 Themed levels. Wow!",
-      colorFront: "rgba(215, 169, 246, 0.8)",
       hideOverlayCondition: themedLevelsCompletedCount >= 3,
     },
     {
@@ -185,7 +172,6 @@ const Achievements = () => {
       level: "Theme Maestro",
       achivDesc:
         "Complete all Themed levels. Nothing can surprise you at this point!",
-      colorFront: "rgba(215, 169, 246, 0.8)",
       hideOverlayCondition: themedLevelsCompletedCount >= 5,
     },
     // Complete all levels
@@ -194,11 +180,11 @@ const Achievements = () => {
       level: "Word Wizard",
       achivDesc:
         "Complete all levels in the game. No words can describe your skills.",
-      colorFront: "rgba(40,196,185,0.6)",
-      hideOverlayCondition: easyLevelsCompletedCount >= 2, //&&
-      // mediumLevelsCompletedCount >= 2 &&
-      // hardLevelsCompletedCount >= 2 &&
-      // themedLevelsCompletedCount >= 2,
+      hideOverlayCondition:
+        easyLevelsCompletedCount >= 2 &&
+        mediumLevelsCompletedCount >= 2 &&
+        hardLevelsCompletedCount >= 2 &&
+        themedLevelsCompletedCount >= 2,
     },
   ];
 
