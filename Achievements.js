@@ -302,7 +302,7 @@ const Achievements = () => {
         </View>
         <View style={styles.progressBarContainer}>
           <View style={[styles.progressBar, { width: `${progress}%` }]}></View>
-          <Text style={styles.progressText}>{`${progress.toFixed(2)}%`}</Text>
+          <Text style={styles.progressText}>{`${progress.toFixed(1)}%`}</Text>
         </View>
       </View>
       <ScrollView

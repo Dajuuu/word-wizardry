@@ -36,6 +36,33 @@ export default function App() {
   // setTimeout(() => {
   //   setLoading(false);
   // }, 2000);
+  // Example usage
+  const paths = [
+    require("./assets/LevelDifficultyImages/star-easy.png"),
+    require("./assets/LevelDifficultyImages/star-medium.png"),
+    require("./assets/LevelDifficultyImages/star-hard.png"),
+    require("./assets/LevelDifficultyImages/star-themed.png"),
+    require("./assets/credits.png"),
+    require("./assets/BackgroundImages/1.png"),
+    require("./assets/BackgroundImages/2.png"),
+    // Hints
+    require("./assets/hint1-mag-glass.png"),
+    require("./assets/hint2-bulb.png"),
+    require("./assets/hint3-dice.png"),
+    // Music files
+    require("./assets/sounds/backgroundMusic.mp3"),
+    require("./assets/sounds/buttonClick.mp3"),
+    require("./assets/sounds/levelCompleted.mp3"),
+    // Add more image paths as needed
+  ];
+
+  const cacheImages = async (paths) => {
+    await Promise.all(
+      paths.map(async (path) => {
+        await Asset.fromModule(path).downloadAsync();
+      })
+    );
+  };
 
   // Load the fonts that will be used within the app
   const loadFonts = async () => {
@@ -52,6 +79,7 @@ export default function App() {
   useEffect(() => {
     // Load fonts and sounds
     loadFonts();
+    cacheImages(paths);
   }, []);
 
   if (!fontLoaded) {
