@@ -16,7 +16,7 @@ import {
   determineUnlockedLevelAchievements,
 } from "./AchievementUtils"; // Import the utility functions
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { LinearGradient } from "expo-linear-gradient";
+
 const Achievements = () => {
   const [borderColorAnimation] = useState(new Animated.Value(0));
 
@@ -195,11 +195,10 @@ const Achievements = () => {
       achivDesc:
         "Complete all levels in the game. No words can describe your skills.",
       colorFront: "rgba(40,196,185,0.6)",
-      hideOverlayCondition:
-        easyLevelsCompletedCount >= 2 &&
-        mediumLevelsCompletedCount >= 2 &&
-        hardLevelsCompletedCount >= 2 &&
-        themedLevelsCompletedCount >= 2,
+      hideOverlayCondition: easyLevelsCompletedCount >= 2, //&&
+      // mediumLevelsCompletedCount >= 2 &&
+      // hardLevelsCompletedCount >= 2 &&
+      // themedLevelsCompletedCount >= 2,
     },
   ];
 
@@ -213,11 +212,11 @@ const Achievements = () => {
   //   setSelectedAchievement(null);
   // };
   // TODO change the name of the function
-  const startBorderColorAnimation = () => {
+  const startBorderColorAnimation = (duration) => {
     Animated.loop(
       Animated.timing(borderColorAnimation, {
         toValue: 1,
-        duration: 6000,
+        duration, // Use the provided duration
         useNativeDriver: false,
       })
     ).start();
@@ -228,13 +227,74 @@ const Achievements = () => {
     borderColorAnimation.setValue(0);
   };
 
+  // Start the gradient animation when the achivements is unlocked
   useEffect(() => {
-    if (unlockedAchievementIndexes.includes(13)) {
-      startBorderColorAnimation();
-    } else {
-      stopBorderColorAnimation();
-    }
+    unlockedAchievementIndexes.forEach((achivIndex) => {
+      if (achivIndex === 13) {
+        // As special animation it has different duration
+        startBorderColorAnimation(5000);
+      } else {
+        startBorderColorAnimation(8000);
+      }
+    });
   }, [unlockedAchievementIndexes]);
+
+  const getBackgroundColor = (achivIndex, borderColorAnimation) => {
+    if (achivIndex === 13) {
+      // Special type of colors
+      return borderColorAnimation.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: [
+          "rgba(40,196,185,0.6)",
+          "rgba(208,95,224,0.7)",
+          "rgba(40,196,185,0.6)",
+        ],
+      });
+    } else if (achivIndex === 1 || achivIndex === 2 || achivIndex === 3) {
+      return borderColorAnimation.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: [
+          "rgba(68, 205, 78, 0.5)",
+          "rgba(64, 194, 73, 0.6)",
+          "rgba(68, 205, 78, 0.5)",
+        ],
+      });
+    } else if (achivIndex === 4 || achivIndex === 5 || achivIndex === 6) {
+      return borderColorAnimation.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: [
+          "rgba(255, 217, 60, 0.6)",
+          "rgba(244, 208, 57, 0.5)",
+          "rgba(255, 217, 60, 0.6)",
+        ],
+      });
+    } else if (achivIndex === 7 || achivIndex === 8 || achivIndex === 9) {
+      return borderColorAnimation.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: [
+          "rgba(172, 61, 49, 0.7)",
+          "rgba(158, 56, 45, 0.8)",
+          "rgba(172, 61, 49, 0.7)",
+        ],
+      });
+    } else if (achivIndex === 10 || achivIndex === 11 || achivIndex === 12) {
+      return borderColorAnimation.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: [
+          "rgba(215, 169, 246, 0.8)",
+          "rgba(236, 156, 228,0.8)",
+          "rgba(215, 169, 246, 0.8)",
+        ],
+      });
+    } else {
+      // Default gradient colors for other achivIndex values
+      return [
+        "rgba(128,128,128,0.6)",
+        "rgba(192,192,192,0.6)",
+        "rgba(128,128,128,0.6)",
+      ];
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -246,40 +306,28 @@ const Achievements = () => {
             style={[
               styles.difficultyBox,
               {
-                backgroundColor:
-                  level.achivIndex === 13
-                    ? borderColorAnimation.interpolate({
-                        inputRange: [0, 0.5, 1],
-                        outputRange: [
-                          "rgba(40,196,185,0.6)",
-                          "rgba(208,95,224,0.7)",
-                          "rgba(40,196,185,0.6)",
-                        ],
-                      })
-                    : "transparent", // Set the default background color to transparent
+                backgroundColor: getBackgroundColor(
+                  level.achivIndex,
+                  borderColorAnimation
+                ),
               },
             ]}
           >
-            {/* Apply a LinearGradient for the background */}
-            <LinearGradient
-              colors={["rgba(40,196,185,0.6)", "rgba(208,95,224,0.7)"]} // Specify your gradient colors here
-              style={styles.linearGradient}
-            >
-              {/* The rest of your content */}
-              <Text style={styles.difficultyText}>{level.level}</Text>
-              <Text style={styles.descText}>{level.achivDesc}</Text>
-              {!unlockedAchievementIndexes.includes(level.achivIndex) && (
-                <View style={styles.darkOverlay} />
-              )}
-              {unlockedAchievementIndexes.includes(level.achivIndex) && (
-                <View style={styles.checkmarkContainer}>
-                  <Icon name="check" style={styles.checkmarkIcon} />
-                </View>
-              )}
-            </LinearGradient>
+            {/* <Image source={level.imageSource} style={styles.image} /> */}
+            <Text style={styles.difficultyText}>{level.level}</Text>
+            <Text style={styles.descText}>{level.achivDesc}</Text>
+            {!unlockedAchievementIndexes.includes(level.achivIndex) && (
+              <View style={styles.darkOverlay} />
+            )}
+            {unlockedAchievementIndexes.includes(level.achivIndex) && (
+              <View style={styles.checkmarkContainer}>
+                <Icon name="check" style={styles.checkmarkIcon} />
+              </View>
+            )}
           </Animated.View>
         ))}
       </ScrollView>
+
       {/* Modal */}
       {/* <Modal visible={isModalVisible} animationType="slide" transparent>
         <View style={styles.modalContainer}>
