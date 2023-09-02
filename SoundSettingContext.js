@@ -6,10 +6,13 @@ const SoundSettingContext = createContext();
 
 // Create the context for music settings
 const MusicSettingContext = createContext();
+// Create the context for music settings
+const VibrationSettingContext = createContext();
 
 // Custom hooks to access the contexts
 export const useSoundSetting = () => useContext(SoundSettingContext);
 export const useMusicSetting = () => useContext(MusicSettingContext);
+export const useVibrationSetting = () => useContext(VibrationSettingContext);
 
 // Context provider components
 export const SoundSettingProvider = ({ children }) => {
@@ -69,7 +72,6 @@ export const MusicSettingProvider = ({ children }) => {
 
   const toggleMusicSetting = async (newValue) => {
     setMusicEnabled(newValue);
-    console.log(newValue);
     try {
       await AsyncStorage.setItem("musicSetting", newValue.toString());
     } catch (error) {
@@ -81,5 +83,43 @@ export const MusicSettingProvider = ({ children }) => {
     <MusicSettingContext.Provider value={{ musicEnabled, toggleMusicSetting }}>
       {children}
     </MusicSettingContext.Provider>
+  );
+};
+
+// Vibration
+export const VibrationSettingProvider = ({ children }) => {
+  const [vibrationEnabled, setVibrationEnabled] = useState(true);
+
+  useEffect(() => {
+    const loadVibrationSetting = async () => {
+      try {
+        const vibrationSetting = await AsyncStorage.getItem("vibrationSetting");
+        if (vibrationSetting !== null) {
+          setVibrationEnabled(vibrationSetting === "true");
+        }
+      } catch (error) {
+        console.error("Error fetching vibration setting:", error);
+      }
+    };
+
+    loadVibrationSetting();
+  }, []);
+
+  const toggleVibrationSetting = async (newValue) => {
+    setVibrationEnabled(newValue);
+    console.log("vibration " + newValue);
+    try {
+      await AsyncStorage.setItem("vibrationSetting", newValue.toString());
+    } catch (error) {
+      console.error("Error saving vibration setting:", error);
+    }
+  };
+
+  return (
+    <VibrationSettingContext.Provider
+      value={{ vibrationEnabled, toggleVibrationSetting }}
+    >
+      {children}
+    </VibrationSettingContext.Provider>
   );
 };

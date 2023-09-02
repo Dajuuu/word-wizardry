@@ -12,6 +12,7 @@ import {
   Image,
   Animated,
   Easing,
+  Vibration,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
@@ -30,7 +31,7 @@ import BuyClueOverlay from "./BuyHintOverlay";
 import CustomKeyboard from "./CustomKeyboard";
 import CustomHeader from "./CustomHeader";
 import { useButtonClickSound, useLevelCompletedSound } from "./SoundManager";
-
+import { useVibrationSetting } from "./SoundSettingContext";
 const CrosswordApp = ({ route }) => {
   const navigation = useNavigation();
 
@@ -64,6 +65,8 @@ const CrosswordApp = ({ route }) => {
   const [hiddenGrid, setHiddenGrid] = useState(() =>
     GRID_DATA.map((row) => row.map(() => ""))
   );
+  // Determine whether the vibrations are enabled
+  const { vibrationEnabled } = useVibrationSetting();
 
   // Information on what box/row is selected by the user
   const [selectedBox, setSelectedBox] = useState(null);
@@ -213,6 +216,9 @@ const CrosswordApp = ({ route }) => {
 
       // When level is finished
       if (isLevelFinished) {
+        if (vibrationEnabled) {
+          Vibration.vibrate([500]);
+        }
         setLevelCompleted(true);
         handleLevelCompletedSoundPlay();
       }
@@ -410,6 +416,9 @@ const CrosswordApp = ({ route }) => {
 
       // When level is finished
       if (isLevelFinished) {
+        if (vibrationEnabled) {
+          Vibration.vibrate([500]);
+        }
         setLevelCompleted(true);
         handleLevelCompletedSoundPlay();
       }

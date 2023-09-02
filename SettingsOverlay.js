@@ -11,7 +11,11 @@ import {
 import { Audio } from "expo-av";
 import { useButtonClickSound } from "./SoundManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSoundSetting, useMusicSetting } from "./SoundSettingContext";
+import {
+  useSoundSetting,
+  useMusicSetting,
+  useVibrationSetting,
+} from "./SoundSettingContext";
 
 // Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
@@ -19,6 +23,7 @@ const SettingsOverlay = ({ visible, onClose }) => {
   const { handleButtonSoundPlay } = useButtonClickSound();
   const { soundEnabled, toggleSoundSetting } = useSoundSetting();
   const { musicEnabled, toggleMusicSetting } = useMusicSetting();
+  const { vibrationEnabled, toggleVibrationSetting } = useVibrationSetting();
 
   // Make sure the user cannot press the music switch on and off rapidly
   const [musicCooldown, setMusicCooldown] = useState(false);
@@ -60,6 +65,16 @@ const SettingsOverlay = ({ visible, onClose }) => {
             </View>
             {/* Switch for turning on and off the music */}
             <Switch value={musicEnabled} onValueChange={handleMusicSwitch} />
+          </View>
+          <View style={styles.switchContainer}>
+            <View style={styles.switchLabelContainer}>
+              <Text style={styles.switchLabel}>Vibration</Text>
+            </View>
+            {/* Switch for turning on and off the sound */}
+            <Switch
+              value={vibrationEnabled}
+              onValueChange={toggleVibrationSetting}
+            />
           </View>
           <TouchableOpacity
             style={styles.closeButton}
