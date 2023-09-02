@@ -291,15 +291,19 @@ const Achievements = () => {
   return (
     <View style={styles.container}>
       <CustomHeader title="" />
-      <View style={styles.achivTitle}>
-        <Text style={styles.achivTitleText}>Your Achievements</Text>
-        <Text style={styles.achivCountText}>
-          {unlockedAchievementIndexes.length} / {achievementsList.length}
-        </Text>
-      </View>
-      <View style={styles.progressBarContainer}>
-        <View style={[styles.progressBar, { width: `${progress}%` }]}></View>
-        <Text style={styles.progressText}>{`${progress.toFixed(2)}%`}</Text>
+
+      <View style={styles.background}>
+        <View style={styles.achivTitle}>
+          {/* <View style={styles.background}></View> */}
+          <Text style={styles.achivTitleText}>Your Achievements</Text>
+          <Text style={styles.achivCountText}>
+            {unlockedAchievementIndexes.length} / {achievementsList.length}
+          </Text>
+        </View>
+        <View style={styles.progressBarContainer}>
+          <View style={[styles.progressBar, { width: `${progress}%` }]}></View>
+          <Text style={styles.progressText}>{`${progress.toFixed(2)}%`}</Text>
+        </View>
       </View>
       <ScrollView style={{ width: "100%" }}>
         {achievementsList.map((level, index) => (
@@ -363,7 +367,7 @@ const Achievements = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     // justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f5e1ce",
@@ -483,11 +487,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   achivTitleText: {
-    fontSize: windowHeight * 0.04,
+    fontSize: windowHeight * 0.035,
     fontFamily: "AppFontBold",
   },
   achivCountText: {
-    fontSize: windowHeight * 0.035,
+    fontSize: windowHeight * 0.03,
     fontFamily: "AppFont",
   },
   progressBarContainer: {
@@ -509,6 +513,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     fontFamily: "AppFont",
     fontSize: 17,
+  },
+  background: {
+    backgroundColor: "white",
+    // padding: 20,
+    width: "100%",
+    // height: windowHeight * 0.19,
+    // position: "absolute",
+    // zIndex: -1,
+    paddingBottom: 10,
+    alignItems: "center",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
 });
 
