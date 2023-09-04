@@ -17,10 +17,18 @@ import { Audio } from "expo-av";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useButtonClickSound } from "./SoundManager";
 import { useBackgroundSound } from "./SoundManager";
+import { getBackgroundImage } from "./BackgroundManager";
 
 const HomeScreen = ({ navigation }) => {
   const { loadBackgroundSound } = useBackgroundSound();
+  const [backgroundImage, setBackgroundImage] = useState(null);
 
+  useEffect(() => {
+    // Load the background image on component mount
+    getBackgroundImage().then((imagePath) => {
+      setBackgroundImage(imagePath);
+    });
+  }, []);
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   let iconWidth = windowWidth / 20;
@@ -133,7 +141,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require("./assets/BackgroundImages/2.png")} // Replace with your image source
+      source={backgroundImage} // Replace with your image source
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
