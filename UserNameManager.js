@@ -31,4 +31,12 @@ export const initializeUsername = async () => {
   } else {
     return storedUsername;
   }
+  // Function to update the username in AsyncStorage
+};
+export const updateUsername = async (newUsername) => {
+  try {
+    await AsyncStorage.setItem("username", newUsername);
+  } catch (error) {
+    console.error("Error updating username in AsyncStorage: ", error);
+  }
 };
