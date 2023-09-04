@@ -13,6 +13,7 @@ import {
   LayoutAnimation,
   UIManager,
   Platform,
+  ImageBackground,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 import {
@@ -21,7 +22,7 @@ import {
 } from "./UserNameManager";
 import BuyClueOverlay from "./BuyHintOverlay";
 import Icon from "react-native-vector-icons/FontAwesome5";
-
+import { backgroundImagePaths } from "./BackgroundManager";
 import { loadClueCount, initializeClueCounts } from "./ClueManager"; // Import the clue count functions
 if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -31,6 +32,7 @@ const windowHeight = Dimensions.get("window").height;
 
 const UserProfile = () => {
   const [isSectionHidden, setSectionHidden] = useState(false);
+  const [backgroundImageNumber, setBackgroundImageNumber] = useState(null);
 
   // Initialize clue counts
   const [clueCount1, setClueCount1] = useState();
@@ -63,7 +65,6 @@ const UserProfile = () => {
     require("./assets/BackgroundImages/6.png"),
     // Add more image paths here
   ];
-
   useEffect(() => {
     const fetchUsername = async () => {
       const storedUsername = await checkUsernameInStorage();
@@ -284,12 +285,34 @@ const UserProfile = () => {
               Background Change Section
             </Text>
             <FlatList
-              data={imagePaths}
-              keyExtractor={(item, index) => index.toString()}
+              data={Object.keys(backgroundImagePaths)} // Use Object.keys to get the keys of the backgroundImagePaths
+              keyExtractor={(item) => item.toString()} // Use the key as a string
               horizontal
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => (
-                <Image source={item} style={styles.imageItem} />
+                <TouchableOpacity
+                  onPress={() => {
+                    // Log the item (which is the key of the backgroundImagePaths)
+                    console.log("TouchableOpacity pressed:", item);
+
+                    // Handle your background image change or other logic here
+                    // handleImageSelect(parseInt(item)); // Assuming you want to select this image
+                  }}
+                >
+                  {/* Use the backgroundImagePaths object to get the source */}
+                  <ImageBackground
+                    source={backgroundImagePaths[item]}
+                    style={styles.imageItem}
+                  >
+                    {/* You can add any content inside the ImageBackground */}
+                    {/* For example, an indicator if the background is selected */}
+                    {backgroundImageNumber === parseInt(item) && (
+                      <View style={styles.selectedIndicator}>
+                        <Text style={styles.selectedText}>Selected</Text>
+                      </View>
+                    )}
+                  </ImageBackground>
+                </TouchableOpacity>
               )}
             />
           </View>
