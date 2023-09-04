@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     // alignItems: "center", // Center them vertically within the header
   },
   creditsText: {
-    fontSize: 16,
+    fontSize: windowHeight * 0.024,
     flexWrap: "wrap",
     maxWidth: "70%",
     // alignSelf: "center",
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     // justifyContent: "space-between", // Space them evenly along the row
     alignItems: "center", // Center them vertically within the header
-    maxWidth: 110,
+    // maxWidth: 110,
     minWidth: 95,
     height: windowHeight * 0.07,
     shadowColor: "black", // iOS shadow

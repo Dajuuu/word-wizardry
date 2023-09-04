@@ -13,6 +13,7 @@ import {
   Animated,
   Easing,
   Vibration,
+  Dimensions,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
@@ -32,6 +33,10 @@ import CustomKeyboard from "./CustomKeyboard";
 import CustomHeader from "./CustomHeader";
 import { useButtonClickSound, useLevelCompletedSound } from "./SoundManager";
 import { useVibrationSetting } from "./SoundSettingContext";
+
+// Get the height of the device
+const windowHeight = Dimensions.get("window").height;
+
 const CrosswordApp = ({ route }) => {
   const navigation = useNavigation();
 
@@ -121,20 +126,6 @@ const CrosswordApp = ({ route }) => {
     checkLevelCompletion(); // Check if level is already completed
     initializeClueCounts(); // TODO Probaply it needs to be deleted because of the function below
     loadClueCounts(); // Load the clue counts for the user
-
-    // Cache the hints icons
-    const cacheIcon = async () => {
-      await Asset.fromModule(
-        require("./assets/hint1-mag-glass.png")
-      ).downloadAsync();
-      await Asset.fromModule(
-        require("./assets/hint2-bulb.png")
-      ).downloadAsync();
-      await Asset.fromModule(
-        require("./assets/hint3-dice.png")
-      ).downloadAsync();
-    };
-    cacheIcon();
   }, []);
 
   // Check if the level was previosly completed, based on the data in the AsyncStorage
@@ -1015,8 +1006,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   box: {
-    width: 50,
-    height: 50,
+    width: windowHeight * 0.07,
+    height: windowHeight * 0.07,
     borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
@@ -1084,14 +1075,14 @@ const styles = StyleSheet.create({
   clueContainer: {
     width: "120%",
     paddingHorizontal: 40,
-    paddingVertical: 15,
+    paddingVertical: 7,
     backgroundColor: "#CE8B53",
     borderTopWidth: 2,
     borderBottomWidth: 2,
     borderColor: "#9b673a",
   },
   clueText: {
-    fontSize: 18,
+    fontSize: windowHeight * 0.026,
     // marginTop: 10,
     alignSelf: "center",
     fontFamily: "AppFontBold",
@@ -1104,8 +1095,7 @@ const styles = StyleSheet.create({
   clueButton: {
     marginTop: 10,
     backgroundColor: "green",
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    padding: windowHeight * 0.01,
     borderRadius: 8,
     marginHorizontal: 16,
   },
