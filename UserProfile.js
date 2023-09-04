@@ -51,7 +51,7 @@ const UserProfile = () => {
 
   return (
     <View style={styles.container}>
-      <CustomHeader title="Your Profile" />
+      <CustomHeader title="Profile" />
 
       <View style={styles.userInfo}>
         <Text style={styles.userInfoText}>Your Username</Text>
@@ -69,9 +69,33 @@ const UserProfile = () => {
             <Icon name="pen" style={[styles.buttonIcon]} solid />
           </TouchableOpacity>
         </View>
-      </View>
+        <View style={styles.userStats}>
+          <View style={styles.borderLineTop} />
+          {/* Total Points */}
+          <View style={styles.statContainer}>
+            <Text style={styles.statLabel}>Total Score:</Text>
+            <Text style={styles.statValue}>1000</Text>
+          </View>
 
-      {/* Input field for the new username */}
+          {/* Hint 1 */}
+          <View style={styles.statContainer}>
+            <Text style={styles.statLabel}>Hint 1:</Text>
+            <Text style={styles.statValue}>5</Text>
+          </View>
+
+          {/* Hint 2 */}
+          <View style={styles.statContainer}>
+            <Text style={styles.statLabel}>Hint 2:</Text>
+            <Text style={styles.statValue}>3</Text>
+          </View>
+
+          {/* Hint 3 */}
+          <View style={styles.statContainer}>
+            <Text style={styles.statLabel}>Hint 3:</Text>
+            <Text style={styles.statValue}>10</Text>
+          </View>
+        </View>
+      </View>
 
       {/* Button to confirm the username change */}
 
@@ -99,6 +123,8 @@ const styles = StyleSheet.create({
   },
   userInfoText: {
     fontSize: 24,
+    fontFamily: "AppFontBold",
+    marginBottom: 10,
   },
   usernameText: {
     fontSize: 18,
@@ -111,13 +137,15 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     // marginTop: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 14,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
+    fontFamily: "AppFontBold",
+    fontSize: 18,
   },
   updateButton: {
     backgroundColor: "#007BFF",
-    padding: 15,
+    padding: 16, // changing this make the whole component resize
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     // borderRadius: 5,
@@ -143,6 +171,34 @@ const styles = StyleSheet.create({
     width: "90%",
     // alignItems: "center",
     justifyContent: "center",
+  },
+  borderLineTop: {
+    borderTopWidth: 1,
+    width: "90%",
+    marginVertical: 16,
+    elevation: 5,
+  },
+  userStats: {
+    // marginTop: 30,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "lightblue", // Change to your desired color
+  },
+  statContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+    backgroundColor: "gray",
+    width: "80%",
+  },
+  statLabel: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginRight: 10,
+  },
+  statValue: {
+    fontSize: 18,
   },
 });
 
