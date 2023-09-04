@@ -6,18 +6,49 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Image,
+  Dimensions,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 import {
   checkUsernameInStorage,
   updateUsername, // Import the updateUsername function
 } from "./UserNameManager";
+import BuyClueOverlay from "./BuyHintOverlay";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
+import {
+  incrementClueCount,
+  decrementClueCount,
+  loadClueCount,
+  initializeClueCounts,
+} from "./ClueManager"; // Import the clue count functions
+
+// Get the height of the device
+const windowHeight = Dimensions.get("window").height;
+
 const UserProfile = () => {
+  // Initialize clue counts
+  const [clueCount1, setClueCount1] = useState();
+  const [clueCount2, setClueCount2] = useState();
+  const [clueCount3, setClueCount3] = useState();
+
+  // Load the clue counts from the AsyncStorage and assign them to the useState hooks
+  const loadClueCounts = async () => {
+    const count1 = await loadClueCount(1);
+    const count2 = await loadClueCount(2);
+    const count3 = await loadClueCount(3);
+
+    setClueCount1(count1);
+    setClueCount2(count2);
+    setClueCount3(count3);
+  };
+
   const [username, setUsername] = useState("");
   const [newUsername, setNewUsername] = useState(""); // State for the new username input
-
+  const [showBuyClueOverlay1, setShowBuyClueOverlay1] = useState(false);
+  const [showBuyClueOverlay2, setShowBuyClueOverlay2] = useState(false);
+  const [showBuyClueOverlay3, setShowBuyClueOverlay3] = useState(false);
   useEffect(() => {
     const fetchUsername = async () => {
       const storedUsername = await checkUsernameInStorage();
@@ -49,7 +80,48 @@ const UserProfile = () => {
     // Clear the new username input field
     setNewUsername("");
   };
+  const creditsCostHint1 = 10;
+  const creditsCostHint2 = 50;
+  const creditsCostHint3 = 30;
 
+  // Overlay for hint 1
+  const renderBuyClueOverlay1 = (
+    <BuyClueOverlay
+      visible={showBuyClueOverlay1}
+      onClose={() => setShowBuyClueOverlay1(false)}
+      onBuyClue={async () => {
+        setShowBuyClueOverlay1(false); // Close the overlay after buying
+        setClueCount1(clueCount1 + 1); // Update the clue count
+      }}
+      clueNumber={1} // Pass the clue number as a prop
+      creditsDecrement={creditsCostHint1} // Remove Credits when buying the hint
+    />
+  );
+  // Overlay for hint 2
+  const renderBuyClueOverlay2 = (
+    <BuyClueOverlay
+      visible={showBuyClueOverlay2}
+      onClose={() => setShowBuyClueOverlay2(false)}
+      onBuyClue={async () => {
+        setShowBuyClueOverlay2(false); // Close the overlay after buying
+        setClueCount2(clueCount2 + 1); // Update the clue count
+      }}
+      clueNumber={2} // Pass the clue number as a prop
+      creditsDecrement={creditsCostHint2} // Remove Credits when buying the hint
+    />
+  );
+  const renderBuyClueOverlay3 = (
+    <BuyClueOverlay
+      visible={showBuyClueOverlay3}
+      onClose={() => setShowBuyClueOverlay3(false)}
+      onBuyClue={async () => {
+        setShowBuyClueOverlay3(false); // Close the overlay after buying
+        setClueCount3(clueCount3 + 1); // Update the clue count
+      }}
+      clueNumber={3} // Pass the clue number as a prop
+      creditsDecrement={creditsCostHint3} // Remove Credits when buying the hint
+    />
+  );
   return (
     <ScrollView
       contentContainerStyle={styles.scrollViewContainer}
@@ -83,21 +155,67 @@ const UserProfile = () => {
             </View>
 
             {/* Hint 1 */}
-            <View style={styles.statContainer}>
-              <Text style={styles.statLabel}>Hint 1:</Text>
-              <Text style={styles.statValue}>5</Text>
-            </View>
 
-            {/* Hint 2 */}
-            <View style={styles.statContainer}>
-              <Text style={styles.statLabel}>Hint 2:</Text>
-              <Text style={styles.statValue}>3</Text>
-            </View>
+            <View style={styles.clueButtonsContainer}>
+              <TouchableOpacity
+                style={styles.clueButton}
+                onPress={() => setShowBuyClueOverlay1(true)}
+              >
+                {/* Render Buy Hint overlay */}
+                {renderBuyClueOverlay1}
+                <View style={styles.rowDirectionContainer}>
+                  {/* Render the icon */}
+                  <Image
+                    source={require("./assets/hint1-mag-glass.png")}
+                    style={styles.hintImage}
+                  />
 
-            {/* Hint 3 */}
-            <View style={styles.statContainer}>
-              <Text style={styles.statLabel}>Hint 3:</Text>
-              <Text style={styles.statValue}>10</Text>
+                  {/* Clue count container */}
+                  <View style={styles.clueCountContainer}>
+                    <Text style={styles.clueCountText}>{clueCount1}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.clueButton}
+                onPress={() => setShowBuyClueOverlay2(true)}
+              >
+                {/* Render Buy Hint overlay */}
+                {renderBuyClueOverlay2}
+                <View style={styles.rowDirectionContainer}>
+                  {/* Render the icon */}
+                  <Image
+                    source={require("./assets/hint2-bulb.png")}
+                    style={styles.hintImage}
+                  />
+
+                  {/* Clue count container */}
+                  <View style={styles.clueCountContainer}>
+                    <Text style={styles.clueCountText}>{clueCount2}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.clueButton}
+                onPress={() => setShowBuyClueOverlay3(true)}
+              >
+                {/* Render Buy Hint overlay */}
+                {renderBuyClueOverlay3}
+                <View style={styles.rowDirectionContainer}>
+                  {/* Render the icon */}
+                  <Image
+                    source={require("./assets/hint3-dice.png")}
+                    style={styles.hintImage}
+                  />
+
+                  {/* Clue count container */}
+                  <View style={styles.clueCountContainer}>
+                    <Text style={styles.clueCountText}>{clueCount3}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -163,7 +281,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   backgroundChange: {
-    flex: 3,
+    flex: 6,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
@@ -193,21 +311,52 @@ const styles = StyleSheet.create({
   },
   statContainer: {
     flexDirection: "row",
+    justifyContent: "space-between", // Distribute the children's space evenly
     alignItems: "center",
     marginBottom: 10,
     backgroundColor: "gray",
     width: "80%",
+    padding: 6,
+    elevation: 4,
+    borderRadius: 10,
   },
   statLabel: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontFamily: "AppFontBold",
     marginRight: 10,
   },
   statValue: {
     fontSize: 18,
+    fontFamily: "AppFont",
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 3,
   },
   scrollViewContainer: {
     flexGrow: 1, // Allow the content to grow within the ScrollView
+  },
+  hintImage: {
+    width: 32,
+    height: 32,
+    // Add other styles for the icon if needed
+    // ...
+  },
+  clueButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginTop: 10,
+  },
+  clueButton: {
+    marginTop: 10,
+    backgroundColor: "green",
+    padding: windowHeight * 0.01,
+    borderRadius: 8,
+    marginHorizontal: 16,
+  },
+  clueButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff",
   },
 });
 
