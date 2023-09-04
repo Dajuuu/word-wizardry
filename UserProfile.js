@@ -9,6 +9,10 @@ import {
   Image,
   Dimensions,
   FlatList,
+  Keyboard,
+  LayoutAnimation,
+  UIManager,
+  Platform,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 import {
@@ -19,11 +23,15 @@ import BuyClueOverlay from "./BuyHintOverlay";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 import { loadClueCount, initializeClueCounts } from "./ClueManager"; // Import the clue count functions
-
+if (Platform.OS === "android") {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;
 
 const UserProfile = () => {
+  const [isSectionHidden, setSectionHidden] = useState(false);
+
   // Initialize clue counts
   const [clueCount1, setClueCount1] = useState();
   const [clueCount2, setClueCount2] = useState();
@@ -72,7 +80,33 @@ const UserProfile = () => {
   const handleUsernameChange = (text) => {
     setNewUsername(text);
   };
+  useEffect(() => {
+    // Add a listener for when the keyboard is shown
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        // Keyboard is shown, hide the section with animation
+        LayoutAnimation.easeInEaseOut();
+        setSectionHidden(true);
+      }
+    );
 
+    // Add a listener for when the keyboard is hidden
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        // Keyboard is hidden, show the section again with animation
+        LayoutAnimation.easeInEaseOut();
+        setSectionHidden(false);
+      }
+    );
+
+    // Cleanup the listeners when the component unmounts
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
   // Function to update the username
   const handleUpdateUsername = async () => {
     if (newUsername.trim() === "") {
@@ -244,20 +278,22 @@ const UserProfile = () => {
 
         {/* Button to confirm the username change */}
 
-        <View style={styles.backgroundChange}>
-          <Text style={styles.backgroundChangeText}>
-            Background Change Section
-          </Text>
-          <FlatList
-            data={imagePaths}
-            keyExtractor={(item, index) => index.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <Image source={item} style={styles.imageItem} />
-            )}
-          />
-        </View>
+        {!isSectionHidden && ( // Only show if the section is not hidden
+          <View style={styles.backgroundChange}>
+            <Text style={styles.backgroundChangeText}>
+              Background Change Section
+            </Text>
+            <FlatList
+              data={imagePaths}
+              keyExtractor={(item, index) => index.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <Image source={item} style={styles.imageItem} />
+              )}
+            />
+          </View>
+        )}
       </View>
     </ScrollView>
   );
