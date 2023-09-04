@@ -8,6 +8,7 @@ import {
   ScrollView,
   Image,
   Dimensions,
+  FlatList,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 import {
@@ -17,12 +18,7 @@ import {
 import BuyClueOverlay from "./BuyHintOverlay";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-import {
-  incrementClueCount,
-  decrementClueCount,
-  loadClueCount,
-  initializeClueCounts,
-} from "./ClueManager"; // Import the clue count functions
+import { loadClueCount, initializeClueCounts } from "./ClueManager"; // Import the clue count functions
 
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;
@@ -49,6 +45,17 @@ const UserProfile = () => {
   const [showBuyClueOverlay1, setShowBuyClueOverlay1] = useState(false);
   const [showBuyClueOverlay2, setShowBuyClueOverlay2] = useState(false);
   const [showBuyClueOverlay3, setShowBuyClueOverlay3] = useState(false);
+
+  const imagePaths = [
+    require("./assets/BackgroundImages/1.png"),
+    require("./assets/BackgroundImages/2.png"),
+    require("./assets/BackgroundImages/3.png"),
+    require("./assets/BackgroundImages/4.png"),
+    require("./assets/BackgroundImages/5.png"),
+    require("./assets/BackgroundImages/6.png"),
+    // Add more image paths here
+  ];
+
   useEffect(() => {
     const fetchUsername = async () => {
       const storedUsername = await checkUsernameInStorage();
@@ -241,6 +248,15 @@ const UserProfile = () => {
           <Text style={styles.backgroundChangeText}>
             Background Change Section
           </Text>
+          <FlatList
+            data={imagePaths}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <Image source={item} style={styles.imageItem} />
+            )}
+          />
         </View>
       </View>
     </ScrollView>
@@ -296,7 +312,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   backgroundChange: {
-    flex: 6,
+    flex: 3,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
@@ -367,7 +383,7 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
     padding: windowHeight * 0.01,
     borderRadius: 8,
-    marginHorizontal: 16,
+    marginHorizontal: 25,
   },
   clueButtonText: {
     fontSize: 16,
@@ -409,6 +425,12 @@ const styles = StyleSheet.create({
     // Problem - this may be wrong for different devices - need to check that
     marginBottom: 3,
     fontFamily: "AppFontBold",
+  },
+  imageItem: {
+    width: 80,
+    height: 140,
+    margin: 5,
+    resizeMode: "cover",
   },
 });
 
