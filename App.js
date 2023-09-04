@@ -12,6 +12,8 @@ import {
   VibrationSettingProvider,
 } from "./SoundSettingContext";
 // import { useBackgroundSound } from "./SoundManager";
+import initializeUsername from "./UserNameManager";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Screens
 import HomeScreen from "./HomeScreen";
@@ -32,12 +34,38 @@ export default function App() {
   // Hooks needed for the loading screen and fonts
   // const [loading, setLoading] = useState(true);
   // useBackgroundSound();
+  const [username, setUsername] = useState("");
   const [fontLoaded, setFontLoaded] = useState(false);
   // Close the loading screen after x seconds
   // setTimeout(() => {
   //   setLoading(false);
   // }, 2000);
   // Example usage
+
+  useEffect(() => {
+    // Function to check if a username exists in AsyncStorage
+    const checkUsernameInStorage = async () => {
+      try {
+        const storedUsername = await AsyncStorage.getItem("username");
+        if (storedUsername !== null) {
+          // If username exists, set it in state
+          setUsername(storedUsername);
+        } else {
+          // If username doesn't exist, create a random one and store it
+          const randomUsername = `User_${Math.random()
+            .toString(36)
+            .substr(2, 8)}`;
+          await AsyncStorage.setItem("username", randomUsername);
+          setUsername(randomUsername);
+        }
+      } catch (error) {
+        console.error("Error checking/setting username: ", error);
+      }
+    };
+
+    checkUsernameInStorage();
+  }, []);
+
   const paths = [
     require("./assets/LevelDifficultyImages/star-easy.png"),
     require("./assets/LevelDifficultyImages/star-medium.png"),
