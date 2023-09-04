@@ -34,6 +34,9 @@ const HomeScreen = ({ navigation }) => {
   const handlePlayButtonPress = () => {
     navigation.navigate("GameScreen");
   };
+  const handleUserButtonPress = () => {
+    navigation.navigate("UserProfile");
+  };
 
   const handleTrophyButtonPress = () => {
     navigation.navigate("Achievements");
@@ -136,9 +139,13 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.container}>
         {/* Display buttons at the top */}
         <View style={styles.buttonContainer}>
+          {/* User Profile Button */}
           <TouchableOpacity
             style={styles.button}
-            onPress={handleButtonSoundPlay}
+            onPress={() => {
+              handleButtonSoundPlay();
+              handleUserButtonPress();
+            }}
           >
             <Icon
               name="user"

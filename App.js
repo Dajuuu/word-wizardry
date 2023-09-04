@@ -24,6 +24,7 @@ import TestingGamingScreen from "./TestingGamingScreen";
 import CrosswordApp from "./CrosswordScreen";
 import LevelScreen from "./LevelScreen";
 import Achievements from "./Achievements";
+import UserProfile from "./UserProfile";
 
 const Stack = createStackNavigator();
 
@@ -103,6 +104,7 @@ export default function App() {
                 >
                   <Stack.Screen name="Home" component={HomeScreen} />
                   <Stack.Screen name="GameScreen" component={GameScreen} />
+                  <Stack.Screen name="UserProfile" component={UserProfile} />
                   <Stack.Screen
                     name="EasyLevels"
                     component={EasyLevelsScreen}
