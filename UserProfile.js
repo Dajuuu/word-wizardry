@@ -57,7 +57,10 @@ const UserProfile = () => {
 
     fetchUsername();
   }, []);
-
+  useEffect(() => {
+    initializeClueCounts(); // TODO Probaply it needs to be deleted because of the function below
+    loadClueCounts(); // Load the clue counts for the user
+  }, []);
   // Function to handle the new username input change
   const handleUsernameChange = (text) => {
     setNewUsername(text);
@@ -357,6 +360,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#fff",
+  },
+  clueCountContainer: {
+    position: "absolute",
+    bottom: 25,
+    left: 25,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  clueCountText: {
+    fontSize: 15,
+    color: "#333",
+    // Problem - this may be wrong for different devices - need to check that
+    marginBottom: 3,
+    fontFamily: "AppFontBold",
   },
 });
 
