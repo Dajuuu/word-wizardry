@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 import {
@@ -50,61 +51,66 @@ const UserProfile = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <CustomHeader title="Profile" />
+    <ScrollView
+      contentContainerStyle={styles.scrollViewContainer}
+      keyboardShouldPersistTaps="handled"
+    >
+      <View style={styles.container}>
+        <CustomHeader title="Profile" />
 
-      <View style={styles.userInfo}>
-        <Text style={styles.userInfoText}>Your Username</Text>
-        <View style={styles.usernameInput}>
-          <TextInput
-            style={styles.input}
-            placeholder={username}
-            onChangeText={handleUsernameChange}
-            value={newUsername}
-          />
-          <TouchableOpacity
-            onPress={handleUpdateUsername}
-            style={styles.updateButton}
-          >
-            <Icon name="pen" style={[styles.buttonIcon]} solid />
-          </TouchableOpacity>
+        <View style={styles.userInfo}>
+          <Text style={styles.userInfoText}>Your Username</Text>
+          <View style={styles.usernameInput}>
+            <TextInput
+              style={styles.input}
+              placeholder={username}
+              onChangeText={handleUsernameChange}
+              value={newUsername}
+            />
+            <TouchableOpacity
+              onPress={handleUpdateUsername}
+              style={styles.updateButton}
+            >
+              <Icon name="pen" style={[styles.buttonIcon]} solid />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.userStats}>
+            <View style={styles.borderLineTop} />
+            {/* Total Points */}
+            <View style={styles.statContainer}>
+              <Text style={styles.statLabel}>Total Score:</Text>
+              <Text style={styles.statValue}>1000</Text>
+            </View>
+
+            {/* Hint 1 */}
+            <View style={styles.statContainer}>
+              <Text style={styles.statLabel}>Hint 1:</Text>
+              <Text style={styles.statValue}>5</Text>
+            </View>
+
+            {/* Hint 2 */}
+            <View style={styles.statContainer}>
+              <Text style={styles.statLabel}>Hint 2:</Text>
+              <Text style={styles.statValue}>3</Text>
+            </View>
+
+            {/* Hint 3 */}
+            <View style={styles.statContainer}>
+              <Text style={styles.statLabel}>Hint 3:</Text>
+              <Text style={styles.statValue}>10</Text>
+            </View>
+          </View>
         </View>
-        <View style={styles.userStats}>
-          <View style={styles.borderLineTop} />
-          {/* Total Points */}
-          <View style={styles.statContainer}>
-            <Text style={styles.statLabel}>Total Score:</Text>
-            <Text style={styles.statValue}>1000</Text>
-          </View>
 
-          {/* Hint 1 */}
-          <View style={styles.statContainer}>
-            <Text style={styles.statLabel}>Hint 1:</Text>
-            <Text style={styles.statValue}>5</Text>
-          </View>
+        {/* Button to confirm the username change */}
 
-          {/* Hint 2 */}
-          <View style={styles.statContainer}>
-            <Text style={styles.statLabel}>Hint 2:</Text>
-            <Text style={styles.statValue}>3</Text>
-          </View>
-
-          {/* Hint 3 */}
-          <View style={styles.statContainer}>
-            <Text style={styles.statLabel}>Hint 3:</Text>
-            <Text style={styles.statValue}>10</Text>
-          </View>
+        <View style={styles.backgroundChange}>
+          <Text style={styles.backgroundChangeText}>
+            Background Change Section
+          </Text>
         </View>
       </View>
-
-      {/* Button to confirm the username change */}
-
-      <View style={styles.backgroundChange}>
-        <Text style={styles.backgroundChangeText}>
-          Background Change Section
-        </Text>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -199,6 +205,9 @@ const styles = StyleSheet.create({
   },
   statValue: {
     fontSize: 18,
+  },
+  scrollViewContainer: {
+    flexGrow: 1, // Allow the content to grow within the ScrollView
   },
 });
 
