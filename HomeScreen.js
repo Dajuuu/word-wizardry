@@ -18,31 +18,21 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import { useButtonClickSound } from "./SoundManager";
 import { useBackgroundSound } from "./SoundManager";
 import { getBackgroundImage } from "./BackgroundManager";
-
-const backgroundImagePaths = {
-  1: require("./assets/BackgroundImages/1.png"),
-  2: require("./assets/BackgroundImages/2.png"),
-  3: require("./assets/BackgroundImages/3.png"),
-  4: require("./assets/BackgroundImages/4.png"),
-  5: require("./assets/BackgroundImages/5.png"),
-  6: require("./assets/BackgroundImages/6.png"),
-  // Add more image paths here
-};
+import { backgroundImagePaths } from "./BackgroundManager";
 
 const HomeScreen = ({ navigation }) => {
   const { loadBackgroundSound } = useBackgroundSound();
-  const [backgroundImageNumber, setBackgroundImageNumber] = useState(null);
+  const [backgroundImageSource, setBackgroundImageSource] = useState(
+    backgroundImagePaths[1] // Set a default background image
+  );
 
   useEffect(() => {
     // Load the background image number on component mount
     getBackgroundImage().then((imageNumber) => {
-      setBackgroundImageNumber(imageNumber);
+      const selectedImage = backgroundImagePaths[imageNumber];
+      setBackgroundImageSource(selectedImage);
     });
   }, []);
-
-  // Get the background image source based on the number
-  const backgroundImageSource = backgroundImagePaths[backgroundImageNumber];
-
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   let iconWidth = windowWidth / 20;
@@ -155,7 +145,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={backgroundImageSource} // Replace with your image source
+      source={backgroundImageSource}
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
