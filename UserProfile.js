@@ -177,6 +177,10 @@ const UserProfile = () => {
                   <View style={styles.clueCountContainer}>
                     <Text style={styles.clueCountText}>{clueCount1}</Text>
                   </View>
+                  {/* Plus sign indicator */}
+                  <View style={styles.clueAddContainer}>
+                    <Text style={styles.clueAddText}>+</Text>
+                  </View>
                 </View>
               </TouchableOpacity>
 
@@ -197,6 +201,10 @@ const UserProfile = () => {
                   <View style={styles.clueCountContainer}>
                     <Text style={styles.clueCountText}>{clueCount2}</Text>
                   </View>
+                  {/* Plus sign indicator */}
+                  <View style={styles.clueAddContainer}>
+                    <Text style={styles.clueAddText}>+</Text>
+                  </View>
                 </View>
               </TouchableOpacity>
 
@@ -216,6 +224,10 @@ const UserProfile = () => {
                   {/* Clue count container */}
                   <View style={styles.clueCountContainer}>
                     <Text style={styles.clueCountText}>{clueCount3}</Text>
+                  </View>
+                  {/* Plus sign indicator */}
+                  <View style={styles.clueAddContainer}>
+                    <Text style={styles.clueAddText}>+</Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -341,6 +353,7 @@ const styles = StyleSheet.create({
   hintImage: {
     width: 32,
     height: 32,
+
     // Add other styles for the icon if needed
     // ...
   },
@@ -372,8 +385,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  clueAddContainer: {
+    position: "absolute",
+    bottom: -25,
+    left: 25,
+    backgroundColor: "rgba(255,215,0,1)",
+    borderRadius: 100,
+    width: 30,
+    height: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   clueCountText: {
     fontSize: 15,
+    color: "#333",
+    // Problem - this may be wrong for different devices - need to check that
+    marginBottom: 3,
+    fontFamily: "AppFontBold",
+  },
+  clueAddText: {
+    fontSize: 20,
     color: "#333",
     // Problem - this may be wrong for different devices - need to check that
     marginBottom: 3,
