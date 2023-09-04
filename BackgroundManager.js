@@ -32,9 +32,10 @@ export const getBackgroundImage = async () => {
 };
 
 // Function to set the background image number in AsyncStorage
-export const setBackgroundImage = async (imageNumber) => {
+export const setStoredBackgroundImage = async (imageNumber) => {
   try {
     await AsyncStorage.setItem("backgroundImageIndex", imageNumber.toString());
+    console.log("Background image updated to index", imageNumber);
   } catch (error) {
     console.error("Error setting backgroundImageIndex in AsyncStorage:", error);
   }
@@ -44,10 +45,11 @@ export const setBackgroundImage = async (imageNumber) => {
 export const setDefaultBackgroundImage = () => {
   AsyncStorage.getItem("backgroundImageIndex").then((backgroundImageNumber) => {
     if (backgroundImageNumber === null) {
-      setBackgroundImage(DEFAULT_BACKGROUND);
+      setStoredBackgroundImage(DEFAULT_BACKGROUND);
       console.log("Default background image index set to", DEFAULT_BACKGROUND);
     }
   });
 };
 
-export { backgroundImagePaths }; // Export backgroundImagePaths
+// Export the background image paths separately
+export { backgroundImagePaths };

@@ -24,6 +24,8 @@ import BuyClueOverlay from "./BuyHintOverlay";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { backgroundImagePaths } from "./BackgroundManager";
 import { loadClueCount, initializeClueCounts } from "./ClueManager"; // Import the clue count functions
+import { setStoredBackgroundImage } from "./BackgroundManager";
+
 if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
@@ -33,7 +35,10 @@ const windowHeight = Dimensions.get("window").height;
 const UserProfile = () => {
   const [isSectionHidden, setSectionHidden] = useState(false);
   const [backgroundImageNumber, setBackgroundImageNumber] = useState(null);
-
+  const handleImageSelect = async (newImageNumber) => {
+    setBackgroundImageNumber(newImageNumber);
+    await setStoredBackgroundImage(newImageNumber); // Call the function to update the background image index
+  };
   // Initialize clue counts
   const [clueCount1, setClueCount1] = useState();
   const [clueCount2, setClueCount2] = useState();
@@ -56,15 +61,6 @@ const UserProfile = () => {
   const [showBuyClueOverlay2, setShowBuyClueOverlay2] = useState(false);
   const [showBuyClueOverlay3, setShowBuyClueOverlay3] = useState(false);
 
-  const imagePaths = [
-    require("./assets/BackgroundImages/1.png"),
-    require("./assets/BackgroundImages/2.png"),
-    require("./assets/BackgroundImages/3.png"),
-    require("./assets/BackgroundImages/4.png"),
-    require("./assets/BackgroundImages/5.png"),
-    require("./assets/BackgroundImages/6.png"),
-    // Add more image paths here
-  ];
   useEffect(() => {
     const fetchUsername = async () => {
       const storedUsername = await checkUsernameInStorage();
@@ -296,7 +292,7 @@ const UserProfile = () => {
                     console.log("TouchableOpacity pressed:", item);
 
                     // Handle your background image change or other logic here
-                    // handleImageSelect(parseInt(item)); // Assuming you want to select this image
+                    handleImageSelect(parseInt(item)); // Assuming you want to select this image
                   }}
                 >
                   {/* Use the backgroundImagePaths object to get the source */}
