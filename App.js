@@ -13,6 +13,10 @@ import {
 } from "./SoundSettingContext";
 // import { useBackgroundSound } from "./SoundManager";
 import { initializeUsername, checkUsernameInStorage } from "./UserNameManager";
+import {
+  BackgroundProvider,
+  setDefaultBackgroundImage,
+} from "./BackgroundManager"; // Import the necessary functions
 
 // Screens
 import HomeScreen from "./HomeScreen";
@@ -50,12 +54,11 @@ export default function App() {
 
     initializeUser();
   }, []);
-
+  useEffect(() => {
+    // Initialize the default background image if not already set
+    setDefaultBackgroundImage();
+  }, []); // Empty dependency array to run this effect only once at app startup
   // You can also use checkUsernameInStorage elsewhere in your app
-  const checkStoredUsername = async () => {
-    const storedUsername = await checkUsernameInStorage();
-    console.log("Stored username:", storedUsername);
-  };
 
   const paths = [
     require("./assets/LevelDifficultyImages/star-easy.png"),

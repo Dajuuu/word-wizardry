@@ -125,7 +125,7 @@ const TestingGamingScreen = ({ navigation }) => {
 
   // Usage: Specify an array of keys to delete
   // const keysToDelete = ["credits", "clueCount_1", "clueCount_2", "clueCount_3"];
-  // const keysToDelete = ["unlockedAchievements"];
+  // const keysToDelete = ["backgroundImage"];
   // const keysToDelete = ["completedLevels"];
   // const keysToDelete = ["username"];
   // const keysToDelete = ["clueCount_1", "clueCount_2", "clueCount_3"];
