@@ -11,6 +11,7 @@ import {
   checkUsernameInStorage,
   updateUsername, // Import the updateUsername function
 } from "./UserNameManager";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const UserProfile = () => {
   const [username, setUsername] = useState("");
@@ -54,24 +55,25 @@ const UserProfile = () => {
 
       <View style={styles.userInfo}>
         <Text style={styles.userInfoText}>Your Username</Text>
-        <Text style={styles.usernameText}>{username}</Text>
+        <View style={styles.usernameInput}>
+          <TextInput
+            style={styles.input}
+            placeholder={username}
+            onChangeText={handleUsernameChange}
+            value={newUsername}
+          />
+          <TouchableOpacity
+            onPress={handleUpdateUsername}
+            style={styles.updateButton}
+          >
+            <Icon name="pen" style={[styles.buttonIcon]} solid />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Input field for the new username */}
-      <TextInput
-        style={styles.input}
-        placeholder="Enter new username"
-        onChangeText={handleUsernameChange}
-        value={newUsername}
-      />
 
       {/* Button to confirm the username change */}
-      <TouchableOpacity
-        onPress={handleUpdateUsername}
-        style={styles.updateButton}
-      >
-        <Text style={styles.updateButtonText}>Update Username</Text>
-      </TouchableOpacity>
 
       <View style={styles.backgroundChange}>
         <Text style={styles.backgroundChangeText}>
@@ -104,17 +106,22 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "80%",
-    height: 40,
+    backgroundColor: "white",
+    // height: 40,
     borderColor: "gray",
     borderWidth: 1,
-    marginTop: 20,
+    // marginTop: 20,
     paddingHorizontal: 10,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
   },
   updateButton: {
     backgroundColor: "#007BFF",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
+    padding: 15,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    // borderRadius: 5,
+    // marginTop: 10,
   },
   updateButtonText: {
     color: "white",
@@ -130,6 +137,12 @@ const styles = StyleSheet.create({
   },
   backgroundChangeText: {
     fontSize: 24,
+  },
+  usernameInput: {
+    flexDirection: "row",
+    width: "90%",
+    // alignItems: "center",
+    justifyContent: "center",
   },
 });
 
