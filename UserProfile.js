@@ -27,6 +27,7 @@ import { backgroundImagePaths } from "./BackgroundManager";
 import { loadClueCount, initializeClueCounts } from "./ClueManager"; // Import the clue count functions
 import { setStoredBackgroundImage } from "./BackgroundManager";
 import { LinearGradient } from "expo-linear-gradient";
+import { useButtonClickSound } from "./SoundManager";
 
 if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -35,6 +36,8 @@ if (Platform.OS === "android") {
 const windowHeight = Dimensions.get("window").height;
 
 const UserProfile = () => {
+  const { handleButtonSoundPlay } = useButtonClickSound();
+
   const [isSectionHidden, setSectionHidden] = useState(false);
   const [backgroundImageNumber, setBackgroundImageNumber] = useState(null);
   const handleImageSelect = async (newImageNumber) => {
@@ -191,9 +194,9 @@ const UserProfile = () => {
               value={newUsername}
             />
             <LinearGradient
-              colors={["rgb(0, 226, 0)", "rgb(0, 159, 0)"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0.2 }}
+              colors={["rgb(0, 155, 0)", "rgb(0, 131, 0)"]}
+              start={{ x: 0.7, y: 0.1 }}
+              end={{ x: 0.9, y: 0.4 }}
               style={styles.updateButtonGradient}
             >
               <TouchableOpacity
@@ -217,7 +220,10 @@ const UserProfile = () => {
             <View style={styles.clueButtonsContainer}>
               <TouchableOpacity
                 style={styles.clueButton}
-                onPress={() => setShowBuyClueOverlay1(true)}
+                onPress={() => {
+                  handleButtonSoundPlay();
+                  setShowBuyClueOverlay1(true);
+                }}
               >
                 {/* Render Buy Hint overlay */}
                 {renderBuyClueOverlay1}
@@ -241,7 +247,10 @@ const UserProfile = () => {
 
               <TouchableOpacity
                 style={styles.clueButton}
-                onPress={() => setShowBuyClueOverlay2(true)}
+                onPress={() => {
+                  handleButtonSoundPlay();
+                  setShowBuyClueOverlay2(true);
+                }}
               >
                 {/* Render Buy Hint overlay */}
                 {renderBuyClueOverlay2}
@@ -265,7 +274,10 @@ const UserProfile = () => {
 
               <TouchableOpacity
                 style={styles.clueButton}
-                onPress={() => setShowBuyClueOverlay3(true)}
+                onPress={() => {
+                  handleButtonSoundPlay();
+                  setShowBuyClueOverlay3(true);
+                }}
               >
                 {/* Render Buy Hint overlay */}
                 {renderBuyClueOverlay3}
@@ -294,9 +306,7 @@ const UserProfile = () => {
 
         {!isSectionHidden && ( // Only show if the section is not hidden
           <View style={styles.backgroundChange}>
-            <Text style={styles.backgroundChangeText}>
-              Background Change Section
-            </Text>
+            <Text style={styles.backgroundChangeText}>Change Background </Text>
             <FlatList
               data={Object.keys(backgroundImagePaths)} // Use Object.keys to get the keys of the backgroundImagePaths
               keyExtractor={(item) => item.toString()} // Use the key as a string
@@ -485,7 +495,7 @@ const styles = StyleSheet.create({
     bottom: 25,
     left: 25,
     backgroundColor: "#f0f0f0",
-    borderRadius: 12,
+    borderRadius: 100,
     width: 24,
     height: 24,
     alignItems: "center",
@@ -506,15 +516,19 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#333",
     // Problem - this may be wrong for different devices - need to check that
-    marginBottom: 3,
+    // marginBottom: 3,
     fontFamily: "AppFontBold",
+    alignSelf: "center",
+    justifyContent: "center",
   },
   clueAddText: {
     fontSize: 20,
     color: "#333",
     // Problem - this may be wrong for different devices - need to check that
-    marginBottom: 3,
+    // marginBottom: 3,
     fontFamily: "AppFontBold",
+    alignSelf: "center",
+    justifyContent: "center",
   },
   imageItem: {
     width: 80,
@@ -532,6 +546,9 @@ const styles = StyleSheet.create({
     color: "white", // Text color
     fontSize: 12, // Font size
     fontFamily: "AppFontBold",
+  },
+  buttonIcon: {
+    // color: "white",
   },
 });
 
