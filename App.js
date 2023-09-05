@@ -18,6 +18,7 @@ import {
   setDefaultBackgroundImage,
 } from "./BackgroundManager"; // Import the necessary functions
 // Screens
+import LoadingScreen from "./AppLoading";
 import HomeScreen from "./HomeScreen";
 import GameScreen from "./GameScreen";
 import EasyLevelsScreen from "./EasyLevels";
@@ -37,15 +38,18 @@ export default function App() {
   // const [loading, setLoading] = useState(true);
   // useBackgroundSound();
   const [fontLoaded, setFontLoaded] = useState(false);
+  const [loading, setLoading] = useState(true);
   // Close the loading screen after x seconds
-  // setTimeout(() => {
-  //   setLoading(false);
-  // }, 2000);
+
   // Example usage
 
   const [username, setUsername] = useState("");
 
   useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000000);
+
     const initializeUser = async () => {
       const user = await initializeUsername();
       setUsername(user);
@@ -135,12 +139,16 @@ export default function App() {
                 <StatusBar hidden></StatusBar>
                 {/* Hide system header for all of the screens */}
                 <Stack.Navigator
-                  initialRouteName="Home"
                   screenOptions={{
                     headerShown: false,
                   }}
                 >
-                  <Stack.Screen name="Home" component={HomeScreen} />
+                  {/* When loading variable is true display LoadingScreen, otherwise display home screen */}
+                  {loading ? (
+                    <Stack.Screen name="Loading" component={LoadingScreen} />
+                  ) : (
+                    <Stack.Screen name="Home" component={HomeScreen} />
+                  )}
                   <Stack.Screen name="GameScreen" component={GameScreen} />
                   <Stack.Screen name="UserProfile" component={UserProfile} />
                   <Stack.Screen
