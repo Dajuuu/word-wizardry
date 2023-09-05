@@ -85,16 +85,24 @@ const BuyClueOverlay = ({
               <Icon name="times" style={styles.iconStyle} />
             </LinearGradient>
           </TouchableOpacity>
-          <View style={styles.buttonContainer}>
-            {/* Disable buy button when user does not have enough credits */}
-            <TouchableOpacity
-              style={[styles.buyButton, !canBuyClue && styles.disabledButton]}
-              onPress={handleBuyClue}
-              disabled={!canBuyClue}
+          {/* Disable buy button when user does not have enough credits */}
+          <TouchableOpacity
+            style={[styles.buyButton, !canBuyClue && styles.disabledButton]}
+            onPress={() => {
+              handleBuyClue();
+              handleButtonSoundPlay();
+            }}
+            disabled={!canBuyClue}
+          >
+            <LinearGradient
+              colors={["rgb(0, 131, 0)", "rgb(0, 93, 0)"]}
+              style={styles.buyButtonGradient}
+              start={{ x: 0.7, y: 0.1 }}
+              end={{ x: 0.9, y: 0.4 }}
             >
               <Text style={styles.buyButtonText}>Buy</Text>
-            </TouchableOpacity>
-          </View>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -129,25 +137,14 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: 16,
-    // marginBottom: 20,
+    marginBottom: 5,
     textAlign: "center",
     fontFamily: "AppFontBold",
   },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  buyButton: {
-    backgroundColor: "green",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
   buyButtonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#fff",
+    fontSize: 18,
+    fontFamily: "AppFontBold",
+    color: "white",
   },
   cancelButton: {
     backgroundColor: "red",
@@ -158,16 +155,43 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#fff",
+    color: "white",
   },
   buyButton: {
-    backgroundColor: "green",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
+    backgroundColor: "transparent",
+    marginTop: 20,
+    shadowColor: "black", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+    // paddingHorizontal: 20,
+    // paddingVertical: 10,
+    // borderRadius: 8,
   },
   disabledButton: {
     opacity: 0.5,
+  },
+  closeButtonContainer: {
+    position: "absolute",
+    top: -10, // Adjust the distance from the top
+    right: -10, // Adjust the distance from the right
+    width: 40, // Adjust as needed for the circle size
+    height: 40,
+    borderRadius: 20, // Half of the width/height to make it a circle
+    backgroundColor: "white", // Set a transparent background
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "black", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   closeButtonContainer: {
     position: "absolute",
@@ -193,6 +217,13 @@ const styles = StyleSheet.create({
     height: "100%", // Use 100% to make it a circle
     borderRadius: 20, // Half of the width/height to make it a circle
   },
+  buyButtonGradient: {
+    paddingHorizontal: 30,
+    paddingVertical: 16,
+    // width: "100%", // Use 100% to make it a circle
+    // height: "100%", // Use 100% to make it a circle
+    borderRadius: 20, // Half of the width/height to make it a circle
+  },
   iconStyle: {
     color: "white",
     fontSize: 20,
@@ -200,8 +231,8 @@ const styles = StyleSheet.create({
     lineHeight: 40,
   },
   creditsImage: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
     // marginRight: 5,
     // marginLeft: -5,
   },
@@ -210,7 +241,7 @@ const styles = StyleSheet.create({
     alignItems: "center", // Center items vertically
   },
   creditsLabel: {
-    fontSize: 15,
+    fontSize: 18,
     fontFamily: "AppFont",
   },
 });
