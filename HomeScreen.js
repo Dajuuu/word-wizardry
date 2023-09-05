@@ -19,6 +19,7 @@ import { useButtonClickSound } from "./SoundManager";
 import { useBackgroundSound } from "./SoundManager";
 import { getBackgroundImage } from "./BackgroundManager";
 import { backgroundImagePaths } from "./BackgroundManager";
+import { useFocusEffect } from "@react-navigation/native";
 
 const HomeScreen = ({ navigation }) => {
   const { loadBackgroundSound } = useBackgroundSound();
@@ -26,13 +27,20 @@ const HomeScreen = ({ navigation }) => {
     backgroundImagePaths[1] // Set a default background image
   );
 
-  useEffect(() => {
-    // Load the background image number on component mount
-    getBackgroundImage().then((imageNumber) => {
-      const selectedImage = backgroundImagePaths[imageNumber];
-      setBackgroundImageSource(selectedImage);
-    });
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      // Load the background image number when the screen gains focus
+      getBackgroundImage().then((imageNumber) => {
+        const selectedImage = backgroundImagePaths[imageNumber];
+        setBackgroundImageSource(selectedImage);
+      });
+
+      // Any other code you want to run when the screen gains focus
+
+      console.log("HomeScreen gained focus"); // Example console.log
+    }, [])
+  );
+
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   let iconWidth = windowWidth / 20;

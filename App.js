@@ -17,7 +17,6 @@ import {
   BackgroundProvider,
   setDefaultBackgroundImage,
 } from "./BackgroundManager"; // Import the necessary functions
-
 // Screens
 import HomeScreen from "./HomeScreen";
 import GameScreen from "./GameScreen";
