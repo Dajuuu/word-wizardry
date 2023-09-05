@@ -74,6 +74,8 @@ const CrosswordApp = ({ route }) => {
   const [showBuyClueOverlay2, setShowBuyClueOverlay2] = useState(false);
   const [showBuyClueOverlay3, setShowBuyClueOverlay3] = useState(false);
 
+  //  This way the horizontal ScrollView can be shifted when the next box is selected
+  const horizontalScrollViewRef = useRef(null);
   // Import data/parameters for a given level
   const {
     levelName,
@@ -202,6 +204,24 @@ const CrosswordApp = ({ route }) => {
   const handleBoxSelection = (rowIndex, columnIndex) => {
     setSelectedBox({ rowIndex, columnIndex });
     setSelectedRow(rowIndex);
+    const boxesBeforeShift = 4; // Number of boxes to be visible before shifting
+    const boxWidth = windowHeight * 0.2;
+    const totalBoxes = GRID_DATA[0].length; // Assuming all rows have the same number of boxes
+
+    let scrollX = 0;
+
+    // Calculate the new scroll position based on the selected box's position
+    if (columnIndex >= boxesBeforeShift) {
+      scrollX = (columnIndex - boxesBeforeShift + 1) * boxWidth;
+    }
+
+    // Ensure the scroll position does not go beyond the last box
+    if (scrollX > (totalBoxes - boxesBeforeShift) * boxWidth) {
+      scrollX = (totalBoxes - boxesBeforeShift) * boxWidth;
+    }
+
+    // Use the scrollTo method to scroll to the new position
+    horizontalScrollViewRef.current.scrollTo({ x: scrollX, animated: true });
   };
 
   // Fill boxes behaviour
@@ -677,7 +697,7 @@ const CrosswordApp = ({ route }) => {
         />
 
         {/* Grid */}
-        <ScrollView horizontal>
+        <ScrollView horizontal ref={horizontalScrollViewRef}>
           <ScrollView contentContainerStyle={styles.gridContainer}>
             {GRID_DATA.map((row, rowIndex) => {
               inputRefs.current[rowIndex] = [];
