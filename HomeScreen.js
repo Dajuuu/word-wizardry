@@ -17,8 +17,7 @@ import { Audio } from "expo-av";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useButtonClickSound } from "./SoundManager";
 import { useBackgroundSound } from "./SoundManager";
-import { getBackgroundImage } from "./BackgroundManager";
-import { backgroundImagePaths } from "./BackgroundManager";
+import { getBackgroundImage, backgroundImagePaths } from "./BackgroundManager";
 import { useFocusEffect } from "@react-navigation/native";
 
 const HomeScreen = ({ navigation }) => {
