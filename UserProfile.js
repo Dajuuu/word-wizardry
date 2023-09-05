@@ -14,6 +14,7 @@ import {
   UIManager,
   Platform,
   ImageBackground,
+  KeyboardAvoidingView,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
 import {
@@ -27,7 +28,7 @@ import { loadClueCount, initializeClueCounts } from "./ClueManager"; // Import t
 import { setStoredBackgroundImage } from "./BackgroundManager";
 
 if (Platform.OS === "android") {
-  UIManager.setLayoutAnimationEnabledExperimental(false);
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;
@@ -164,15 +165,23 @@ const UserProfile = () => {
     />
   );
   return (
-    <ScrollView
-      contentContainerStyle={styles.scrollViewContainer}
-      keyboardShouldPersistTaps="handled"
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <View style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.scrollViewContainer}
+        keyboardShouldPersistTaps="handled"
+        scrollEnabled={false}
+      >
+        {/* <View style={styles.container}> */}
         <CustomHeader title="Profile" />
 
         <View style={styles.userInfo}>
-          <Text style={styles.userInfoText}>Your Username</Text>
+          <View>
+            {/* The Text needs to be put inside empty View for smooth animation (iOS) */}
+            <Text style={styles.userInfoText}>Your Username</Text>
+          </View>
           <View style={styles.usernameInput}>
             <TextInput
               style={styles.input}
@@ -190,10 +199,10 @@ const UserProfile = () => {
           <View style={styles.userStats}>
             <View style={styles.borderLineTop} />
             {/* Total Points */}
-            <View style={styles.statContainer}>
+            {/* <View style={styles.statContainer}>
               <Text style={styles.statLabel}>Total Score:</Text>
               <Text style={styles.statValue}>1000</Text>
-            </View>
+            </View> */}
 
             {/* Hint 1 */}
 
@@ -313,28 +322,33 @@ const UserProfile = () => {
             />
           </View>
         )}
-      </View>
-    </ScrollView>
+        {/* </View> */}
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    // alignItems: "center",
     backgroundColor: "#f5e1ce",
+    // width: "100%",
   },
   userInfo: {
-    flex: 5,
+    flex: 2,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "lightgreen",
+    backgroundColor: "#A4BE7B",
+    paddingVertical: 50,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgb(129, 103, 79)",
   },
   userInfoText: {
     fontSize: 24,
     fontFamily: "AppFontBold",
-    marginBottom: 10,
+    marginBottom: 15,
   },
   usernameText: {
     fontSize: 18,
@@ -371,7 +385,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "lightcoral",
+    backgroundColor: "#5F8D4E",
     paddingVertical: 20,
   },
   backgroundChangeText: {
@@ -388,7 +402,8 @@ const styles = StyleSheet.create({
   borderLineTop: {
     borderTopWidth: 1,
     width: "90%",
-    marginVertical: 16,
+    marginTop: 30,
+    marginBottom: 20,
     elevation: 5,
   },
   userStats: {
