@@ -17,7 +17,7 @@ const windowWidth = Dimensions.get("window").width;
 const LoadingScreen = () => {
   return (
     <ImageBackground
-      source={require("./assets/BackgroundImages/1.png")}
+      source={require("./assets/loading1.png")}
       style={styles.backgroundImage}
     >
       <View style={styles.container} testID="container">
@@ -25,10 +25,10 @@ const LoadingScreen = () => {
           Word Wizardry
         </Text>
 
-        <Image
+        {/* <Image
           source={require("./assets/logo.png")}
           style={styles.creditsImage}
-        />
+        /> */}
 
         {/* Display circle indicator */}
 
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     fontFamily: "AppFontBold",
   },
   creditsImage: {
-    height: windowWidth / 2,
-    width: windowWidth / 2,
+    height: windowWidth * 0.7,
+    width: windowWidth * 0.7,
   },
 });
