@@ -133,9 +133,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   difficultyText: {
-    fontSize: 30,
+    fontSize: 50,
     // fontWeight: "bold",
-    fontFamily: "AppFontBold",
+    fontFamily: "AppLoadingAmaticBold",
     color: "black",
     alignSelf: "flex-end",
     right: 20,

@@ -397,9 +397,9 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
   },
   playButtonText: {
-    fontSize: 44,
+    fontSize: 60,
     // fontWeight: "bold",
-    fontFamily: "AppFontBold",
+    fontFamily: "AppLoadingAmaticBold",
     // alignSelf: "center",
     color: "#fff",
   },
