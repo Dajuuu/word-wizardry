@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,6 +14,17 @@ const windowWidth = Dimensions.get("window").width;
 
 // TODO testID remains
 const LoadingScreen = () => {
+  const loadingPhrases = ["Loading", "Loading.", "Loading..", "Loading..."];
+  const [loadingIndex, setLoadingIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadingIndex((prevIndex) => (prevIndex + 1) % loadingPhrases.length);
+    }, 500); // Change the interval duration as needed
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <ImageBackground
       source={require("./assets/loadingImage.png")}
@@ -24,15 +34,6 @@ const LoadingScreen = () => {
         <Text style={styles.appName} testID="appName">
           Word Wizardry
         </Text>
-
-        {/* <Image
-          source={require("./assets/logo.png")}
-          style={styles.creditsImage}
-        /> */}
-
-        {/* Display circle indicator */}
-
-        {/* Display circle indicator */}
         <ActivityIndicator
           color="white"
           size="large"
@@ -43,7 +44,7 @@ const LoadingScreen = () => {
           }}
         />
         <Text style={styles.loadingText} testID="loadingText">
-          Loading
+          {loadingPhrases[loadingIndex]}
         </Text>
       </View>
     </ImageBackground>
