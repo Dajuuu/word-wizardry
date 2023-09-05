@@ -26,6 +26,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import { backgroundImagePaths } from "./BackgroundManager";
 import { loadClueCount, initializeClueCounts } from "./ClueManager"; // Import the clue count functions
 import { setStoredBackgroundImage } from "./BackgroundManager";
+import { LinearGradient } from "expo-linear-gradient";
 
 if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -189,12 +190,19 @@ const UserProfile = () => {
               onChangeText={handleUsernameChange}
               value={newUsername}
             />
-            <TouchableOpacity
-              onPress={handleUpdateUsername}
-              style={styles.updateButton}
+            <LinearGradient
+              colors={["rgb(0, 226, 0)", "rgb(0, 159, 0)"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0.2 }}
+              style={styles.updateButtonGradient}
             >
-              <Icon name="pen" style={[styles.buttonIcon]} solid />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleUpdateUsername}
+                style={styles.updateButton}
+              >
+                <Icon name="pen" style={[styles.buttonIcon]} solid />
+              </TouchableOpacity>
+            </LinearGradient>
           </View>
           <View style={styles.userStats}>
             <View style={styles.borderLineTop} />
@@ -368,10 +376,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   updateButton: {
-    backgroundColor: "#007BFF",
+    backgroundColor: "transparent",
     padding: 16, // changing this make the whole component resize
+    // borderTopRightRadius: 10,
+    // borderBottomRightRadius: 10,
+    // borderRadius: 5,
+    // marginTop: 10,
+  },
+  updateButtonGradient: {
+    backgroundColor: "transparent",
+    // padding: 16, // changing this make the whole component resize
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
+
     // borderRadius: 5,
     // marginTop: 10,
   },
