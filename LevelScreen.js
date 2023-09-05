@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 12,
   },
   levelText: {
-    fontSize: 40,
+    fontSize: 35,
     color: "#fff",
     fontFamily: "AppLoadingAmaticBold",
     textAlign: "center",
