@@ -118,7 +118,7 @@ const TestingGamingScreen = ({ navigation }) => {
     }
   };
 
-  // deleteAllUserInput();
+  deleteAllUserInput();
   // TODO
   // TODO
   // TODO
@@ -126,12 +126,12 @@ const TestingGamingScreen = ({ navigation }) => {
   // Usage: Specify an array of keys to delete
   // const keysToDelete = ["credits", "clueCount_1", "clueCount_2", "clueCount_3"];
   // const keysToDelete = ["backgroundImage"];
-  // const keysToDelete = ["completedLevels"];
+  const keysToDelete = ["completedLevels"];
   // const keysToDelete = ["username"];
   // const keysToDelete = ["clueCount_1", "clueCount_2", "clueCount_3"];
   // console.log(keysToDelete);
 
-  // deleteRecords(keysToDelete);
+  deleteRecords(keysToDelete);
 
   const keyExtractor = (item) => item.level;
 

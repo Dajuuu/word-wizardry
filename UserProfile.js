@@ -27,7 +27,7 @@ import { loadClueCount, initializeClueCounts } from "./ClueManager"; // Import t
 import { setStoredBackgroundImage } from "./BackgroundManager";
 
 if (Platform.OS === "android") {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+  UIManager.setLayoutAnimationEnabledExperimental(false);
 }
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;
@@ -367,14 +367,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   backgroundChange: {
-    flex: 3,
+    // flex: 3,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "lightcoral",
+    paddingVertical: 20,
   },
   backgroundChangeText: {
     fontSize: 24,
+    fontFamily: "AppFontBold",
+    marginBottom: 10,
   },
   usernameInput: {
     flexDirection: "row",
@@ -483,9 +486,20 @@ const styles = StyleSheet.create({
   },
   imageItem: {
     width: 80,
-    height: 140,
+    height: windowHeight * 0.22,
     margin: 5,
     resizeMode: "cover",
+  },
+  selectedIndicator: {
+    backgroundColor: "rgba(255, 0, 0, 0.5)", // Example background color (red with 50% opacity)
+    padding: 5, // Adjust the padding as needed
+    // borderRadius: 5, // Adjust the border radius as needed
+  },
+
+  selectedText: {
+    color: "white", // Text color
+    fontSize: 12, // Font size
+    fontFamily: "AppFontBold",
   },
 });
 
