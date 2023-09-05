@@ -1,7 +1,7 @@
 // BackgroundManager.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const DEFAULT_BACKGROUND = 3; // Default background image number
+const DEFAULT_BACKGROUND = 1; // Default background image number
 
 const backgroundImagePaths = {
   1: require("./assets/BackgroundImages/1.png"),
@@ -10,6 +10,12 @@ const backgroundImagePaths = {
   4: require("./assets/BackgroundImages/4.png"),
   5: require("./assets/BackgroundImages/5.png"),
   6: require("./assets/BackgroundImages/6.png"),
+  7: require("./assets/BackgroundImages/7.png"),
+  8: require("./assets/BackgroundImages/8.png"),
+  9: require("./assets/BackgroundImages/9.png"),
+  10: require("./assets/BackgroundImages/10.png"),
+  11: require("./assets/BackgroundImages/11.png"),
+  12: require("./assets/BackgroundImages/12.png"),
   // Add more image paths here
 };
 
