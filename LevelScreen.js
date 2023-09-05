@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: "#fff",
     fontFamily: "AppLoadingAmaticBold",
+    textAlign: "center",
   },
   completedText: {
     fontSize: 18,

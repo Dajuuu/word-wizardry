@@ -48,7 +48,7 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 300000);
+    }, 3000);
 
     const initializeUser = async () => {
       const user = await initializeUsername();

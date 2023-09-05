@@ -205,7 +205,7 @@ const CrosswordApp = ({ route }) => {
     setSelectedBox({ rowIndex, columnIndex });
     setSelectedRow(rowIndex);
     const boxesBeforeShift = 4; // Number of boxes to be visible before shifting
-    const boxWidth = windowHeight * 0.2;
+    const boxWidth = windowHeight;
     const totalBoxes = GRID_DATA[0].length; // Assuming all rows have the same number of boxes
 
     let scrollX = 0;
@@ -1050,6 +1050,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
     marginBottom: 20,
+    padding: 16,
   },
   row: {
     flexDirection: "row",
@@ -1141,6 +1142,7 @@ const styles = StyleSheet.create({
     // marginTop: 10,
     alignSelf: "center",
     fontFamily: "AppFontBold",
+    paddingHorizontal: 30,
   },
   clueButtonsContainer: {
     flexDirection: "row",
