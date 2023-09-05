@@ -77,6 +77,13 @@ export default function App() {
     require("./assets/BackgroundImages/10.png"),
     require("./assets/BackgroundImages/11.png"),
     require("./assets/BackgroundImages/12.png"),
+    require("./assets/BackgroundImages/13.png"),
+    require("./assets/BackgroundImages/14.png"),
+    require("./assets/BackgroundImages/15.png"),
+    require("./assets/BackgroundImages/16.png"),
+    require("./assets/BackgroundImages/17.png"),
+    require("./assets/BackgroundImages/18.png"),
+    require("./assets/BackgroundImages/19.png"),
     // Hints
     require("./assets/hint1-mag-glass.png"),
     require("./assets/hint2-bulb.png"),
