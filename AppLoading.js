@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  ImageBackground,
 } from "react-native";
 
 // Get the width of the screen
@@ -15,27 +16,37 @@ const windowWidth = Dimensions.get("window").width;
 // TODO testID remains
 const LoadingScreen = () => {
   return (
-    <View style={styles.container} testID="container">
-      <Text style={styles.appName} testID="appName">
-        Word Wizardry
-      </Text>
+    <ImageBackground
+      source={require("./assets/BackgroundImages/1.png")}
+      style={styles.backgroundImage}
+    >
+      <View style={styles.container} testID="container">
+        <Text style={styles.appName} testID="appName">
+          Word Wizardry
+        </Text>
 
-      <Image
-        source={require("./assets/logo.png")}
-        style={styles.creditsImage}
-      ></Image>
-      {/* Display circle indicator */}
-      <ActivityIndicator
-        color="white"
-        size="large"
-        testID="loading-indicator"
-        style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
-      />
-      <Text style={styles.loadingText} testID="loadingText">
-        Loading the application
-      </Text>
-      <StatusBar style="light" />
-    </View>
+        <Image
+          source={require("./assets/logo.png")}
+          style={styles.creditsImage}
+        />
+
+        {/* Display circle indicator */}
+
+        {/* Display circle indicator */}
+        <ActivityIndicator
+          color="white"
+          size="large"
+          testID="loading-indicator"
+          style={{
+            transform: [{ scaleX: 2 }, { scaleY: 2 }],
+            marginTop: windowWidth * 0.2,
+          }}
+        />
+        <Text style={styles.loadingText} testID="loadingText">
+          Loading
+        </Text>
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -46,7 +57,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(40, 44, 46,1)",
+    // backgroundColor: "rgba(40, 44, 46,1)",
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover", // You can adjust the resizeMode as needed
+    // zIndex:
   },
   loadingText: {
     fontSize: 18,
@@ -57,13 +73,13 @@ const styles = StyleSheet.create({
   },
   appName: {
     fontSize: 40,
-    marginBottom: windowWidth / 3,
+    marginBottom: windowWidth * 0.1,
     textAlign: "center",
     color: "white",
     fontFamily: "AppFontBold",
   },
   creditsImage: {
-    height: windowWidth / 3,
-    width: windowWidth / 3,
+    height: windowWidth / 2,
+    width: windowWidth / 2,
   },
 });
