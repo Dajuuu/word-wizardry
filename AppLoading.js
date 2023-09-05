@@ -17,7 +17,7 @@ const windowWidth = Dimensions.get("window").width;
 const LoadingScreen = () => {
   return (
     <ImageBackground
-      source={require("./assets/loading1.png")}
+      source={require("./assets/loadingImage.png")}
       style={styles.backgroundImage}
     >
       <View style={styles.container} testID="container">
@@ -72,11 +72,11 @@ const styles = StyleSheet.create({
     fontFamily: "AppFontBold",
   },
   appName: {
-    fontSize: 40,
+    fontSize: 65,
     marginBottom: windowWidth * 0.1,
     textAlign: "center",
     color: "white",
-    fontFamily: "AppFontBold",
+    fontFamily: "AppLoadingAmaticBold",
   },
   creditsImage: {
     height: windowWidth * 0.7,

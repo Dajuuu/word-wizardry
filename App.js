@@ -48,7 +48,7 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2000000);
+    }, 300000);
 
     const initializeUser = async () => {
       const user = await initializeUsername();
@@ -64,6 +64,7 @@ export default function App() {
   // You can also use checkUsernameInStorage elsewhere in your app
 
   const paths = [
+    require("./assets/loadingImage.png"),
     require("./assets/LevelDifficultyImages/star-easy.png"),
     require("./assets/LevelDifficultyImages/star-medium.png"),
     require("./assets/LevelDifficultyImages/star-hard.png"),
@@ -86,8 +87,6 @@ export default function App() {
     require("./assets/BackgroundImages/15.png"),
     require("./assets/BackgroundImages/16.png"),
     require("./assets/BackgroundImages/17.png"),
-    require("./assets/BackgroundImages/18.png"),
-    require("./assets/BackgroundImages/19.png"),
     // Hints
     require("./assets/hint1-mag-glass.png"),
     require("./assets/hint2-bulb.png"),
@@ -112,6 +111,11 @@ export default function App() {
     await Font.loadAsync({
       AppFont: require("./assets/fonts/Quicksand-Regular.ttf"),
       AppFontBold: require("./assets/fonts/Quicksand-Bold.ttf"),
+      AppLoadingAmaticBold: require("./assets/fonts/AmaticSC-Bold.ttf"),
+      AppLoadingAmatic: require("./assets/fonts/AmaticSC-Regular.ttf"),
+      AppLoadingCinzelExtraBold: require("./assets/fonts/Cinzel-ExtraBold.ttf"),
+      AppLoadingCinzelBold: require("./assets/fonts/Cinzel-Bold.ttf"),
+      AppLoadingCinzel: require("./assets/fonts/Cinzel-Regular.ttf"),
     });
     setFontLoaded(true);
   };

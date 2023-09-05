@@ -21,8 +21,6 @@ const backgroundImagePaths = {
   15: require("./assets/BackgroundImages/15.png"),
   16: require("./assets/BackgroundImages/16.png"),
   17: require("./assets/BackgroundImages/17.png"),
-  18: require("./assets/BackgroundImages/18.png"),
-  19: require("./assets/BackgroundImages/19.png"),
   // Add more image paths here
 };
 
