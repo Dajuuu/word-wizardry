@@ -20,7 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"; // Import 
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
 import { incrementClueCount } from "./ClueManager";
 import Icon from "react-native-vector-icons/FontAwesome5";
-
+import LoadingScreen from "./AppLoading";
 import {
   decrementClueCount,
   loadClueCount,
@@ -42,6 +42,16 @@ const windowHeight = Dimensions.get("window").height;
 
 const CrosswordApp = ({ route }) => {
   const navigation = useNavigation();
+
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer); // Clear the timer if the component unmounts
+  }, []);
+
   const [backgroundImageSource, setBackgroundImageSource] = useState(
     backgroundImagePaths[1] // Set a default background image
   );
@@ -685,354 +695,376 @@ const CrosswordApp = ({ route }) => {
   }, [levelCompleted, fadeAnimButton]);
 
   return (
-    <ImageBackground
-      source={backgroundImageSource}
-      style={styles.backgroundImage}
-    >
-      <View style={styles.container}>
-        {/* Custom header component */}
+    <View style={styles.containerWhole}>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <ImageBackground
+          source={backgroundImageSource}
+          style={styles.backgroundImage}
+        >
+          <View style={styles.container}>
+            {/* Custom header component */}
 
-        <CustomHeader
-          title={levelName} // import the level name to the header
-        />
+            <CustomHeader
+              title={levelName} // import the level name to the header
+            />
 
-        {/* Grid */}
-        <ScrollView horizontal ref={horizontalScrollViewRef}>
-          <ScrollView contentContainerStyle={styles.gridContainer}>
-            {GRID_DATA.map((row, rowIndex) => {
-              inputRefs.current[rowIndex] = [];
+            {/* Grid */}
+            <ScrollView horizontal ref={horizontalScrollViewRef}>
+              <ScrollView contentContainerStyle={styles.gridContainer}>
+                {GRID_DATA.map((row, rowIndex) => {
+                  inputRefs.current[rowIndex] = [];
 
-              return (
-                <View
-                  key={rowIndex}
-                  style={[
-                    styles.row,
-                    selectedRow === rowIndex && styles.highlightedRow,
-                  ]}
-                >
-                  {row.map((box, columnIndex) => {
-                    const isBoxSelected =
-                      selectedBox &&
-                      selectedBox.rowIndex === rowIndex &&
-                      selectedBox.columnIndex === columnIndex;
-
-                    const hiddenLetter =
-                      GRID_DATA[rowIndex][columnIndex].toUpperCase();
-                    const inputtedLetter =
-                      hiddenGrid[rowIndex][columnIndex]?.letter;
-
-                    const isLetterCorrect =
-                      hiddenGrid[rowIndex][columnIndex]?.isCorrect || false;
-
-                    return (
-                      <TouchableOpacity
-                        key={columnIndex}
-                        style={[
-                          styles.box,
-                          isBoxSelected && { backgroundColor: "yellow" },
-                          isLetterCorrect && { backgroundColor: "#9ec4e8" },
-                        ]}
-                        onPress={() =>
-                          handleBoxSelection(rowIndex, columnIndex)
-                        }
-                      >
-                        {isBoxSelected ? (
-                          <TextInput
-                            style={styles.boxText}
-                            maxLength={1}
-                            value={inputtedLetter}
-                            onChangeText={(text) =>
-                              handleBoxInput(text, rowIndex, columnIndex)
-                            }
-                            ref={(ref) =>
-                              (inputRefs.current[rowIndex][columnIndex] = ref)
-                            }
-                            autoFocus={true}
-                            returnKeyType="next"
-                            onSubmitEditing={() => {
-                              if (
-                                columnIndex <
-                                GRID_DATA[rowIndex].length - 1
-                              ) {
-                                const nextInputRef =
-                                  inputRefs.current[rowIndex][columnIndex + 1];
-                                nextInputRef && nextInputRef.focus();
-                              }
-                            }}
-                            {...disableBuiltInKeyboard()}
-                          />
-                        ) : (
-                          <Text style={styles.boxText}>
-                            {hiddenGrid[rowIndex][columnIndex]?.letter || ""}
-                          </Text>
-                        )}
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
-              );
-            })}
-          </ScrollView>
-        </ScrollView>
-
-        {/* Clues and hints */}
-        {selectedRow !== null && !checkIfLevelCompleted && (
-          <View style={styles.clueContainer}>
-            <Text style={styles.clueText}>{ROW_CLUES[selectedRow]}</Text>
-
-            <View style={styles.clueButtonsContainer}>
-              <TouchableOpacity
-                style={styles.clueButton}
-                onPress={() =>
-                  clueCount1 === 0
-                    ? setShowBuyClueOverlay1(true)
-                    : handleCluePress(1)
-                }
-              >
-                {/* Render Buy Hint overlay */}
-                {renderBuyClueOverlay1}
-                <View style={styles.rowDirectionContainer}>
-                  {/* Render the icon */}
-                  <Image
-                    source={require("./assets/hint1-mag-glass.png")}
-                    style={styles.hintImage}
-                  />
-
-                  {/* Clue count container */}
-                  <View style={styles.clueCountContainer}>
-                    <Text style={styles.clueCountText}>{clueCount1}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.clueButton}
-                onPress={() =>
-                  clueCount2 === 0
-                    ? setShowBuyClueOverlay2(true)
-                    : handleCluePress(2)
-                }
-              >
-                {/* Render Buy Hint overlay */}
-                {renderBuyClueOverlay2}
-                <View style={styles.rowDirectionContainer}>
-                  {/* Render the icon */}
-                  <Image
-                    source={require("./assets/hint2-bulb.png")}
-                    style={styles.hintImage}
-                  />
-
-                  {/* Clue count container */}
-                  <View style={styles.clueCountContainer}>
-                    <Text style={styles.clueCountText}>{clueCount2}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.clueButton}
-                onPress={() =>
-                  clueCount3 === 0
-                    ? setShowBuyClueOverlay3(true)
-                    : handleCluePress(3)
-                }
-              >
-                {/* Render Buy Hint overlay */}
-                {renderBuyClueOverlay3}
-                <View style={styles.rowDirectionContainer}>
-                  {/* Render the icon */}
-                  <Image
-                    source={require("./assets/hint3-dice.png")}
-                    style={styles.hintImage}
-                  />
-
-                  {/* Clue count container */}
-                  <View style={styles.clueCountContainer}>
-                    <Text style={styles.clueCountText}>{clueCount3}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-
-        {/* Custom keyboard */}
-        {checkIfLevelCompleted ? null : (
-          <CustomKeyboard onKeyPress={handleKeyPress} />
-        )}
-
-        {/* Display overlay if level is completed */}
-        {levelCompleted && (
-          <Modal
-            visible={levelCompleted}
-            animationType="fade"
-            transparent
-            statusBarTranslucent
-          >
-            <View style={styles.overlay}>
-              <View style={styles.overlayBox}>
-                <View style={styles.iconContainer}>
-                  {/* Big check mark at the top of the overlay */}
-                  <Icon
-                    name="check"
-                    style={[styles.iconStyle, { color: "white" }]}
-                  />
-                </View>
-                {/* Level completed text */}
-                <Animated.Text
-                  style={[styles.overlayText, { opacity: fadeAnim }]}
-                >
-                  Level Complete!
-                </Animated.Text>
-                {/* Score box with information of the user's total points  */}
-                <View style={styles.scoreBox}>
-                  <Animated.Text
-                    style={[styles.scoreText, { opacity: opacityValue }]}
-                  >
-                    Your total points:
-                  </Animated.Text>
-                  <Text style={styles.scoreTextValue}>{displayedPoints}</Text>
-                </View>
-                {/* Rewards section */}
-                <Text style={styles.rewardsTitleText}>Rewards</Text>
-                <View style={styles.rowDirectionContainer}>
-                  <Animated.Image
-                    source={require("./assets/credits.png")}
-                    style={[
-                      styles.creditsIcon,
-                      {
-                        opacity: rewardsAnimation,
-                        transform: [
-                          {
-                            scale: rewardsAnimation.interpolate({
-                              inputRange: [0, 1],
-                              outputRange: [0.5, 1],
-                            }),
-                          },
-                        ],
-                      },
-                    ]}
-                  />
-                  <Animated.Text
-                    style={[
-                      styles.rewardsText,
-                      {
-                        opacity: rewardsAnimation,
-                      },
-                    ]}
-                  >
-                    x{creditsIncrease}
-                  </Animated.Text>
-                </View>
-                <View
-                  style={[
-                    styles.rowDirectionContainer,
-                    (clueCount1Increase !== 0 ||
-                      clueCount2Increase !== 0 ||
-                      clueCount3Increase !== 0) &&
-                      styles.hintsBackground,
-                    { marginTop: 5 },
-                  ]}
-                >
-                  {clueCount1Increase !== 0 && (
-                    <Animated.View
+                  return (
+                    <View
+                      key={rowIndex}
                       style={[
-                        styles.imageSpacing,
-                        {
-                          opacity: cluesAnimations[0],
-                          transform: [
-                            {
-                              translateY: cluesAnimations[0].interpolate({
-                                inputRange: [0, 1],
-                                outputRange: [100, 0],
-                              }),
-                            },
-                          ],
-                        },
+                        styles.row,
+                        selectedRow === rowIndex && styles.highlightedRow,
                       ]}
                     >
+                      {row.map((box, columnIndex) => {
+                        const isBoxSelected =
+                          selectedBox &&
+                          selectedBox.rowIndex === rowIndex &&
+                          selectedBox.columnIndex === columnIndex;
+
+                        const hiddenLetter =
+                          GRID_DATA[rowIndex][columnIndex].toUpperCase();
+                        const inputtedLetter =
+                          hiddenGrid[rowIndex][columnIndex]?.letter;
+
+                        const isLetterCorrect =
+                          hiddenGrid[rowIndex][columnIndex]?.isCorrect || false;
+
+                        return (
+                          <TouchableOpacity
+                            key={columnIndex}
+                            style={[
+                              styles.box,
+                              isBoxSelected && { backgroundColor: "yellow" },
+                              isLetterCorrect && { backgroundColor: "#9ec4e8" },
+                            ]}
+                            onPress={() =>
+                              handleBoxSelection(rowIndex, columnIndex)
+                            }
+                          >
+                            {isBoxSelected ? (
+                              <TextInput
+                                style={styles.boxText}
+                                maxLength={1}
+                                value={inputtedLetter}
+                                onChangeText={(text) =>
+                                  handleBoxInput(text, rowIndex, columnIndex)
+                                }
+                                ref={(ref) =>
+                                  (inputRefs.current[rowIndex][columnIndex] =
+                                    ref)
+                                }
+                                autoFocus={true}
+                                returnKeyType="next"
+                                onSubmitEditing={() => {
+                                  if (
+                                    columnIndex <
+                                    GRID_DATA[rowIndex].length - 1
+                                  ) {
+                                    const nextInputRef =
+                                      inputRefs.current[rowIndex][
+                                        columnIndex + 1
+                                      ];
+                                    nextInputRef && nextInputRef.focus();
+                                  }
+                                }}
+                                {...disableBuiltInKeyboard()}
+                              />
+                            ) : (
+                              <Text style={styles.boxText}>
+                                {hiddenGrid[rowIndex][columnIndex]?.letter ||
+                                  ""}
+                              </Text>
+                            )}
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </View>
+                  );
+                })}
+              </ScrollView>
+            </ScrollView>
+
+            {/* Clues and hints */}
+            {selectedRow !== null && !checkIfLevelCompleted && (
+              <View style={styles.clueContainer}>
+                <Text style={styles.clueText}>{ROW_CLUES[selectedRow]}</Text>
+
+                <View style={styles.clueButtonsContainer}>
+                  <TouchableOpacity
+                    style={styles.clueButton}
+                    onPress={() =>
+                      clueCount1 === 0
+                        ? setShowBuyClueOverlay1(true)
+                        : handleCluePress(1)
+                    }
+                  >
+                    {/* Render Buy Hint overlay */}
+                    {renderBuyClueOverlay1}
+                    <View style={styles.rowDirectionContainer}>
+                      {/* Render the icon */}
                       <Image
                         source={require("./assets/hint1-mag-glass.png")}
                         style={styles.hintImage}
                       />
-                      <Text style={styles.hintText}>x{clueCount1Increase}</Text>
-                    </Animated.View>
-                  )}
 
-                  {clueCount2Increase !== 0 && (
-                    <Animated.View
-                      style={[
-                        styles.imageSpacing,
-                        {
-                          opacity: cluesAnimations[1],
-                          transform: [
-                            {
-                              translateY: cluesAnimations[1].interpolate({
-                                inputRange: [0, 1],
-                                outputRange: [100, 0],
-                              }),
-                            },
-                          ],
-                        },
-                      ]}
-                    >
+                      {/* Clue count container */}
+                      <View style={styles.clueCountContainer}>
+                        <Text style={styles.clueCountText}>{clueCount1}</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.clueButton}
+                    onPress={() =>
+                      clueCount2 === 0
+                        ? setShowBuyClueOverlay2(true)
+                        : handleCluePress(2)
+                    }
+                  >
+                    {/* Render Buy Hint overlay */}
+                    {renderBuyClueOverlay2}
+                    <View style={styles.rowDirectionContainer}>
+                      {/* Render the icon */}
                       <Image
                         source={require("./assets/hint2-bulb.png")}
                         style={styles.hintImage}
                       />
-                      <Text style={styles.hintText}>x{clueCount2Increase}</Text>
-                    </Animated.View>
-                  )}
 
-                  {clueCount3Increase !== 0 && (
-                    <Animated.View
-                      style={[
-                        styles.imageSpacing,
-                        {
-                          opacity: cluesAnimations[2],
-                          transform: [
-                            {
-                              translateY: cluesAnimations[2].interpolate({
-                                inputRange: [0, 1],
-                                outputRange: [100, 0],
-                              }),
-                            },
-                          ],
-                        },
-                      ]}
-                    >
+                      {/* Clue count container */}
+                      <View style={styles.clueCountContainer}>
+                        <Text style={styles.clueCountText}>{clueCount2}</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.clueButton}
+                    onPress={() =>
+                      clueCount3 === 0
+                        ? setShowBuyClueOverlay3(true)
+                        : handleCluePress(3)
+                    }
+                  >
+                    {/* Render Buy Hint overlay */}
+                    {renderBuyClueOverlay3}
+                    <View style={styles.rowDirectionContainer}>
+                      {/* Render the icon */}
                       <Image
                         source={require("./assets/hint3-dice.png")}
                         style={styles.hintImage}
                       />
-                      <Text style={styles.hintText}>x{clueCount3Increase}</Text>
-                    </Animated.View>
-                  )}
-                </View>
 
-                {showButton && (
-                  <Animated.View style={{ opacity: fadeAnimButton }}>
-                    <TouchableOpacity
-                      style={styles.goBackButton}
-                      onPress={() => {
-                        handleButtonSoundPlay();
-                        closeModal();
-                      }}
-                    >
-                      <Text style={styles.goBackButtonText}>Continue</Text>
-                    </TouchableOpacity>
-                  </Animated.View>
-                )}
+                      {/* Clue count container */}
+                      <View style={styles.clueCountContainer}>
+                        <Text style={styles.clueCountText}>{clueCount3}</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          </Modal>
-        )}
-      </View>
-    </ImageBackground>
+            )}
+
+            {/* Custom keyboard */}
+            {checkIfLevelCompleted ? null : (
+              <CustomKeyboard onKeyPress={handleKeyPress} />
+            )}
+
+            {/* Display overlay if level is completed */}
+            {levelCompleted && (
+              <Modal
+                visible={levelCompleted}
+                animationType="fade"
+                transparent
+                statusBarTranslucent
+              >
+                <View style={styles.overlay}>
+                  <View style={styles.overlayBox}>
+                    <View style={styles.iconContainer}>
+                      {/* Big check mark at the top of the overlay */}
+                      <Icon
+                        name="check"
+                        style={[styles.iconStyle, { color: "white" }]}
+                      />
+                    </View>
+                    {/* Level completed text */}
+                    <Animated.Text
+                      style={[styles.overlayText, { opacity: fadeAnim }]}
+                    >
+                      Level Complete!
+                    </Animated.Text>
+                    {/* Score box with information of the user's total points  */}
+                    <View style={styles.scoreBox}>
+                      <Animated.Text
+                        style={[styles.scoreText, { opacity: opacityValue }]}
+                      >
+                        Your total points:
+                      </Animated.Text>
+                      <Text style={styles.scoreTextValue}>
+                        {displayedPoints}
+                      </Text>
+                    </View>
+                    {/* Rewards section */}
+                    <Text style={styles.rewardsTitleText}>Rewards</Text>
+                    <View style={styles.rowDirectionContainer}>
+                      <Animated.Image
+                        source={require("./assets/credits.png")}
+                        style={[
+                          styles.creditsIcon,
+                          {
+                            opacity: rewardsAnimation,
+                            transform: [
+                              {
+                                scale: rewardsAnimation.interpolate({
+                                  inputRange: [0, 1],
+                                  outputRange: [0.5, 1],
+                                }),
+                              },
+                            ],
+                          },
+                        ]}
+                      />
+                      <Animated.Text
+                        style={[
+                          styles.rewardsText,
+                          {
+                            opacity: rewardsAnimation,
+                          },
+                        ]}
+                      >
+                        x{creditsIncrease}
+                      </Animated.Text>
+                    </View>
+                    <View
+                      style={[
+                        styles.rowDirectionContainer,
+                        (clueCount1Increase !== 0 ||
+                          clueCount2Increase !== 0 ||
+                          clueCount3Increase !== 0) &&
+                          styles.hintsBackground,
+                        { marginTop: 5 },
+                      ]}
+                    >
+                      {clueCount1Increase !== 0 && (
+                        <Animated.View
+                          style={[
+                            styles.imageSpacing,
+                            {
+                              opacity: cluesAnimations[0],
+                              transform: [
+                                {
+                                  translateY: cluesAnimations[0].interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [100, 0],
+                                  }),
+                                },
+                              ],
+                            },
+                          ]}
+                        >
+                          <Image
+                            source={require("./assets/hint1-mag-glass.png")}
+                            style={styles.hintImage}
+                          />
+                          <Text style={styles.hintText}>
+                            x{clueCount1Increase}
+                          </Text>
+                        </Animated.View>
+                      )}
+
+                      {clueCount2Increase !== 0 && (
+                        <Animated.View
+                          style={[
+                            styles.imageSpacing,
+                            {
+                              opacity: cluesAnimations[1],
+                              transform: [
+                                {
+                                  translateY: cluesAnimations[1].interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [100, 0],
+                                  }),
+                                },
+                              ],
+                            },
+                          ]}
+                        >
+                          <Image
+                            source={require("./assets/hint2-bulb.png")}
+                            style={styles.hintImage}
+                          />
+                          <Text style={styles.hintText}>
+                            x{clueCount2Increase}
+                          </Text>
+                        </Animated.View>
+                      )}
+
+                      {clueCount3Increase !== 0 && (
+                        <Animated.View
+                          style={[
+                            styles.imageSpacing,
+                            {
+                              opacity: cluesAnimations[2],
+                              transform: [
+                                {
+                                  translateY: cluesAnimations[2].interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [100, 0],
+                                  }),
+                                },
+                              ],
+                            },
+                          ]}
+                        >
+                          <Image
+                            source={require("./assets/hint3-dice.png")}
+                            style={styles.hintImage}
+                          />
+                          <Text style={styles.hintText}>
+                            x{clueCount3Increase}
+                          </Text>
+                        </Animated.View>
+                      )}
+                    </View>
+
+                    {showButton && (
+                      <Animated.View style={{ opacity: fadeAnimButton }}>
+                        <TouchableOpacity
+                          style={styles.goBackButton}
+                          onPress={() => {
+                            handleButtonSoundPlay();
+                            closeModal();
+                          }}
+                        >
+                          <Text style={styles.goBackButtonText}>Continue</Text>
+                        </TouchableOpacity>
+                      </Animated.View>
+                    )}
+                  </View>
+                </View>
+              </Modal>
+            )}
+          </View>
+        </ImageBackground>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  containerWhole: {
+    flex: 1,
+    // ... other styles ...
+  },
   container: {
     flex: 1,
     // padding: 20,
