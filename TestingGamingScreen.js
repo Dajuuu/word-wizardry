@@ -127,12 +127,12 @@ const TestingGamingScreen = ({ navigation }) => {
   // const keysToDelete = ["credits", "clueCount_1", "clueCount_2", "clueCount_3"];
   // const keysToDelete = ["achievements"];
   // const keysToDelete = ["completedLevels"];
-  // const keysToDelete = ["username"];
+  const keysToDelete = ["username", "usernameInitial"];
   // const keysToDelete = ["usernameInitial"];
   // const keysToDelete = ["clueCount_1", "clueCount_2", "clueCount_3"];
   // console.log(keysToDelete);
 
-  // deleteRecords(keysToDelete);
+  deleteRecords(keysToDelete);
 
   const keyExtractor = (item) => item.level;
 

@@ -21,17 +21,11 @@ const PointsProvider = ({ children }) => {
           const usernameInitial = await AsyncStorage.getItem("usernameInitial");
 
           if (usernameInitial) {
+            // Update points when app loads, to make sure the database is updated if something wrong happens
             // Update points under the initial username
             await set(
               ref(db, `users/${usernameInitial}/points`),
               parseInt(storedPoints)
-            );
-
-            // Also save the current username under the initial username
-            const currentUsername = await AsyncStorage.getItem("username");
-            await set(
-              ref(db, `users/${usernameInitial}/username`),
-              currentUsername
             );
           }
         }

@@ -4,12 +4,22 @@ import { getDatabase, ref, onValue, set } from "firebase/database";
 import { FIREBASE_APP } from "./firebaseConfig";
 import CustomHeader from "./CustomHeader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { checkUsernameInStorage } from "./UserNameManager";
 const Leaderboard = () => {
   const db = getDatabase(FIREBASE_APP);
   const [usersData, setUsersData] = useState([]);
-
+  const [checkUsername, setCheckUsername] = useState();
   // Make sure newly registered user is saved to the database
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      const storedUsername = await checkUsernameInStorage();
+      setCheckUsername(storedUsername);
+    };
+
+    fetchUsername();
+  }, []);
+
   const initializeUserData = async () => {
     try {
       const usernameInitial = await AsyncStorage.getItem("usernameInitial");
@@ -48,6 +58,7 @@ const Leaderboard = () => {
             points: userData.points,
           })
         );
+
         // Sort the data by points in descending order
         const sortedData = userDataArray.sort((a, b) => b.points - a.points);
         setUsersData(sortedData);
@@ -60,12 +71,19 @@ const Leaderboard = () => {
 
   return (
     <View style={styles.container}>
-      <CustomHeader title="Choose Difficulty" />
+      <CustomHeader title="Top Players" />
       <FlatList
         data={usersData}
         keyExtractor={(item) => item.userId}
         renderItem={({ item, index }) => (
-          <View style={styles.leaderboardItem}>
+          <View
+            style={[
+              styles.leaderboardItem,
+              item.username === checkUsername
+                ? { backgroundColor: "green" }
+                : null,
+            ]}
+          >
             <Text style={styles.rank}>{index + 1}</Text>
             <Text style={styles.username}>{item.username}</Text>
             <Text style={styles.points}>{item.points} points</Text>
