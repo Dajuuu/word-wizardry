@@ -15,7 +15,15 @@ export const generateRandomUsername = (length) => {
 
 export const checkUsernameInStorage = async () => {
   try {
+    const db = getDatabase(FIREBASE_APP);
+    const usernameInitial = await AsyncStorage.getItem("usernameInitial");
     const storedUsername = await AsyncStorage.getItem("username");
+
+    if (storedUsername) {
+      // Update points when app loads, to make sure the database is updated if something wrong happens
+      // Update points under the initial username
+      await set(ref(db, `users/${usernameInitial}/username`), storedUsername);
+    }
     return storedUsername;
   } catch (error) {
     console.error("Error reading username from AsyncStorage: ", error);
@@ -25,15 +33,19 @@ export const checkUsernameInStorage = async () => {
 
 export const initializeUsername = async () => {
   const storedUsername = await checkUsernameInStorage();
+  const db = getDatabase(FIREBASE_APP);
+  const usernameInitial = await AsyncStorage.getItem("usernameInitial");
 
   if (!storedUsername) {
     const randomUsername = generateRandomUsername(8); // Adjust the length as needed
     await AsyncStorage.setItem("username", randomUsername);
     await AsyncStorage.setItem("usernameInitial", randomUsername);
+    // await set(ref(db, `users/${usernameInitial}/username`), randomUsername);
     return randomUsername;
   } else {
     return storedUsername;
   }
+
   // Function to update the username in AsyncStorage
 };
 export const updateUsername = async (newUsername) => {

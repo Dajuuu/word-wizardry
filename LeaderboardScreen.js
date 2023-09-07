@@ -25,7 +25,7 @@ const Leaderboard = () => {
       const usernameInitial = await AsyncStorage.getItem("usernameInitial");
       const points = await AsyncStorage.getItem("points");
 
-      if (usernameInitial && points && parseInt(points) > 0) {
+      if (usernameInitial && points) {
         // Data is already initialized or points are greater than 0
         return;
       }
