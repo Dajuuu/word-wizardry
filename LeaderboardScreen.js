@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, Image } from "react-native";
 import { getDatabase, ref, onValue, set } from "firebase/database";
 import { FIREBASE_APP } from "./firebaseConfig";
 import CustomHeader from "./CustomHeader";
@@ -72,6 +72,7 @@ const Leaderboard = () => {
   return (
     <View style={styles.container}>
       <CustomHeader title="Top Players" />
+      {/* <View style={styles.playerBoxesContainer}> */}
       <FlatList
         data={usersData}
         keyExtractor={(item) => item.userId}
@@ -81,15 +82,42 @@ const Leaderboard = () => {
               styles.leaderboardItem,
               item.username === checkUsername
                 ? { backgroundColor: "green" }
+                : index === 0
+                ? { backgroundColor: "gold" } // Gold for the first item
+                : index === 1
+                ? { backgroundColor: "silver" } // Silver for the second item
+                : index === 2
+                ? { backgroundColor: "rgba(97,87,35,1)" } // Bronze for the third item
                 : null,
             ]}
           >
-            <Text style={styles.rank}>{index + 1}</Text>
+            {index < 3 ? (
+              // Conditionally load different images for the first three items
+              <Image
+                source={
+                  index === 0
+                    ? require("./assets/medal1.png")
+                    : index === 1
+                    ? require("./assets/medal2.png")
+                    : index === 2
+                    ? require("./assets/medal3.png")
+                    : null // If index is greater than 2, no image
+                }
+                style={styles.imageMedal}
+              />
+            ) : null}
+            <Text style={styles.rank}>
+              {index < 3 // Conditionally change text for the first three items
+                ? index === 0
+                : // For indexes greater than 2, display the regular index
+                  index + 1}
+            </Text>
             <Text style={styles.username}>{item.username}</Text>
             <Text style={styles.points}>{item.points} points</Text>
           </View>
         )}
       />
+      {/* </View> */}
     </View>
   );
 };
@@ -99,6 +127,11 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: "center",
     backgroundColor: "#f5e1ce",
+  },
+  playerBoxesContainer: {
+    flex: 1,
+    paddingVertical: 20,
+    backgroundColor: "transparent",
   },
   title: {
     fontSize: 24,
@@ -110,7 +143,7 @@ const styles = StyleSheet.create({
     marginVertical: 6,
     flexDirection: "row",
     alignItems: "center",
-    width: "90%",
+    width: "80%",
     height: 80,
     borderRadius: 8,
     justifyContent: "center",
@@ -122,17 +155,22 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   rank: {
-    flex: 1,
+    // flex: 1,
     fontSize: 18,
     fontWeight: "bold",
   },
   username: {
-    flex: 3,
+    flex: 5,
     fontSize: 18,
   },
   points: {
     flex: 2,
     fontSize: 18,
+  },
+  imageMedal: {
+    width: 30,
+    height: 30,
+    marginHorizontal: 4,
   },
 });
 
