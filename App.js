@@ -30,6 +30,7 @@ import CrosswordApp from "./CrosswordScreen";
 import LevelScreen from "./LevelScreen";
 import Achievements from "./Achievements";
 import UserProfile from "./UserProfile";
+import Leaderboard from "./LeaderboardScreen";
 
 const Stack = createStackNavigator();
 
@@ -155,6 +156,7 @@ export default function App() {
                   )}
                   <Stack.Screen name="GameScreen" component={GameScreen} />
                   <Stack.Screen name="UserProfile" component={UserProfile} />
+                  <Stack.Screen name="Leaderboard" component={Leaderboard} />
                   <Stack.Screen
                     name="EasyLevels"
                     component={EasyLevelsScreen}

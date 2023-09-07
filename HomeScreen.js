@@ -60,6 +60,9 @@ const HomeScreen = ({ navigation }) => {
   const handleTrophyButtonPress = () => {
     navigation.navigate("Achievements");
   };
+  const handleLeaderboardButtonPress = () => {
+    navigation.navigate("Leaderboard");
+  };
 
   const handleSettingsButtonPress = () => {
     setSettingsVisible(true);
@@ -207,6 +210,7 @@ const HomeScreen = ({ navigation }) => {
           style={styles.scoreContainer}
           onPress={() => {
             handleButtonSoundPlay();
+            handleLeaderboardButtonPress();
           }}
         >
           <Animated.View
