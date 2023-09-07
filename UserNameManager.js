@@ -1,4 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getDatabase, ref, set } from "firebase/database";
+import { FIREBASE_APP } from "./firebaseConfig";
 
 export const generateRandomUsername = (length) => {
   const characters =
@@ -36,8 +38,17 @@ export const initializeUsername = async () => {
 };
 export const updateUsername = async (newUsername) => {
   try {
+    const db = getDatabase(FIREBASE_APP);
+    const usernameInital = await AsyncStorage.getItem("usernameInital");
+
+    // Update the current username in AsyncStorage
     await AsyncStorage.setItem("username", newUsername);
+
+    // Update the username in the Firebase Realtime Database
+    if (usernameInital) {
+      await set(ref(db, `users/${usernameInital}/username`), newUsername);
+    }
   } catch (error) {
-    console.error("Error updating username in AsyncStorage: ", error);
+    console.error("Error updating username:", error);
   }
 };

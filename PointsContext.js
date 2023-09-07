@@ -47,12 +47,18 @@ const PointsProvider = ({ children }) => {
     async function savePoints() {
       try {
         await AsyncStorage.setItem("points", points.toString());
+        // Use the username as a unique identifier in the database
+        const usernameInital = await AsyncStorage.getItem("usernameInital");
+
+        if (usernameInital) {
+          await set(ref(db, `users/${usernameInital}/points`), points);
+        }
       } catch (error) {
         console.error("Error saving points:", error);
       }
     }
     savePoints();
-  }, [points]);
+  }, [points, db]);
 
   const addPoints = (amount) => {
     setPoints((prevPoints) => prevPoints + amount);
