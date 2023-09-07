@@ -73,8 +73,14 @@ const Leaderboard = () => {
     <View style={styles.container}>
       <CustomHeader title="Top Players" />
       {/* <View style={styles.playerBoxesContainer}> */}
+      <View style={styles.infoBox}>
+        <Text style={styles.rankBox}>No.</Text>
+
+        <Text style={styles.usernameBox}>Username</Text>
+        <Text style={styles.pointsBox}>Points</Text>
+      </View>
       <FlatList
-        data={usersData}
+        data={usersData.slice(0, 10)}
         keyExtractor={(item) => item.userId}
         renderItem={({ item, index }) => (
           <View
@@ -87,7 +93,7 @@ const Leaderboard = () => {
                 : index === 1
                 ? { backgroundColor: "silver" } // Silver for the second item
                 : index === 2
-                ? { backgroundColor: "rgba(97,87,35,1)" } // Bronze for the third item
+                ? { backgroundColor: "rgb(102, 91, 36)" } // Bronze for the third item
                 : null,
             ]}
           >
@@ -106,18 +112,26 @@ const Leaderboard = () => {
                 style={styles.imageMedal}
               />
             ) : null}
-            <Text style={styles.rank}>
+            <Text
+              style={[
+                styles.rank,
+                index > 2 ? styles.customStyleForIndexesGreaterThanTwo : null,
+              ]}
+            >
               {index < 3 // Conditionally change text for the first three items
                 ? index === 0
                 : // For indexes greater than 2, display the regular index
                   index + 1}
             </Text>
             <Text style={styles.username}>{item.username}</Text>
-            <Text style={styles.points}>{item.points} points</Text>
+            {/* <View style={styles.pointsContainer}> */}
+            <Text style={styles.points}>{item.points}</Text>
+            {/* <Text style={styles.points}>points</Text> */}
+            {/* </View> */}
           </View>
         )}
       />
-      {/* </View> */}
+      <View style={{ marginBottom: 30 }}></View>
     </View>
   );
 };
@@ -139,12 +153,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   leaderboardItem: {
-    backgroundColor: "lightblue",
+    backgroundColor: "rgb(231, 201, 174)",
     marginVertical: 6,
     flexDirection: "row",
     alignItems: "center",
-    width: "80%",
-    height: 80,
+    width: "85%",
+    height: 70,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -154,22 +168,65 @@ const styles = StyleSheet.create({
     // borderColor: "rgba(0, 0, 0, 0.4)", // Set border color
     elevation: 5,
   },
+  infoBox: {
+    backgroundColor: "rgb(192, 147, 106)",
+    marginVertical: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    width: "85%",
+    height: 45,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    // marginVertical: 5,
+    // borderWidth: 6, // Set border width for all sides
+    // borderColor: "rgba(0, 0, 0, 0.4)", // Set border color
+    elevation: 5,
+  },
+  customStyleForIndexesGreaterThanTwo: {
+    marginHorizontal: 15,
+  },
   rank: {
     // flex: 1,
+    fontSize: 22,
+    // marginHorizontal: 10,
+    fontFamily: "AppFontBold",
+  },
+
+  rankBox: {
+    // flex: 1,
     fontSize: 18,
-    fontWeight: "bold",
+    marginHorizontal: 8,
+    fontFamily: "AppFontBold",
   },
   username: {
     flex: 5,
     fontSize: 18,
+    marginLeft: 4,
+    fontFamily: "AppFont",
+  },
+  usernameBox: {
+    flex: 5,
+    fontSize: 18,
+    // marginLeft: 4,
+    fontFamily: "AppFontBold",
+  },
+  pointsBox: {
+    // flex: 1,
+    fontSize: 18,
+    fontFamily: "AppFontBold",
+    marginRight: 5,
   },
   points: {
-    flex: 2,
-    fontSize: 18,
+    // flex: 1,
+    fontSize: 20,
+    fontFamily: "AppFontBold",
+    marginRight: 20,
   },
   imageMedal: {
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 35,
     marginHorizontal: 4,
   },
 });
