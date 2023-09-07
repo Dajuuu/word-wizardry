@@ -1,14 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, set } from "firebase/database";
 import { FIREBASE_APP } from "./firebaseConfig";
 import CustomHeader from "./CustomHeader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Leaderboard = () => {
   const db = getDatabase(FIREBASE_APP);
   const [usersData, setUsersData] = useState([]);
 
+  // Make sure newly registered user is saved to the database
+  const initializeUserData = async () => {
+    try {
+      const usernameInitial = await AsyncStorage.getItem("usernameInitial");
+      const points = await AsyncStorage.getItem("points");
+
+      if (usernameInitial && points && parseInt(points) > 0) {
+        // Data is already initialized or points are greater than 0
+        return;
+      }
+
+      if (usernameInitial) {
+        // Initialize data in Firebase
+        await set(
+          ref(db, `users/${usernameInitial}/username`),
+          usernameInitial
+        );
+        await set(ref(db, `users/${usernameInitial}/points`), 0);
+      }
+    } catch (error) {
+      console.error("Error initializing user data:", error);
+    }
+  };
+
   useEffect(() => {
+    initializeUserData();
     // Set up a Firebase listener to fetch user data
     const usersRef = ref(db, "users");
     onValue(usersRef, (snapshot) => {

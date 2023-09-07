@@ -18,19 +18,19 @@ const PointsProvider = ({ children }) => {
           setPoints(parseInt(storedPoints));
 
           // Use the username as the initial unique identifier
-          const usernameInital = await AsyncStorage.getItem("usernameInital");
+          const usernameInitial = await AsyncStorage.getItem("usernameInitial");
 
-          if (usernameInital) {
+          if (usernameInitial) {
             // Update points under the initial username
             await set(
-              ref(db, `users/${usernameInital}/points`),
+              ref(db, `users/${usernameInitial}/points`),
               parseInt(storedPoints)
             );
 
             // Also save the current username under the initial username
             const currentUsername = await AsyncStorage.getItem("username");
             await set(
-              ref(db, `users/${usernameInital}/username`),
+              ref(db, `users/${usernameInitial}/username`),
               currentUsername
             );
           }
@@ -48,10 +48,10 @@ const PointsProvider = ({ children }) => {
       try {
         await AsyncStorage.setItem("points", points.toString());
         // Use the username as a unique identifier in the database
-        const usernameInital = await AsyncStorage.getItem("usernameInital");
+        const usernameInitial = await AsyncStorage.getItem("usernameInitial");
 
-        if (usernameInital) {
-          await set(ref(db, `users/${usernameInital}/points`), points);
+        if (usernameInitial) {
+          await set(ref(db, `users/${usernameInitial}/points`), points);
         }
       } catch (error) {
         console.error("Error saving points:", error);

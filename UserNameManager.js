@@ -29,7 +29,7 @@ export const initializeUsername = async () => {
   if (!storedUsername) {
     const randomUsername = generateRandomUsername(8); // Adjust the length as needed
     await AsyncStorage.setItem("username", randomUsername);
-    await AsyncStorage.setItem("usernameInital", randomUsername);
+    await AsyncStorage.setItem("usernameInitial", randomUsername);
     return randomUsername;
   } else {
     return storedUsername;
@@ -39,14 +39,14 @@ export const initializeUsername = async () => {
 export const updateUsername = async (newUsername) => {
   try {
     const db = getDatabase(FIREBASE_APP);
-    const usernameInital = await AsyncStorage.getItem("usernameInital");
+    const usernameInitial = await AsyncStorage.getItem("usernameInitial");
 
     // Update the current username in AsyncStorage
     await AsyncStorage.setItem("username", newUsername);
 
     // Update the username in the Firebase Realtime Database
-    if (usernameInital) {
-      await set(ref(db, `users/${usernameInital}/username`), newUsername);
+    if (usernameInitial) {
+      await set(ref(db, `users/${usernameInitial}/username`), newUsername);
     }
   } catch (error) {
     console.error("Error updating username:", error);
