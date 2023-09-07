@@ -510,7 +510,7 @@ const CrosswordApp = ({ route }) => {
 
   // Clue overlay when buying additonal one, appropriate data is passed, based on which clue was selected
   // Variables to determine the cost for particular hint
-  const creditsCostHint1 = 10;
+  const creditsCostHint1 = 15;
   const creditsCostHint2 = 50;
   const creditsCostHint3 = 30;
 

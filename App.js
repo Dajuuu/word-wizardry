@@ -66,6 +66,9 @@ export default function App() {
 
   const paths = [
     require("./assets/loadingImage.png"),
+    require("./assets/medal1.png"),
+    require("./assets/medal2.png"),
+    require("./assets/medal3.png"),
     require("./assets/LevelDifficultyImages/star-easy.png"),
     require("./assets/LevelDifficultyImages/star-medium.png"),
     require("./assets/LevelDifficultyImages/star-hard.png"),
