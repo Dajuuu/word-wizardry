@@ -91,11 +91,10 @@ const EasyLevelsScreen = ({ navigation }) => {
 
       ROW_CLUES: [
         "1. Intelligent marine mammal.",
-        "2. Dense area with trees and wildlife.",
-        "3. Season of new growth and blossoms.",
-        "4. Illumination or source of brightness.",
-        "5. Feathered flying creature.",
-        "6. People tend to put things inside it.",
+        "2. Season of new growth and blossoms.",
+        "3. Illumination or source of brightness.",
+        "4. Feathered flying creature.",
+        "5. People tend to put things inside it.",
       ],
     },
     {

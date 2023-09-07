@@ -93,7 +93,7 @@ const Leaderboard = () => {
                 : index === 1
                 ? { backgroundColor: "silver" } // Silver for the second item
                 : index === 2
-                ? { backgroundColor: "rgb(102, 91, 36)" } // Bronze for the third item
+                ? { backgroundColor: "rgb(103, 54, 15)" } // Bronze for the third item
                 : null,
             ]}
           >
