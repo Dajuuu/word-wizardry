@@ -27,6 +27,7 @@ export const initializeUsername = async () => {
   if (!storedUsername) {
     const randomUsername = generateRandomUsername(8); // Adjust the length as needed
     await AsyncStorage.setItem("username", randomUsername);
+    await AsyncStorage.setItem("usernameInital", randomUsername);
     return randomUsername;
   } else {
     return storedUsername;
