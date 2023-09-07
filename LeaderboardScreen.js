@@ -1,40 +1,48 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, ScrollView } from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { FIREBASE_APP } from "./firebaseConfig";
 import CustomHeader from "./CustomHeader";
 
 const Leaderboard = () => {
   const db = getDatabase(FIREBASE_APP);
-  const [usernames, setUsernames] = useState([]);
+  const [usersData, setUsersData] = useState([]);
 
   useEffect(() => {
-    // Set up a Firebase listener to fetch usernames
+    // Set up a Firebase listener to fetch user data
     const usersRef = ref(db, "users");
     onValue(usersRef, (snapshot) => {
       if (snapshot.exists()) {
-        // Convert the Firebase data to an array of usernames
+        // Convert the Firebase data to an array of user objects
         const data = snapshot.val();
-        const usernameArray = Object.keys(data);
-        setUsernames(usernameArray);
+        const userDataArray = Object.entries(data).map(
+          ([userId, userData]) => ({
+            userId,
+            username: userData.username,
+            points: userData.points,
+          })
+        );
+        // Sort the data by points in descending order
+        const sortedData = userDataArray.sort((a, b) => b.points - a.points);
+        setUsersData(sortedData);
       } else {
         // Handle the case when there's no data
-        setUsernames([]);
+        setUsersData([]);
       }
     });
   }, [db]);
 
   return (
     <View style={styles.container}>
-      <CustomHeader title="Top Players" />
-
+      <CustomHeader title="Choose Difficulty" />
       <FlatList
-        data={usernames}
-        keyExtractor={(username, index) => index.toString()}
+        data={usersData}
+        keyExtractor={(item) => item.userId}
         renderItem={({ item, index }) => (
           <View style={styles.leaderboardItem}>
             <Text style={styles.rank}>{index + 1}</Text>
-            <Text style={styles.username}>{item}</Text>
+            <Text style={styles.username}>{item.username}</Text>
+            <Text style={styles.points}>{item.points} points</Text>
           </View>
         )}
       />
@@ -46,7 +54,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // justifyContent: "center",
-    // alignItems: "center",
     backgroundColor: "#f5e1ce",
   },
   title: {
@@ -60,7 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "90%",
-    height: 150,
+    height: 80,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -68,8 +75,7 @@ const styles = StyleSheet.create({
     // marginVertical: 5,
     // borderWidth: 6, // Set border width for all sides
     // borderColor: "rgba(0, 0, 0, 0.4)", // Set border color
-    overflow: "hidden", // Clip child content within the border
-    // elevation: 8,
+    elevation: 5,
   },
   rank: {
     flex: 1,
@@ -78,6 +84,10 @@ const styles = StyleSheet.create({
   },
   username: {
     flex: 3,
+    fontSize: 18,
+  },
+  points: {
+    flex: 2,
     fontSize: 18,
   },
 });
