@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,9 +8,7 @@ import {
   Switch,
   Dimensions,
 } from "react-native";
-import { Audio } from "expo-av";
 import { useButtonClickSound } from "./SoundManager";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   useSoundSetting,
   useMusicSetting,
@@ -20,13 +17,14 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { LinearGradient } from "expo-linear-gradient";
 
-// Get the height
+// Get the window height
 const windowHeight = Dimensions.get("window").height;
 
 // Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
   // Import function that plays the sound
   const { handleButtonSoundPlay } = useButtonClickSound();
+  // Import functions that will be used by switches
   const { soundEnabled, toggleSoundSetting } = useSoundSetting();
   const { musicEnabled, toggleMusicSetting } = useMusicSetting();
   const { vibrationEnabled, toggleVibrationSetting } = useVibrationSetting();
@@ -39,11 +37,11 @@ const SettingsOverlay = ({ visible, onClose }) => {
       toggleMusicSetting(newValue);
       handleButtonSoundPlay();
 
-      // Set a cooldown period (e.g., 1 second) during which the switch can't be changed
+      // Set a cooldown period during which the switch can't be changed
       setMusicCooldown(true);
       setTimeout(() => {
         setMusicCooldown(false);
-      }, 1000); // Adjust the duration as needed
+      }, 1000);
     }
   };
 
@@ -76,12 +74,13 @@ const SettingsOverlay = ({ visible, onClose }) => {
             <View style={styles.switchLabelContainer}>
               <Text style={styles.switchLabel}>Vibration</Text>
             </View>
-            {/* Switch for turning on and off the sound */}
+            {/* Switch for turning on and off the vibration */}
             <Switch
               value={vibrationEnabled}
               onValueChange={toggleVibrationSetting}
             />
           </View>
+          {/* Close button */}
           <TouchableOpacity
             style={styles.closeButtonContainer}
             onPress={() => {
@@ -152,18 +151,11 @@ const styles = StyleSheet.create({
     fontFamily: "AppFont",
   },
   closeButton: {
-    backgroundColor: "red",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
-    marginTop: 10,
-  },
-  closeButton: {
     position: "absolute",
     top: -10,
     right: -10,
-    borderRadius: 20, // Half of the width/height to make it a circle
-    width: 40, // Adjust as needed for the circle size
+    borderRadius: 20,
+    width: 40,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
@@ -171,20 +163,21 @@ const styles = StyleSheet.create({
   iconStyle: {
     color: "white",
     fontSize: 20,
-    textAlign: "center", // Center the icon horizontally
+    textAlign: "center",
     lineHeight: 40,
   },
   closeButtonContainer: {
     position: "absolute",
-    top: -10, // Adjust the distance from the top
-    right: -10, // Adjust the distance from the right
-    width: 40, // Adjust as needed for the circle size
+    top: -10,
+    right: -10,
+    width: 40,
     height: 40,
-    borderRadius: 20, // Half of the width/height to make it a circle
-    backgroundColor: "transparent", // Set a transparent background
+    borderRadius: 20,
+    backgroundColor: "transparent",
     justifyContent: "center",
     alignItems: "center",
     elevation: 15,
+    elevation: 4, // Android
     shadowColor: "black", // iOS shadow
     shadowOffset: {
       width: 0,
@@ -192,13 +185,11 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 4, // Android
   },
   closeButtonGradient: {
-    // padding: 30,
-    width: "100%", // Use 100% to make it a circle
-    height: "100%", // Use 100% to make it a circle
-    borderRadius: 20, // Half of the width/height to make it a circle
+    width: "100%",
+    height: "100%",
+    borderRadius: 20,
   },
 });
 
