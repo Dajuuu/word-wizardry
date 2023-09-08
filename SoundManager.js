@@ -3,23 +3,26 @@ import { Audio } from "expo-av";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMusicSetting } from "./SoundSettingContext";
 
-const soundButtonClick = "./assets/sounds/buttonClick.mp3"; // Hardcoded path to button click sound file
-const soundLevelCompleted = "./assets/sounds/levelCompleted.mp3"; // Hardcoded path to level completed sound file
-const backgroundMusic = "./assets/sounds/backgroundMusic.mp3"; // Hardcoded path to level completed sound file
+const soundButtonClick = "./assets/sounds/buttonClick.mp3";
+const soundLevelCompleted = "./assets/sounds/levelCompleted.mp3";
+const backgroundMusic = "./assets/sounds/backgroundMusic.mp3";
 
 // Background sound
 export const useBackgroundSound = () => {
   const { musicEnabled } = useMusicSetting();
+  // Check if the sound was loaded
   const [backgroundSoundLoaded, setBackgroundSoundLoaded] = useState(false);
+  // Track the state of the sound object (mounts/unmounts)
   const [backgroundSoundObject, setBackgroundSoundObject] = useState(null);
-  const [isSoundPlaying, setIsSoundPlaying] = useState(false); // Flag to track sound playback
+  // Track sound playback
+  const [isSoundPlaying, setIsSoundPlaying] = useState(false);
 
   const loadBackgroundSound = async () => {
     if (!musicEnabled) {
       if (backgroundSoundObject && isSoundPlaying) {
         // Stop the sound if music is disabled and it's currently playing
         await backgroundSoundObject.stopAsync();
-        setIsSoundPlaying(false); // Reset the flag
+        setIsSoundPlaying(false);
         setBackgroundSoundLoaded(false);
         setBackgroundSoundObject(null);
       }
@@ -36,7 +39,7 @@ export const useBackgroundSound = () => {
       setBackgroundSoundLoaded(true);
       await sound.setIsLoopingAsync(true);
       await sound.playAsync();
-      await sound.setVolumeAsync(0.1); // Adjust to your preferred volume level
+      await sound.setVolumeAsync(0.1); // Adjust the volume
       setIsSoundPlaying(true); // Set the flag to indicate sound is playing
     } catch (error) {
       console.error("Error loading background sound:", error);
@@ -130,7 +133,7 @@ export const useButtonClickSound = () => {
   return { soundLoaded, handleButtonSoundPlay };
 };
 
-// Completed level
+// Completed level Sound
 export const useLevelCompletedSound = () => {
   const [soundLoaded, setSoundLoaded] = useState(false);
   const [soundObjectLvlCompleted, setSoundObjectLvlCompleted] = useState(null);
