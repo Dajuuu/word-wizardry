@@ -1,12 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// ---***---
+// Contexts are needed to make sure the options are saved for the user.
+// That would be annoying if the user would have to manually turn off or on all the settings whenever app reloads.
+// ---***---
+
 // Create the context for sound settings
 const SoundSettingContext = createContext();
-
 // Create the context for music settings
 const MusicSettingContext = createContext();
-// Create the context for music settings
+// Create the context for vibration settings
 const VibrationSettingContext = createContext();
 
 // Custom hooks to access the contexts
@@ -19,6 +23,8 @@ export const SoundSettingProvider = ({ children }) => {
   const [soundEnabled, setSoundEnabled] = useState(true);
 
   useEffect(() => {
+    // See what sound settings are saved for the user.
+    // If there is non declared, initalise it
     const loadSoundSetting = async () => {
       try {
         const soundSetting = await AsyncStorage.getItem("soundSetting");
@@ -33,9 +39,9 @@ export const SoundSettingProvider = ({ children }) => {
     loadSoundSetting();
   }, []);
 
+  // Function that allows to change the state of sound (turn on/off)
   const toggleSoundSetting = async (newValue) => {
     setSoundEnabled(newValue);
-    console.log(newValue);
     try {
       await AsyncStorage.setItem("soundSetting", newValue.toString());
     } catch (error) {
@@ -51,11 +57,13 @@ export const SoundSettingProvider = ({ children }) => {
 };
 
 export const MusicSettingProvider = ({ children }) => {
-  // This is the inital state of music play. It has to be false,
+  // This is the inital state of music play. VERY IMPORTANT! It has to be false,
   // otherwise the music will start regardless of the state of on app start
   const [musicEnabled, setMusicEnabled] = useState(false);
 
   useEffect(() => {
+    // See what music settings are saved for the user.
+    // If there is non declared, initalise it
     const loadMusicSetting = async () => {
       try {
         const musicSetting = await AsyncStorage.getItem("musicSetting");
@@ -70,6 +78,7 @@ export const MusicSettingProvider = ({ children }) => {
     loadMusicSetting();
   }, []);
 
+  // Function that allows to change the state of music (turn on/off)
   const toggleMusicSetting = async (newValue) => {
     setMusicEnabled(newValue);
     try {
@@ -91,6 +100,8 @@ export const VibrationSettingProvider = ({ children }) => {
   const [vibrationEnabled, setVibrationEnabled] = useState(true);
 
   useEffect(() => {
+    // See what sound settings are saved for the user.
+    // If there is non declared, initalise it
     const loadVibrationSetting = async () => {
       try {
         const vibrationSetting = await AsyncStorage.getItem("vibrationSetting");
@@ -105,6 +116,7 @@ export const VibrationSettingProvider = ({ children }) => {
     loadVibrationSetting();
   }, []);
 
+  // Function that allows to change the state of vibrations (turn on/off)
   const toggleVibrationSetting = async (newValue) => {
     setVibrationEnabled(newValue);
     console.log("vibration " + newValue);

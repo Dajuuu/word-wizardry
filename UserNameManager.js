@@ -2,6 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getDatabase, ref, set } from "firebase/database";
 import { FIREBASE_APP } from "./firebaseConfig";
 
+// Function that generates random inital username
+// The username is in this form: User_xxxxxxxx, where x'es are randomly generated numbers and letters
 export const generateRandomUsername = (length) => {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -13,6 +15,7 @@ export const generateRandomUsername = (length) => {
   return `User_${result}`;
 };
 
+// Check whether the username is declared
 export const checkUsernameInStorage = async () => {
   try {
     const db = getDatabase(FIREBASE_APP);
@@ -20,7 +23,7 @@ export const checkUsernameInStorage = async () => {
     const storedUsername = await AsyncStorage.getItem("username");
 
     if (storedUsername) {
-      // Update points when app loads, to make sure the database is updated if something wrong happens
+      // Update username when app loads, to make sure the database is updated if something wrong happens
       // Update points under the initial username
       await set(ref(db, `users/${usernameInitial}/username`), storedUsername);
     }
@@ -31,23 +34,22 @@ export const checkUsernameInStorage = async () => {
   }
 };
 
+// If the username is not declared, initalise it by calling the generateRandomUsername function
+//  and save it to the AsyncStorage
 export const initializeUsername = async () => {
   const storedUsername = await checkUsernameInStorage();
-  const db = getDatabase(FIREBASE_APP);
-  const usernameInitial = await AsyncStorage.getItem("usernameInitial");
 
   if (!storedUsername) {
     const randomUsername = generateRandomUsername(8); // Adjust the length as needed
     await AsyncStorage.setItem("username", randomUsername);
     await AsyncStorage.setItem("usernameInitial", randomUsername);
-    // await set(ref(db, `users/${usernameInitial}/username`), randomUsername);
     return randomUsername;
   } else {
     return storedUsername;
   }
-
-  // Function to update the username in AsyncStorage
 };
+
+// Function to update the username in AsyncStorage
 export const updateUsername = async (newUsername) => {
   try {
     const db = getDatabase(FIREBASE_APP);
