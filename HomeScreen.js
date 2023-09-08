@@ -13,7 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import SettingsOverlay from "./SettingsOverlay";
 import { LinearGradient } from "expo-linear-gradient";
 import { PointsContext } from "./PointsContext";
-import { useButtonClickSound } from "./SoundManager";
+import { useButtonClickSound, useBackgroundSound } from "./SoundManager";
 import {
   getBackgroundImage,
   backgroundImagePaths,
@@ -24,6 +24,8 @@ import {
 const windowHeight = Dimensions.get("window").height;
 
 const HomeScreen = ({ navigation }) => {
+  // Initialise the background music
+  const { loadBackgroundSound } = useBackgroundSound();
   // Import points info
   const { points } = useContext(PointsContext);
 
