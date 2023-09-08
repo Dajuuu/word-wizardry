@@ -16,26 +16,31 @@ import {
   Dimensions,
   ImageBackground,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
-import { incrementHintCount } from "./HintManager";
 import Icon from "react-native-vector-icons/FontAwesome5";
+
+import BuyHintOverlay from "./BuyHintOverlay";
+import CustomKeyboard from "./CustomKeyboard";
+import CustomHeader from "./CustomHeader";
 import LoadingScreen from "./LoadingScreen";
+
 import {
   decrementHintCount,
   loadHintCount,
   initializeHintCounts,
-} from "./HintManager"; // Import the clue count functions
-import { Asset } from "expo-asset";
+} from "./HintManager";
+import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
+import { incrementHintCount } from "./HintManager";
 import { PointsContext } from "./PointsContext";
 import { CreditsContext } from "./CreditsContext";
-import BuyHintOverlay from "./BuyHintOverlay";
-import CustomKeyboard from "./CustomKeyboard";
-import CustomHeader from "./CustomHeader";
 import { useButtonClickSound, useLevelCompletedSound } from "./SoundManager";
 import { useVibrationSetting } from "./SoundSettingContext";
-import { useFocusEffect } from "@react-navigation/native";
-import { getBackgroundImage, backgroundImagePaths } from "./BackgroundManager";
+import {
+  getBackgroundImage,
+  backgroundImagePaths,
+  DEFAULT_BACKGROUND,
+} from "./BackgroundManager";
 
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;
@@ -44,6 +49,8 @@ const CrosswordApp = ({ route }) => {
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(true);
+  // Close the loading screen after x seconds
+  // This way everyting is loaded properly
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -52,36 +59,29 @@ const CrosswordApp = ({ route }) => {
     return () => clearTimeout(timer); // Clear the timer if the component unmounts
   }, []);
 
+  // Load the background image for the crossword
   const [backgroundImageSource, setBackgroundImageSource] = useState(
-    backgroundImagePaths[1] // Set a default background image
+    backgroundImagePaths[DEFAULT_BACKGROUND] // Set a default background image
   );
 
-  useFocusEffect(
-    React.useCallback(() => {
-      // Load the background image number when the screen gains focus
-      getBackgroundImage().then((imageNumber) => {
-        const selectedImage = backgroundImagePaths[imageNumber];
-        setBackgroundImageSource(selectedImage);
-      });
-    }, [])
-  );
   // Add points and check the points balance. Needed when completing the level
   const { addPoints } = useContext(PointsContext);
   const { points } = useContext(PointsContext);
-
-  // credits removal - test
+  // Add credits. Also needed when completing the level
   const { addCredits } = useContext(CreditsContext);
 
-  // A hook for the 3rd hint - if there are no avaiable spaces for a given row, the button of the clue is locked
-  const [availableSpaces, setAvailableSpaces] = useState(true);
-
-  // Hooks needed when user runs out of the clues and choses to buy additional one
+  // Hooks needed when user runs out of the hints and choses to buy additional one
   const [showBuyHintOverlay1, setShowBuyHintOverlay1] = useState(false);
   const [showBuyHintOverlay2, setShowBuyHintOverlay2] = useState(false);
   const [showBuyHintOverlay3, setShowBuyHintOverlay3] = useState(false);
 
-  //  This way the horizontal ScrollView can be shifted when the next box is selected
+  // This way the horizontal ScrollView can be shifted when the next box is selected
   const horizontalScrollViewRef = useRef(null);
+
+  // This hook adjusts the side (to the left or right) which the horizontal scrolling is performed,
+  // depending on whether the user inputs the letters or uses backspace
+  const [shouldScrollToTheRight, setShouldScrollToTheRight] = useState(false);
+
   // Import data/parameters for a given level
   const {
     levelName,
@@ -94,11 +94,17 @@ const CrosswordApp = ({ route }) => {
     creditsIncrease,
   } = route.params;
 
+  // Hidden grid is a grid with all correct letters that is hidden from the user.
+  // This is needed to compare the user's letters with the grid's, and this way determining if
+  // the user's input is correct or not
   const [hiddenGrid, setHiddenGrid] = useState(() =>
     GRID_DATA.map((row) => row.map(() => ""))
   );
   // Determine whether the vibrations are enabled
   const { vibrationEnabled } = useVibrationSetting();
+  // Import functions that plays the sound
+  const { handleButtonSoundPlay } = useButtonClickSound();
+  const { handleLevelCompletedSoundPlay } = useLevelCompletedSound();
 
   // Information on what box/row is selected by the user
   const [selectedBox, setSelectedBox] = useState(null);
@@ -112,48 +118,61 @@ const CrosswordApp = ({ route }) => {
   // no changes for the given grid can be made
   const [checkIfLevelCompleted, setCheckIfLevelCompleted] = useState(false);
 
-  // TODO check what does this is doing
+  // Array that stores current user row input
   const inputRefs = useRef([]);
 
-  // Initialize clue counts
-  const [clueCount1, setClueCount1] = useState();
-  const [clueCount2, setClueCount2] = useState();
-  const [clueCount3, setClueCount3] = useState();
+  // Initialize hint counts
+  const [hintCount1, setHintCount1] = useState();
+  const [hintCount2, setHintCount2] = useState();
+  const [hintCount3, setHintCount3] = useState();
 
-  // Load the clue counts from the AsyncStorage and assign them to the useState hooks
+  // Load the hint counts from the AsyncStorage and assign them to the useState hooks
   const loadHintCounts = async () => {
     const count1 = await loadHintCount(1);
     const count2 = await loadHintCount(2);
     const count3 = await loadHintCount(3);
 
-    setClueCount1(count1);
-    setClueCount2(count2);
-    setClueCount3(count3);
+    setHintCount1(count1);
+    setHintCount2(count2);
+    setHintCount3(count3);
   };
+
+  // Variables to determine the cost for particular hint
+  const creditsCostHint1 = 15;
+  const creditsCostHint2 = 50;
+  const creditsCostHint3 = 30;
+
+  // All those hooks and variables are used for the level completed overlay (animations)
   const [fadeAnim] = useState(new Animated.Value(0));
   const opacityValue = useRef(new Animated.Value(1)).current;
   const [displayedPoints, setDisplayedPoints] = useState(levelPoints);
   const [rewardsAnimation] = useState(new Animated.Value(0));
   const [showButton, setShowButton] = useState(false);
   const fadeAnimButton = new Animated.Value(0);
-
-  const [cluesAnimations] = useState([
+  const [hintsAnimations] = useState([
     new Animated.Value(0), // For hint 1
     new Animated.Value(0), // For hint 2
     new Animated.Value(0), // For hint 3
   ]);
 
-  // Import functions that plays the sound
-  const { handleButtonSoundPlay } = useButtonClickSound();
-  const { handleLevelCompletedSoundPlay } = useLevelCompletedSound();
-
   // Initialise data
   useEffect(() => {
     loadUserInput(); // Load saved user input for the given level
     checkLevelCompletion(); // Check if level is already completed
-    initializeHintCounts(); // TODO Probaply it needs to be deleted because of the function below
-    loadHintCounts(); // Load the clue counts for the user
+    initializeHintCounts(); // If the user does not have hintCounts declared - initalise them
+    loadHintCounts(); // If the user does have hintCounts declared - load them
   }, []);
+
+  // Update the background image
+  useFocusEffect(
+    React.useCallback(() => {
+      // Load the background image number when the screen gains focus
+      getBackgroundImage().then((imageNumber) => {
+        const selectedImage = backgroundImagePaths[imageNumber];
+        setBackgroundImageSource(selectedImage);
+      });
+    }, [])
+  );
 
   // Check if the level was previosly completed, based on the data in the AsyncStorage
   const checkLevelCompletion = async () => {
@@ -176,6 +195,7 @@ const CrosswordApp = ({ route }) => {
       console.log("Error saving user input:", error);
     }
   };
+
   // Load the user input from AsyncStorage
   const loadUserInput = async () => {
     try {
@@ -196,6 +216,7 @@ const CrosswordApp = ({ route }) => {
       console.log("Error loading user input:", error);
     }
   };
+
   // Delete the input (if needed)
   const deleteUserInput = async () => {
     try {
@@ -205,23 +226,26 @@ const CrosswordApp = ({ route }) => {
       console.log("Error deleting user input:", error);
     }
   };
-  const [shouldScrollOnSelection, setShouldScrollOnSelection] = useState(false);
+
   // Determine which box is selected
   const handleBoxSelection = (rowIndex, columnIndex) => {
     setSelectedBox({ rowIndex, columnIndex });
     setSelectedRow(rowIndex);
 
-    setShouldScrollOnSelection(true);
+    // Declare the side
+    setShouldScrollToTheRight(true);
 
-    const boxWidth = windowHeight * 0.07;
+    const boxWidth = windowHeight * 0.07; // Letter box size
 
-    // Calculate the new scroll position to scroll every 3 columns
-    const scrollColumnIndex = Math.floor(columnIndex / 3) * 3;
+    // Calculate the new scroll position to scroll every 4 columns
+    const scrollColumnIndex = Math.floor(columnIndex / 4) * 4;
     const scrollX = scrollColumnIndex * boxWidth;
 
     // Use the scrollTo method to scroll to the new position
-    if (shouldScrollOnSelection) {
+    // When input letter, scroll to the right
+    if (shouldScrollToTheRight) {
       horizontalScrollViewRef.current.scrollTo({ x: scrollX, animated: true });
+      // When using backspace, scroll to the left
     } else {
       horizontalScrollViewRef.current.scrollTo({ x: -scrollX, animated: true });
     }
@@ -229,11 +253,12 @@ const CrosswordApp = ({ route }) => {
 
   // Fill boxes behaviour
   const handleBoxInput = (text, rowIndex, columnIndex) => {
+    // Convert input letters to uppercase
     const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
     const inputtedLetter = text.toUpperCase();
 
     const updateHiddenGrid = () => {
-      // Update hiddenGrid state
+      // Update hiddenGrid state, that is compare the hiddenGrid to the user's letters
       const newHiddenGrid = [...hiddenGrid];
       newHiddenGrid[rowIndex][columnIndex] = {
         letter: inputtedLetter,
@@ -250,14 +275,14 @@ const CrosswordApp = ({ route }) => {
       // When level is finished
       if (isLevelFinished) {
         if (vibrationEnabled) {
-          Vibration.vibrate([500]);
+          Vibration.vibrate([500]); // Perform a vibration
         }
-        setLevelCompleted(true);
-        handleLevelCompletedSoundPlay();
+        setLevelCompleted(true); // Set this level state to "completed"
+        handleLevelCompletedSoundPlay(); // Play sound
       }
     };
 
-    // Update hiddenGrid after a small delay (1 millisecond)
+    // Update hiddenGrid after a small delay, this way the letter is shown
     setTimeout(updateHiddenGrid, 1);
 
     // Select the box to the right, when previous box has a letter entered
@@ -297,7 +322,8 @@ const CrosswordApp = ({ route }) => {
             }
           }
         }
-        setShouldScrollOnSelection(false);
+        // Update the scrolling function
+        setShouldScrollToTheRight(false);
       } else {
         // If any other key is pressed, handle it as usual
         handleBoxInput(key, rowIndex, columnIndex);
@@ -308,28 +334,23 @@ const CrosswordApp = ({ route }) => {
   };
 
   // Hint system
-  const handleCluePress = async (index) => {
-    // Retrieve clue count for the given index
-    const clueCount = await loadHintCount(index);
+  const handleHintPress = async (index) => {
+    // Retrieve hint count for the given index
+    const hintCount = await loadHintCount(index);
 
-    if (clueCount > 0) {
-      // Display updated clue count
-      // console.log(`Clue ${index} remaining uses: ${updatedClueCount}`);
-      // Retrieve the updated clue count after decrementing
-      const updatedClueCount = await loadHintCount(index);
-
+    if (hintCount > 0) {
       // Hint 1 - reveal letter in a specific position
       if (index === 1 && selectedBox) {
         const { rowIndex, columnIndex } = selectedBox;
         const isBoxCorrect = hiddenGrid[rowIndex][columnIndex].isCorrect;
 
         if (!isBoxCorrect) {
-          // Decrement clue count for the given index
+          // Decrement hint count for the given index
           await decrementHintCount(index);
-          // Retrieve the updated clue count after decrementing
+          // Retrieve the updated hint count after decrementing
           const updatedClueCount = await loadHintCount(index);
 
-          // Handle clue 1
+          // Handle hint 1
           const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
           const newHiddenGrid = [...hiddenGrid];
           newHiddenGrid[rowIndex][columnIndex] = {
@@ -338,8 +359,8 @@ const CrosswordApp = ({ route }) => {
           };
           setHiddenGrid(newHiddenGrid);
           saveUserInput();
-          // Update clue count
-          setClueCount1(updatedClueCount);
+          // Update hint count
+          setHintCount1(updatedClueCount);
 
           // Select the box to the right after the letter was put in a box using this hint
           if (columnIndex < GRID_DATA[rowIndex].length - 1) {
@@ -360,12 +381,12 @@ const CrosswordApp = ({ route }) => {
         );
 
         if (!isRowCorrect) {
-          // Decrement clue count for the given index
+          // Decrement hint count for the given index
           await decrementHintCount(index);
-          // Retrieve the updated clue count after decrementing
+          // Retrieve the updated hint count after decrementing
           const updatedClueCount = await loadHintCount(index);
 
-          // Handle clue 2
+          // Handle hint 2
           const newHiddenGrid = [...hiddenGrid];
           const rowLength = newHiddenGrid[selectedRow].length;
           for (let i = 0; i < rowLength; i++) {
@@ -377,8 +398,8 @@ const CrosswordApp = ({ route }) => {
           }
           setHiddenGrid(newHiddenGrid);
           saveUserInput();
-          // Update clue count
-          setClueCount2(updatedClueCount);
+          // Update hint count
+          setHintCount2(updatedClueCount);
         } else {
           console.log("Selected row is already correct. Clue not used.");
         }
@@ -386,7 +407,7 @@ const CrosswordApp = ({ route }) => {
 
       // Hint 3 - reveal two letters in random positions
       if (index === 3 && selectedRow !== null) {
-        // Handle clue 3
+        // Handle hint 3
         const newHiddenGrid = [...hiddenGrid];
         const rowLength = newHiddenGrid[selectedRow].length;
 
@@ -400,10 +421,10 @@ const CrosswordApp = ({ route }) => {
 
         // Ensure there are enough available positions to reveal letters
         if (availablePositions.length >= 2) {
-          // Decrement clue count for the given index
+          // Decrement hint count for the given index
           await decrementHintCount(index);
 
-          // Retrieve the updated clue count after decrementing
+          // Retrieve the updated hint count after decrementing
           const updatedClueCount = await loadHintCount(index);
 
           // Generate two random positions from the available positions
@@ -436,8 +457,8 @@ const CrosswordApp = ({ route }) => {
 
           setHiddenGrid(newHiddenGrid);
           saveUserInput();
-          // Update clue count
-          setClueCount3(updatedClueCount);
+          // Update hint count
+          setHintCount3(updatedClueCount);
         } else {
           console.log("Not enough available positions to reveal letters.");
         }
@@ -451,13 +472,14 @@ const CrosswordApp = ({ route }) => {
       // When level is finished
       if (isLevelFinished) {
         if (vibrationEnabled) {
-          Vibration.vibrate([500]);
+          Vibration.vibrate([500]); // Perform vibrations
         }
-        setLevelCompleted(true);
-        handleLevelCompletedSoundPlay();
+        setLevelCompleted(true); // Set this level state to "completed"
+        handleLevelCompletedSoundPlay(); // Play sound
       }
     } else {
-      console.log(`Clue ${index} has no remaining uses.`);
+      // Left for testing
+      // console.log(`Clue ${index} has no remaining uses.`);
     }
   };
 
@@ -470,79 +492,66 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
-  // console.log(clueCount1 + hintCount1Increase);
+  // Function that deals with things after the Level Completed overlay modal is closed
   const closeModal = async () => {
     // After closing the modal declare setLevelCompleted to false to properly close the overlay
     setLevelCompleted(false);
     // Add points on closing the box
-    // Small fix for the points doubling in some cases
-    // Thats why the addPoints function with passed variable is here, instead of isLevelFinished
     addPoints(levelPoints);
-    // When level is finished, clocking goes back to the level selection screen
-    // navigation.goBack();
-
-    // Delete saved user input for the given level
-    // deleteUserInput();
+    // Add credits
+    addCredits(creditsIncrease);
+    // Increment hint count if there were declared for this level
     incrementHintCount(1, hintCount1Increase);
     incrementHintCount(2, hintCount2Increase);
     incrementHintCount(3, hintCount3Increase);
-    addCredits(creditsIncrease);
-    // Save the name of the completed level to the AsyncStorage
 
     // Navigate back to the level selection screen with completion status and level name as parameters
-    console.log("Points added - navigating to the difficulty selection");
     navigation.navigate("GameScreen", {
       levelCompleted: true,
       completedLevelName: levelName,
     });
+    // Save the level as completed
     await saveCompletedLevel(levelName);
-    // Add clues and credits on level completion ()
-
-    // Remove credits - test
-    // removeCredits(100);
   };
 
-  // Clue overlay when buying additonal one, appropriate data is passed, based on which clue was selected
-  // Variables to determine the cost for particular hint
-  const creditsCostHint1 = 15;
-  const creditsCostHint2 = 50;
-  const creditsCostHint3 = 30;
-
+  //  ---***---
+  // Clue overlay is different depending on which hint user wants to buy.
+  // Therefore, appropriate data is passed, based on which hint was selected
   // Overlay for hint 1
-  const renderBuyHintOverlay1 = clueCount1 === 0 && (
+  const renderBuyHintOverlay1 = hintCount1 === 0 && (
     <BuyHintOverlay
       visible={showBuyHintOverlay1}
       onClose={() => setShowBuyHintOverlay1(false)}
       onBuyHint={async () => {
         setShowBuyHintOverlay1(false); // Close the overlay after buying
-        setClueCount1(clueCount1 + 1); // Update the clue count
+        setHintCount1(hintCount1 + 1); // Update the hint count
       }}
-      hintNumber={1} // Pass the clue number as a prop
+      hintNumber={1} // Pass the hint number as a prop
       creditsDecrement={creditsCostHint1} // Remove Credits when buying the hint
     />
   );
   // Overlay for hint 2
-  const renderBuyHintOverlay2 = clueCount2 === 0 && (
+  const renderBuyHintOverlay2 = hintCount2 === 0 && (
     <BuyHintOverlay
       visible={showBuyHintOverlay2}
       onClose={() => setShowBuyHintOverlay2(false)}
       onBuyHint={async () => {
         setShowBuyHintOverlay2(false); // Close the overlay after buying
-        setClueCount2(clueCount2 + 1); // Update the clue count
+        setHintCount2(hintCount2 + 1); // Update the hint count
       }}
-      hintNumber={2} // Pass the clue number as a prop
+      hintNumber={2} // Pass the hint number as a prop
       creditsDecrement={creditsCostHint2} // Remove Credits when buying the hint
     />
   );
-  const renderBuyHintOverlay3 = clueCount3 === 0 && (
+  const renderBuyHintOverlay3 = hintCount3 === 0 && (
     <BuyHintOverlay
       visible={showBuyHintOverlay3}
       onClose={() => setShowBuyHintOverlay3(false)}
       onBuyHint={async () => {
         setShowBuyHintOverlay3(false); // Close the overlay after buying
-        setClueCount3(clueCount3 + 1); // Update the clue count
+        setHintCount3(hintCount3 + 1); // Update the hint count
       }}
-      hintNumber={3} // Pass the clue number as a prop
+      hintNumber={3} // Pass the hint number as a prop
       creditsDecrement={creditsCostHint3} // Remove Credits when buying the hint
     />
   );
@@ -565,8 +574,9 @@ const CrosswordApp = ({ route }) => {
     if (levelCompleted) {
       setDisplayedPoints(levelPoints);
 
+      // Adjusting steps or interval can change a bit the animation
       const targetPoints = levelPoints + points;
-      const steps = 20; // Adjust the number of steps as needed
+      const steps = 20;
       const stepValue = Math.ceil((targetPoints - levelPoints) / steps);
 
       interval = setInterval(() => {
@@ -577,17 +587,16 @@ const CrosswordApp = ({ route }) => {
         } else {
           clearInterval(interval);
         }
-      }, 2); // Adjust the interval duration as needed
+      }, 2); // Interval
     }
 
     return () => {
-      clearInterval(interval);
+      clearInterval(interval); // Clear the interval when the animation is finished
     };
   }, [levelCompleted]);
 
-  // Used for opacity animation
+  // Used for opacity animation, for the "Total points" text
   useEffect(() => {
-    // Create a sequence animation
     const sequenceAnimation = Animated.sequence([
       Animated.timing(opacityValue, {
         toValue: 0.5, // Semi-transparent
@@ -619,14 +628,14 @@ const CrosswordApp = ({ route }) => {
     }
   }, [levelCompleted, rewardsAnimation]);
 
-  // Animations for hint icons
+  // Animations for hint icons. They are "poping up"
   useEffect(() => {
     let delay = 100; // Initial delay for the first hint
 
     if (levelCompleted) {
       if (hintCount1Increase !== 0) {
         // Start animation for hint 1
-        Animated.timing(cluesAnimations[0], {
+        Animated.timing(hintsAnimations[0], {
           toValue: 1,
           duration: 400,
           delay,
@@ -638,7 +647,7 @@ const CrosswordApp = ({ route }) => {
 
       if (hintCount2Increase !== 0) {
         // Start animation for hint 2
-        Animated.timing(cluesAnimations[1], {
+        Animated.timing(hintsAnimations[1], {
           toValue: 1,
           duration: 400,
           delay,
@@ -650,7 +659,7 @@ const CrosswordApp = ({ route }) => {
 
       if (hintCount3Increase !== 0) {
         // Start animation for hint 3
-        Animated.timing(cluesAnimations[2], {
+        Animated.timing(hintsAnimations[2], {
           toValue: 1,
           duration: 300,
           delay,
@@ -663,10 +672,10 @@ const CrosswordApp = ({ route }) => {
     hintCount1Increase,
     hintCount2Increase,
     hintCount3Increase,
-    cluesAnimations,
+    hintsAnimations,
   ]);
 
-  // Delay to show the go back button
+  // Delay to show the go back button, after all other animations are finished
   useEffect(() => {
     const startAnimation = () => {
       // Start the fade-in animation
@@ -680,7 +689,7 @@ const CrosswordApp = ({ route }) => {
     };
 
     if (levelCompleted) {
-      const timeout = setTimeout(startAnimation, 200); // Delay the animation for 1.8 seconds
+      const timeout = setTimeout(startAnimation, 200);
 
       return () => {
         clearTimeout(timeout);
@@ -689,7 +698,9 @@ const CrosswordApp = ({ route }) => {
   }, [levelCompleted, fadeAnimButton]);
 
   return (
+    // Container so everything is displayed properly with loading screen implementation
     <View style={styles.containerWhole}>
+      {/* Display the screen after Loading Screen is finished */}
       {loading ? (
         <LoadingScreen />
       ) : (
@@ -698,25 +709,22 @@ const CrosswordApp = ({ route }) => {
           style={styles.backgroundImage}
         >
           <View style={styles.container}>
-            {/* Custom header component */}
-
             <CustomHeader
               title={levelName} // import the level name to the header
             />
-
             {/* Grid */}
             <ScrollView
               horizontal
               ref={horizontalScrollViewRef}
-              showsHorizontalScrollIndicator={false} // Set this to false to hide vertical scrollbar
+              showsHorizontalScrollIndicator={false} // Set this to false to hide horizontal scrollbar
             >
               <ScrollView
                 contentContainerStyle={styles.gridContainer}
-                showsVerticalScrollIndicator={false}
+                showsVerticalScrollIndicator={false} // Set this to false to hide vertical scrollbar
               >
+                {/* Clear the input if there was saved something */}
                 {GRID_DATA.map((row, rowIndex) => {
                   inputRefs.current[rowIndex] = [];
-
                   return (
                     <View
                       key={rowIndex}
@@ -731,8 +739,9 @@ const CrosswordApp = ({ route }) => {
                           selectedBox.rowIndex === rowIndex &&
                           selectedBox.columnIndex === columnIndex;
 
-                        const hiddenLetter =
-                          GRID_DATA[rowIndex][columnIndex].toUpperCase();
+                        // Left for testing
+                        // const hiddenLetter =
+                        //   GRID_DATA[rowIndex][columnIndex].toUpperCase();
                         const inputtedLetter =
                           hiddenGrid[rowIndex][columnIndex]?.letter;
 
@@ -743,6 +752,7 @@ const CrosswordApp = ({ route }) => {
                           <TouchableOpacity
                             key={columnIndex}
                             style={[
+                              // Change the colour of the box depending on the state
                               styles.box,
                               isBoxSelected && { backgroundColor: "yellow" },
                               isLetterCorrect && { backgroundColor: "#9ec4e8" },
@@ -751,6 +761,7 @@ const CrosswordApp = ({ route }) => {
                               handleBoxSelection(rowIndex, columnIndex)
                             }
                           >
+                            {/* Make sure that user can input only one letter for each box */}
                             {isBoxSelected ? (
                               <TextInput
                                 style={styles.boxText}
@@ -797,15 +808,16 @@ const CrosswordApp = ({ route }) => {
             {/* Clues and hints */}
             {selectedRow !== null && !checkIfLevelCompleted && (
               <View style={styles.clueContainer}>
+                {/* Display the clue for particular row */}
                 <Text style={styles.clueText}>{ROW_CLUES[selectedRow]}</Text>
-
-                <View style={styles.clueButtonsContainer}>
+                <View style={styles.hintButtonsContainer}>
+                  {/* Hint 1 */}
                   <TouchableOpacity
-                    style={styles.clueButton}
+                    style={styles.hintButton}
                     onPress={() =>
-                      clueCount1 === 0
+                      hintCount1 === 0
                         ? setShowBuyHintOverlay1(true)
-                        : handleCluePress(1)
+                        : handleHintPress(1)
                     }
                   >
                     {/* Render Buy Hint overlay */}
@@ -818,18 +830,18 @@ const CrosswordApp = ({ route }) => {
                       />
 
                       {/* Clue count container */}
-                      <View style={styles.clueCountContainer}>
-                        <Text style={styles.clueCountText}>{clueCount1}</Text>
+                      <View style={styles.hintCountContainer}>
+                        <Text style={styles.hintCountText}>{hintCount1}</Text>
                       </View>
                     </View>
                   </TouchableOpacity>
-
+                  {/* Hint 2 */}
                   <TouchableOpacity
-                    style={styles.clueButton}
+                    style={styles.hintButton}
                     onPress={() =>
-                      clueCount2 === 0
+                      hintCount2 === 0
                         ? setShowBuyHintOverlay2(true)
-                        : handleCluePress(2)
+                        : handleHintPress(2)
                     }
                   >
                     {/* Render Buy Hint overlay */}
@@ -842,18 +854,18 @@ const CrosswordApp = ({ route }) => {
                       />
 
                       {/* Clue count container */}
-                      <View style={styles.clueCountContainer}>
-                        <Text style={styles.clueCountText}>{clueCount2}</Text>
+                      <View style={styles.hintCountContainer}>
+                        <Text style={styles.hintCountText}>{hintCount2}</Text>
                       </View>
                     </View>
                   </TouchableOpacity>
-
+                  {/* Hint 3 */}
                   <TouchableOpacity
-                    style={styles.clueButton}
+                    style={styles.hintButton}
                     onPress={() =>
-                      clueCount3 === 0
+                      hintCount3 === 0
                         ? setShowBuyHintOverlay3(true)
-                        : handleCluePress(3)
+                        : handleHintPress(3)
                     }
                   >
                     {/* Render Buy Hint overlay */}
@@ -866,8 +878,8 @@ const CrosswordApp = ({ route }) => {
                       />
 
                       {/* Clue count container */}
-                      <View style={styles.clueCountContainer}>
-                        <Text style={styles.clueCountText}>{clueCount3}</Text>
+                      <View style={styles.hintCountContainer}>
+                        <Text style={styles.hintCountText}>{hintCount3}</Text>
                       </View>
                     </View>
                   </TouchableOpacity>
@@ -917,6 +929,7 @@ const CrosswordApp = ({ route }) => {
                     {/* Rewards section */}
                     <Text style={styles.rewardsTitleText}>Rewards</Text>
                     <View style={styles.rowDirectionContainer}>
+                      {/* Animation for the credits */}
                       <Animated.Image
                         source={require("./assets/credits.png")}
                         style={[
@@ -945,6 +958,8 @@ const CrosswordApp = ({ route }) => {
                         x{creditsIncrease}
                       </Animated.Text>
                     </View>
+                    {/* Depending whether for given level user can get hints as rewards */}
+                    {/* Make sure only those declared are presented */}
                     <View
                       style={[
                         styles.rowDirectionContainer,
@@ -955,15 +970,16 @@ const CrosswordApp = ({ route }) => {
                         { marginTop: 5 },
                       ]}
                     >
+                      {/* Hint 1 increase */}
                       {hintCount1Increase !== 0 && (
                         <Animated.View
                           style={[
                             styles.imageSpacing,
                             {
-                              opacity: cluesAnimations[0],
+                              opacity: hintsAnimations[0],
                               transform: [
                                 {
-                                  translateY: cluesAnimations[0].interpolate({
+                                  translateY: hintsAnimations[0].interpolate({
                                     inputRange: [0, 1],
                                     outputRange: [100, 0],
                                   }),
@@ -981,16 +997,16 @@ const CrosswordApp = ({ route }) => {
                           </Text>
                         </Animated.View>
                       )}
-
+                      {/* Hint 2 increase */}
                       {hintCount2Increase !== 0 && (
                         <Animated.View
                           style={[
                             styles.imageSpacing,
                             {
-                              opacity: cluesAnimations[1],
+                              opacity: hintsAnimations[1],
                               transform: [
                                 {
-                                  translateY: cluesAnimations[1].interpolate({
+                                  translateY: hintsAnimations[1].interpolate({
                                     inputRange: [0, 1],
                                     outputRange: [100, 0],
                                   }),
@@ -1008,16 +1024,16 @@ const CrosswordApp = ({ route }) => {
                           </Text>
                         </Animated.View>
                       )}
-
+                      {/* Hint 3 increase */}
                       {hintCount3Increase !== 0 && (
                         <Animated.View
                           style={[
                             styles.imageSpacing,
                             {
-                              opacity: cluesAnimations[2],
+                              opacity: hintsAnimations[2],
                               transform: [
                                 {
-                                  translateY: cluesAnimations[2].interpolate({
+                                  translateY: hintsAnimations[2].interpolate({
                                     inputRange: [0, 1],
                                     outputRange: [100, 0],
                                   }),
@@ -1037,6 +1053,7 @@ const CrosswordApp = ({ route }) => {
                       )}
                     </View>
 
+                    {/* Button to close the modal and confirm completing the level */}
                     {showButton && (
                       <Animated.View style={{ opacity: fadeAnimButton }}>
                         <TouchableOpacity
@@ -1064,20 +1081,14 @@ const CrosswordApp = ({ route }) => {
 const styles = StyleSheet.create({
   containerWhole: {
     flex: 1,
-    // ... other styles ...
   },
   container: {
     flex: 1,
-    // padding: 20,
-    // alignItems: "center",
-    // justifyContent: "center",
     backgroundColor: "transparent",
-    // backgroundColor: "#b5ffd9",
   },
   backgroundImage: {
     flex: 1,
-    resizeMode: "cover", // You can adjust the resizeMode as needed
-    // zIndex:
+    resizeMode: "cover",
   },
   gridContainer: {
     flexDirection: "column",
@@ -1087,7 +1098,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    alignItems: "flex-start", // Align boxes to the left
+    alignItems: "flex-start",
   },
   highlightedRow: {
     backgroundColor: "rgb(84, 68, 55)",
@@ -1107,20 +1118,6 @@ const styles = StyleSheet.create({
   },
   boxText: {
     fontSize: 16,
-  },
-
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    padding: 20,
-  },
-  modalText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "white",
   },
   overlay: {
     flex: 1,
@@ -1172,57 +1169,43 @@ const styles = StyleSheet.create({
   },
   clueText: {
     fontSize: windowHeight * 0.025,
-    // marginTop: 10,
     alignSelf: "center",
     fontFamily: "AppFont",
-    // paddingHorizontal: 10,
   },
-  clueButtonsContainer: {
+  hintButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
     marginTop: 10,
   },
-  clueButton: {
+  hintButton: {
     marginTop: 10,
     backgroundColor: "green",
     padding: windowHeight * 0.01,
     borderRadius: 8,
     marginHorizontal: 16,
   },
-  clueButtonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#fff",
-  },
   rowDirectionContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    // Add other styles to adjust the container size and spacing if needed
-    // ...
   },
   hintImage: {
     width: 32,
     height: 32,
-    // Add other styles for the icon if needed
-    // ...
   },
   hintText: {
     marginHorizontal: 5,
     fontSize: 15,
     fontFamily: "AppFontBold",
   },
-
   imageSpacing: {
     paddingHorizontal: 10,
   },
   creditsIcon: {
     width: 36,
     height: 36,
-    // Add other styles for the icon if needed
-    // ...
   },
-  clueCountContainer: {
+  hintCountContainer: {
     position: "absolute",
     bottom: 25,
     left: 25,
@@ -1233,16 +1216,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  clueCountText: {
+  hintCountText: {
     fontSize: 15,
     color: "#333",
-    // Problem - this may be wrong for different devices - need to check that
     marginBottom: 3,
     fontFamily: "AppFontBold",
   },
   iconContainer: {
-    // position: "absolute",
-    // top: windowHeight * 0.1,
     backgroundColor: "rgba(44, 122, 47,1)",
     padding: 20,
     borderRadius: 100,
@@ -1259,13 +1239,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "80%",
     elevation: 8, // Android shadow
-    // shadowColor: "#000", // iOS shadow
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.3,
-    // shadowRadius: 4,
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   hintsBackground: {
     justifyContent: "center",
@@ -1274,13 +1254,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     elevation: 4, // Android shadow
-    // shadowColor: "#000", // iOS shadow
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.3,
-    // shadowRadius: 4,
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   scoreText: {
     fontSize: 20,
