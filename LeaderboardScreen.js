@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, Image } from "react-native";
 import { getDatabase, ref, onValue, set } from "firebase/database";
 import { FIREBASE_APP } from "./firebaseConfig";
 import CustomHeader from "./CustomHeader";
+import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkUsernameInStorage } from "./UserNameManager";
 const Leaderboard = () => {
@@ -83,19 +84,19 @@ const Leaderboard = () => {
         data={usersData.slice(0, 10)}
         keyExtractor={(item) => item.userId}
         renderItem={({ item, index }) => (
-          <View
-            style={[
-              styles.leaderboardItem,
+          <LinearGradient // Add LinearGradient here
+            colors={
               item.username === checkUsername
-                ? { backgroundColor: "green" }
+                ? ["rgba(26,149,36,1)", "rgba(19,123,27,1)"]
                 : index === 0
-                ? { backgroundColor: "gold" } // Gold for the first item
+                ? ["gold", "rgba(224,190,11,1)"] // Gold for the first item
                 : index === 1
-                ? { backgroundColor: "silver" } // Silver for the second item
+                ? ["silver", "rgba(154,154,150,1)"] // Silver for the second item
                 : index === 2
-                ? { backgroundColor: "rgb(103, 54, 15)" } // Bronze for the third item
-                : null,
-            ]}
+                ? ["rgba(123,65,19,1)", "rgba(91,48,13,1)"] // Bronze for the third item
+                : ["transparent", "transparent"]
+            }
+            style={styles.leaderboardItem}
           >
             {index < 3 ? (
               // Conditionally load different images for the first three items
@@ -124,11 +125,8 @@ const Leaderboard = () => {
                   index + 1}
             </Text>
             <Text style={styles.username}>{item.username}</Text>
-            {/* <View style={styles.pointsContainer}> */}
             <Text style={styles.points}>{item.points}</Text>
-            {/* <Text style={styles.points}>points</Text> */}
-            {/* </View> */}
-          </View>
+          </LinearGradient>
         )}
       />
       <View style={{ marginBottom: 30 }}></View>
