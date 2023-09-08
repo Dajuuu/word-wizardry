@@ -21,10 +21,10 @@ import {
   checkUsernameInStorage,
   updateUsername, // Import the updateUsername function
 } from "./UserNameManager";
-import BuyClueOverlay from "./BuyHintOverlay";
+import BuyHintOverlay from "./BuyHintOverlay";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { backgroundImagePaths } from "./BackgroundManager";
-import { loadClueCount, initializeClueCounts } from "./ClueManager"; // Import the clue count functions
+import { loadClueCount, initializeClueCounts } from "./HintManager"; // Import the clue count functions
 import { setStoredBackgroundImage } from "./BackgroundManager";
 import { LinearGradient } from "expo-linear-gradient";
 import { useButtonClickSound } from "./SoundManager";
@@ -72,9 +72,9 @@ const UserProfile = () => {
 
   const [username, setUsername] = useState("");
   const [newUsername, setNewUsername] = useState(""); // State for the new username input
-  const [showBuyClueOverlay1, setShowBuyClueOverlay1] = useState(false);
-  const [showBuyClueOverlay2, setShowBuyClueOverlay2] = useState(false);
-  const [showBuyClueOverlay3, setShowBuyClueOverlay3] = useState(false);
+  const [showBuyHintOverlay1, setShowBuyHintOverlay1] = useState(false);
+  const [showBuyHintOverlay2, setShowBuyHintOverlay2] = useState(false);
+  const [showBuyHintOverlay3, setShowBuyHintOverlay3] = useState(false);
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -142,40 +142,40 @@ const UserProfile = () => {
   const creditsCostHint3 = 30;
 
   // Overlay for hint 1
-  const renderBuyClueOverlay1 = (
-    <BuyClueOverlay
-      visible={showBuyClueOverlay1}
-      onClose={() => setShowBuyClueOverlay1(false)}
-      onBuyClue={async () => {
-        setShowBuyClueOverlay1(false); // Close the overlay after buying
+  const renderBuyHintOverlay1 = (
+    <BuyHintOverlay
+      visible={showBuyHintOverlay1}
+      onClose={() => setShowBuyHintOverlay1(false)}
+      onBuyHint={async () => {
+        setShowBuyHintOverlay1(false); // Close the overlay after buying
         setClueCount1(clueCount1 + 1); // Update the clue count
       }}
-      clueNumber={1} // Pass the clue number as a prop
+      hintNumber={1} // Pass the clue number as a prop
       creditsDecrement={creditsCostHint1} // Remove Credits when buying the hint
     />
   );
   // Overlay for hint 2
-  const renderBuyClueOverlay2 = (
-    <BuyClueOverlay
-      visible={showBuyClueOverlay2}
-      onClose={() => setShowBuyClueOverlay2(false)}
-      onBuyClue={async () => {
-        setShowBuyClueOverlay2(false); // Close the overlay after buying
+  const renderBuyHintOverlay2 = (
+    <BuyHintOverlay
+      visible={showBuyHintOverlay2}
+      onClose={() => setShowBuyHintOverlay2(false)}
+      onBuyHint={async () => {
+        setShowBuyHintOverlay2(false); // Close the overlay after buying
         setClueCount2(clueCount2 + 1); // Update the clue count
       }}
-      clueNumber={2} // Pass the clue number as a prop
+      hintNumber={2} // Pass the clue number as a prop
       creditsDecrement={creditsCostHint2} // Remove Credits when buying the hint
     />
   );
-  const renderBuyClueOverlay3 = (
-    <BuyClueOverlay
-      visible={showBuyClueOverlay3}
-      onClose={() => setShowBuyClueOverlay3(false)}
-      onBuyClue={async () => {
-        setShowBuyClueOverlay3(false); // Close the overlay after buying
+  const renderBuyHintOverlay3 = (
+    <BuyHintOverlay
+      visible={showBuyHintOverlay3}
+      onClose={() => setShowBuyHintOverlay3(false)}
+      onBuyHint={async () => {
+        setShowBuyHintOverlay3(false); // Close the overlay after buying
         setClueCount3(clueCount3 + 1); // Update the clue count
       }}
-      clueNumber={3} // Pass the clue number as a prop
+      hintNumber={3} // Pass the clue number as a prop
       creditsDecrement={creditsCostHint3} // Remove Credits when buying the hint
     />
   );
@@ -238,11 +238,11 @@ const UserProfile = () => {
                     style={styles.clueButton}
                     onPress={() => {
                       handleButtonSoundPlay();
-                      setShowBuyClueOverlay1(true);
+                      setShowBuyHintOverlay1(true);
                     }}
                   >
                     {/* Render Buy Hint overlay */}
-                    {renderBuyClueOverlay1}
+                    {renderBuyHintOverlay1}
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image
@@ -265,11 +265,11 @@ const UserProfile = () => {
                     style={styles.clueButton}
                     onPress={() => {
                       handleButtonSoundPlay();
-                      setShowBuyClueOverlay2(true);
+                      setShowBuyHintOverlay2(true);
                     }}
                   >
                     {/* Render Buy Hint overlay */}
-                    {renderBuyClueOverlay2}
+                    {renderBuyHintOverlay2}
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image
@@ -292,11 +292,11 @@ const UserProfile = () => {
                     style={styles.clueButton}
                     onPress={() => {
                       handleButtonSoundPlay();
-                      setShowBuyClueOverlay3(true);
+                      setShowBuyHintOverlay3(true);
                     }}
                   >
                     {/* Render Buy Hint overlay */}
-                    {renderBuyClueOverlay3}
+                    {renderBuyHintOverlay3}
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image

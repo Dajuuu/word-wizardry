@@ -35,7 +35,7 @@ export const decrementClueCount = async (clueIndex) => {
 };
 
 // Increment the number of uses for a particular hint
-export const incrementClueCount = async (clueIndex, increaseAmount) => {
+export const incrementHintCount = async (clueIndex, increaseAmount) => {
   try {
     const clueCountKey = `${CLUE_COUNT_STORAGE_KEY_PREFIX}${clueIndex}`;
     const clueCount = await loadClueCount(clueIndex);

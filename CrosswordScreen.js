@@ -18,18 +18,18 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
-import { incrementClueCount } from "./ClueManager";
+import { incrementClueCount } from "./HintManager";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import LoadingScreen from "./LoadingScreen";
 import {
   decrementClueCount,
   loadClueCount,
   initializeClueCounts,
-} from "./ClueManager"; // Import the clue count functions
+} from "./HintManager"; // Import the clue count functions
 import { Asset } from "expo-asset";
 import { PointsContext } from "./PointsContext";
 import { CreditsContext } from "./CreditsContext";
-import BuyClueOverlay from "./BuyHintOverlay";
+import BuyHintOverlay from "./BuyHintOverlay";
 import CustomKeyboard from "./CustomKeyboard";
 import CustomHeader from "./CustomHeader";
 import { useButtonClickSound, useLevelCompletedSound } from "./SoundManager";
@@ -80,9 +80,9 @@ const CrosswordApp = ({ route }) => {
   const [availableSpaces, setAvailableSpaces] = useState(true);
 
   // Hooks needed when user runs out of the clues and choses to buy additional one
-  const [showBuyClueOverlay1, setShowBuyClueOverlay1] = useState(false);
-  const [showBuyClueOverlay2, setShowBuyClueOverlay2] = useState(false);
-  const [showBuyClueOverlay3, setShowBuyClueOverlay3] = useState(false);
+  const [showBuyHintOverlay1, setShowBuyHintOverlay1] = useState(false);
+  const [showBuyHintOverlay2, setShowBuyHintOverlay2] = useState(false);
+  const [showBuyHintOverlay3, setShowBuyHintOverlay3] = useState(false);
 
   //  This way the horizontal ScrollView can be shifted when the next box is selected
   const horizontalScrollViewRef = useRef(null);
@@ -513,40 +513,40 @@ const CrosswordApp = ({ route }) => {
   const creditsCostHint3 = 30;
 
   // Overlay for hint 1
-  const renderBuyClueOverlay1 = clueCount1 === 0 && (
-    <BuyClueOverlay
-      visible={showBuyClueOverlay1}
-      onClose={() => setShowBuyClueOverlay1(false)}
-      onBuyClue={async () => {
-        setShowBuyClueOverlay1(false); // Close the overlay after buying
+  const renderBuyHintOverlay1 = clueCount1 === 0 && (
+    <BuyHintOverlay
+      visible={showBuyHintOverlay1}
+      onClose={() => setShowBuyHintOverlay1(false)}
+      onBuyHint={async () => {
+        setShowBuyHintOverlay1(false); // Close the overlay after buying
         setClueCount1(clueCount1 + 1); // Update the clue count
       }}
-      clueNumber={1} // Pass the clue number as a prop
+      hintNumber={1} // Pass the clue number as a prop
       creditsDecrement={creditsCostHint1} // Remove Credits when buying the hint
     />
   );
   // Overlay for hint 2
-  const renderBuyClueOverlay2 = clueCount2 === 0 && (
-    <BuyClueOverlay
-      visible={showBuyClueOverlay2}
-      onClose={() => setShowBuyClueOverlay2(false)}
-      onBuyClue={async () => {
-        setShowBuyClueOverlay2(false); // Close the overlay after buying
+  const renderBuyHintOverlay2 = clueCount2 === 0 && (
+    <BuyHintOverlay
+      visible={showBuyHintOverlay2}
+      onClose={() => setShowBuyHintOverlay2(false)}
+      onBuyHint={async () => {
+        setShowBuyHintOverlay2(false); // Close the overlay after buying
         setClueCount2(clueCount2 + 1); // Update the clue count
       }}
-      clueNumber={2} // Pass the clue number as a prop
+      hintNumber={2} // Pass the clue number as a prop
       creditsDecrement={creditsCostHint2} // Remove Credits when buying the hint
     />
   );
-  const renderBuyClueOverlay3 = clueCount3 === 0 && (
-    <BuyClueOverlay
-      visible={showBuyClueOverlay3}
-      onClose={() => setShowBuyClueOverlay3(false)}
-      onBuyClue={async () => {
-        setShowBuyClueOverlay3(false); // Close the overlay after buying
+  const renderBuyHintOverlay3 = clueCount3 === 0 && (
+    <BuyHintOverlay
+      visible={showBuyHintOverlay3}
+      onClose={() => setShowBuyHintOverlay3(false)}
+      onBuyHint={async () => {
+        setShowBuyHintOverlay3(false); // Close the overlay after buying
         setClueCount3(clueCount3 + 1); // Update the clue count
       }}
-      clueNumber={3} // Pass the clue number as a prop
+      hintNumber={3} // Pass the clue number as a prop
       creditsDecrement={creditsCostHint3} // Remove Credits when buying the hint
     />
   );
@@ -808,12 +808,12 @@ const CrosswordApp = ({ route }) => {
                     style={styles.clueButton}
                     onPress={() =>
                       clueCount1 === 0
-                        ? setShowBuyClueOverlay1(true)
+                        ? setShowBuyHintOverlay1(true)
                         : handleCluePress(1)
                     }
                   >
                     {/* Render Buy Hint overlay */}
-                    {renderBuyClueOverlay1}
+                    {renderBuyHintOverlay1}
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image
@@ -832,12 +832,12 @@ const CrosswordApp = ({ route }) => {
                     style={styles.clueButton}
                     onPress={() =>
                       clueCount2 === 0
-                        ? setShowBuyClueOverlay2(true)
+                        ? setShowBuyHintOverlay2(true)
                         : handleCluePress(2)
                     }
                   >
                     {/* Render Buy Hint overlay */}
-                    {renderBuyClueOverlay2}
+                    {renderBuyHintOverlay2}
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image
@@ -856,12 +856,12 @@ const CrosswordApp = ({ route }) => {
                     style={styles.clueButton}
                     onPress={() =>
                       clueCount3 === 0
-                        ? setShowBuyClueOverlay3(true)
+                        ? setShowBuyHintOverlay3(true)
                         : handleCluePress(3)
                     }
                   >
                     {/* Render Buy Hint overlay */}
-                    {renderBuyClueOverlay3}
+                    {renderBuyHintOverlay3}
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image
