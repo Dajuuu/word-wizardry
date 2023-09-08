@@ -6,19 +6,22 @@ import { FIREBASE_APP } from "./firebaseConfig";
 const PointsContext = createContext();
 
 const PointsProvider = ({ children }) => {
+  // Initalise the number of points
   const [points, setPoints] = useState(0);
+  // Import the Firebase database
   const db = getDatabase(FIREBASE_APP);
 
   // Load points from AsyncStorage when the component mounts
   useEffect(() => {
     async function loadPoints() {
       try {
+        // Check for the points inside the AsyncStorage
         const storedPoints = await AsyncStorage.getItem("points");
-        // Use the username as the initial unique identifier
+        // Use the inital username as the unique identifier
         const usernameInitial = await AsyncStorage.getItem("usernameInitial");
         if (storedPoints !== null) {
+          // Set the points to the number stored inside the AsyncStorage
           setPoints(parseInt(storedPoints));
-
           if (usernameInitial) {
             // Update points when app loads, to make sure the database is updated if something wrong happens
             // Update points under the initial username
@@ -28,6 +31,7 @@ const PointsProvider = ({ children }) => {
             );
           }
         } else {
+          // If the points were not saved for the AsyncStorage then assign 0 to the database entry
           await set(ref(db, `users/${usernameInitial}/points`), 0);
         }
       } catch (error) {
@@ -37,14 +41,16 @@ const PointsProvider = ({ children }) => {
     loadPoints();
   }, [db]);
 
-  // Save points to AsyncStorage whenever it changes
+  // Save points to the AsyncStorage and to the Firebase whenever it changes
   useEffect(() => {
     async function savePoints() {
       try {
+        // Update the points counter
         await AsyncStorage.setItem("points", points.toString());
-        // Use the username as a unique identifier in the database
+        // Use the inital username as the unique identifier
         const usernameInitial = await AsyncStorage.getItem("usernameInitial");
 
+        // If the usernameInitial is found, update the points inside the Firebase
         if (usernameInitial) {
           await set(ref(db, `users/${usernameInitial}/points`), points);
         }
