@@ -12,29 +12,20 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import SettingsOverlay from "./SettingsOverlay";
 import { CreditsContext } from "./CreditsContext";
-import { Asset } from "expo-asset";
-import { Audio } from "expo-av";
 import { useButtonClickSound } from "./SoundManager";
-import { PointsContext } from "./PointsContext";
 
 // Get the height of the device
-const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const CustomHeader = ({ title }) => {
-  // Cache the credits icon
-  useEffect(() => {
-    const cacheIcon = async () => {
-      await Asset.fromModule(require("./assets/credits.png")).downloadAsync();
-    };
-    cacheIcon();
-  }, []);
-
+  // Use navigation
   const navigation = useNavigation();
-  // handles the settings overlay
+  // Handles the settings overlay
   const [settingsVisible, setSettingsVisible] = useState(false);
   // Import credits info
   const { credits } = useContext(CreditsContext);
+  // Import function that plays the sound
+  const { handleButtonSoundPlay } = useButtonClickSound();
 
   // Handle the settings overlay
   const handleSettingsButtonPress = () => {
@@ -45,17 +36,13 @@ const CustomHeader = ({ title }) => {
     setSettingsVisible(false);
   };
 
-  // Import function that plays the sound
-  const { handleButtonSoundPlay } = useButtonClickSound();
-  /* // Because on the Android status bar is shown, I want to make a small
-      adjustment // to make sure that the status bar is not colliding with
-      anything */
   return (
+    // Make sure the header is responsive
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
         {/* Icon on the left (go back) */}
         <TouchableOpacity
-          // margin to make spacing for the next button
+          // Margin to make spacing for the next button
           style={[styles.leftButton, { marginRight: windowHeight * 0.015 }]}
           onPress={() => {
             handleButtonSoundPlay();
@@ -73,6 +60,7 @@ const CustomHeader = ({ title }) => {
             handleSettingsButtonPress();
           }}
         >
+          {/* Display settings when pressed */}
           <SettingsOverlay
             visible={settingsVisible}
             onClose={handleCloseSettings}
@@ -89,7 +77,6 @@ const CustomHeader = ({ title }) => {
             style={styles.creditsImage}
           />
           <Text style={styles.creditsText}>{credits}</Text>
-          {/* <Text style={styles.creditsText}>230</Text> */}
         </View>
       </View>
     </SafeAreaView>
@@ -98,7 +85,7 @@ const CustomHeader = ({ title }) => {
 
 const styles = StyleSheet.create({
   safeArea: {
-    backgroundColor: "rgb(224, 195, 169)", // Set your background color
+    backgroundColor: "rgb(224, 195, 169)", // the same header
   },
   header: {
     flexDirection: "row",
@@ -110,9 +97,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "rgb(129, 103, 79)",
   },
   leftButton: {
-    // marginRight: 10,
     padding: windowHeight * 0.02,
-    // paddingHorizontal: 14,
     backgroundColor: "rgba(183, 140, 101,1)",
     borderRadius: 100,
     shadowColor: "black", // iOS shadow
@@ -123,16 +108,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 4,
     elevation: 4, // Android
-  },
-  // rightButton: {
-  //   marginLeft: 10,
-  //   padding: 12,
-  //   backgroundColor: "#ebb381",
-  //   borderRadius: 20,
-  // },
-  buttonText: {
-    fontSize: 16,
-    color: "#333",
   },
   buttonIcon: {
     fontSize: windowHeight * 0.024,
@@ -145,17 +120,14 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flex: 1,
-    flexDirection: "row", // Arrange the title and credits in a row
-    justifyContent: "space-between", // Space them evenly along the row
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingHorizontal: 10,
-    // alignItems: "center", // Center them vertically within the header
   },
   creditsText: {
     fontSize: windowHeight * 0.024,
     flexWrap: "wrap",
     maxWidth: "70%",
-    // alignSelf: "center",
-
     fontFamily: "AppFontBold",
     paddingRight: 10,
   },
@@ -163,13 +135,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(183, 140, 101,1)",
     padding: 2,
-    // paddingHorizontal: 10,
-    // paddingVertical: 6,
     borderRadius: 20,
     flexDirection: "row",
-    // justifyContent: "space-between", // Space them evenly along the row
-    alignItems: "center", // Center them vertically within the header
-    // maxWidth: 110,
+    alignItems: "center",
     minWidth: 100,
     height: windowHeight * 0.07,
     shadowColor: "black", // iOS shadow
@@ -184,8 +152,6 @@ const styles = StyleSheet.create({
   creditsImage: {
     width: windowHeight * 0.04,
     height: windowHeight * 0.04,
-    // marginRight: 5,
-    // marginLeft: -5,
   },
 });
 

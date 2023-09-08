@@ -13,7 +13,7 @@ const CreditsProvider = ({ children }) => {
     loadCreditsFromStorage();
   }, []);
 
-  // load credits data
+  // Load credits data
   const loadCreditsFromStorage = async () => {
     try {
       const storedCredits = await AsyncStorage.getItem("credits");
@@ -25,7 +25,7 @@ const CreditsProvider = ({ children }) => {
     }
   };
 
-  // save credits data
+  // Save credits
   const saveCreditsToStorage = async (value) => {
     try {
       await AsyncStorage.setItem("credits", value.toString());
@@ -34,7 +34,7 @@ const CreditsProvider = ({ children }) => {
     }
   };
 
-  // add credits
+  // Add credits
   const addCredits = (amount) => {
     setCredits((prevCredits) => {
       const newCredits = prevCredits + amount;
@@ -43,7 +43,7 @@ const CreditsProvider = ({ children }) => {
     });
   };
 
-  // remove credits
+  // Remove credits
   const removeCredits = (amount) => {
     setCredits((prevCredits) => {
       const newCredits = prevCredits - amount;
@@ -52,7 +52,7 @@ const CreditsProvider = ({ children }) => {
     });
   };
 
-  // reset credits
+  // Reset credits - mostly used for testing purposes
   const resetCredits = () => {
     setCredits(0);
     saveCreditsToStorage("0");
