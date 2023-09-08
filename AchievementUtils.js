@@ -1,6 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Function to fetch completed levels and return the count
+// Functions to fetch completed levels for a specific difficulty (depending on what letter it starts with)
+// and return the count of those levels
+// ---***---
+// Easy levels
 export async function fetchCompletedEasyLevels() {
   try {
     const completedLevelsString = await AsyncStorage.getItem("completedLevels");
@@ -16,6 +19,8 @@ export async function fetchCompletedEasyLevels() {
   }
   return 0; // Default value if fetch fails
 }
+
+// Medium levels
 export async function fetchCompletedMediumLevels() {
   try {
     const completedLevelsString = await AsyncStorage.getItem("completedLevels");
@@ -24,7 +29,6 @@ export async function fetchCompletedMediumLevels() {
       const mediumCompleted = completedLevels.filter((level) =>
         level.startsWith("M")
       ).length;
-      // console.log("Completed medium" + mediumCompleted);
       return mediumCompleted;
     }
   } catch (error) {
@@ -32,6 +36,7 @@ export async function fetchCompletedMediumLevels() {
   }
   return 0; // Default value if fetch fails
 }
+// Hard levels
 export async function fetchCompletedHardLevels() {
   try {
     const completedLevelsString = await AsyncStorage.getItem("completedLevels");
@@ -40,7 +45,6 @@ export async function fetchCompletedHardLevels() {
       const hardCompleted = completedLevels.filter((level) =>
         level.startsWith("H")
       ).length;
-      // console.log("Completed medium" + mediumCompleted);
       return hardCompleted;
     }
   } catch (error) {
@@ -48,6 +52,7 @@ export async function fetchCompletedHardLevels() {
   }
   return 0; // Default value if fetch fails
 }
+// Themed levels
 export async function fetchCompletedThemedLevels() {
   try {
     const completedLevelsString = await AsyncStorage.getItem("completedLevels");
@@ -56,7 +61,6 @@ export async function fetchCompletedThemedLevels() {
       const themedCompleted = completedLevels.filter((level) =>
         level.startsWith("T")
       ).length;
-      // console.log("Completed medium" + mediumCompleted);
       return themedCompleted;
     }
   } catch (error) {
@@ -64,27 +68,6 @@ export async function fetchCompletedThemedLevels() {
   }
   return 0; // Default value if fetch fails
 }
-
-// Function to determine unlocked achievement indexes based on hideOverlayCondition
-// Function to determine unlocked achievement indexes based on hideOverlayCondition
-// export function determineUnlockedAchievements(
-//   achievementsList,
-//   easyLevelsCompletedCount,
-//   mediumLevelsCompletedCount,
-//   hardLevelsCompletedCount,
-//   themedLevelsCompletedCount
-// ) {
-//   return achievementsList
-//     .filter((achievement) => achievement.hideOverlayCondition)
-//     .map((achievement) => achievement.achivIndex)
-//     .filter(
-//       (index) =>
-//         index <= easyLevelsCompletedCount ||
-//         index <= mediumLevelsCompletedCount ||
-//         index <= hardLevelsCompletedCount ||
-//         index <= themedLevelsCompletedCount
-//     );
-// }
 
 // Determine unlocked achievements based on different difficulty levels
 export function determineUnlockedLevelAchievements(
@@ -95,7 +78,7 @@ export function determineUnlockedLevelAchievements(
   themedLevelsCompletedCount
 ) {
   return achievementsList
-    .filter((achievement) => achievement.hideOverlayCondition)
+    .filter((achievement) => achievement.achivUnlockCondition)
     .map((achievement) => achievement.achivIndex)
     .filter((index) => {
       const conditionIndex = achievementsList.find(
@@ -103,10 +86,10 @@ export function determineUnlockedLevelAchievements(
       );
       return (
         (conditionIndex &&
-          conditionIndex.hideOverlayCondition <= easyLevelsCompletedCount) ||
-        conditionIndex.hideOverlayCondition <= mediumLevelsCompletedCount ||
-        conditionIndex.hideOverlayCondition <= hardLevelsCompletedCount ||
-        conditionIndex.hideOverlayCondition <= themedLevelsCompletedCount
+          conditionIndex.achivUnlockCondition <= easyLevelsCompletedCount) ||
+        conditionIndex.achivUnlockCondition <= mediumLevelsCompletedCount ||
+        conditionIndex.achivUnlockCondition <= hardLevelsCompletedCount ||
+        conditionIndex.achivUnlockCondition <= themedLevelsCompletedCount
       );
     });
 }
