@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, Image } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LinearGradient } from "expo-linear-gradient";
+// Firebase
 import { getDatabase, ref, onValue, set } from "firebase/database";
 import { FIREBASE_APP } from "./firebaseConfig";
+
 import CustomHeader from "./CustomHeader";
-import { LinearGradient } from "expo-linear-gradient";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkUsernameInStorage } from "./UserNameManager";
+
 const Leaderboard = () => {
   const db = getDatabase(FIREBASE_APP);
   const [usersData, setUsersData] = useState([]);
   const [checkUsername, setCheckUsername] = useState();
+  const [checkUsernameInitial, setCheckUsernameInitial] = useState();
+
   // Make sure newly registered user is saved to the database
 
   useEffect(() => {
     const fetchUsername = async () => {
       const storedUsername = await checkUsernameInStorage();
+      const usernameInitial = await AsyncStorage.getItem("usernameInitial");
       setCheckUsername(storedUsername);
+      setCheckUsernameInitial(usernameInitial);
     };
 
     fetchUsername();
@@ -59,7 +66,6 @@ const Leaderboard = () => {
             points: userData.points,
           })
         );
-
         // Sort the data by points in descending order
         const sortedData = userDataArray.sort((a, b) => b.points - a.points);
         setUsersData(sortedData);
@@ -86,7 +92,7 @@ const Leaderboard = () => {
         renderItem={({ item, index }) => (
           <LinearGradient // Add LinearGradient here
             colors={
-              item.username === checkUsername
+              item.userId === checkUsernameInitial
                 ? ["rgba(26,149,36,1)", "rgba(19,123,27,1)"]
                 : index === 0
                 ? ["gold", "rgba(224,190,11,1)"] // Gold for the first item
