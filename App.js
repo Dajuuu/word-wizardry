@@ -99,7 +99,7 @@ export default function App() {
   };
 
   // Close the loading screen after x seconds
-  // better to this this way to make sure everyting is loaded properly
+  // better to this way to make sure everyting is loaded properly
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);

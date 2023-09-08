@@ -17,19 +17,18 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import CustomHeader from "./CustomHeader";
-import {
-  checkUsernameInStorage,
-  updateUsername, // Import the updateUsername function
-} from "./UserNameManager";
+import { checkUsernameInStorage, updateUsername } from "./UserNameManager";
 import BuyHintOverlay from "./BuyHintOverlay";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { backgroundImagePaths } from "./BackgroundManager";
-import { loadHintCount, initializeHintCounts } from "./HintManager"; // Import the clue count functions
+import { loadHintCount, initializeHintCounts } from "./HintManager";
 import { setStoredBackgroundImage } from "./BackgroundManager";
 import { LinearGradient } from "expo-linear-gradient";
 import { useButtonClickSound } from "./SoundManager";
 import LoadingScreen from "./LoadingScreen";
 
+// Experimental layout animations for Android
+// https://reactnative.dev/docs/layoutanimation
 if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
@@ -38,6 +37,8 @@ const windowHeight = Dimensions.get("window").height;
 
 const UserProfile = () => {
   const [loading, setLoading] = useState(true);
+  // Close the loading screen after x seconds
+  // This way everyting is loaded properly
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -46,36 +47,56 @@ const UserProfile = () => {
     return () => clearTimeout(timer); // Clear the timer if the component unmounts
   }, []);
 
+  // Import function that plays the sound
   const { handleButtonSoundPlay } = useButtonClickSound();
 
+  // Track whether the section is hidden or not
   const [isSectionHidden, setSectionHidden] = useState(false);
+  // Used for background change
   const [backgroundImageNumber, setBackgroundImageNumber] = useState(null);
   const handleImageSelect = async (newImageNumber) => {
     setBackgroundImageNumber(newImageNumber);
     await setStoredBackgroundImage(newImageNumber); // Call the function to update the background image index
   };
-  // Initialize clue counts
-  const [clueCount1, setClueCount1] = useState();
-  const [clueCount2, setClueCount2] = useState();
-  const [clueCount3, setClueCount3] = useState();
+  // Initialize hint counts
+  const [hintCount1, setHintCount1] = useState();
+  const [hintCount2, setHintCount2] = useState();
+  const [hintCount3, setHintCount3] = useState();
 
-  // Load the clue counts from the AsyncStorage and assign them to the useState hooks
+  // Hooks for the buy hint overlays
+  const [showBuyHintOverlay1, setShowBuyHintOverlay1] = useState(false);
+  const [showBuyHintOverlay2, setShowBuyHintOverlay2] = useState(false);
+  const [showBuyHintOverlay3, setShowBuyHintOverlay3] = useState(false);
+  // Load the hint counts from the AsyncStorage and assign them to the useState hooks
   const loadHintCounts = async () => {
     const count1 = await loadHintCount(1);
     const count2 = await loadHintCount(2);
     const count3 = await loadHintCount(3);
 
-    setClueCount1(count1);
-    setClueCount2(count2);
-    setClueCount3(count3);
+    setHintCount1(count1);
+    setHintCount2(count2);
+    setHintCount3(count3);
   };
 
-  const [username, setUsername] = useState("");
-  const [newUsername, setNewUsername] = useState(""); // State for the new username input
-  const [showBuyHintOverlay1, setShowBuyHintOverlay1] = useState(false);
-  const [showBuyHintOverlay2, setShowBuyHintOverlay2] = useState(false);
-  const [showBuyHintOverlay3, setShowBuyHintOverlay3] = useState(false);
+  // Declare the cost of the hints
+  const creditsCostHint1 = 15;
+  const creditsCostHint2 = 50;
+  const creditsCostHint3 = 30;
 
+  // Hook for saving current username
+  const [username, setUsername] = useState("");
+  // Hook for saving new username, if the user changes it
+  const [newUsername, setNewUsername] = useState("");
+
+  // Function to handle the new username input change
+  const handleUsernameChange = (text) => {
+    // This is very important, as this line replaces any illegal characters.
+    // Therefore the user will not be able to use those for new username
+    text = text.replace(/[!€@#$%^&*(),.?":{}|<>]/g, "");
+    setNewUsername(text);
+  };
+
+  // Fetch the current username
   useEffect(() => {
     const fetchUsername = async () => {
       const storedUsername = await checkUsernameInStorage();
@@ -83,16 +104,12 @@ const UserProfile = () => {
     };
 
     fetchUsername();
+    // If the user does not have hintCounts declared - initalise them
+    initializeHintCounts();
+    // If the user does have hintCounts declared - load them
+    loadHintCounts();
   }, []);
-  useEffect(() => {
-    initializeHintCounts(); // TODO Probaply it needs to be deleted because of the function below
-    loadHintCounts(); // Load the clue counts for the user
-  }, []);
-  // Function to handle the new username input change
-  const handleUsernameChange = (text) => {
-    text = text.replace(/[!€@#$%^&*(),.?":{}|<>]/g, "");
-    setNewUsername(text);
-  };
+
   useEffect(() => {
     // Add a listener for when the keyboard is shown
     const keyboardDidShowListener = Keyboard.addListener(
@@ -120,11 +137,12 @@ const UserProfile = () => {
       keyboardDidHideListener.remove();
     };
   }, []);
+
   // Function to update the username
   const handleUpdateUsername = async () => {
     if (newUsername.trim() === "") {
       // Handle case where the input is empty or contains only whitespace
-      alert("Username cannot be empty");
+      alert("Username cannot be empty!");
       return;
     }
 
@@ -136,10 +154,10 @@ const UserProfile = () => {
 
     // Clear the new username input field
     setNewUsername("");
+
+    // Display the alert after updating the username
+    alert("Username updated!");
   };
-  const creditsCostHint1 = 10;
-  const creditsCostHint2 = 50;
-  const creditsCostHint3 = 30;
 
   // Overlay for hint 1
   const renderBuyHintOverlay1 = (
@@ -148,9 +166,9 @@ const UserProfile = () => {
       onClose={() => setShowBuyHintOverlay1(false)}
       onBuyHint={async () => {
         setShowBuyHintOverlay1(false); // Close the overlay after buying
-        setClueCount1(clueCount1 + 1); // Update the clue count
+        setHintCount1(hintCount1 + 1); // Update the hint count
       }}
-      hintNumber={1} // Pass the clue number as a prop
+      hintNumber={1} // Pass the hint number as a prop
       creditsDecrement={creditsCostHint1} // Remove Credits when buying the hint
     />
   );
@@ -161,9 +179,9 @@ const UserProfile = () => {
       onClose={() => setShowBuyHintOverlay2(false)}
       onBuyHint={async () => {
         setShowBuyHintOverlay2(false); // Close the overlay after buying
-        setClueCount2(clueCount2 + 1); // Update the clue count
+        setHintCount2(hintCount2 + 1); // Update the hint count
       }}
-      hintNumber={2} // Pass the clue number as a prop
+      hintNumber={2} // Pass the hint number as a prop
       creditsDecrement={creditsCostHint2} // Remove Credits when buying the hint
     />
   );
@@ -173,41 +191,45 @@ const UserProfile = () => {
       onClose={() => setShowBuyHintOverlay3(false)}
       onBuyHint={async () => {
         setShowBuyHintOverlay3(false); // Close the overlay after buying
-        setClueCount3(clueCount3 + 1); // Update the clue count
+        setHintCount3(hintCount3 + 1); // Update the hint count
       }}
-      hintNumber={3} // Pass the clue number as a prop
+      hintNumber={3} // Pass the hint number as a prop
       creditsDecrement={creditsCostHint3} // Remove Credits when buying the hint
     />
   );
+
   return (
+    // Container so everything is displayed properly with loading screen implementation
     <View style={styles.containerWhole}>
+      {/* Display the screen after Loading Screen is finished */}
       {loading ? (
         <LoadingScreen />
       ) : (
+        // Used to make sure the sections are aligned correctely when keyboard is visible
         <KeyboardAvoidingView
           style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
+          {/* Helps in handling the keyboard type out */}
           <ScrollView
             contentContainerStyle={styles.scrollViewContainer}
             keyboardShouldPersistTaps="handled"
             scrollEnabled={false}
           >
-            {/* <View style={styles.container}> */}
             <CustomHeader title="Profile" />
-
             <View style={styles.userInfo}>
               <View>
                 {/* The Text needs to be put inside empty View for smooth animation (iOS) */}
                 <Text style={styles.userInfoText}>Your Username</Text>
               </View>
               <View style={styles.usernameInput}>
+                {/* Username TextInput */}
                 <TextInput
                   style={styles.input}
                   placeholder={username}
                   onChangeText={handleUsernameChange}
                   value={newUsername}
-                  maxLength={15}
+                  maxLength={15} // username cannot be longer than
                 />
                 <LinearGradient
                   colors={["rgb(0, 155, 0)", "rgb(0, 131, 0)"]}
@@ -219,23 +241,17 @@ const UserProfile = () => {
                     onPress={handleUpdateUsername}
                     style={styles.updateButton}
                   >
-                    <Icon name="pen" style={[styles.buttonIcon]} solid />
+                    <Icon name="pen" solid />
                   </TouchableOpacity>
                 </LinearGradient>
               </View>
               <View style={styles.userStats}>
+                {/* Border line to split this section */}
                 <View style={styles.borderLineTop} />
-                {/* Total Points */}
-                {/* <View style={styles.statContainer}>
-              <Text style={styles.statLabel}>Total Score:</Text>
-              <Text style={styles.statValue}>1000</Text>
-            </View> */}
-
-                {/* Hint 1 */}
-
-                <View style={styles.clueButtonsContainer}>
+                <View style={styles.hintButtonsContainer}>
+                  {/* Hint 1 */}
                   <TouchableOpacity
-                    style={styles.clueButton}
+                    style={styles.hintButton}
                     onPress={() => {
                       handleButtonSoundPlay();
                       setShowBuyHintOverlay1(true);
@@ -250,19 +266,19 @@ const UserProfile = () => {
                         style={styles.hintImage}
                       />
 
-                      {/* Clue count container */}
-                      <View style={styles.clueCountContainer}>
-                        <Text style={styles.clueCountText}>{clueCount1}</Text>
+                      {/* hint count container */}
+                      <View style={styles.hintCountContainer}>
+                        <Text style={styles.hintCountText}>{hintCount1}</Text>
                       </View>
                       {/* Plus sign indicator */}
-                      <View style={styles.clueAddContainer}>
-                        <Text style={styles.clueAddText}>+</Text>
+                      <View style={styles.hintAddContainer}>
+                        <Text style={styles.hintAddText}>+</Text>
                       </View>
                     </View>
                   </TouchableOpacity>
-
+                  {/* Hint 2 */}
                   <TouchableOpacity
-                    style={styles.clueButton}
+                    style={styles.hintButton}
                     onPress={() => {
                       handleButtonSoundPlay();
                       setShowBuyHintOverlay2(true);
@@ -277,19 +293,19 @@ const UserProfile = () => {
                         style={styles.hintImage}
                       />
 
-                      {/* Clue count container */}
-                      <View style={styles.clueCountContainer}>
-                        <Text style={styles.clueCountText}>{clueCount2}</Text>
+                      {/* hint count container */}
+                      <View style={styles.hintCountContainer}>
+                        <Text style={styles.hintCountText}>{hintCount2}</Text>
                       </View>
                       {/* Plus sign indicator */}
-                      <View style={styles.clueAddContainer}>
-                        <Text style={styles.clueAddText}>+</Text>
+                      <View style={styles.hintAddContainer}>
+                        <Text style={styles.hintAddText}>+</Text>
                       </View>
                     </View>
                   </TouchableOpacity>
-
+                  {/* Hint 3 */}
                   <TouchableOpacity
-                    style={styles.clueButton}
+                    style={styles.hintButton}
                     onPress={() => {
                       handleButtonSoundPlay();
                       setShowBuyHintOverlay3(true);
@@ -304,13 +320,13 @@ const UserProfile = () => {
                         style={styles.hintImage}
                       />
 
-                      {/* Clue count container */}
-                      <View style={styles.clueCountContainer}>
-                        <Text style={styles.clueCountText}>{clueCount3}</Text>
+                      {/* hint count container */}
+                      <View style={styles.hintCountContainer}>
+                        <Text style={styles.hintCountText}>{hintCount3}</Text>
                       </View>
                       {/* Plus sign indicator */}
-                      <View style={styles.clueAddContainer}>
-                        <Text style={styles.clueAddText}>+</Text>
+                      <View style={styles.hintAddContainer}>
+                        <Text style={styles.hintAddText}>+</Text>
                       </View>
                     </View>
                   </TouchableOpacity>
@@ -318,13 +334,13 @@ const UserProfile = () => {
               </View>
             </View>
 
-            {/* Button to confirm the username change */}
-
+            {/* Background change section */}
             {!isSectionHidden && ( // Only show if the section is not hidden
               <View style={styles.backgroundChange}>
                 <Text style={styles.backgroundChangeText}>
-                  Change Background{" "}
+                  Change Background
                 </Text>
+                {/* Horizontal scrolling list */}
                 <FlatList
                   data={Object.keys(backgroundImagePaths)} // Use Object.keys to get the keys of the backgroundImagePaths
                   keyExtractor={(item) => item.toString()} // Use the key as a string
@@ -333,11 +349,8 @@ const UserProfile = () => {
                   renderItem={({ item }) => (
                     <TouchableOpacity
                       onPress={() => {
-                        // Log the item (which is the key of the backgroundImagePaths)
-                        console.log("TouchableOpacity pressed:", item);
-
-                        // Handle your background image change or other logic here
-                        handleImageSelect(parseInt(item)); // Assuming you want to select this image
+                        // Assign new image index
+                        handleImageSelect(parseInt(item));
                       }}
                     >
                       {/* Use the backgroundImagePaths object to get the source */}
@@ -345,8 +358,7 @@ const UserProfile = () => {
                         source={backgroundImagePaths[item]}
                         style={styles.imageItem}
                       >
-                        {/* You can add any content inside the ImageBackground */}
-                        {/* For example, an indicator if the background is selected */}
+                        {/* Display an indicator of what image was chosen  */}
                         {backgroundImageNumber === parseInt(item) && (
                           <View style={styles.selectedIndicator}>
                             <Text style={styles.selectedText}>Selected</Text>
@@ -358,7 +370,6 @@ const UserProfile = () => {
                 />
               </View>
             )}
-            {/* </View> */}
           </ScrollView>
         </KeyboardAvoidingView>
       )}
@@ -369,13 +380,14 @@ const UserProfile = () => {
 const styles = StyleSheet.create({
   containerWhole: {
     flex: 1,
-    // ... other styles ...
   },
   container: {
     flex: 1,
-    // alignItems: "center",
     backgroundColor: "#f5e1ce",
-    // width: "100%",
+  },
+  scrollViewContainer: {
+    // Allow the content to grow within the ScrollView
+    flexGrow: 1,
   },
   userInfo: {
     flex: 2,
@@ -392,17 +404,11 @@ const styles = StyleSheet.create({
     fontFamily: "AppFontBold",
     marginBottom: 15,
   },
-  usernameText: {
-    fontSize: 18,
-    marginTop: 10,
-  },
   input: {
     width: "80%",
     backgroundColor: "white",
-    // height: 40,
     borderColor: "gray",
     borderWidth: 1,
-    // marginTop: 20,
     paddingHorizontal: 14,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
@@ -411,28 +417,14 @@ const styles = StyleSheet.create({
   },
   updateButton: {
     backgroundColor: "transparent",
-    padding: 16, // changing this make the whole component resize
-    // borderTopRightRadius: 10,
-    // borderBottomRightRadius: 10,
-    // borderRadius: 5,
-    // marginTop: 10,
+    padding: 16,
   },
   updateButtonGradient: {
     backgroundColor: "transparent",
-    // padding: 16, // changing this make the whole component resize
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
-
-    // borderRadius: 5,
-    // marginTop: 10,
-  },
-  updateButtonText: {
-    color: "white",
-    fontSize: 18,
-    textAlign: "center",
   },
   backgroundChange: {
-    // flex: 3,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
@@ -447,7 +439,6 @@ const styles = StyleSheet.create({
   usernameInput: {
     flexDirection: "row",
     width: "90%",
-    // alignItems: "center",
     justifyContent: "center",
   },
   borderLineTop: {
@@ -456,68 +447,39 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 20,
     elevation: 5,
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   userStats: {
-    // marginTop: 30,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "lightblue", // Change to your desired color
-  },
-  statContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between", // Distribute the children's space evenly
-    alignItems: "center",
-    marginBottom: 10,
-    backgroundColor: "gray",
-    width: "80%",
-    padding: 6,
-    elevation: 4,
-    borderRadius: 10,
-  },
-  statLabel: {
-    fontSize: 20,
-    fontFamily: "AppFontBold",
-    marginRight: 10,
-  },
-  statValue: {
-    fontSize: 18,
-    fontFamily: "AppFont",
-    backgroundColor: "white",
-    borderRadius: 10,
-    padding: 3,
-  },
-  scrollViewContainer: {
-    flexGrow: 1, // Allow the content to grow within the ScrollView
   },
   hintImage: {
     width: 32,
     height: 32,
-
-    // Add other styles for the icon if needed
-    // ...
   },
-  clueButtonsContainer: {
+  hintButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
     marginTop: 10,
   },
-  clueButton: {
+  hintButton: {
     marginTop: 10,
     backgroundColor: "green",
-    padding: windowHeight * 0.01,
+    padding: windowHeight * 0.014,
     borderRadius: 8,
     marginHorizontal: 25,
   },
-  clueButtonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#fff",
-  },
-  clueCountContainer: {
+  hintCountContainer: {
     position: "absolute",
-    bottom: 25,
-    left: 25,
+    bottom: 30,
+    left: 30,
     backgroundColor: "#f0f0f0",
     borderRadius: 100,
     width: 24,
@@ -525,10 +487,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  clueAddContainer: {
+  hintAddContainer: {
     position: "absolute",
-    bottom: -25,
-    left: 25,
+    bottom: -30,
+    left: 30,
     backgroundColor: "rgba(255,215,0,1)",
     borderRadius: 100,
     width: 30,
@@ -536,43 +498,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  clueCountText: {
+  hintCountText: {
     fontSize: 15,
     color: "#333",
-    // Problem - this may be wrong for different devices - need to check that
-    // marginBottom: 3,
     fontFamily: "AppFontBold",
     alignSelf: "center",
     justifyContent: "center",
   },
-  clueAddText: {
+  hintAddText: {
     fontSize: 20,
     color: "#333",
-    // Problem - this may be wrong for different devices - need to check that
-    // marginBottom: 3,
     fontFamily: "AppFontBold",
     alignSelf: "center",
     justifyContent: "center",
   },
   imageItem: {
-    width: 80,
+    width: windowHeight * 0.1,
     height: windowHeight * 0.22,
     margin: 5,
     resizeMode: "cover",
   },
   selectedIndicator: {
-    backgroundColor: "rgba(255, 0, 0, 0.5)", // Example background color (red with 50% opacity)
-    padding: 5, // Adjust the padding as needed
-    // borderRadius: 5, // Adjust the border radius as needed
+    backgroundColor: "rgba(255, 0, 0, 0.5)",
+    padding: 5,
   },
-
   selectedText: {
-    color: "white", // Text color
-    fontSize: 12, // Font size
+    color: "white",
+    fontSize: 12,
     fontFamily: "AppFontBold",
-  },
-  buttonIcon: {
-    // color: "white",
   },
 });
 
