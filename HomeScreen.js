@@ -19,7 +19,8 @@ import { useButtonClickSound } from "./SoundManager";
 import { useBackgroundSound } from "./SoundManager";
 import { getBackgroundImage, backgroundImagePaths } from "./BackgroundManager";
 import { useFocusEffect } from "@react-navigation/native";
-
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const HomeScreen = ({ navigation }) => {
   const { loadBackgroundSound } = useBackgroundSound();
   const [backgroundImageSource, setBackgroundImageSource] = useState(
@@ -40,9 +41,6 @@ const HomeScreen = ({ navigation }) => {
     }, [])
   );
 
-  const windowWidth = Dimensions.get("window").width;
-  const windowHeight = Dimensions.get("window").height;
-  let iconWidth = windowWidth / 20;
   let playButtonPosition = windowHeight / 2.5;
   const { points } = useContext(PointsContext);
 
@@ -169,11 +167,7 @@ const HomeScreen = ({ navigation }) => {
               handleUserButtonPress();
             }}
           >
-            <Icon
-              name="user"
-              style={[styles.buttonIcon, { fontSize: iconWidth }]}
-              solid
-            />
+            <Icon name="user" style={styles.buttonIcon} solid />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -183,10 +177,7 @@ const HomeScreen = ({ navigation }) => {
               handleTrophyButtonPress();
             }}
           >
-            <Icon
-              name="trophy"
-              style={[styles.buttonIcon, { fontSize: iconWidth }]}
-            />
+            <Icon name="trophy" style={styles.buttonIcon} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
@@ -199,10 +190,7 @@ const HomeScreen = ({ navigation }) => {
               visible={settingsVisible}
               onClose={handleCloseSettings}
             />
-            <Icon
-              name="cog"
-              style={[styles.buttonIcon, { fontSize: iconWidth }]}
-            />
+            <Icon name="cog" style={styles.buttonIcon} />
           </TouchableOpacity>
         </View>
         {/* Points container */}
@@ -228,10 +216,7 @@ const HomeScreen = ({ navigation }) => {
               },
             ]}
           >
-            <Icon
-              name="crown"
-              style={[styles.buttonIcon, { fontSize: iconWidth }]}
-            />
+            <Icon name="crown" style={styles.buttonIcon} />
           </Animated.View>
           <Text style={styles.scoreText}>Your points</Text>
           <Text style={styles.scoreTextValue}>{points}</Text>
@@ -288,8 +273,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    paddingHorizontal: 20,
-    paddingTop: 30,
+    paddingHorizontal: 30,
+    paddingTop: windowHeight * 0.05,
   },
 
   button: {
@@ -305,9 +290,9 @@ const styles = StyleSheet.create({
     // backgroundColor: "#ccc",
     // borderRadius: 15,
     // padding: 10,
-    width: 60,
+    width: windowHeight * 0.08,
     padding: 12,
-    paddingHorizontal: 14,
+    // paddingHorizontal: 14,
     // backgroundColor: "#ebb381",
     // backgroundColor: "rgba(69,84,62,1)",
     backgroundColor: "rgba(69,84,62,1)",
@@ -332,12 +317,12 @@ const styles = StyleSheet.create({
     // borderRadius: 15,
     // padding: 10,
     // width: 60,
-    padding: 10,
+    padding: windowHeight * 0.012,
     // paddingHorizontal: 1,
     // paddingVertical: 10,
     // backgroundColor: "#ebb381",
     backgroundColor: "rgba(183,137,95,1)",
-    borderRadius: 20,
+    borderRadius: 100,
     // shadowColor: "rgba(0,0,0, .4)", // IOS
     // shadowOffset: { height: 1 }, // IOS
     // shadowOpacity: 1, // IOS
@@ -349,6 +334,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // color: "rgba(189,203,183,1)",
     color: "white",
+    fontSize: windowHeight * 0.03,
+    borderRadius: 100,
   },
 
   // Score container
@@ -357,7 +344,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(47,57,44,0.8)",
     paddingVertical: 20,
     borderRadius: 10,
-    marginVertical: 20,
+    marginTop: 40,
   },
   scoreText: {
     alignSelf: "center",

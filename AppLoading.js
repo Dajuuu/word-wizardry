@@ -66,14 +66,14 @@ const styles = StyleSheet.create({
     // zIndex:
   },
   loadingText: {
-    fontSize: 18,
+    fontSize: windowWidth * 0.05,
     marginTop: 40,
     textAlign: "center",
     color: "white",
     fontFamily: "AppFontBold",
   },
   appName: {
-    fontSize: 65,
+    fontSize: windowWidth * 0.15,
     marginBottom: windowWidth * 0.1,
     textAlign: "center",
     color: "white",

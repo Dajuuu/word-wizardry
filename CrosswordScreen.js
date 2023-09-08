@@ -1073,8 +1073,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // padding: 20,
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     backgroundColor: "transparent",
     // backgroundColor: "#b5ffd9",
   },
@@ -1166,8 +1166,8 @@ const styles = StyleSheet.create({
     fontFamily: "AppFontBold",
   },
   clueContainer: {
-    width: "120%",
-    paddingHorizontal: 40,
+    width: "100%",
+    paddingHorizontal: 20,
     paddingVertical: 7,
     backgroundColor: "#CE8B53",
     borderTopWidth: 2,
@@ -1175,11 +1175,11 @@ const styles = StyleSheet.create({
     borderColor: "#9b673a",
   },
   clueText: {
-    fontSize: windowHeight * 0.026,
+    fontSize: windowHeight * 0.025,
     // marginTop: 10,
     alignSelf: "center",
-    fontFamily: "AppFontBold",
-    paddingHorizontal: 30,
+    fontFamily: "AppFont",
+    // paddingHorizontal: 10,
   },
   clueButtonsContainer: {
     flexDirection: "row",
