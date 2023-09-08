@@ -48,7 +48,6 @@ export const initializeUsername = async () => {
     return storedUsername;
   }
 };
-
 // Function to update the username in AsyncStorage
 export const updateUsername = async (newUsername) => {
   try {

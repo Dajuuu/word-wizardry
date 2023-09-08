@@ -156,7 +156,7 @@ const UserProfile = () => {
     setNewUsername("");
 
     // Display the alert after updating the username
-    alert("Username updated!");
+    // alert("Username updated!");
   };
 
   // Overlay for hint 1
