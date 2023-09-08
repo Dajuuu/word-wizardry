@@ -46,7 +46,7 @@ const LoadingScreen = () => {
             marginTop: windowWidth * 0.2,
           }}
         />
-        {/* Animate the loadng text */}
+        {/* Animate the loading text */}
         <Text style={styles.loadingText} testID="loadingText">
           {loadingPhrases[loadingIndex]}
         </Text>

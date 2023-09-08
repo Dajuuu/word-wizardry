@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -15,12 +15,8 @@ const GameScreen = ({ navigation }) => {
   const { handleButtonSoundPlay } = useButtonClickSound();
 
   const handleDifficultyPress = (screen) => {
-    // Small fix for the route parameters for the EasyLevels
-    // TypeError: Cannot read property 'levelCompleted' of undefined
-    navigation.navigate(screen, {
-      levelCompleted: false,
-      completedLevelName: "E0",
-    });
+    // Navigate to the screen selected
+    navigation.navigate(screen);
   };
 
   // Declare the difficulty levels
@@ -53,23 +49,23 @@ const GameScreen = ({ navigation }) => {
       screen: "ThemedLevels",
       imageSource: require("./assets/LevelDifficultyImages/star-themed.png"),
     },
-    {
-      level: "Testing ground",
-      colorFront: "rgba(87,96,87,1)",
-      colorBack: "rgba(74,82,74,1)",
-      screen: "TestingGamingScreen",
-    },
+    // Do Wyjebania - narazie niech zostanie
+    // {
+    //   level: "Testing ground",
+    //   colorFront: "rgba(87,96,87,1)",
+    //   colorBack: "rgba(74,82,74,1)",
+    //   screen: "TestingGamingScreen",
+    // },
   ];
 
   return (
     <View style={styles.container}>
-      {/* Display Custom header */}
       <CustomHeader title="Choose Difficulty" />
 
-      {/* Adjusting the margins so there are no unneceasry boxes or lines */}
       <ScrollView
         style={{ width: "100%" }}
-        showsVerticalScrollIndicator={false} // Set this to false to hide vertical scrollbar
+        // Hiding the scrollbars
+        showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
         {/* IOSshadow had to be put here so the shadows do work */}
@@ -111,12 +107,8 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 8,
     justifyContent: "center",
-    alignItems: "center",
     alignSelf: "center",
-    marginVertical: 5,
-    // borderWidth: 6, // Set border width for all sides
-    // borderColor: "rgba(0, 0, 0, 0.4)", // Set border color
-    overflow: "hidden", // Clip child content within the border
+    marginVertical: 10,
     borderBottomWidth: 10,
     borderLeftWidth: 10,
     elevation: 8,
@@ -132,7 +124,6 @@ const styles = StyleSheet.create({
   },
   difficultyText: {
     fontSize: 50,
-    // fontWeight: "bold",
     fontFamily: "AppLoadingAmaticBold",
     color: "black",
     alignSelf: "flex-end",
@@ -144,17 +135,16 @@ const styles = StyleSheet.create({
     left: 10,
     width: 100,
     height: 100,
-    // marginRight: 10,
     alignSelf: "flex-start",
   },
   cornerLine: {
-    width: 1, // Adjust the width of the line as needed
-    height: 25, // Adjust the height of the line as needed
-    backgroundColor: "rgba(0, 0, 0, 0.25)", // Color of the line
+    width: 1,
+    height: 10,
+    backgroundColor: "rgba(0, 0, 0, 0.25)",
     position: "absolute",
-    bottom: -20,
-    left: -9,
-    zIndex: 1, // Ensure the line appears above the box
+    bottom: -9,
+    left: -5,
+    zIndex: 1,
     transform: [{ rotate: "45deg" }], // Rotate the line 45 degrees
   },
 });
