@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Audio } from "expo-av";
 import { useButtonClickSound } from "./SoundManager";
+
 const LevelScreen = ({
   levelName,
   color,
@@ -53,13 +54,13 @@ const LevelScreen = ({
 
 const styles = StyleSheet.create({
   levelBox: {
-    width: "45%",
-    height: 150,
+    width: "42%",
+    height: 160,
     borderRadius: 8,
-    marginVertical: 5,
+    marginVertical: 8,
+    marginHorizontal: 10,
     justifyContent: "center",
     alignItems: "center",
-    margin: 5,
     borderBottomWidth: 12,
     borderLeftWidth: 12,
   },

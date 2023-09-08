@@ -4,7 +4,6 @@ import CustomHeader from "./CustomHeader";
 import { loadCompletedLevels } from "./AsyncStorageUtils";
 import LevelScreen from "./LevelScreen"; // Import the LevelButton component
 // Get the height of the device
-const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const EasyLevelsScreen = ({ navigation }) => {
   // Define color constants
@@ -311,8 +310,6 @@ const EasyLevelsScreen = ({ navigation }) => {
         <View
           style={{
             marginBottom: windowHeight * 0.27,
-            elevation: 5,
-            zIndex: 100,
           }}
         ></View>
       </View>

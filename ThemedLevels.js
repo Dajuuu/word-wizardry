@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 import CustomHeader from "./CustomHeader";
 import { loadCompletedLevels } from "./AsyncStorageUtils";
 import LevelScreen from "./LevelScreen"; // Import the LevelButton component
-
+// Get the height of the device
+const windowHeight = Dimensions.get("window").height;
 const HardLevelsScreen = ({ navigation }) => {
   // Define color constants
   const ThemedLevelsColorBackground = "rgb(135, 0, 255)";
@@ -346,33 +347,39 @@ const HardLevelsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <CustomHeader title="Themed Levels" />
-
-      <FlatList
-        showsVerticalScrollIndicator={false} // Set this to false to hide vertical scrollbar
-        showsHorizontalScrollIndicator={false}
-        data={levels}
-        renderItem={({ item }) => (
-          <LevelScreen
-            levelName={item.levelName}
-            color={ThemedLevelsColorBackground}
-            completedColor={ThemedLevelsColorBackgroundCompleted} // Use completed color
-            outlineColor={ThemedLevelsColorOutline} // Use outline color
-            completedOutlineColor={ThemedLevelsColorOutlineCompleted} // Use completed outline color
-            completedLevels={completedLevels}
-            GRID_DATA={item.GRID_DATA}
-            ROW_CLUES={item.ROW_CLUES}
-            levelPoints={item.levelPoints}
-            clueCount1Increase={item.clueCount1Increase}
-            clueCount2Increase={item.clueCount2Increase}
-            clueCount3Increase={item.clueCount3Increase}
-            creditsIncrease={item.creditsIncrease}
-            navigation={navigation}
-          />
-        )}
-        keyExtractor={(item) => item.levelName}
-        numColumns={2}
-        columnWrapperStyle={styles.column}
-      />
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <FlatList
+          showsVerticalScrollIndicator={false} // Set this to false to hide vertical scrollbar
+          showsHorizontalScrollIndicator={false}
+          data={levels}
+          renderItem={({ item }) => (
+            <LevelScreen
+              levelName={item.levelName}
+              color={ThemedLevelsColorBackground}
+              completedColor={ThemedLevelsColorBackgroundCompleted} // Use completed color
+              outlineColor={ThemedLevelsColorOutline} // Use outline color
+              completedOutlineColor={ThemedLevelsColorOutlineCompleted} // Use completed outline color
+              completedLevels={completedLevels}
+              GRID_DATA={item.GRID_DATA}
+              ROW_CLUES={item.ROW_CLUES}
+              levelPoints={item.levelPoints}
+              clueCount1Increase={item.clueCount1Increase}
+              clueCount2Increase={item.clueCount2Increase}
+              clueCount3Increase={item.clueCount3Increase}
+              creditsIncrease={item.creditsIncrease}
+              navigation={navigation}
+            />
+          )}
+          keyExtractor={(item) => item.levelName}
+          numColumns={2}
+          columnWrapperStyle={styles.column}
+        />
+        <View
+          style={{
+            marginBottom: windowHeight * 0.27,
+          }}
+        ></View>
+      </View>
     </View>
   );
 };
@@ -380,8 +387,6 @@ const HardLevelsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "rgba(151, 0, 255, 0.3)",
   },
   column: {
