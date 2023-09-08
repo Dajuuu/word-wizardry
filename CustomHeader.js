@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -49,50 +50,55 @@ const CustomHeader = ({ title }) => {
       adjustment // to make sure that the status bar is not colliding with
       anything */
   return (
-    <View style={styles.header}>
-      {/* Icon on the left (go back) */}
-      <TouchableOpacity
-        // margin to make spacing for the next button
-        style={[styles.leftButton, { marginRight: windowHeight * 0.015 }]}
-        onPress={() => {
-          handleButtonSoundPlay();
-          navigation.goBack();
-        }}
-      >
-        <Icon name="arrow-left" style={[styles.buttonIcon]} />
-      </TouchableOpacity>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.header}>
+        {/* Icon on the left (go back) */}
+        <TouchableOpacity
+          // margin to make spacing for the next button
+          style={[styles.leftButton, { marginRight: windowHeight * 0.015 }]}
+          onPress={() => {
+            handleButtonSoundPlay();
+            navigation.goBack();
+          }}
+        >
+          <Icon name="arrow-left" style={[styles.buttonIcon]} />
+        </TouchableOpacity>
 
-      {/* Icon next to the one on the left (settings) */}
-      <TouchableOpacity
-        style={[styles.leftButton]}
-        onPress={() => {
-          handleButtonSoundPlay();
-          handleSettingsButtonPress();
-        }}
-      >
-        <SettingsOverlay
-          visible={settingsVisible}
-          onClose={handleCloseSettings}
-        />
-        <Icon name="cog" style={[styles.buttonIcon]} />
-      </TouchableOpacity>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>{title}</Text>
+        {/* Icon next to the one on the left (settings) */}
+        <TouchableOpacity
+          style={[styles.leftButton]}
+          onPress={() => {
+            handleButtonSoundPlay();
+            handleSettingsButtonPress();
+          }}
+        >
+          <SettingsOverlay
+            visible={settingsVisible}
+            onClose={handleCloseSettings}
+          />
+          <Icon name="cog" style={[styles.buttonIcon]} />
+        </TouchableOpacity>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+        {/* Display the credits on the right */}
+        <View style={[styles.creditsContainer]}>
+          <Image
+            source={require("./assets/credits.png")}
+            style={styles.creditsImage}
+          />
+          <Text style={styles.creditsText}>{credits}</Text>
+          {/* <Text style={styles.creditsText}>230</Text> */}
+        </View>
       </View>
-      {/* Display the credits on the right */}
-      <View style={[styles.creditsContainer]}>
-        <Image
-          source={require("./assets/credits.png")}
-          style={styles.creditsImage}
-        />
-        <Text style={styles.creditsText}>{credits}</Text>
-        {/* <Text style={styles.creditsText}>230</Text> */}
-      </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    backgroundColor: "rgb(224, 195, 169)", // Set your background color
+  },
   header: {
     flexDirection: "row",
     alignItems: "center",

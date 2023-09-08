@@ -372,9 +372,9 @@ const Achievements = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     // justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
     backgroundColor: "#f5e1ce",
   },
   difficultyBox: {
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   difficultyText: {
-    fontSize: 25,
+    fontSize: windowHeight * 0.031,
     fontFamily: "AppFontBold",
     color: "black",
     alignSelf: "flex-end",
