@@ -5,7 +5,6 @@ import {
   ActivityIndicator,
   StyleSheet,
   Dimensions,
-  Image,
   ImageBackground,
 } from "react-native";
 
@@ -14,18 +13,22 @@ const windowWidth = Dimensions.get("window").width;
 
 // TODO testID remains
 const LoadingScreen = () => {
+  // Make an array of what text will be displayed
   const loadingPhrases = ["Loading", "Loading.", "Loading..", "Loading..."];
+  // At what index of the array start the animation
   const [loadingIndex, setLoadingIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      // Cycle between every index of the array
       setLoadingIndex((prevIndex) => (prevIndex + 1) % loadingPhrases.length);
-    }, 500); // Change the interval duration as needed
+    }, 500);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
+    // Display background image
     <ImageBackground
       source={require("./assets/loadingImage.png")}
       style={styles.backgroundImage}
@@ -43,6 +46,7 @@ const LoadingScreen = () => {
             marginTop: windowWidth * 0.2,
           }}
         />
+        {/* Animate the loadng text */}
         <Text style={styles.loadingText} testID="loadingText">
           {loadingPhrases[loadingIndex]}
         </Text>
@@ -58,12 +62,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    // backgroundColor: "rgba(40, 44, 46,1)",
   },
   backgroundImage: {
     flex: 1,
-    resizeMode: "cover", // You can adjust the resizeMode as needed
-    // zIndex:
+    resizeMode: "cover",
   },
   loadingText: {
     fontSize: windowWidth * 0.05,

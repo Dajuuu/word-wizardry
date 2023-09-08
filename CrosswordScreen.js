@@ -20,7 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"; // Import 
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
 import { incrementClueCount } from "./ClueManager";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import LoadingScreen from "./AppLoading";
+import LoadingScreen from "./LoadingScreen";
 import {
   decrementClueCount,
   loadClueCount,

@@ -1,6 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Prefix for the AsyncStorage
 const STORAGE_KEY_PREFIX = "inputData_";
+
+// ---***---
+// This file contains of functions that save info about levels (input, which were completed, etc.)
+//   inside the AsyncStorage, so the progress of the user is saved
+// ---***---
 
 // Load input data - what letters are in which rows for given grids
 export const loadInputData = async (level) => {

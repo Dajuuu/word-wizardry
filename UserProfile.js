@@ -28,7 +28,7 @@ import { loadClueCount, initializeClueCounts } from "./ClueManager"; // Import t
 import { setStoredBackgroundImage } from "./BackgroundManager";
 import { LinearGradient } from "expo-linear-gradient";
 import { useButtonClickSound } from "./SoundManager";
-import LoadingScreen from "./AppLoading";
+import LoadingScreen from "./LoadingScreen";
 
 if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental(true);

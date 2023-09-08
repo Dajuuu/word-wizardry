@@ -22,7 +22,7 @@ import { initializeUsername } from "./UserNameManager";
 import { setDefaultBackgroundImage } from "./BackgroundManager";
 
 // Screens
-import LoadingScreen from "./AppLoading";
+import LoadingScreen from "./LoadingScreen";
 import HomeScreen from "./HomeScreen";
 import GameScreen from "./GameScreen";
 import EasyLevelsScreen from "./EasyLevels";
