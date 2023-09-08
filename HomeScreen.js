@@ -1,31 +1,48 @@
 import React, { useState, useContext, useEffect } from "react";
-import { PointsContext } from "./PointsContext";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
   Text,
   TouchableOpacity,
-  Modal,
   StyleSheet,
   Dimensions,
   Animated,
-  Switch,
   ImageBackground,
 } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import SettingsOverlay from "./SettingsOverlay";
 import { LinearGradient } from "expo-linear-gradient";
-import { Audio } from "expo-av";
-import Icon from "react-native-vector-icons/FontAwesome5";
+import { PointsContext } from "./PointsContext";
 import { useButtonClickSound } from "./SoundManager";
-import { useBackgroundSound } from "./SoundManager";
-import { getBackgroundImage, backgroundImagePaths } from "./BackgroundManager";
-import { useFocusEffect } from "@react-navigation/native";
-const windowWidth = Dimensions.get("window").width;
+import {
+  getBackgroundImage,
+  backgroundImagePaths,
+  DEFAULT_BACKGROUND,
+} from "./BackgroundManager";
+
+// Get the height of the device
 const windowHeight = Dimensions.get("window").height;
+
 const HomeScreen = ({ navigation }) => {
-  const { loadBackgroundSound } = useBackgroundSound();
+  // Import points info
+  const { points } = useContext(PointsContext);
+
+  // Initialize animation value
+  const crownIconColorAnimation = new Animated.Value(0);
+
+  // Initialize settings overlay value
+  const [settingsVisible, setSettingsVisible] = useState(false);
+
+  // Set the default background in case something brakes
   const [backgroundImageSource, setBackgroundImageSource] = useState(
-    backgroundImagePaths[1] // Set a default background image
+    backgroundImagePaths[DEFAULT_BACKGROUND]
   );
+
+  // Import function that plays the sound
+  const { handleButtonSoundPlay } = useButtonClickSound();
+
+  // Change the position of the playButton depending on the windowHeight
+  let playButtonPosition = windowHeight / 2.5;
 
   useFocusEffect(
     React.useCallback(() => {
@@ -34,27 +51,16 @@ const HomeScreen = ({ navigation }) => {
         const selectedImage = backgroundImagePaths[imageNumber];
         setBackgroundImageSource(selectedImage);
       });
-
-      // Any other code you want to run when the screen gains focus
-
-      console.log("HomeScreen gained focus"); // Example console.log
     }, [])
   );
 
-  let playButtonPosition = windowHeight / 2.5;
-  const { points } = useContext(PointsContext);
-
-  // Initialize animation value
-  const crownIconColorAnimation = new Animated.Value(0);
-  const [settingsVisible, setSettingsVisible] = useState(false);
-
+  // Declare navigation buttons
   const handlePlayButtonPress = () => {
     navigation.navigate("GameScreen");
   };
   const handleUserButtonPress = () => {
     navigation.navigate("UserProfile");
   };
-
   const handleTrophyButtonPress = () => {
     navigation.navigate("Achievements");
   };
@@ -62,28 +68,29 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate("Leaderboard");
   };
 
+  // Declare the settings hiding/showing
   const handleSettingsButtonPress = () => {
     setSettingsVisible(true);
   };
-
   const handleCloseSettings = () => {
     setSettingsVisible(false);
   };
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
+  // ---***---
+  // Animation for the playButton
+  // It consist of two animations
+  //  1. Firstly the buttons slides from the left side of the screen
+  //  2. Secondly, the button "pulsates" repeatedly
 
-  // Animation
   const [animation] = useState(new Animated.Value(-400)); // Initial position outside the screen
-  const [scaleAnimation] = useState(new Animated.Value(1)); // Initial scale value of 1
+  const [scaleAnimation] = useState(new Animated.Value(1));
 
   useEffect(() => {
     // First Animation: Translate the button from left to the middle
     const translateAnimation = Animated.timing(animation, {
       toValue: 0, // Final position at the center of the screen
       duration: 800, // Animation duration in milliseconds
-      useNativeDriver: true, // Enable native driver for better performance
+      useNativeDriver: true,
     });
 
     // Second Animation: Pulsating effect by scaling the button
@@ -99,12 +106,7 @@ const HomeScreen = ({ navigation }) => {
       useNativeDriver: true,
     });
 
-    // const staticAnimation = Animated.timing(scaleAnimation, {
-    //   toValue: 1, // Maintain scale at 1 for 5 seconds
-    //   duration: 5000, // Static duration in milliseconds
-    //   useNativeDriver: true,
-    // });
-
+    // Loop the second animation every x seconds
     const scaleAnimationSequence = Animated.sequence([
       increaseAnimation,
       decreaseAnimation,
@@ -133,25 +135,12 @@ const HomeScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
+    // Start the animation when screen mounts
     startCrownIconColorAnimation();
   });
 
-  // const handleButtonSoundPlay = async () => {
-  //   // Load the sound file
-  //   const soundObject = new Audio.Sound();
-  //   try {
-  //     await soundObject.loadAsync(require("./assets/sounds/buttonClick.mp3"));
-  //     soundObject.playAsync(); // Remove the 'await' keyword here
-  //     // Additional logic for button click
-  //     // ...
-  //   } catch (error) {
-  //     console.error("Error playing sound:", error);
-  //   }
-  // };
-  // Import function that plays the sound
-  const { handleButtonSoundPlay } = useButtonClickSound();
-
   return (
+    // Display the backgroundImage
     <ImageBackground
       source={backgroundImageSource}
       style={styles.backgroundImage}
@@ -170,6 +159,7 @@ const HomeScreen = ({ navigation }) => {
             <Icon name="user" style={styles.buttonIcon} solid />
           </TouchableOpacity>
 
+          {/* Achievements Button */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -179,6 +169,7 @@ const HomeScreen = ({ navigation }) => {
           >
             <Icon name="trophy" style={styles.buttonIcon} />
           </TouchableOpacity>
+          {/* Settings Button */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -193,7 +184,7 @@ const HomeScreen = ({ navigation }) => {
             <Icon name="cog" style={styles.buttonIcon} />
           </TouchableOpacity>
         </View>
-        {/* Points container */}
+        {/* Leaderboard button */}
         <TouchableOpacity
           style={styles.scoreContainer}
           onPress={() => {
@@ -201,6 +192,7 @@ const HomeScreen = ({ navigation }) => {
             handleLeaderboardButtonPress();
           }}
         >
+          {/* Animate the background for the crown icon */}
           <Animated.View
             style={[
               styles.buttonLeaderBoard,
@@ -211,7 +203,7 @@ const HomeScreen = ({ navigation }) => {
                     "rgba(183,137,95,0.93)",
                     "rgba(213,203,47,0.93)",
                     "rgba(183,137,95,0.93)",
-                  ], // Define the colors for the animation
+                  ],
                 }),
               },
             ]}
@@ -221,7 +213,7 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.scoreText}>Your points</Text>
           <Text style={styles.scoreTextValue}>{points}</Text>
         </TouchableOpacity>
-        {/* animate the play button */}
+        {/* Animate the play button */}
         <Animated.View>
           <TouchableOpacity
             onPress={() => {
@@ -239,6 +231,7 @@ const HomeScreen = ({ navigation }) => {
               },
             ]}
           >
+            {/* Apply gradient colours for the Play Button */}
             <LinearGradient
               colors={["rgba(112,212,79,1)", "rgba(55,111,38,1)"]} // Specify your gradient colors
               start={{ x: 0, y: 0.5 }}
@@ -249,8 +242,6 @@ const HomeScreen = ({ navigation }) => {
             </LinearGradient>
           </TouchableOpacity>
         </Animated.View>
-
-        {/* Settings Overlay */}
       </View>
     </ImageBackground>
   );
@@ -259,16 +250,12 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "pink",
   },
   backgroundImage: {
     flex: 1,
-    resizeMode: "cover", // You can adjust the resizeMode as needed
-    // zIndex:
+    resizeMode: "cover",
   },
-  // Button container
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -278,67 +265,38 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    // backgroundColor: "transparent",
-
-    // // paddingHorizontal: 12,
-    // // paddingVertical: 8,
-    // // borderRadius: 8,
-    // width: "15%",
-    //    borderColor: "black",
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "#ccc",
-    // borderRadius: 15,
-    // padding: 10,
     width: windowHeight * 0.08,
     padding: 12,
-    // paddingHorizontal: 14,
-    // backgroundColor: "#ebb381",
-    // backgroundColor: "rgba(69,84,62,1)",
     backgroundColor: "rgba(69,84,62,1)",
     borderRadius: 20,
-    // elevation: 4, // Android shadow
-    // shadowColor: "#000", // iOS shadow
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.3,
-    // shadowRadius: 4,
+    elevation: 4, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 
   buttonLeaderBoard: {
     position: "absolute",
-    // justifyContent: "center",
     alignItems: "center",
     top: -15,
     right: -15,
-    // backgroundColor: "#ccc",
-    // borderRadius: 15,
-    // padding: 10,
-    // width: 60,
     padding: windowHeight * 0.012,
-    // paddingHorizontal: 1,
-    // paddingVertical: 10,
-    // backgroundColor: "#ebb381",
     backgroundColor: "rgba(183,137,95,1)",
     borderRadius: 100,
-    // shadowColor: "rgba(0,0,0, .4)", // IOS
-    // shadowOffset: { height: 1 }, // IOS
-    // shadowOpacity: 1, // IOS
-    // shadowRadius: 1, //IOS
-    // elevation: 5, // Android
     transform: [{ rotate: "15deg" }],
   },
   buttonIcon: {
     justifyContent: "center",
-    // color: "rgba(189,203,183,1)",
     color: "white",
     fontSize: windowHeight * 0.03,
     borderRadius: 100,
   },
-
-  // Score container
   scoreContainer: {
     width: "50%",
     backgroundColor: "rgba(47,57,44,0.8)",
@@ -362,21 +320,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 130,
     paddingVertical: 50,
     borderRadius: 40,
-    // marginBottom: 20,
-    // borderBlockColor: "rgba(71,150,46,1)",
-    // borderWidth: 1,
-    // top: 300,
-    // alignItems: "center",
-    // width: "70%",
-    // height: "40%",
     elevation: 8, // Android shadow
-    // shadowColor: "#000", // iOS shadow
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.3,
-    // shadowRadius: 4,
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   playButtonGradient: {
     ...StyleSheet.absoluteFill,
@@ -384,99 +335,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
-    // borderBlockColor: "rgba(71,150,46,1)",
-    // borderWidth: 1,
   },
   playButtonText: {
     fontSize: 60,
-    // fontWeight: "bold",
     fontFamily: "AppLoadingAmaticBold",
-    // alignSelf: "center",
     color: "#fff",
   },
-  settingsOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  settingsBox: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 8,
-    alignItems: "center",
-    width: "60%",
-    flexDirection: "column", // Ensure switch labels and switches are stacked vertically
-    // alignItems: "flex-start",
-  },
-  settingsText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  switchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-
-  switchLabelContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    flex: 1, // Add flex: 1 to expand and push the switches to the right
-  },
-
-  switchLabel: {
-    fontSize: 16,
-  },
-  switchPosition: {
-    alignItems: "flex-end",
-  },
-  supportButton: {
-    backgroundColor: "green",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
-    marginTop: 10,
-    width: "60%",
-  },
-  supportButtonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#fff",
-    alignSelf: "center",
-  },
-  closeButton: {
-    backgroundColor: "red",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
-    marginTop: 10,
-  },
-  closeButtonText: {
-    fontSize: 16,
-    // fontWeight: "bold",
-    fontFamily: "AppFont",
-    color: "#fff",
-  },
-  // playButtonContainer: {
-  //   transform: [{ translateX: -100 }], // Initial position outside the screen
-  // },
-  // playButton: {
-  //   backgroundColor: "green",
-  //   paddingHorizontal: 40,
-  //   paddingVertical: 20,
-  //   borderRadius: 50,
-  //   marginBottom: 20,
-  //   top: 200,
-  // },
-  // playButtonText: {
-  //   fontSize: 24,
-  //   fontWeight: "bold",
-  //   color: "#fff",
-  // },
   playButtonContainer: {
     position: "absolute",
     backgroundColor: "transparent",

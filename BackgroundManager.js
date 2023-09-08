@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Default background image number - used when app is firstly initalised
-const DEFAULT_BACKGROUND = 1;
+export const DEFAULT_BACKGROUND = 1;
 
 // Paths to all background images
 const backgroundImagePaths = {
