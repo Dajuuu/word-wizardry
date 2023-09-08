@@ -7,34 +7,32 @@ import { getDatabase, ref, onValue, set } from "firebase/database";
 import { FIREBASE_APP } from "./firebaseConfig";
 
 import CustomHeader from "./CustomHeader";
-import { checkUsernameInStorage } from "./UserNameManager";
 
 const Leaderboard = () => {
   const db = getDatabase(FIREBASE_APP);
   const [usersData, setUsersData] = useState([]);
-  const [checkUsername, setCheckUsername] = useState();
+  // Check what is the inital username of this user
   const [checkUsernameInitial, setCheckUsernameInitial] = useState();
 
-  // Make sure newly registered user is saved to the database
-
+  // Fetch the usernameInitial from the AsyncStorage
   useEffect(() => {
     const fetchUsername = async () => {
-      const storedUsername = await checkUsernameInStorage();
       const usernameInitial = await AsyncStorage.getItem("usernameInitial");
-      setCheckUsername(storedUsername);
       setCheckUsernameInitial(usernameInitial);
     };
 
     fetchUsername();
   }, []);
 
+  // Make sure the data for the particular user is saved to the database,
+  //  to be able to show it on the leaderboard
   const initializeUserData = async () => {
     try {
       const usernameInitial = await AsyncStorage.getItem("usernameInitial");
       const points = await AsyncStorage.getItem("points");
 
       if (usernameInitial && points) {
-        // Data is already initialized or points are greater than 0
+        // If the data is already initialized
         return;
       }
 
@@ -70,7 +68,7 @@ const Leaderboard = () => {
         const sortedData = userDataArray.sort((a, b) => b.points - a.points);
         setUsersData(sortedData);
       } else {
-        // Handle the case when there's no data
+        // Handle the case when there is no data
         setUsersData([]);
       }
     });
@@ -79,30 +77,40 @@ const Leaderboard = () => {
   return (
     <View style={styles.container}>
       <CustomHeader title="Top Players" />
-      {/* <View style={styles.playerBoxesContainer}> */}
+      {/* Container with info */}
       <View style={styles.infoBox}>
         <Text style={styles.rankBox}>No.</Text>
-
         <Text style={styles.usernameBox}>Username</Text>
         <Text style={styles.pointsBox}>Points</Text>
       </View>
       <FlatList
+        // Display only first 10 records
         data={usersData.slice(0, 10)}
         keyExtractor={(item) => item.userId}
         renderItem={({ item, index }) => (
-          <LinearGradient // Add LinearGradient here
+          <LinearGradient
+            // Change the colour depending on whether the user is on the leaderboard,
+            // And the first 3 places
             colors={
+              // Check if any of the userIDs inside the leaderboard are the same as user's
               item.userId === checkUsernameInitial
                 ? ["rgba(26,149,36,1)", "rgba(19,123,27,1)"]
                 : index === 0
-                ? ["gold", "rgba(224,190,11,1)"] // Gold for the first item
+                ? ["gold", "rgba(224,190,11,1)"] // Gold gradient
                 : index === 1
-                ? ["silver", "rgba(154,154,150,1)"] // Silver for the second item
+                ? ["silver", "rgba(154,154,150,1)"] // Silver gradient
                 : index === 2
-                ? ["rgba(123,65,19,1)", "rgba(91,48,13,1)"] // Bronze for the third item
-                : ["transparent", "transparent"]
+                ? ["rgba(123,65,19,1)", "rgba(91,48,13,1)"] // Bronze gradient
+                : ["transparent", "transparent"] // Otherwise make it transparent
             }
-            style={styles.leaderboardItem}
+            style={[
+              styles.leaderboardItem,
+              // Add a border for the box if the user is on the leaderboard
+              item.userId === checkUsernameInitial && {
+                borderWidth: 3,
+                borderColor: "rgb(204, 0, 0)",
+              },
+            ]}
           >
             {index < 3 ? (
               // Conditionally load different images for the first three items
@@ -135,6 +143,7 @@ const Leaderboard = () => {
           </LinearGradient>
         )}
       />
+      {/* Make spacing at the bottom of the screen */}
       <View style={{ marginBottom: 30 }}></View>
     </View>
   );
@@ -143,13 +152,7 @@ const Leaderboard = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: "center",
     backgroundColor: "#f5e1ce",
-  },
-  playerBoxesContainer: {
-    flex: 1,
-    paddingVertical: 20,
-    backgroundColor: "transparent",
   },
   title: {
     fontSize: 24,
@@ -167,9 +170,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    // marginVertical: 5,
-    // borderWidth: 6, // Set border width for all sides
-    // borderColor: "rgba(0, 0, 0, 0.4)", // Set border color
     elevation: 5,
   },
   infoBox: {
@@ -183,23 +183,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    // marginVertical: 5,
-    // borderWidth: 6, // Set border width for all sides
-    // borderColor: "rgba(0, 0, 0, 0.4)", // Set border color
     elevation: 5,
   },
   customStyleForIndexesGreaterThanTwo: {
     marginHorizontal: 15,
   },
   rank: {
-    // flex: 1,
     fontSize: 22,
-    // marginHorizontal: 10,
     fontFamily: "AppFontBold",
   },
-
   rankBox: {
-    // flex: 1,
     fontSize: 18,
     marginHorizontal: 8,
     fontFamily: "AppFontBold",
@@ -213,17 +206,14 @@ const styles = StyleSheet.create({
   usernameBox: {
     flex: 5,
     fontSize: 18,
-    // marginLeft: 4,
     fontFamily: "AppFontBold",
   },
   pointsBox: {
-    // flex: 1,
     fontSize: 18,
     fontFamily: "AppFontBold",
     marginRight: 5,
   },
   points: {
-    // flex: 1,
     fontSize: 20,
     fontFamily: "AppFontBold",
     marginRight: 20,
