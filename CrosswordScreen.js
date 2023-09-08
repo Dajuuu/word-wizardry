@@ -92,9 +92,9 @@ const CrosswordApp = ({ route }) => {
     GRID_DATA,
     ROW_CLUES,
     levelPoints,
-    clueCount1Increase,
-    clueCount2Increase,
-    clueCount3Increase,
+    hintCount1Increase,
+    hintCount2Increase,
+    hintCount3Increase,
     creditsIncrease,
   } = route.params;
 
@@ -474,7 +474,7 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
-  // console.log(clueCount1 + clueCount1Increase);
+  // console.log(clueCount1 + hintCount1Increase);
   const closeModal = async () => {
     // After closing the modal declare setLevelCompleted to false to properly close the overlay
     setLevelCompleted(false);
@@ -487,9 +487,9 @@ const CrosswordApp = ({ route }) => {
 
     // Delete saved user input for the given level
     // deleteUserInput();
-    incrementClueCount(1, clueCount1Increase);
-    incrementClueCount(2, clueCount2Increase);
-    incrementClueCount(3, clueCount3Increase);
+    incrementClueCount(1, hintCount1Increase);
+    incrementClueCount(2, hintCount2Increase);
+    incrementClueCount(3, hintCount3Increase);
     addCredits(creditsIncrease);
     // Save the name of the completed level to the AsyncStorage
 
@@ -628,7 +628,7 @@ const CrosswordApp = ({ route }) => {
     let delay = 100; // Initial delay for the first hint
 
     if (levelCompleted) {
-      if (clueCount1Increase !== 0) {
+      if (hintCount1Increase !== 0) {
         // Start animation for hint 1
         Animated.timing(cluesAnimations[0], {
           toValue: 1,
@@ -640,7 +640,7 @@ const CrosswordApp = ({ route }) => {
         delay += 300; // Add delay for the next hint
       }
 
-      if (clueCount2Increase !== 0) {
+      if (hintCount2Increase !== 0) {
         // Start animation for hint 2
         Animated.timing(cluesAnimations[1], {
           toValue: 1,
@@ -652,7 +652,7 @@ const CrosswordApp = ({ route }) => {
         delay += 300; // Add delay for the next hint
       }
 
-      if (clueCount3Increase !== 0) {
+      if (hintCount3Increase !== 0) {
         // Start animation for hint 3
         Animated.timing(cluesAnimations[2], {
           toValue: 1,
@@ -664,9 +664,9 @@ const CrosswordApp = ({ route }) => {
     }
   }, [
     levelCompleted,
-    clueCount1Increase,
-    clueCount2Increase,
-    clueCount3Increase,
+    hintCount1Increase,
+    hintCount2Increase,
+    hintCount3Increase,
     cluesAnimations,
   ]);
 
@@ -952,14 +952,14 @@ const CrosswordApp = ({ route }) => {
                     <View
                       style={[
                         styles.rowDirectionContainer,
-                        (clueCount1Increase !== 0 ||
-                          clueCount2Increase !== 0 ||
-                          clueCount3Increase !== 0) &&
+                        (hintCount1Increase !== 0 ||
+                          hintCount2Increase !== 0 ||
+                          hintCount3Increase !== 0) &&
                           styles.hintsBackground,
                         { marginTop: 5 },
                       ]}
                     >
-                      {clueCount1Increase !== 0 && (
+                      {hintCount1Increase !== 0 && (
                         <Animated.View
                           style={[
                             styles.imageSpacing,
@@ -981,12 +981,12 @@ const CrosswordApp = ({ route }) => {
                             style={styles.hintImage}
                           />
                           <Text style={styles.hintText}>
-                            x{clueCount1Increase}
+                            x{hintCount1Increase}
                           </Text>
                         </Animated.View>
                       )}
 
-                      {clueCount2Increase !== 0 && (
+                      {hintCount2Increase !== 0 && (
                         <Animated.View
                           style={[
                             styles.imageSpacing,
@@ -1008,12 +1008,12 @@ const CrosswordApp = ({ route }) => {
                             style={styles.hintImage}
                           />
                           <Text style={styles.hintText}>
-                            x{clueCount2Increase}
+                            x{hintCount2Increase}
                           </Text>
                         </Animated.View>
                       )}
 
-                      {clueCount3Increase !== 0 && (
+                      {hintCount3Increase !== 0 && (
                         <Animated.View
                           style={[
                             styles.imageSpacing,
@@ -1035,7 +1035,7 @@ const CrosswordApp = ({ route }) => {
                             style={styles.hintImage}
                           />
                           <Text style={styles.hintText}>
-                            x{clueCount3Increase}
+                            x{hintCount3Increase}
                           </Text>
                         </Animated.View>
                       )}

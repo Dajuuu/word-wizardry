@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, FlatList, Dimensions } from "react-native";
-import CustomHeader from "./CustomHeader";
 import { loadCompletedLevels } from "./AsyncStorageUtils";
-import LevelScreen from "./LevelScreen"; // Import the LevelButton component
+import CustomHeader from "./CustomHeader";
+import LevelScreen from "./LevelScreen";
+
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;
+
 const EasyLevelsScreen = ({ navigation }) => {
-  // Define color constants
+  // Define colours used for the Easy levels
   const EasyLevelsColorBackground = "rgba(56,167,63,1)";
   const EasyLevelsColorBackgroundCompleted = "rgba(38,100,42,1)";
   const EasyLevelsColorOutline = "rgba(49,133,53,1)";
@@ -25,14 +27,18 @@ const EasyLevelsScreen = ({ navigation }) => {
   }, []);
 
   // Define level data
+  // All levels pass this information:
+  // * levelName, levelPoints,
+  // * color, hintCount1Increase, hintCount2Increase, hintCount3Increase,
+  // * creditsIncrease, GRID_DATA, ROW_CLUES
   const levels = [
     {
       levelName: "E1",
       color: EasyLevelsColorBackground,
       levelPoints: 8,
-      clueCount1Increase: 1,
-      clueCount2Increase: 0,
-      clueCount3Increase: 0,
+      hintCount1Increase: 1,
+      hintCount2Increase: 0,
+      hintCount3Increase: 0,
       creditsIncrease: 15,
       GRID_DATA: [
         ["C", "A", "C", "T", "U", "S"],
@@ -53,9 +59,9 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelName: "E2",
       color: EasyLevelsColorBackground,
       levelPoints: 6,
-      clueCount1Increase: 0,
-      clueCount2Increase: 1,
-      clueCount3Increase: 0,
+      hintCount1Increase: 0,
+      hintCount2Increase: 1,
+      hintCount3Increase: 0,
       creditsIncrease: 20,
       GRID_DATA: [
         ["P", "U", "Z", "Z", "L", "E"],
@@ -77,9 +83,9 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelName: "E3",
       color: EasyLevelsColorBackground,
       levelPoints: 10,
-      clueCount1Increase: 0,
-      clueCount2Increase: 1,
-      clueCount3Increase: 1,
+      hintCount1Increase: 0,
+      hintCount2Increase: 1,
+      hintCount3Increase: 1,
       creditsIncrease: 20,
       GRID_DATA: [
         ["D", "O", "L", "P", "H", "I", "N"],
@@ -101,9 +107,9 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelName: "E4",
       color: EasyLevelsColorBackground,
       levelPoints: 8,
-      clueCount1Increase: 2,
-      clueCount2Increase: 0,
-      clueCount3Increase: 0,
+      hintCount1Increase: 2,
+      hintCount2Increase: 0,
+      hintCount3Increase: 0,
       creditsIncrease: 15,
       GRID_DATA: [
         ["R", "I", "V", "E", "R"],
@@ -126,9 +132,9 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelName: "E5",
       color: EasyLevelsColorBackground,
       levelPoints: 12,
-      clueCount1Increase: 1,
-      clueCount2Increase: 0,
-      clueCount3Increase: 1,
+      hintCount1Increase: 1,
+      hintCount2Increase: 0,
+      hintCount3Increase: 1,
       creditsIncrease: 25,
       GRID_DATA: [
         ["C", "A", "M", "P", "F", "I", "R", "E"],
@@ -152,9 +158,9 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelName: "E6",
       color: EasyLevelsColorBackground,
       levelPoints: 7,
-      clueCount1Increase: 0,
-      clueCount2Increase: 0,
-      clueCount3Increase: 0,
+      hintCount1Increase: 0,
+      hintCount2Increase: 0,
+      hintCount3Increase: 0,
       creditsIncrease: 15,
       GRID_DATA: [
         ["B", "R", "E", "E", "Z", "E"],
@@ -176,9 +182,9 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelName: "E7",
       color: EasyLevelsColorBackground,
       levelPoints: 8,
-      clueCount1Increase: 0,
-      clueCount2Increase: 0,
-      clueCount3Increase: 1,
+      hintCount1Increase: 0,
+      hintCount2Increase: 0,
+      hintCount3Increase: 1,
       creditsIncrease: 20,
       GRID_DATA: [
         ["B", "A", "S", "K", "E", "T"],
@@ -202,9 +208,9 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelName: "E8",
       color: EasyLevelsColorBackground,
       levelPoints: 11,
-      clueCount1Increase: 1,
-      clueCount2Increase: 0,
-      clueCount3Increase: 1,
+      hintCount1Increase: 1,
+      hintCount2Increase: 0,
+      hintCount3Increase: 1,
       creditsIncrease: 20,
       GRID_DATA: [
         ["E", "A", "R", "T", "H"],
@@ -228,9 +234,9 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelName: "E9",
       color: EasyLevelsColorBackground,
       levelPoints: 10,
-      clueCount1Increase: 0,
-      clueCount2Increase: 2,
-      clueCount3Increase: 0,
+      hintCount1Increase: 0,
+      hintCount2Increase: 2,
+      hintCount3Increase: 0,
       creditsIncrease: 15,
       GRID_DATA: [
         ["S", "C", "E", "N", "T"],
@@ -254,9 +260,9 @@ const EasyLevelsScreen = ({ navigation }) => {
       levelName: "E10",
       color: EasyLevelsColorBackground,
       levelPoints: 14,
-      clueCount1Increase: 1,
-      clueCount2Increase: 1,
-      clueCount3Increase: 1,
+      hintCount1Increase: 1,
+      hintCount2Increase: 1,
+      hintCount3Increase: 1,
       creditsIncrease: 10,
       GRID_DATA: [
         ["I", "N", "K"],
@@ -287,23 +293,25 @@ const EasyLevelsScreen = ({ navigation }) => {
       <CustomHeader title="Easy Levels" />
       <View style={{ alignItems: "center", justifyContent: "center" }}>
         <FlatList
-          showsVerticalScrollIndicator={false} // Set this to false to hide vertical scrollbar
+          // Hide the scrollbars
+          showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           data={levels}
           renderItem={({ item }) => (
             <LevelScreen
+              // Pass all info to the LevelScreen component
               levelName={item.levelName}
               color={EasyLevelsColorBackground}
-              completedColor={EasyLevelsColorBackgroundCompleted} // Use completed color
-              outlineColor={EasyLevelsColorOutline} // Use outline color
-              completedOutlineColor={EasyLevelsColorOutlineCompleted} // Use completed outline color
+              completedColor={EasyLevelsColorBackgroundCompleted}
+              outlineColor={EasyLevelsColorOutline}
+              completedOutlineColor={EasyLevelsColorOutlineCompleted}
               completedLevels={completedLevels}
               GRID_DATA={item.GRID_DATA}
               ROW_CLUES={item.ROW_CLUES}
               levelPoints={item.levelPoints}
-              clueCount1Increase={item.clueCount1Increase}
-              clueCount2Increase={item.clueCount2Increase}
-              clueCount3Increase={item.clueCount3Increase}
+              hintCount1Increase={item.hintCount1Increase}
+              hintCount2Increase={item.hintCount2Increase}
+              hintCount3Increase={item.hintCount3Increase}
               creditsIncrease={item.creditsIncrease}
               navigation={navigation}
             />
@@ -312,6 +320,7 @@ const EasyLevelsScreen = ({ navigation }) => {
           numColumns={2}
           columnWrapperStyle={styles.column}
         />
+        {/* Make a spacing at the bottom, to make sure all buttons are accesible */}
         <View
           style={{
             marginBottom: windowHeight * 0.27,
@@ -325,8 +334,6 @@ const EasyLevelsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
     backgroundColor: "#b1fa9f",
   },
   column: {

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, FlatList, Dimensions } from "react-native";
-import CustomHeader from "./CustomHeader";
 import { loadCompletedLevels } from "./AsyncStorageUtils";
-import LevelScreen from "./LevelScreen"; // Import the LevelButton component
+import CustomHeader from "./CustomHeader";
+import LevelScreen from "./LevelScreen";
+
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;
+
 const HardLevelsScreen = ({ navigation }) => {
-  // Define color constants
+  // Define colours used for the Hard levels
   const HardLevelsColorBackground = "rgb(255, 143, 0)";
   const HardLevelsColorBackgroundCompleted = "rgb(177, 98, 0)";
   const HardLevelsColorOutline = "rgb(204, 114, 0)";
@@ -25,14 +27,18 @@ const HardLevelsScreen = ({ navigation }) => {
   }, []);
 
   // Define level data
+  // All levels pass this information:
+  // * levelName, levelPoints,
+  // * color, hintCount1Increase, hintCount2Increase, hintCount3Increase,
+  // * creditsIncrease, GRID_DATA, ROW_CLUES
   const levels = [
     {
       levelName: "H1",
       color: HardLevelsColorBackground,
       levelPoints: 31,
-      clueCount1Increase: 2,
-      clueCount2Increase: 0,
-      clueCount3Increase: 2,
+      hintCount1Increase: 2,
+      hintCount2Increase: 0,
+      hintCount3Increase: 2,
       creditsIncrease: 40,
       GRID_DATA: [
         ["Q", "U", "A", "S", "A", "R"],
@@ -54,9 +60,9 @@ const HardLevelsScreen = ({ navigation }) => {
       levelName: "H2",
       color: HardLevelsColorBackground,
       levelPoints: 33,
-      clueCount1Increase: 2,
-      clueCount2Increase: 1,
-      clueCount3Increase: 1,
+      hintCount1Increase: 2,
+      hintCount2Increase: 1,
+      hintCount3Increase: 1,
       creditsIncrease: 30,
       GRID_DATA: [
         ["A", "N", "A", "C", "H", "R", "O", "N", "I", "S", "M"],
@@ -78,9 +84,9 @@ const HardLevelsScreen = ({ navigation }) => {
       levelName: "H3",
       color: HardLevelsColorBackground,
       levelPoints: 30,
-      clueCount1Increase: 4,
-      clueCount2Increase: 0,
-      clueCount3Increase: 1,
+      hintCount1Increase: 4,
+      hintCount2Increase: 0,
+      hintCount3Increase: 1,
       creditsIncrease: 30,
       GRID_DATA: [
         ["A", "B", "E", "R", "R", "R", "A", "N", "T"],
@@ -102,9 +108,9 @@ const HardLevelsScreen = ({ navigation }) => {
       levelName: "H4",
       color: HardLevelsColorBackground,
       levelPoints: 34,
-      clueCount1Increase: 0,
-      clueCount2Increase: 0,
-      clueCount3Increase: 3,
+      hintCount1Increase: 0,
+      hintCount2Increase: 0,
+      hintCount3Increase: 3,
       creditsIncrease: 25,
       GRID_DATA: [
         ["C", "Y", "B", "E", "R", "P", "U", "N", "K"],
@@ -126,9 +132,9 @@ const HardLevelsScreen = ({ navigation }) => {
       levelName: "H5",
       color: HardLevelsColorBackground,
       levelPoints: 29,
-      clueCount1Increase: 0,
-      clueCount2Increase: 2,
-      clueCount3Increase: 0,
+      hintCount1Increase: 0,
+      hintCount2Increase: 2,
+      hintCount3Increase: 0,
       creditsIncrease: 20,
       GRID_DATA: [
         ["A", "L", "A", "C", "R", "I", "C", "I", "T", "Y"],
@@ -150,9 +156,9 @@ const HardLevelsScreen = ({ navigation }) => {
       levelName: "H6",
       color: HardLevelsColorBackground,
       levelPoints: 30,
-      clueCount1Increase: 2,
-      clueCount2Increase: 1,
-      clueCount3Increase: 0,
+      hintCount1Increase: 2,
+      hintCount2Increase: 1,
+      hintCount3Increase: 0,
       creditsIncrease: 30,
       GRID_DATA: [
         ["J", "A", "L", "A", "P", "E", "N", "O"],
@@ -176,9 +182,9 @@ const HardLevelsScreen = ({ navigation }) => {
       levelName: "H7",
       color: HardLevelsColorBackground,
       levelPoints: 33,
-      clueCount1Increase: 1,
-      clueCount2Increase: 1,
-      clueCount3Increase: 2,
+      hintCount1Increase: 1,
+      hintCount2Increase: 1,
+      hintCount3Increase: 2,
       creditsIncrease: 20,
       GRID_DATA: [
         ["H", "Y", "D", "R", "O", "X", "Y"],
@@ -200,9 +206,9 @@ const HardLevelsScreen = ({ navigation }) => {
       levelName: "H8",
       color: HardLevelsColorBackground,
       levelPoints: 35,
-      clueCount1Increase: 3,
-      clueCount2Increase: 1,
-      clueCount3Increase: 1,
+      hintCount1Increase: 3,
+      hintCount2Increase: 1,
+      hintCount3Increase: 1,
       creditsIncrease: 30,
       GRID_DATA: [
         ["O", "R", "P", "H", "E", "U", "S"],
@@ -224,9 +230,9 @@ const HardLevelsScreen = ({ navigation }) => {
       levelName: "H9",
       color: HardLevelsColorBackground,
       levelPoints: 32,
-      clueCount1Increase: 3,
-      clueCount2Increase: 1,
-      clueCount3Increase: 1,
+      hintCount1Increase: 3,
+      hintCount2Increase: 1,
+      hintCount3Increase: 1,
       creditsIncrease: 30,
       GRID_DATA: [
         ["H", "A", "W", "K", "I", "S", "H"],
@@ -248,9 +254,9 @@ const HardLevelsScreen = ({ navigation }) => {
       levelName: "H10",
       color: HardLevelsColorBackground,
       levelPoints: 33,
-      clueCount1Increase: 2,
-      clueCount2Increase: 2,
-      clueCount3Increase: 2,
+      hintCount1Increase: 2,
+      hintCount2Increase: 2,
+      hintCount3Increase: 2,
       creditsIncrease: 20,
       GRID_DATA: [
         ["A", "V", "I", "A", "T", "I", "O", "N"],
@@ -277,23 +283,25 @@ const HardLevelsScreen = ({ navigation }) => {
       <CustomHeader title="Hard Levels" />
       <View style={{ alignItems: "center", justifyContent: "center" }}>
         <FlatList
-          showsVerticalScrollIndicator={false} // Set this to false to hide vertical scrollbar
+          // Hide the scrollbars
+          showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           data={levels}
           renderItem={({ item }) => (
             <LevelScreen
+              // Pass all info to the LevelScreen component
               levelName={item.levelName}
               color={HardLevelsColorBackground}
-              completedColor={HardLevelsColorBackgroundCompleted} // Use completed color
-              outlineColor={HardLevelsColorOutline} // Use outline color
-              completedOutlineColor={HardLevelsColorOutlineCompleted} // Use completed outline color
+              completedColor={HardLevelsColorBackgroundCompleted}
+              outlineColor={HardLevelsColorOutline}
+              completedOutlineColor={HardLevelsColorOutlineCompleted}
               completedLevels={completedLevels}
               GRID_DATA={item.GRID_DATA}
               ROW_CLUES={item.ROW_CLUES}
               levelPoints={item.levelPoints}
-              clueCount1Increase={item.clueCount1Increase}
-              clueCount2Increase={item.clueCount2Increase}
-              clueCount3Increase={item.clueCount3Increase}
+              hintCount1Increase={item.hintCount1Increase}
+              hintCount2Increase={item.hintCount2Increase}
+              hintCount3Increase={item.hintCount3Increase}
               creditsIncrease={item.creditsIncrease}
               navigation={navigation}
             />
@@ -302,6 +310,7 @@ const HardLevelsScreen = ({ navigation }) => {
           numColumns={2}
           columnWrapperStyle={styles.column}
         />
+        {/* Make a spacing at the bottom, to make sure all buttons are accesible */}
         <View
           style={{
             marginBottom: windowHeight * 0.27,

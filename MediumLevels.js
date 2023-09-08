@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, FlatList, Dimensions } from "react-native";
-import CustomHeader from "./CustomHeader";
 import { loadCompletedLevels } from "./AsyncStorageUtils";
-import LevelScreen from "./LevelScreen"; // Import the LevelButton component
+import CustomHeader from "./CustomHeader";
+import LevelScreen from "./LevelScreen";
 
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;
 
 const MediumLevelsScreen = ({ navigation }) => {
-  // Define color constants
+  // Define colours used for the Medium levels
   const MediumLevelsColorBackground = "rgba(246,197,58,1)";
   const MediumLevelsColorBackgroundCompleted = "rgba(195, 156, 45, 1)";
   const MediumLevelsColorOutline = "rgba(205,165,49,1)";
@@ -27,14 +27,18 @@ const MediumLevelsScreen = ({ navigation }) => {
   }, []);
 
   // Define level data
+  // All levels pass this information:
+  // * levelName, levelPoints,
+  // * color, hintCount1Increase, hintCount2Increase, hintCount3Increase,
+  // * creditsIncrease, GRID_DATA, ROW_CLUES
   const levels = [
     {
       levelName: "M1",
       color: MediumLevelsColorBackground,
       levelPoints: 17,
-      clueCount1Increase: 2,
-      clueCount2Increase: 0,
-      clueCount3Increase: 1,
+      hintCount1Increase: 2,
+      hintCount2Increase: 0,
+      hintCount3Increase: 1,
       creditsIncrease: 20,
       GRID_DATA: [
         ["E", "N", "C", "H", "A", "N", "T"],
@@ -56,9 +60,9 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelName: "M2",
       color: MediumLevelsColorBackground,
       levelPoints: 16,
-      clueCount1Increase: 1,
-      clueCount2Increase: 1,
-      clueCount3Increase: 1,
+      hintCount1Increase: 1,
+      hintCount2Increase: 1,
+      hintCount3Increase: 1,
       creditsIncrease: 10,
       GRID_DATA: [
         ["L", "A", "V", "E", "N", "D", "E", "R"],
@@ -82,9 +86,9 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelName: "M3",
       color: MediumLevelsColorBackground,
       levelPoints: 14,
-      clueCount1Increase: 3,
-      clueCount2Increase: 0,
-      clueCount3Increase: 0,
+      hintCount1Increase: 3,
+      hintCount2Increase: 0,
+      hintCount3Increase: 0,
       creditsIncrease: 20,
       GRID_DATA: [
         ["P", "A", "I", "N", "T", "I", "N", "G"],
@@ -108,9 +112,9 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelName: "M4",
       color: MediumLevelsColorBackground,
       levelPoints: 18,
-      clueCount1Increase: 2,
-      clueCount2Increase: 0,
-      clueCount3Increase: 2,
+      hintCount1Increase: 2,
+      hintCount2Increase: 0,
+      hintCount3Increase: 2,
       creditsIncrease: 30,
       GRID_DATA: [
         ["C", "U", "T", "L", "E", "R", "Y"],
@@ -134,9 +138,9 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelName: "M5",
       color: MediumLevelsColorBackground,
       levelPoints: 20,
-      clueCount1Increase: 2,
-      clueCount2Increase: 2,
-      clueCount3Increase: 0,
+      hintCount1Increase: 2,
+      hintCount2Increase: 2,
+      hintCount3Increase: 0,
       creditsIncrease: 20,
       GRID_DATA: [
         ["B", "L", "I", "N", "D", "E", "R", "S"],
@@ -162,9 +166,9 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelName: "M6",
       color: MediumLevelsColorBackground,
       levelPoints: 20,
-      clueCount1Increase: 2,
-      clueCount2Increase: 2,
-      clueCount3Increase: 0,
+      hintCount1Increase: 2,
+      hintCount2Increase: 2,
+      hintCount3Increase: 0,
       creditsIncrease: 20,
       GRID_DATA: [
         ["S", "A", "M", "S", "U", "N", "G"],
@@ -190,9 +194,9 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelName: "M7",
       color: MediumLevelsColorBackground,
       levelPoints: 18,
-      clueCount1Increase: 2,
-      clueCount2Increase: 1,
-      clueCount3Increase: 1,
+      hintCount1Increase: 2,
+      hintCount2Increase: 1,
+      hintCount3Increase: 1,
       creditsIncrease: 25,
       GRID_DATA: [
         ["N", "A", "R", "C", "O", "T", "I", "C", "S"],
@@ -218,9 +222,9 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelName: "M8",
       color: MediumLevelsColorBackground,
       levelPoints: 21,
-      clueCount1Increase: 0,
-      clueCount2Increase: 1,
-      clueCount3Increase: 3,
+      hintCount1Increase: 0,
+      hintCount2Increase: 1,
+      hintCount3Increase: 3,
       creditsIncrease: 15,
       GRID_DATA: [
         ["P", "R", "O", "T", "E", "I", "N"],
@@ -244,9 +248,9 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelName: "M9",
       color: MediumLevelsColorBackground,
       levelPoints: 19,
-      clueCount1Increase: 1,
-      clueCount2Increase: 1,
-      clueCount3Increase: 1,
+      hintCount1Increase: 1,
+      hintCount2Increase: 1,
+      hintCount3Increase: 1,
       creditsIncrease: 20,
       GRID_DATA: [
         ["C", "L", "I", "P", "P", "E", "R", "S"],
@@ -270,9 +274,9 @@ const MediumLevelsScreen = ({ navigation }) => {
       levelName: "M10",
       color: MediumLevelsColorBackground,
       levelPoints: 23,
-      clueCount1Increase: 2,
-      clueCount2Increase: 2,
-      clueCount3Increase: 0,
+      hintCount1Increase: 2,
+      hintCount2Increase: 2,
+      hintCount3Increase: 0,
       creditsIncrease: 20,
       GRID_DATA: [
         ["D", "R", "I", "Z", "Z", "L", "E"],
@@ -301,23 +305,25 @@ const MediumLevelsScreen = ({ navigation }) => {
       <CustomHeader title="Medium Level" />
       <View style={{ alignItems: "center", justifyContent: "center" }}>
         <FlatList
-          showsVerticalScrollIndicator={false} // Set this to false to hide vertical scrollbar
+          // Hide the scrollbars
+          showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           data={levels}
           renderItem={({ item }) => (
             <LevelScreen
+              // Pass all info to the LevelScreen component
               levelName={item.levelName}
               color={MediumLevelsColorBackground}
-              completedColor={MediumLevelsColorBackgroundCompleted} // Use completed color
-              outlineColor={MediumLevelsColorOutline} // Use outline color
-              completedOutlineColor={MediumLevelsColorOutlineCompleted} // Use completed outline color
+              completedColor={MediumLevelsColorBackgroundCompleted}
+              outlineColor={MediumLevelsColorOutline}
+              completedOutlineColor={MediumLevelsColorOutlineCompleted}
               completedLevels={completedLevels}
               GRID_DATA={item.GRID_DATA}
               ROW_CLUES={item.ROW_CLUES}
               levelPoints={item.levelPoints}
-              clueCount1Increase={item.clueCount1Increase}
-              clueCount2Increase={item.clueCount2Increase}
-              clueCount3Increase={item.clueCount3Increase}
+              hintCount1Increase={item.hintCount1Increase}
+              hintCount2Increase={item.hintCount2Increase}
+              hintCount3Increase={item.hintCount3Increase}
               creditsIncrease={item.creditsIncrease}
               navigation={navigation}
             />
@@ -326,6 +332,7 @@ const MediumLevelsScreen = ({ navigation }) => {
           numColumns={2}
           columnWrapperStyle={styles.column}
         />
+        {/* Make a spacing at the bottom, to make sure all buttons are accesible */}
         <View
           style={{
             marginBottom: windowHeight * 0.27,

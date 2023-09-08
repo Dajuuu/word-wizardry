@@ -13,9 +13,9 @@ const LevelScreen = ({
   GRID_DATA,
   ROW_CLUES,
   levelPoints,
-  clueCount1Increase,
-  clueCount2Increase,
-  clueCount3Increase,
+  hintCount1Increase,
+  hintCount2Increase,
+  hintCount3Increase,
   creditsIncrease,
   navigation,
 }) => {
@@ -31,9 +31,9 @@ const LevelScreen = ({
       GRID_DATA,
       ROW_CLUES,
       levelPoints,
-      clueCount1Increase,
-      clueCount2Increase,
-      clueCount3Increase,
+      hintCount1Increase,
+      hintCount2Increase,
+      hintCount3Increase,
       creditsIncrease,
     });
   };
