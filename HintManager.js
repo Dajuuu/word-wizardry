@@ -1,33 +1,33 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // How the clue counts will be visible for the storage database
-export const CLUE_COUNT_STORAGE_KEY_PREFIX = "clueCount_";
+export const HINT_COUNT_STORAGE_KEY_PREFIX = "hintCount_";
 
 // Initalise with this number of uses for all hint types
-export const BASE_CLUE_USES = 3;
+export const BASE_HINT_USES = 3;
 
 // Load saved number of hints for all hint types
-export const loadClueCount = async (clueIndex) => {
+export const loadHintCount = async (hintIndex) => {
   try {
-    const clueCountKey = `${CLUE_COUNT_STORAGE_KEY_PREFIX}${clueIndex}`;
-    const clueCount = await AsyncStorage.getItem(clueCountKey);
-    return clueCount ? parseInt(clueCount) : BASE_CLUE_USES;
+    const hintCountKey = `${HINT_COUNT_STORAGE_KEY_PREFIX}${hintIndex}`;
+    const hintCount = await AsyncStorage.getItem(hintCountKey);
+    return hintCount ? parseInt(hintCount) : BASE_HINT_USES;
   } catch (error) {
-    console.error(`Error loading clue count for clue ${clueIndex}:`, error);
+    console.error(`Error loading clue count for clue ${hintIndex}:`, error);
     throw error;
   }
 };
 
 // Decrement the number of uses for a particular hint
-export const decrementClueCount = async (clueIndex) => {
+export const decrementHintCount = async (hintIndex) => {
   try {
-    const clueCountKey = `${CLUE_COUNT_STORAGE_KEY_PREFIX}${clueIndex}`;
-    const clueCount = await loadClueCount(clueIndex);
-    const updatedCount = clueCount - 1;
-    await AsyncStorage.setItem(clueCountKey, updatedCount.toString());
+    const hintCountKey = `${HINT_COUNT_STORAGE_KEY_PREFIX}${hintIndex}`;
+    const hintCount = await loadHintCount(hintIndex);
+    const updatedCount = hintCount - 1;
+    await AsyncStorage.setItem(hintCountKey, updatedCount.toString());
   } catch (error) {
     console.error(
-      `Error decrementing clue count for clue ${clueIndex}:`,
+      `Error decrementing clue count for clue ${hintIndex}:`,
       error
     );
     throw error;
@@ -35,15 +35,15 @@ export const decrementClueCount = async (clueIndex) => {
 };
 
 // Increment the number of uses for a particular hint
-export const incrementHintCount = async (clueIndex, increaseAmount) => {
+export const incrementHintCount = async (hintIndex, increaseAmount) => {
   try {
-    const clueCountKey = `${CLUE_COUNT_STORAGE_KEY_PREFIX}${clueIndex}`;
-    const clueCount = await loadClueCount(clueIndex);
-    const updatedCount = clueCount + increaseAmount;
-    await AsyncStorage.setItem(clueCountKey, updatedCount.toString());
+    const hintCountKey = `${HINT_COUNT_STORAGE_KEY_PREFIX}${hintIndex}`;
+    const hintCount = await loadHintCount(hintIndex);
+    const updatedCount = hintCount + increaseAmount;
+    await AsyncStorage.setItem(hintCountKey, updatedCount.toString());
   } catch (error) {
     console.error(
-      `Error incrementing clue count for clue ${clueIndex}:`,
+      `Error incrementing clue count for clue ${hintIndex}:`,
       error
     );
     throw error;
@@ -51,39 +51,40 @@ export const incrementHintCount = async (clueIndex, increaseAmount) => {
 };
 
 // Initialize clue counts
-export const initializeClueCounts = async () => {
+export const initializeHintCounts = async () => {
   try {
-    const clueCountKeys = [
-      `${CLUE_COUNT_STORAGE_KEY_PREFIX}1`,
-      `${CLUE_COUNT_STORAGE_KEY_PREFIX}2`,
-      `${CLUE_COUNT_STORAGE_KEY_PREFIX}3`,
+    const hintCountKeys = [
+      `${HINT_COUNT_STORAGE_KEY_PREFIX}1`,
+      `${HINT_COUNT_STORAGE_KEY_PREFIX}2`,
+      `${HINT_COUNT_STORAGE_KEY_PREFIX}3`,
     ];
-    const storedClueCounts = await AsyncStorage.multiGet(clueCountKeys);
+    const storedHintCounts = await AsyncStorage.multiGet(hintCountKeys);
 
     // Check if any clue count is missing
-    const missingClueCounts = storedClueCounts.filter(
-      ([_, clueCount]) => clueCount === null
+    const missingHintCounts = storedHintCounts.filter(
+      ([_, hintCount]) => hintCount === null
     );
 
     // Initialize missing clue counts with the base number of uses
     // e.g when the counts were deleted
-    if (missingClueCounts.length > 0) {
-      const missingClueCountKeys = missingClueCounts.map(([key, _]) => key);
-      const missingClueCountValues = missingClueCountKeys.map(() =>
-        BASE_CLUE_USES.toString()
+    if (missingHintCounts.length > 0) {
+      const missingHintCountKeys = missingHintCounts.map(([key, _]) => key);
+      const missingHintCountValues = missingHintCountKeys.map(() =>
+        BASE_HINT_USES.toString()
       );
-      const missingClueCountPairs = missingClueCountKeys.map((key, index) => [
+      const missingHintCountPairs = missingHintCountKeys.map((key, index) => [
         key,
-        missingClueCountValues[index],
+        missingHintCountValues[index],
       ]);
 
-      await AsyncStorage.multiSet(missingClueCountPairs);
+      await AsyncStorage.multiSet(missingHintCountPairs);
 
       console.log(
-        `Initialized missing clue counts with the base number of uses: ${BASE_CLUE_USES}`
+        `Initialized missing clue counts with the base number of uses: ${BASE_HINT_USES}`
       );
     } else {
-      console.log("All clue counts are already initialized.");
+      // Left in case of testing
+      // console.log("All clue counts are already initialized.");
     }
   } catch (error) {
     console.error("Error initializing clue counts:", error);

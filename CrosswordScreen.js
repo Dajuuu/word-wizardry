@@ -22,9 +22,9 @@ import { incrementClueCount } from "./HintManager";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import LoadingScreen from "./LoadingScreen";
 import {
-  decrementClueCount,
-  loadClueCount,
-  initializeClueCounts,
+  decrementHintCount,
+  loadHintCount,
+  initializeHintCounts,
 } from "./HintManager"; // Import the clue count functions
 import { Asset } from "expo-asset";
 import { PointsContext } from "./PointsContext";
@@ -125,10 +125,10 @@ const CrosswordApp = ({ route }) => {
   const [clueCount3, setClueCount3] = useState();
 
   // Load the clue counts from the AsyncStorage and assign them to the useState hooks
-  const loadClueCounts = async () => {
-    const count1 = await loadClueCount(1);
-    const count2 = await loadClueCount(2);
-    const count3 = await loadClueCount(3);
+  const loadHintCounts = async () => {
+    const count1 = await loadHintCount(1);
+    const count2 = await loadHintCount(2);
+    const count3 = await loadHintCount(3);
 
     setClueCount1(count1);
     setClueCount2(count2);
@@ -155,8 +155,8 @@ const CrosswordApp = ({ route }) => {
   useEffect(() => {
     loadUserInput(); // Load saved user input for the given level
     checkLevelCompletion(); // Check if level is already completed
-    initializeClueCounts(); // TODO Probaply it needs to be deleted because of the function below
-    loadClueCounts(); // Load the clue counts for the user
+    initializeHintCounts(); // TODO Probaply it needs to be deleted because of the function below
+    loadHintCounts(); // Load the clue counts for the user
   }, []);
 
   // Check if the level was previosly completed, based on the data in the AsyncStorage
@@ -314,13 +314,13 @@ const CrosswordApp = ({ route }) => {
   // Hint system
   const handleCluePress = async (index) => {
     // Retrieve clue count for the given index
-    const clueCount = await loadClueCount(index);
+    const clueCount = await loadHintCount(index);
 
     if (clueCount > 0) {
       // Display updated clue count
       // console.log(`Clue ${index} remaining uses: ${updatedClueCount}`);
       // Retrieve the updated clue count after decrementing
-      const updatedClueCount = await loadClueCount(index);
+      const updatedClueCount = await loadHintCount(index);
 
       // Hint 1 - reveal letter in a specific position
       if (index === 1 && selectedBox) {
@@ -329,9 +329,9 @@ const CrosswordApp = ({ route }) => {
 
         if (!isBoxCorrect) {
           // Decrement clue count for the given index
-          await decrementClueCount(index);
+          await decrementHintCount(index);
           // Retrieve the updated clue count after decrementing
-          const updatedClueCount = await loadClueCount(index);
+          const updatedClueCount = await loadHintCount(index);
 
           // Handle clue 1
           const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
@@ -365,9 +365,9 @@ const CrosswordApp = ({ route }) => {
 
         if (!isRowCorrect) {
           // Decrement clue count for the given index
-          await decrementClueCount(index);
+          await decrementHintCount(index);
           // Retrieve the updated clue count after decrementing
-          const updatedClueCount = await loadClueCount(index);
+          const updatedClueCount = await loadHintCount(index);
 
           // Handle clue 2
           const newHiddenGrid = [...hiddenGrid];
@@ -405,10 +405,10 @@ const CrosswordApp = ({ route }) => {
         // Ensure there are enough available positions to reveal letters
         if (availablePositions.length >= 2) {
           // Decrement clue count for the given index
-          await decrementClueCount(index);
+          await decrementHintCount(index);
 
           // Retrieve the updated clue count after decrementing
-          const updatedClueCount = await loadClueCount(index);
+          const updatedClueCount = await loadHintCount(index);
 
           // Generate two random positions from the available positions
           const randomIndex1 = Math.floor(

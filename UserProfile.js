@@ -24,7 +24,7 @@ import {
 import BuyHintOverlay from "./BuyHintOverlay";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { backgroundImagePaths } from "./BackgroundManager";
-import { loadClueCount, initializeClueCounts } from "./HintManager"; // Import the clue count functions
+import { loadHintCount, initializeHintCounts } from "./HintManager"; // Import the clue count functions
 import { setStoredBackgroundImage } from "./BackgroundManager";
 import { LinearGradient } from "expo-linear-gradient";
 import { useButtonClickSound } from "./SoundManager";
@@ -60,10 +60,10 @@ const UserProfile = () => {
   const [clueCount3, setClueCount3] = useState();
 
   // Load the clue counts from the AsyncStorage and assign them to the useState hooks
-  const loadClueCounts = async () => {
-    const count1 = await loadClueCount(1);
-    const count2 = await loadClueCount(2);
-    const count3 = await loadClueCount(3);
+  const loadHintCounts = async () => {
+    const count1 = await loadHintCount(1);
+    const count2 = await loadHintCount(2);
+    const count3 = await loadHintCount(3);
 
     setClueCount1(count1);
     setClueCount2(count2);
@@ -85,8 +85,8 @@ const UserProfile = () => {
     fetchUsername();
   }, []);
   useEffect(() => {
-    initializeClueCounts(); // TODO Probaply it needs to be deleted because of the function below
-    loadClueCounts(); // Load the clue counts for the user
+    initializeHintCounts(); // TODO Probaply it needs to be deleted because of the function below
+    loadHintCounts(); // Load the clue counts for the user
   }, []);
   // Function to handle the new username input change
   const handleUsernameChange = (text) => {
