@@ -90,6 +90,7 @@ const UserProfile = () => {
   }, []);
   // Function to handle the new username input change
   const handleUsernameChange = (text) => {
+    text = text.replace(/[!€@#$%^&*(),.?":{}|<>]/g, "");
     setNewUsername(text);
   };
   useEffect(() => {
@@ -206,6 +207,7 @@ const UserProfile = () => {
                   placeholder={username}
                   onChangeText={handleUsernameChange}
                   value={newUsername}
+                  maxLength={15}
                 />
                 <LinearGradient
                   colors={["rgb(0, 155, 0)", "rgb(0, 131, 0)"]}

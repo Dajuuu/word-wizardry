@@ -34,8 +34,13 @@ const EasyLevelsScreen = ({ navigation }) => {
       clueCount2Increase: 0,
       clueCount3Increase: 0,
       creditsIncrease: 15,
-      GRID_DATA: [["C", "A", "C", "T", "U", "S"]],
-
+      GRID_DATA: [
+        ["C", "A", "C", "T", "U", "S"],
+        ["J", "I", "G", "S", "A", "W"],
+        ["M", "O", "O", "N"],
+        ["W", "I", "N", "T", "E", "R"],
+        ["S", "M", "I", "L", "E"],
+      ],
       ROW_CLUES: [
         "1. Desert plant known for its spikes.",
         "2. Puzzle with irregularly shaped pieces.",
