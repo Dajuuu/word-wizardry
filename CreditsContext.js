@@ -5,7 +5,7 @@ const CreditsContext = createContext();
 
 const CreditsProvider = ({ children }) => {
   // Initialise the number of credits if user does not have any yet
-  const [credits, setCredits] = useState(50000);
+  const [credits, setCredits] = useState(200);
 
   useEffect(() => {
     // If user had their credits declared earlier,

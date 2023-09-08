@@ -18,6 +18,7 @@ import { useButtonClickSound } from "./SoundManager";
 import { PointsContext } from "./PointsContext";
 
 // Get the height of the device
+const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const CustomHeader = ({ title }) => {
@@ -110,10 +111,10 @@ const styles = StyleSheet.create({
   },
   leftButton: {
     // marginRight: 10,
-    padding: windowHeight * 0.022,
+    padding: windowHeight * 0.02,
     // paddingHorizontal: 14,
     backgroundColor: "rgba(183, 140, 101,1)",
-    borderRadius: 200,
+    borderRadius: 100,
     shadowColor: "black", // iOS shadow
     shadowOffset: {
       width: 0,
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
     // justifyContent: "space-between", // Space them evenly along the row
     alignItems: "center", // Center them vertically within the header
     // maxWidth: 110,
-    minWidth: 95,
+    minWidth: 100,
     height: windowHeight * 0.07,
     shadowColor: "black", // iOS shadow
     shadowOffset: {
