@@ -55,9 +55,7 @@ const CustomKeyboard = ({ onKeyPress }) => {
 
 const styles = StyleSheet.create({
   keyboardContainer: {
-    // marginBottom: 10,
     width: "100%",
-    // height: "25%",
     backgroundColor: "#f7d7ba",
     paddingHorizontal: 15,
     paddingTop: 10,
@@ -70,19 +68,17 @@ const styles = StyleSheet.create({
   keyboardKey: {
     width: "9%",
     height: windowHeight / 15,
-
     alignItems: "center",
     justifyContent: "center",
     margin: 3,
     marginBottom: 8,
     backgroundColor: "#ebb381",
     borderRadius: 5,
-    // borderWidth: 1,
-    // shadowColor: "rgba(0,0,0, .4)", // IOS
-    // shadowOffset: { height: 1 }, // IOS
-    // shadowOpacity: 1, // IOS
-    // shadowRadius: 1, //IOS
-    // elevation: 2, // Android
+    elevation: 4, // Android
+    shadowColor: "rgba(0,0,0, .4)", // IOS
+    shadowOffset: { height: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
   },
   keyboardKeyBackspace: {
     width: "15%",
