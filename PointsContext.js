@@ -14,11 +14,10 @@ const PointsProvider = ({ children }) => {
     async function loadPoints() {
       try {
         const storedPoints = await AsyncStorage.getItem("points");
+        // Use the username as the initial unique identifier
+        const usernameInitial = await AsyncStorage.getItem("usernameInitial");
         if (storedPoints !== null) {
           setPoints(parseInt(storedPoints));
-
-          // Use the username as the initial unique identifier
-          const usernameInitial = await AsyncStorage.getItem("usernameInitial");
 
           if (usernameInitial) {
             // Update points when app loads, to make sure the database is updated if something wrong happens
@@ -28,6 +27,8 @@ const PointsProvider = ({ children }) => {
               parseInt(storedPoints)
             );
           }
+        } else {
+          await set(ref(db, `users/${usernameInitial}/points`), 0);
         }
       } catch (error) {
         console.error("Error loading points:", error);
