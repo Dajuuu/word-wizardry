@@ -88,10 +88,10 @@ const EasyLevelsScreen = ({ navigation }) => {
       hintCount3Increase: 1,
       creditsIncrease: 20,
       GRID_DATA: [
-        ["D", "O", "L", "P", "H", "I", "N"],
-        ["S", "P", "R", "I", "N", "G"],
-        ["L", "I", "G", "H", "T"],
-        ["B", "I", "R", "D"],
+        // ["D", "O", "L", "P", "H", "I", "N"],
+        // ["S", "P", "R", "I", "N", "G"],
+        // ["L", "I", "G", "H", "T"],
+        // ["B", "I", "R", "D"],
         ["B", "O", "X"],
       ],
 
@@ -113,10 +113,10 @@ const EasyLevelsScreen = ({ navigation }) => {
       creditsIncrease: 15,
       GRID_DATA: [
         ["R", "I", "V", "E", "R"],
-        ["W", "A", "T", "C", "H"],
-        ["G", "A", "R", "D", "E", "N"],
-        ["O", "R", "A", "N", "G", "E"],
-        ["W", "H", "I", "S", "P", "E", "R"],
+        // ["W", "A", "T", "C", "H"],
+        // ["G", "A", "R", "D", "E", "N"],
+        // ["O", "R", "A", "N", "G", "E"],
+        // ["W", "H", "I", "S", "P", "E", "R"],
       ],
 
       ROW_CLUES: [

@@ -40,7 +40,6 @@ const SettingsOverlay = ({ visible, onClose }) => {
   const { handleButtonSoundPlay } = useButtonClickSound();
   // Import functions that will be used by switches
   const { soundEnabled, toggleSoundSetting } = useSoundSetting();
-
   const { vibrationEnabled, toggleVibrationSetting } = useVibrationSetting();
 
   // Make sure the user cannot press the music switch on and off rapidly

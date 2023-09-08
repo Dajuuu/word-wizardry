@@ -16,9 +16,9 @@ import {
   Dimensions,
   ImageBackground,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
-import { incrementClueCount } from "./HintManager";
+import { incrementHintCount } from "./HintManager";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import LoadingScreen from "./LoadingScreen";
 import {
@@ -63,10 +63,6 @@ const CrosswordApp = ({ route }) => {
         const selectedImage = backgroundImagePaths[imageNumber];
         setBackgroundImageSource(selectedImage);
       });
-
-      // Any other code you want to run when the screen gains focus
-
-      console.log("HomeScreen gained focus"); // Example console.log
     }, [])
   );
   // Add points and check the points balance. Needed when completing the level
@@ -487,9 +483,9 @@ const CrosswordApp = ({ route }) => {
 
     // Delete saved user input for the given level
     // deleteUserInput();
-    incrementClueCount(1, hintCount1Increase);
-    incrementClueCount(2, hintCount2Increase);
-    incrementClueCount(3, hintCount3Increase);
+    incrementHintCount(1, hintCount1Increase);
+    incrementHintCount(2, hintCount2Increase);
+    incrementHintCount(3, hintCount3Increase);
     addCredits(creditsIncrease);
     // Save the name of the completed level to the AsyncStorage
 
