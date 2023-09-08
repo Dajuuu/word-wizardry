@@ -209,29 +209,26 @@ const CrosswordApp = ({ route }) => {
       console.log("Error deleting user input:", error);
     }
   };
-
+  const [shouldScrollOnSelection, setShouldScrollOnSelection] = useState(false);
   // Determine which box is selected
   const handleBoxSelection = (rowIndex, columnIndex) => {
     setSelectedBox({ rowIndex, columnIndex });
     setSelectedRow(rowIndex);
-    const boxesBeforeShift = 4; // Number of boxes to be visible before shifting
-    const boxWidth = windowHeight;
-    const totalBoxes = GRID_DATA[0].length; // Assuming all rows have the same number of boxes
 
-    let scrollX = 0;
+    setShouldScrollOnSelection(true);
 
-    // Calculate the new scroll position based on the selected box's position
-    if (columnIndex >= boxesBeforeShift) {
-      scrollX = (columnIndex - boxesBeforeShift + 1) * boxWidth;
-    }
+    const boxWidth = windowHeight * 0.07;
 
-    // Ensure the scroll position does not go beyond the last box
-    if (scrollX > (totalBoxes - boxesBeforeShift) * boxWidth) {
-      scrollX = (totalBoxes - boxesBeforeShift) * boxWidth;
-    }
+    // Calculate the new scroll position to scroll every 3 columns
+    const scrollColumnIndex = Math.floor(columnIndex / 3) * 3;
+    const scrollX = scrollColumnIndex * boxWidth;
 
     // Use the scrollTo method to scroll to the new position
-    horizontalScrollViewRef.current.scrollTo({ x: scrollX, animated: true });
+    if (shouldScrollOnSelection) {
+      horizontalScrollViewRef.current.scrollTo({ x: scrollX, animated: true });
+    } else {
+      horizontalScrollViewRef.current.scrollTo({ x: -scrollX, animated: true });
+    }
   };
 
   // Fill boxes behaviour
@@ -304,6 +301,7 @@ const CrosswordApp = ({ route }) => {
             }
           }
         }
+        setShouldScrollOnSelection(false);
       } else {
         // If any other key is pressed, handle it as usual
         handleBoxInput(key, rowIndex, columnIndex);
@@ -711,8 +709,15 @@ const CrosswordApp = ({ route }) => {
             />
 
             {/* Grid */}
-            <ScrollView horizontal ref={horizontalScrollViewRef}>
-              <ScrollView contentContainerStyle={styles.gridContainer}>
+            <ScrollView
+              horizontal
+              ref={horizontalScrollViewRef}
+              showsHorizontalScrollIndicator={false} // Set this to false to hide vertical scrollbar
+            >
+              <ScrollView
+                contentContainerStyle={styles.gridContainer}
+                showsVerticalScrollIndicator={false}
+              >
                 {GRID_DATA.map((row, rowIndex) => {
                   inputRefs.current[rowIndex] = [];
 
