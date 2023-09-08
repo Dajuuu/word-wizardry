@@ -22,15 +22,7 @@ const windowHeight = Dimensions.get("window").height;
 
 // Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
-  // Import function that plays the sound
-  const { handleButtonSoundPlay } = useButtonClickSound();
-  // Import functions that will be used by switches
-  const { soundEnabled, toggleSoundSetting } = useSoundSetting();
   const { musicEnabled, toggleMusicSetting } = useMusicSetting();
-  const { vibrationEnabled, toggleVibrationSetting } = useVibrationSetting();
-
-  // Make sure the user cannot press the music switch on and off rapidly
-  const [musicCooldown, setMusicCooldown] = useState(false);
 
   const handleMusicSwitch = async (newValue) => {
     if (!musicCooldown) {
@@ -44,7 +36,15 @@ const SettingsOverlay = ({ visible, onClose }) => {
       }, 1000);
     }
   };
+  // Import function that plays the sound
+  const { handleButtonSoundPlay } = useButtonClickSound();
+  // Import functions that will be used by switches
+  const { soundEnabled, toggleSoundSetting } = useSoundSetting();
 
+  const { vibrationEnabled, toggleVibrationSetting } = useVibrationSetting();
+
+  // Make sure the user cannot press the music switch on and off rapidly
+  const [musicCooldown, setMusicCooldown] = useState(false);
   return (
     // Modal props
     <Modal
