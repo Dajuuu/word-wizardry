@@ -146,7 +146,7 @@ const MediumLevelsScreen = ({ navigation }) => {
       ],
 
       ROW_CLUES: [
-        "1. British crime drama TV series, starring Cillian Murphy.",
+        "1. Peaky ... - British crime drama TV series, starring Cillian Murphy.",
         "2. Visible collections of water droplets or ice crystals in the sky.",
         "3. Buttery green fruit often used in salads and spreads.",
         "4. Long, thin pasta noodles often served with sauce.",
