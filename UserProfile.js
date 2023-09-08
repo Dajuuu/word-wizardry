@@ -28,6 +28,7 @@ import { loadClueCount, initializeClueCounts } from "./ClueManager"; // Import t
 import { setStoredBackgroundImage } from "./BackgroundManager";
 import { LinearGradient } from "expo-linear-gradient";
 import { useButtonClickSound } from "./SoundManager";
+import LoadingScreen from "./AppLoading";
 
 if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -36,6 +37,15 @@ if (Platform.OS === "android") {
 const windowHeight = Dimensions.get("window").height;
 
 const UserProfile = () => {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer); // Clear the timer if the component unmounts
+  }, []);
+
   const { handleButtonSoundPlay } = useButtonClickSound();
 
   const [isSectionHidden, setSectionHidden] = useState(false);
@@ -169,184 +179,196 @@ const UserProfile = () => {
     />
   );
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-    >
-      <ScrollView
-        contentContainerStyle={styles.scrollViewContainer}
-        keyboardShouldPersistTaps="handled"
-        scrollEnabled={false}
-      >
-        {/* <View style={styles.container}> */}
-        <CustomHeader title="Profile" />
+    <View style={styles.containerWhole}>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+        >
+          <ScrollView
+            contentContainerStyle={styles.scrollViewContainer}
+            keyboardShouldPersistTaps="handled"
+            scrollEnabled={false}
+          >
+            {/* <View style={styles.container}> */}
+            <CustomHeader title="Profile" />
 
-        <View style={styles.userInfo}>
-          <View>
-            {/* The Text needs to be put inside empty View for smooth animation (iOS) */}
-            <Text style={styles.userInfoText}>Your Username</Text>
-          </View>
-          <View style={styles.usernameInput}>
-            <TextInput
-              style={styles.input}
-              placeholder={username}
-              onChangeText={handleUsernameChange}
-              value={newUsername}
-            />
-            <LinearGradient
-              colors={["rgb(0, 155, 0)", "rgb(0, 131, 0)"]}
-              start={{ x: 0.7, y: 0.1 }}
-              end={{ x: 0.9, y: 0.4 }}
-              style={styles.updateButtonGradient}
-            >
-              <TouchableOpacity
-                onPress={handleUpdateUsername}
-                style={styles.updateButton}
-              >
-                <Icon name="pen" style={[styles.buttonIcon]} solid />
-              </TouchableOpacity>
-            </LinearGradient>
-          </View>
-          <View style={styles.userStats}>
-            <View style={styles.borderLineTop} />
-            {/* Total Points */}
-            {/* <View style={styles.statContainer}>
+            <View style={styles.userInfo}>
+              <View>
+                {/* The Text needs to be put inside empty View for smooth animation (iOS) */}
+                <Text style={styles.userInfoText}>Your Username</Text>
+              </View>
+              <View style={styles.usernameInput}>
+                <TextInput
+                  style={styles.input}
+                  placeholder={username}
+                  onChangeText={handleUsernameChange}
+                  value={newUsername}
+                />
+                <LinearGradient
+                  colors={["rgb(0, 155, 0)", "rgb(0, 131, 0)"]}
+                  start={{ x: 0.7, y: 0.1 }}
+                  end={{ x: 0.9, y: 0.4 }}
+                  style={styles.updateButtonGradient}
+                >
+                  <TouchableOpacity
+                    onPress={handleUpdateUsername}
+                    style={styles.updateButton}
+                  >
+                    <Icon name="pen" style={[styles.buttonIcon]} solid />
+                  </TouchableOpacity>
+                </LinearGradient>
+              </View>
+              <View style={styles.userStats}>
+                <View style={styles.borderLineTop} />
+                {/* Total Points */}
+                {/* <View style={styles.statContainer}>
               <Text style={styles.statLabel}>Total Score:</Text>
               <Text style={styles.statValue}>1000</Text>
             </View> */}
 
-            {/* Hint 1 */}
+                {/* Hint 1 */}
 
-            <View style={styles.clueButtonsContainer}>
-              <TouchableOpacity
-                style={styles.clueButton}
-                onPress={() => {
-                  handleButtonSoundPlay();
-                  setShowBuyClueOverlay1(true);
-                }}
-              >
-                {/* Render Buy Hint overlay */}
-                {renderBuyClueOverlay1}
-                <View style={styles.rowDirectionContainer}>
-                  {/* Render the icon */}
-                  <Image
-                    source={require("./assets/hint1-mag-glass.png")}
-                    style={styles.hintImage}
-                  />
-
-                  {/* Clue count container */}
-                  <View style={styles.clueCountContainer}>
-                    <Text style={styles.clueCountText}>{clueCount1}</Text>
-                  </View>
-                  {/* Plus sign indicator */}
-                  <View style={styles.clueAddContainer}>
-                    <Text style={styles.clueAddText}>+</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.clueButton}
-                onPress={() => {
-                  handleButtonSoundPlay();
-                  setShowBuyClueOverlay2(true);
-                }}
-              >
-                {/* Render Buy Hint overlay */}
-                {renderBuyClueOverlay2}
-                <View style={styles.rowDirectionContainer}>
-                  {/* Render the icon */}
-                  <Image
-                    source={require("./assets/hint2-bulb.png")}
-                    style={styles.hintImage}
-                  />
-
-                  {/* Clue count container */}
-                  <View style={styles.clueCountContainer}>
-                    <Text style={styles.clueCountText}>{clueCount2}</Text>
-                  </View>
-                  {/* Plus sign indicator */}
-                  <View style={styles.clueAddContainer}>
-                    <Text style={styles.clueAddText}>+</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.clueButton}
-                onPress={() => {
-                  handleButtonSoundPlay();
-                  setShowBuyClueOverlay3(true);
-                }}
-              >
-                {/* Render Buy Hint overlay */}
-                {renderBuyClueOverlay3}
-                <View style={styles.rowDirectionContainer}>
-                  {/* Render the icon */}
-                  <Image
-                    source={require("./assets/hint3-dice.png")}
-                    style={styles.hintImage}
-                  />
-
-                  {/* Clue count container */}
-                  <View style={styles.clueCountContainer}>
-                    <Text style={styles.clueCountText}>{clueCount3}</Text>
-                  </View>
-                  {/* Plus sign indicator */}
-                  <View style={styles.clueAddContainer}>
-                    <Text style={styles.clueAddText}>+</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        {/* Button to confirm the username change */}
-
-        {!isSectionHidden && ( // Only show if the section is not hidden
-          <View style={styles.backgroundChange}>
-            <Text style={styles.backgroundChangeText}>Change Background </Text>
-            <FlatList
-              data={Object.keys(backgroundImagePaths)} // Use Object.keys to get the keys of the backgroundImagePaths
-              keyExtractor={(item) => item.toString()} // Use the key as a string
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    // Log the item (which is the key of the backgroundImagePaths)
-                    console.log("TouchableOpacity pressed:", item);
-
-                    // Handle your background image change or other logic here
-                    handleImageSelect(parseInt(item)); // Assuming you want to select this image
-                  }}
-                >
-                  {/* Use the backgroundImagePaths object to get the source */}
-                  <ImageBackground
-                    source={backgroundImagePaths[item]}
-                    style={styles.imageItem}
+                <View style={styles.clueButtonsContainer}>
+                  <TouchableOpacity
+                    style={styles.clueButton}
+                    onPress={() => {
+                      handleButtonSoundPlay();
+                      setShowBuyClueOverlay1(true);
+                    }}
                   >
-                    {/* You can add any content inside the ImageBackground */}
-                    {/* For example, an indicator if the background is selected */}
-                    {backgroundImageNumber === parseInt(item) && (
-                      <View style={styles.selectedIndicator}>
-                        <Text style={styles.selectedText}>Selected</Text>
+                    {/* Render Buy Hint overlay */}
+                    {renderBuyClueOverlay1}
+                    <View style={styles.rowDirectionContainer}>
+                      {/* Render the icon */}
+                      <Image
+                        source={require("./assets/hint1-mag-glass.png")}
+                        style={styles.hintImage}
+                      />
+
+                      {/* Clue count container */}
+                      <View style={styles.clueCountContainer}>
+                        <Text style={styles.clueCountText}>{clueCount1}</Text>
                       </View>
-                    )}
-                  </ImageBackground>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        )}
-        {/* </View> */}
-      </ScrollView>
-    </KeyboardAvoidingView>
+                      {/* Plus sign indicator */}
+                      <View style={styles.clueAddContainer}>
+                        <Text style={styles.clueAddText}>+</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.clueButton}
+                    onPress={() => {
+                      handleButtonSoundPlay();
+                      setShowBuyClueOverlay2(true);
+                    }}
+                  >
+                    {/* Render Buy Hint overlay */}
+                    {renderBuyClueOverlay2}
+                    <View style={styles.rowDirectionContainer}>
+                      {/* Render the icon */}
+                      <Image
+                        source={require("./assets/hint2-bulb.png")}
+                        style={styles.hintImage}
+                      />
+
+                      {/* Clue count container */}
+                      <View style={styles.clueCountContainer}>
+                        <Text style={styles.clueCountText}>{clueCount2}</Text>
+                      </View>
+                      {/* Plus sign indicator */}
+                      <View style={styles.clueAddContainer}>
+                        <Text style={styles.clueAddText}>+</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.clueButton}
+                    onPress={() => {
+                      handleButtonSoundPlay();
+                      setShowBuyClueOverlay3(true);
+                    }}
+                  >
+                    {/* Render Buy Hint overlay */}
+                    {renderBuyClueOverlay3}
+                    <View style={styles.rowDirectionContainer}>
+                      {/* Render the icon */}
+                      <Image
+                        source={require("./assets/hint3-dice.png")}
+                        style={styles.hintImage}
+                      />
+
+                      {/* Clue count container */}
+                      <View style={styles.clueCountContainer}>
+                        <Text style={styles.clueCountText}>{clueCount3}</Text>
+                      </View>
+                      {/* Plus sign indicator */}
+                      <View style={styles.clueAddContainer}>
+                        <Text style={styles.clueAddText}>+</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+
+            {/* Button to confirm the username change */}
+
+            {!isSectionHidden && ( // Only show if the section is not hidden
+              <View style={styles.backgroundChange}>
+                <Text style={styles.backgroundChangeText}>
+                  Change Background{" "}
+                </Text>
+                <FlatList
+                  data={Object.keys(backgroundImagePaths)} // Use Object.keys to get the keys of the backgroundImagePaths
+                  keyExtractor={(item) => item.toString()} // Use the key as a string
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        // Log the item (which is the key of the backgroundImagePaths)
+                        console.log("TouchableOpacity pressed:", item);
+
+                        // Handle your background image change or other logic here
+                        handleImageSelect(parseInt(item)); // Assuming you want to select this image
+                      }}
+                    >
+                      {/* Use the backgroundImagePaths object to get the source */}
+                      <ImageBackground
+                        source={backgroundImagePaths[item]}
+                        style={styles.imageItem}
+                      >
+                        {/* You can add any content inside the ImageBackground */}
+                        {/* For example, an indicator if the background is selected */}
+                        {backgroundImageNumber === parseInt(item) && (
+                          <View style={styles.selectedIndicator}>
+                            <Text style={styles.selectedText}>Selected</Text>
+                          </View>
+                        )}
+                      </ImageBackground>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+            )}
+            {/* </View> */}
+          </ScrollView>
+        </KeyboardAvoidingView>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  containerWhole: {
+    flex: 1,
+    // ... other styles ...
+  },
   container: {
     flex: 1,
     // alignItems: "center",
