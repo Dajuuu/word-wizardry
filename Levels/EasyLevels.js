@@ -124,8 +124,7 @@ const EasyLevelsScreen = ({ navigation }) => {
         "2. Timekeeping device worn on the wrist.",
         "3. Cultivated area with plants and flowers.",
         "4. Citrus and a colour with the same name.",
-        "5. Feathered flying creature.",
-        "6. Softly spoken words.",
+        "5. Softly spoken words.",
       ],
     },
     {
@@ -201,7 +200,7 @@ const EasyLevelsScreen = ({ navigation }) => {
         "3. Source of illumination.",
         "4. Organ that pumps blood.",
         "5. Loud vocal expression.",
-        "6. Container for storage.",
+        "6. You throw trash in this container.",
       ],
     },
     {

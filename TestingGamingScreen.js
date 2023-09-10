@@ -93,10 +93,21 @@ const TestingGamingScreen = ({ navigation }) => {
       console.error("Error viewing saved data:", error);
     }
   };
+  const deleteAllKeys = async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys();
 
+      // Use AsyncStorage.multiRemove to remove all keys
+      await AsyncStorage.multiRemove(keys);
+
+      console.log("All keys have been deleted.");
+    } catch (error) {
+      console.error("Error deleting keys:", error);
+    }
+  };
   // Call the function to view the saved data
   viewSavedData();
-
+  // deleteAllKeys();
   // AsyncStorage delete
   const deleteRecords = async (keys) => {
     try {
@@ -131,8 +142,8 @@ const TestingGamingScreen = ({ navigation }) => {
   // const keysToDelete = ["completedLevels"];
   // const keysToDelete = ["username", "usernameInitial"];
   // const keysToDelete = ["usernameInitial"];
-  const keysToDelete = ["backgroundImageIndex"];
-  // const keysToDelete = ["clueCount_1", "clueCount_2", "clueCount_3"];
+  // const keysToDelete = ["backgroundImageIndex"];
+  const keysToDelete = ["clueCount_1", "clueCount_2", "clueCount_3"];
   // console.log(keysToDelete);
 
   deleteRecords(keysToDelete);

@@ -50,12 +50,12 @@ const GameScreen = ({ navigation }) => {
       imageSource: require("../assets/LevelDifficultyImages/star-themed.png"),
     },
     // Do Wyjebania - narazie niech zostanie
-    // {
-    //   level: "Testing ground",
-    //   colorFront: "rgba(87,96,87,1)",
-    //   colorBack: "rgba(74,82,74,1)",
-    //   screen: "TestingGamingScreen",
-    // },
+    {
+      level: "Testing ground",
+      colorFront: "rgba(87,96,87,1)",
+      colorBack: "rgba(74,82,74,1)",
+      screen: "TestingGamingScreen",
+    },
   ];
 
   return (

@@ -20,7 +20,8 @@ export const useVibrationSetting = () => useContext(VibrationSettingContext);
 
 // Context provider components
 export const SoundSettingProvider = ({ children }) => {
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  // In what state should the sound start - true, the sound is on
+  const [soundEnabled, setSoundEnabled] = useState(false);
 
   useEffect(() => {
     // See what sound settings are saved for the user.
@@ -97,7 +98,8 @@ export const MusicSettingProvider = ({ children }) => {
 
 // Vibration
 export const VibrationSettingProvider = ({ children }) => {
-  const [vibrationEnabled, setVibrationEnabled] = useState(true);
+  // In what state should the vibrations start - true, the vibrations are on
+  const [vibrationEnabled, setVibrationEnabled] = useState(false);
 
   useEffect(() => {
     // See what sound settings are saved for the user.

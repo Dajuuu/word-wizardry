@@ -49,7 +49,7 @@ const HardLevelsScreen = ({ navigation }) => {
       ],
 
       ROW_CLUES: [
-        "1. British crime drama TV series, starring Cillian Murphy.",
+        "1. An extremely bright and energetic celestial object, often found at the centers of galaxies.",
         "2. A statement that contradicts itself but may be true.",
         "3. Step-by-step procedure or set of rules for solving problems.",
         "4. A word or phrase that reads the same forwards and backwards.",

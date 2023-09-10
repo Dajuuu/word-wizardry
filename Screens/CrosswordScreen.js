@@ -308,7 +308,7 @@ const CrosswordApp = ({ route }) => {
 
         // Move the selection to the left after pressing the backspace
         const nextColumnIndex = columnIndex - 1;
-        if (nextColumnIndex >= 0) {
+        if (nextColumnIndex >= 0 && columnIndex !== 0) {
           handleBoxSelection(rowIndex, nextColumnIndex);
           const nextInputRef = inputRefs.current[rowIndex][nextColumnIndex];
           nextInputRef && nextInputRef.focus();
@@ -323,6 +323,11 @@ const CrosswordApp = ({ route }) => {
                 inputRefs.current[prevRowIndex][lastColumnIndex];
               lastInputRef && lastInputRef.focus();
             }
+          } else {
+            // If there are no previous rows, you can stay on the current box
+            handleBoxSelection(rowIndex, columnIndex);
+            const currentInputRef = inputRefs.current[rowIndex][columnIndex];
+            currentInputRef && currentInputRef.focus();
           }
         }
         // Update the scrolling function
@@ -760,8 +765,8 @@ const CrosswordApp = ({ route }) => {
                             style={[
                               // Change the colour of the box depending on the state
                               styles.box,
-                              isBoxSelected && { backgroundColor: "yellow" },
                               isLetterCorrect && { backgroundColor: "#9ec4e8" },
+                              isBoxSelected && { backgroundColor: "yellow" },
                             ]}
                             onPress={() =>
                               handleBoxSelection(rowIndex, columnIndex)
