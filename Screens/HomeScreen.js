@@ -10,15 +10,15 @@ import {
   ImageBackground,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import SettingsOverlay from "./SettingsOverlay";
+import SettingsOverlay from "../SettingsOverlay";
 import { LinearGradient } from "expo-linear-gradient";
-import { PointsContext } from "./PointsContext";
-import { useButtonClickSound, useBackgroundSound } from "./SoundManager";
+import { PointsContext } from "../PointsContext";
+import { useButtonClickSound, useBackgroundSound } from "../SoundManager";
 import {
   getBackgroundImage,
   backgroundImagePaths,
   DEFAULT_BACKGROUND,
-} from "./BackgroundManager";
+} from "../BackgroundManager";
 
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;

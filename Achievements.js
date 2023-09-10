@@ -90,7 +90,7 @@ const Achievements = () => {
     {
       achivIndex: 1,
       achivTitle: "Novice Explorer",
-      achivDesc: "Complete 2 Easy levels.",
+      achivDesc: "Complete 1 Easy levels. Nice start!",
       achivUnlockCondition: easyLevelsCompletedCount >= 1,
     },
     {

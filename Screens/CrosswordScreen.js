@@ -20,27 +20,27 @@ import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-import BuyHintOverlay from "./BuyHintOverlay";
-import CustomKeyboard from "./CustomKeyboard";
-import CustomHeader from "./CustomHeader";
+import BuyHintOverlay from "../BuyHintOverlay";
+import CustomKeyboard from "../CustomKeyboard";
+import CustomHeader from "../CustomHeader";
 import LoadingScreen from "./LoadingScreen";
 
 import {
   decrementHintCount,
   loadHintCount,
   initializeHintCounts,
-} from "./HintManager";
-import { saveCompletedLevel, loadCompletedLevels } from "./AsyncStorageUtils";
-import { incrementHintCount } from "./HintManager";
-import { PointsContext } from "./PointsContext";
-import { CreditsContext } from "./CreditsContext";
-import { useButtonClickSound, useLevelCompletedSound } from "./SoundManager";
-import { useVibrationSetting } from "./SoundSettingContext";
+} from "../HintManager";
+import { saveCompletedLevel, loadCompletedLevels } from "../AsyncStorageUtils";
+import { incrementHintCount } from "../HintManager";
+import { PointsContext } from "../PointsContext";
+import { CreditsContext } from "../CreditsContext";
+import { useButtonClickSound, useLevelCompletedSound } from "../SoundManager";
+import { useVibrationSetting } from "../SoundSettingContext";
 import {
   getBackgroundImage,
   backgroundImagePaths,
   DEFAULT_BACKGROUND,
-} from "./BackgroundManager";
+} from "../BackgroundManager";
 
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;
@@ -831,7 +831,7 @@ const CrosswordApp = ({ route }) => {
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image
-                        source={require("./assets/hint1-mag-glass.png")}
+                        source={require("../assets/hint1-mag-glass.png")}
                         style={styles.hintImage}
                       />
 
@@ -855,7 +855,7 @@ const CrosswordApp = ({ route }) => {
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image
-                        source={require("./assets/hint2-bulb.png")}
+                        source={require("../assets/hint2-bulb.png")}
                         style={styles.hintImage}
                       />
 
@@ -879,7 +879,7 @@ const CrosswordApp = ({ route }) => {
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image
-                        source={require("./assets/hint3-dice.png")}
+                        source={require("../assets/hint3-dice.png")}
                         style={styles.hintImage}
                       />
 
@@ -937,7 +937,7 @@ const CrosswordApp = ({ route }) => {
                     <View style={styles.rowDirectionContainer}>
                       {/* Animation for the credits */}
                       <Animated.Image
-                        source={require("./assets/credits.png")}
+                        source={require("../assets/credits.png")}
                         style={[
                           styles.creditsIcon,
                           {
@@ -995,7 +995,7 @@ const CrosswordApp = ({ route }) => {
                           ]}
                         >
                           <Image
-                            source={require("./assets/hint1-mag-glass.png")}
+                            source={require("../assets/hint1-mag-glass.png")}
                             style={styles.hintImage}
                           />
                           <Text style={styles.hintText}>
@@ -1022,7 +1022,7 @@ const CrosswordApp = ({ route }) => {
                           ]}
                         >
                           <Image
-                            source={require("./assets/hint2-bulb.png")}
+                            source={require("../assets/hint2-bulb.png")}
                             style={styles.hintImage}
                           />
                           <Text style={styles.hintText}>
@@ -1049,7 +1049,7 @@ const CrosswordApp = ({ route }) => {
                           ]}
                         >
                           <Image
-                            source={require("./assets/hint3-dice.png")}
+                            source={require("../assets/hint3-dice.png")}
                             style={styles.hintImage}
                           />
                           <Text style={styles.hintText}>

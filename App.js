@@ -22,19 +22,19 @@ import { initializeUsername } from "./UserNameManager";
 import { setDefaultBackgroundImage } from "./BackgroundManager";
 
 // Screens
-import LoadingScreen from "./LoadingScreen";
-import HomeScreen from "./HomeScreen";
-import GameScreen from "./GameScreen";
+import LoadingScreen from "./Screens/LoadingScreen";
+import HomeScreen from "./Screens/HomeScreen";
+import GameScreen from "./Screens/GameScreen";
 import EasyLevelsScreen from "./Levels/EasyLevels";
 import MediumLevelsScreen from "./Levels/MediumLevels";
 import HardLevelsScreen from "./Levels/HardLevels";
 import ThemedLevelsScreen from "./Levels/ThemedLevels";
 import TestingGamingScreen from "./TestingGamingScreen";
-import CrosswordApp from "./CrosswordScreen";
+import CrosswordApp from "./Screens/CrosswordScreen";
 import LevelScreen from "./Levels/LevelScreen";
 import Achievements from "./Achievements";
-import UserProfile from "./UserProfile";
-import Leaderboard from "./LeaderboardScreen";
+import UserProfile from "./Screens/UserProfileScreen";
+import Leaderboard from "./Screens/LeaderboardScreen";
 
 const Stack = createStackNavigator();
 const paths = [

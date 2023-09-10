@@ -4,9 +4,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 // Firebase
 import { getDatabase, ref, onValue, set } from "firebase/database";
-import { FIREBASE_APP } from "./firebaseConfig";
+import { FIREBASE_APP } from "../firebaseConfig";
 
-import CustomHeader from "./CustomHeader";
+import CustomHeader from "../CustomHeader";
 
 const Leaderboard = () => {
   const db = getDatabase(FIREBASE_APP);
@@ -117,11 +117,11 @@ const Leaderboard = () => {
               <Image
                 source={
                   index === 0
-                    ? require("./assets/medal1.png")
+                    ? require("../assets/medal1.png")
                     : index === 1
-                    ? require("./assets/medal2.png")
+                    ? require("../assets/medal2.png")
                     : index === 2
-                    ? require("./assets/medal3.png")
+                    ? require("../assets/medal3.png")
                     : null // If index is greater than 2, no image
                 }
                 style={styles.imageMedal}

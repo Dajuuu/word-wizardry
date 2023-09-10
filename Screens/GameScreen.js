@@ -7,8 +7,8 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import CustomHeader from "./CustomHeader";
-import { useButtonClickSound } from "./SoundManager";
+import CustomHeader from "../CustomHeader";
+import { useButtonClickSound } from "../SoundManager";
 
 const GameScreen = ({ navigation }) => {
   // Import function that plays the sound
@@ -26,28 +26,28 @@ const GameScreen = ({ navigation }) => {
       colorFront: "rgba(35,139,0,1)",
       colorBack: "green",
       screen: "EasyLevels",
-      imageSource: require("./assets/LevelDifficultyImages/star-easy.png"),
+      imageSource: require("../assets/LevelDifficultyImages/star-easy.png"),
     },
     {
       level: "Medium",
       colorFront: "rgba(255,204,58,1)",
       colorBack: "rgba(233,186,56,1)",
       screen: "MediumLevels",
-      imageSource: require("./assets/LevelDifficultyImages/star-medium.png"),
+      imageSource: require("../assets/LevelDifficultyImages/star-medium.png"),
     },
     {
       level: "Hard",
       colorFront: "rgba(236,117,15,1)",
       colorBack: "rgba(211,106,16,1)",
       screen: "HardLevels",
-      imageSource: require("./assets/LevelDifficultyImages/star-hard.png"),
+      imageSource: require("../assets/LevelDifficultyImages/star-hard.png"),
     },
     {
       level: "Themed",
       colorFront: "rgba(87,15,216,1)",
       colorBack: "rgba(67,15,162,1)",
       screen: "ThemedLevels",
-      imageSource: require("./assets/LevelDifficultyImages/star-themed.png"),
+      imageSource: require("../assets/LevelDifficultyImages/star-themed.png"),
     },
     // Do Wyjebania - narazie niech zostanie
     // {

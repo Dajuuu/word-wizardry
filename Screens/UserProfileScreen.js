@@ -16,15 +16,15 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
 } from "react-native";
-import CustomHeader from "./CustomHeader";
-import { checkUsernameInStorage, updateUsername } from "./UserNameManager";
-import BuyHintOverlay from "./BuyHintOverlay";
+import CustomHeader from "../CustomHeader";
+import { checkUsernameInStorage, updateUsername } from "../UserNameManager";
+import BuyHintOverlay from "../BuyHintOverlay";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { backgroundImagePaths } from "./BackgroundManager";
-import { loadHintCount, initializeHintCounts } from "./HintManager";
-import { setStoredBackgroundImage } from "./BackgroundManager";
+import { backgroundImagePaths } from "../BackgroundManager";
+import { loadHintCount, initializeHintCounts } from "../HintManager";
+import { setStoredBackgroundImage } from "../BackgroundManager";
 import { LinearGradient } from "expo-linear-gradient";
-import { useButtonClickSound } from "./SoundManager";
+import { useButtonClickSound } from "../SoundManager";
 import LoadingScreen from "./LoadingScreen";
 
 // Experimental layout animations for Android
@@ -262,7 +262,7 @@ const UserProfile = () => {
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image
-                        source={require("./assets/hint1-mag-glass.png")}
+                        source={require("../assets/hint1-mag-glass.png")}
                         style={styles.hintImage}
                       />
 
@@ -289,7 +289,7 @@ const UserProfile = () => {
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image
-                        source={require("./assets/hint2-bulb.png")}
+                        source={require("../assets/hint2-bulb.png")}
                         style={styles.hintImage}
                       />
 
@@ -316,7 +316,7 @@ const UserProfile = () => {
                     <View style={styles.rowDirectionContainer}>
                       {/* Render the icon */}
                       <Image
-                        source={require("./assets/hint3-dice.png")}
+                        source={require("../assets/hint3-dice.png")}
                         style={styles.hintImage}
                       />
 

@@ -30,7 +30,7 @@ const LoadingScreen = () => {
   return (
     // Display background image
     <ImageBackground
-      source={require("./assets/loadingImage.png")}
+      source={require("../assets/loadingImage.png")}
       style={styles.backgroundImage}
     >
       <View style={styles.container} testID="container">
