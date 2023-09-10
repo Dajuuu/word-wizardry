@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useButtonClickSound } from "./SoundManager";
+import { useButtonClickSound } from "../SoundManager";
 
 // Save the data from the Difficulty levels
 const LevelScreen = ({
