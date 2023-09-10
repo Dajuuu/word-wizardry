@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 import { loadCompletedLevels } from "../AsyncStorageUtils";
 import CustomHeader from "../CustomHeader";
-import LevelScreen from "./LevelScreen";
+import LevelScreen from "../Screens/LevelScreen";
 
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;

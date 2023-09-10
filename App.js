@@ -31,7 +31,7 @@ import HardLevelsScreen from "./Levels/HardLevels";
 import ThemedLevelsScreen from "./Levels/ThemedLevels";
 import TestingGamingScreen from "./TestingGamingScreen";
 import CrosswordApp from "./Screens/CrosswordScreen";
-import LevelScreen from "./Levels/LevelScreen";
+import LevelScreen from "./Screens/LevelScreen";
 import Achievements from "./Achievements";
 import UserProfile from "./Screens/UserProfileScreen";
 import Leaderboard from "./Screens/LeaderboardScreen";
