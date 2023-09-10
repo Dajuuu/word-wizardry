@@ -52,6 +52,11 @@ const UserProfile = () => {
 
   // Track whether the section is hidden or not
   const [isSectionHidden, setSectionHidden] = useState(false);
+
+  // Display a text when username was updated
+  const [usernameUpdateText, setUsernameUpdateText] = useState(false);
+  // Display a text when username user tried to input is empty
+  const [usernameEmptyText, setUsernameEmptyText] = useState(false);
   // Used for background change
   const [backgroundImageNumber, setBackgroundImageNumber] = useState(null);
   const handleImageSelect = async (newImageNumber) => {
@@ -140,9 +145,14 @@ const UserProfile = () => {
 
   // Function to update the username
   const handleUpdateUsername = async () => {
+    // Handle case where the input is empty or contains only whitespace
     if (newUsername.trim() === "") {
-      // Handle case where the input is empty or contains only whitespace
-      alert("Username cannot be empty!");
+      // Make sure the Empty text is visible
+      setUsernameEmptyText(true);
+      setTimeout(() => {
+        // Delay hiding of text components
+        setUsernameEmptyText(false);
+      }, 2500);
       return;
     }
 
@@ -155,8 +165,13 @@ const UserProfile = () => {
     // Clear the new username input field
     setNewUsername("");
 
-    // Display the alert after updating the username
-    // alert("Username updated!");
+    // Make sure the Update text is visible
+    setUsernameUpdateText(true);
+
+    // Delay hiding of text components
+    setTimeout(() => {
+      setUsernameUpdateText(false);
+    }, 2500);
   };
 
   // Overlay for hint 1
@@ -221,6 +236,14 @@ const UserProfile = () => {
               <View>
                 {/* The Text needs to be put inside empty View for smooth animation (iOS) */}
                 <Text style={styles.userInfoText}>Your Username</Text>
+                {usernameUpdateText && (
+                  <Text style={styles.userUpdateText}>Username Updated</Text>
+                )}
+                {usernameEmptyText && (
+                  <Text style={styles.userUpdateText}>
+                    Username cannot be empty
+                  </Text>
+                )}
               </View>
               <View style={styles.usernameInput}>
                 {/* Username TextInput */}
@@ -403,6 +426,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: "AppFontBold",
     marginBottom: 15,
+  },
+  userUpdateText: {
+    fontSize: 14,
+    fontFamily: "AppFont",
+    marginBottom: 10,
+    textAlign: "center",
   },
   input: {
     width: "80%",
