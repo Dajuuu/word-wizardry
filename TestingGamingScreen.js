@@ -101,7 +101,8 @@ const TestingGamingScreen = ({ navigation }) => {
   const deleteRecords = async (keys) => {
     try {
       await AsyncStorage.multiRemove(keys);
-      console.log("Records deleted successfully.");
+      // Left for testing purposes
+      // console.log("Records deleted successfully.");
     } catch (error) {
       console.error("Error deleting records:", error);
     }
@@ -112,7 +113,8 @@ const TestingGamingScreen = ({ navigation }) => {
       const keys = await AsyncStorage.getAllKeys(); // Get all keys in AsyncStorage
       const userInputKeys = keys.filter((key) => key.startsWith("userInput:")); // Filter keys that start with "userInput:"
       await AsyncStorage.multiRemove(userInputKeys); // Remove the keys and their corresponding values
-      console.log("All userInput fields deleted");
+      // Left for testing purposes
+      // console.log("All userInput fields deleted");
     } catch (error) {
       console.error("Error deleting userInput fields:", error);
     }

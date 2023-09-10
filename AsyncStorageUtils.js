@@ -34,7 +34,8 @@ export const clearInputData = async (level) => {
   try {
     const storageKey = `${STORAGE_KEY_PREFIX}${level}`;
     await AsyncStorage.removeItem(storageKey);
-    console.log(`Input data for level ${level} cleared successfully.`);
+    // Left for testing purposes
+    // console.log(`Input data for level ${level} cleared successfully.`);
   } catch (error) {
     console.error(`Failed to clear input data for level ${level}:`, error);
   }

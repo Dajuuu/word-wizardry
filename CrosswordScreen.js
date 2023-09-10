@@ -192,7 +192,8 @@ const CrosswordApp = ({ route }) => {
       );
       await AsyncStorage.setItem(userInputKey, JSON.stringify(userInput));
     } catch (error) {
-      console.log("Error saving user input:", error);
+      // Left for testing purposes
+      // console.log("Error saving user input:", error);
     }
   };
 
@@ -213,7 +214,8 @@ const CrosswordApp = ({ route }) => {
         setHiddenGrid(restoredHiddenGrid);
       }
     } catch (error) {
-      console.log("Error loading user input:", error);
+      // Left for testing purposes
+      // console.log("Error loading user input:", error);
     }
   };
 
@@ -223,7 +225,8 @@ const CrosswordApp = ({ route }) => {
       const userInputKey = `userInput:${route.params.levelName}`;
       await AsyncStorage.removeItem(userInputKey);
     } catch (error) {
-      console.log("Error deleting user input:", error);
+      // Left for testing purposes
+      // console.log("Error deleting user input:", error);
     }
   };
 
@@ -370,7 +373,8 @@ const CrosswordApp = ({ route }) => {
             nextInputRef && nextInputRef.focus();
           }
         } else {
-          console.log("Selected box is already correct. Clue not used.");
+          // Left for testing purposes
+          // console.log("Selected box is already correct. Clue not used.");
         }
       }
 
@@ -401,7 +405,8 @@ const CrosswordApp = ({ route }) => {
           // Update hint count
           setHintCount2(updatedClueCount);
         } else {
-          console.log("Selected row is already correct. Clue not used.");
+          // Left for testing purposes
+          // console.log("Selected row is already correct. Clue not used.");
         }
       }
 
@@ -460,7 +465,8 @@ const CrosswordApp = ({ route }) => {
           // Update hint count
           setHintCount3(updatedClueCount);
         } else {
-          console.log("Not enough available positions to reveal letters.");
+          // Left for testing purposes
+          // console.log("Not enough available positions to reveal letters.");
         }
       }
 

@@ -79,11 +79,12 @@ export const initializeHintCounts = async () => {
 
       await AsyncStorage.multiSet(missingHintCountPairs);
 
-      console.log(
-        `Initialized missing clue counts with the base number of uses: ${BASE_HINT_USES}`
-      );
+      // Left for testing purposes
+      // console.log(
+      //   `Initialized missing clue counts with the base number of uses: ${BASE_HINT_USES}`
+      // );
     } else {
-      // Left in case of testing
+      // Left for testing purposes
       // console.log("All clue counts are already initialized.");
     }
   } catch (error) {

@@ -119,7 +119,6 @@ export const VibrationSettingProvider = ({ children }) => {
   // Function that allows to change the state of vibrations (turn on/off)
   const toggleVibrationSetting = async (newValue) => {
     setVibrationEnabled(newValue);
-    console.log("vibration " + newValue);
     try {
       await AsyncStorage.setItem("vibrationSetting", newValue.toString());
     } catch (error) {

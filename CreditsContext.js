@@ -21,7 +21,8 @@ const CreditsProvider = ({ children }) => {
         setCredits(parseInt(storedCredits));
       }
     } catch (error) {
-      console.log("Error loading credits from AsyncStorage:", error);
+      // Left for testing purposes
+      // console.log("Error loading credits from AsyncStorage:", error);
     }
   };
 
@@ -30,7 +31,8 @@ const CreditsProvider = ({ children }) => {
     try {
       await AsyncStorage.setItem("credits", value.toString());
     } catch (error) {
-      console.log("Error saving credits to AsyncStorage:", error);
+      // Left for testing purposes
+      // console.log("Error saving credits to AsyncStorage:", error);
     }
   };
 
