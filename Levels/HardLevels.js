@@ -34,7 +34,6 @@ const HardLevelsScreen = ({ navigation }) => {
   const levels = [
     {
       levelName: "H1",
-      color: HardLevelsColorBackground,
       levelPoints: 31,
       hintCount1Increase: 2,
       hintCount2Increase: 0,
@@ -58,7 +57,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "H2",
-      color: HardLevelsColorBackground,
       levelPoints: 33,
       hintCount1Increase: 2,
       hintCount2Increase: 1,
@@ -82,7 +80,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "H3",
-      color: HardLevelsColorBackground,
       levelPoints: 30,
       hintCount1Increase: 4,
       hintCount2Increase: 0,
@@ -106,7 +103,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "H4",
-      color: HardLevelsColorBackground,
       levelPoints: 34,
       hintCount1Increase: 0,
       hintCount2Increase: 0,
@@ -130,7 +126,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "H5",
-      color: HardLevelsColorBackground,
       levelPoints: 29,
       hintCount1Increase: 0,
       hintCount2Increase: 2,
@@ -143,7 +138,6 @@ const HardLevelsScreen = ({ navigation }) => {
         ["P", "H", "O", "T", "O", "S", "H", "O", "P"],
         ["M", "I", "C", "R", "O", "P", "H", "O", "N", "E"],
       ],
-
       ROW_CLUES: [
         "1. Brisk and cheerful readiness or eagerness.",
         "2. A departure from what is normal or expected.",
@@ -154,7 +148,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "H6",
-      color: HardLevelsColorBackground,
       levelPoints: 30,
       hintCount1Increase: 2,
       hintCount2Increase: 1,
@@ -168,7 +161,6 @@ const HardLevelsScreen = ({ navigation }) => {
         ["M", "E", "R", "C", "E", "D", "E", "S"],
         ["D", "E", "O", "D", "O", "R", "A", "N", "T"],
       ],
-
       ROW_CLUES: [
         "1. A spicy chili pepper often used in Mexican cuisine.",
         "2. A departure from what is normal or expected.",
@@ -180,7 +172,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "H7",
-      color: HardLevelsColorBackground,
       levelPoints: 33,
       hintCount1Increase: 1,
       hintCount2Increase: 1,
@@ -193,7 +184,6 @@ const HardLevelsScreen = ({ navigation }) => {
         ["O", "Z", "O", "N", "I", "U", "M"],
         ["W", "H", "A", "C", "K", "E", "D"],
       ],
-
       ROW_CLUES: [
         "1. A chemical group consisting of hydrogen and oxygen atoms.",
         "2. Relating to vocabulary or words, often used in linguistic contexts.",
@@ -204,7 +194,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "H8",
-      color: HardLevelsColorBackground,
       levelPoints: 35,
       hintCount1Increase: 3,
       hintCount2Increase: 1,
@@ -217,7 +206,6 @@ const HardLevelsScreen = ({ navigation }) => {
         ["A", "S", "S", "A", "S", "I", "N"],
         ["B", "A", "S", "T", "E", "T"],
       ],
-
       ROW_CLUES: [
         "1. Mythical musician and poet in Greek mythology known for his journey to the underworld to rescue his beloved Eurydice.",
         "2. An automotive device used to reduce noise from an engine's exhaust.",
@@ -228,7 +216,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "H9",
-      color: HardLevelsColorBackground,
       levelPoints: 32,
       hintCount1Increase: 3,
       hintCount2Increase: 1,
@@ -241,7 +228,6 @@ const HardLevelsScreen = ({ navigation }) => {
         ["P", "H", "O", "T", "O", "V", "O", "L", "T", "A", "I", "C", "S"],
         ["P", "Y", "R", "A", "M", "I", "D", "S"],
       ],
-
       ROW_CLUES: [
         "1. Having an aggressive or warlike attitude.",
         "2. Famous German Formula 1 racing driver.",
@@ -252,7 +238,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "H10",
-      color: HardLevelsColorBackground,
       levelPoints: 33,
       hintCount1Increase: 2,
       hintCount2Increase: 2,
@@ -266,7 +251,6 @@ const HardLevelsScreen = ({ navigation }) => {
         ["W", "H", "I", "S", "K", "E", "Y"],
         ["B", "O", "R", "D", "E", "R", "L", "A", "N", "D", "S"],
       ],
-
       ROW_CLUES: [
         "1. The design, development, and operation of aircraft and related technology.",
         "2. A five-sided geometric shape, or the headquarters of the United States Department of Defense",

@@ -34,7 +34,6 @@ const MediumLevelsScreen = ({ navigation }) => {
   const levels = [
     {
       levelName: "M1",
-      color: MediumLevelsColorBackground,
       levelPoints: 17,
       hintCount1Increase: 2,
       hintCount2Increase: 0,
@@ -58,7 +57,6 @@ const MediumLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "M2",
-      color: MediumLevelsColorBackground,
       levelPoints: 16,
       hintCount1Increase: 1,
       hintCount2Increase: 1,
@@ -84,7 +82,6 @@ const MediumLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "M3",
-      color: MediumLevelsColorBackground,
       levelPoints: 14,
       hintCount1Increase: 3,
       hintCount2Increase: 0,
@@ -98,7 +95,6 @@ const MediumLevelsScreen = ({ navigation }) => {
         ["R", "A", "D", "I", "S", "H"],
         ["M", "A", "T", "C", "H", "E", "S"],
       ],
-
       ROW_CLUES: [
         "1. Artistic creation on canvas.",
         "2. Eyewear for vision correction.",
@@ -110,7 +106,6 @@ const MediumLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "M4",
-      color: MediumLevelsColorBackground,
       levelPoints: 18,
       hintCount1Increase: 2,
       hintCount2Increase: 0,
@@ -124,7 +119,6 @@ const MediumLevelsScreen = ({ navigation }) => {
         ["C", "H", "O", "P", "S", "T", "I", "C", "K", "S"],
         ["S", "T", "E", "P", "H", "E", "N"],
       ],
-
       ROW_CLUES: [
         "1. Eating utensils like knives, forks, and spoons.",
         "2. Pungent and aromatic bulb used in cooking.",
@@ -136,7 +130,6 @@ const MediumLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "M5",
-      color: MediumLevelsColorBackground,
       levelPoints: 20,
       hintCount1Increase: 2,
       hintCount2Increase: 2,
@@ -151,7 +144,6 @@ const MediumLevelsScreen = ({ navigation }) => {
         ["S", "H", "E", "L", "L"],
         ["B", "I", "R", "C", "H"],
       ],
-
       ROW_CLUES: [
         "1. Peaky ... - British crime drama TV series, starring Cillian Murphy.",
         "2. Visible collections of water droplets or ice crystals in the sky.",
@@ -164,7 +156,6 @@ const MediumLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "M6",
-      color: MediumLevelsColorBackground,
       levelPoints: 20,
       hintCount1Increase: 2,
       hintCount2Increase: 2,
@@ -179,7 +170,6 @@ const MediumLevelsScreen = ({ navigation }) => {
         ["S", "N", "O", "O", "P"],
         ["C", "R", "E", "A", "T", "I", "N", "E"],
       ],
-
       ROW_CLUES: [
         "1. South Korean multinational electronics company. Popular for the Galaxy series.",
         "2. Tool for organizing dates and events.",
@@ -192,7 +182,6 @@ const MediumLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "M7",
-      color: MediumLevelsColorBackground,
       levelPoints: 18,
       hintCount1Increase: 2,
       hintCount2Increase: 1,
@@ -207,7 +196,6 @@ const MediumLevelsScreen = ({ navigation }) => {
         ["T", "H", "R", "O", "N", "E", "S"],
         ["K", "E", "T", "T", "L", "E"],
       ],
-
       ROW_CLUES: [
         "1. Strong drugs used for pain relief or recreation.",
         "2. Tanned animal skin used for various products.",
@@ -220,7 +208,6 @@ const MediumLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "M8",
-      color: MediumLevelsColorBackground,
       levelPoints: 21,
       hintCount1Increase: 0,
       hintCount2Increase: 1,
@@ -234,7 +221,6 @@ const MediumLevelsScreen = ({ navigation }) => {
         ["S", "Y", "N", "D", "I", "C", "A", "T", "E"],
         ["B", "A", "C", "K", "P", "A", "C", "K"],
       ],
-
       ROW_CLUES: [
         "1. Essential nutrient for building and repairing tissues in the body.",
         "2. The study of the Earth's physical features, climate, and human populations.",
@@ -246,7 +232,6 @@ const MediumLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "M9",
-      color: MediumLevelsColorBackground,
       levelPoints: 19,
       hintCount1Increase: 1,
       hintCount2Increase: 1,
@@ -260,7 +245,6 @@ const MediumLevelsScreen = ({ navigation }) => {
         ["G", "L", "Y", "P", "H"],
         ["G", "O", "O", "S", "E", "B", "U", "M", "P"],
       ],
-
       ROW_CLUES: [
         "1. Handheld cutting tools, often used for trimming hair or nails.",
         "2. Fantasy book series by Andrzej Sapkowski, featuring the character Geralt of Rivia.",
@@ -272,7 +256,6 @@ const MediumLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "M10",
-      color: MediumLevelsColorBackground,
       levelPoints: 23,
       hintCount1Increase: 2,
       hintCount2Increase: 2,
@@ -287,7 +270,6 @@ const MediumLevelsScreen = ({ navigation }) => {
         ["J", "A", "C", "U", "Z", "Z", "I"],
         ["K", "R", "A", "K", "O", "W"],
       ],
-
       ROW_CLUES: [
         "1. Light rain characterized by fine, misty drops.",
         "2. A regular and repeated pattern of beats or movements in music or dance.",

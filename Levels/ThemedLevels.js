@@ -34,7 +34,6 @@ const HardLevelsScreen = ({ navigation }) => {
   const levels = [
     {
       levelName: "T1 \nAnimals",
-      color: ThemedLevelsColorBackground,
       levelPoints: 25,
       hintCount1Increase: 1,
       hintCount2Increase: 0,
@@ -62,10 +61,8 @@ const HardLevelsScreen = ({ navigation }) => {
         "8. Small, bushy-tailed rodent known for hoarding nuts.",
       ],
     },
-
     {
       levelName: "T2 \nPlants",
-      color: ThemedLevelsColorBackground,
       levelPoints: 30,
       hintCount1Increase: 1,
       hintCount2Increase: 1,
@@ -81,7 +78,6 @@ const HardLevelsScreen = ({ navigation }) => {
         ["D", "A", "N", "D", "E", "L", "I", "O", "N"],
         ["F", "E", "R", "N"],
       ],
-
       ROW_CLUES: [
         "1. Fragrant flower known for its beauty.",
         "2. Colorful, cup-shaped springtime flower.",
@@ -95,7 +91,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "T3 \nVideo Games",
-      color: ThemedLevelsColorBackground,
       levelPoints: 20,
       hintCount1Increase: 0,
       hintCount2Increase: 0,
@@ -126,7 +121,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "T4 \nSport",
-      color: ThemedLevelsColorBackground,
       levelPoints: 25,
       hintCount1Increase: 1,
       hintCount2Increase: 0,
@@ -157,7 +151,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "T5 \nCharacters",
-      color: ThemedLevelsColorBackground,
       levelPoints: 25,
       hintCount1Increase: 1,
       hintCount2Increase: 1,
@@ -188,10 +181,8 @@ const HardLevelsScreen = ({ navigation }) => {
         "10. Cowboy doll.",
       ],
     },
-
     {
       levelName: "T6 \nCars",
-      color: ThemedLevelsColorBackground,
       levelPoints: 30,
       hintCount1Increase: 1,
       hintCount2Increase: 1,
@@ -224,7 +215,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "T7 \nMarvel",
-      color: ThemedLevelsColorBackground,
       levelPoints: 25,
       hintCount1Increase: 0,
       hintCount2Increase: 0,
@@ -255,7 +245,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "T8 \nMusic",
-      color: ThemedLevelsColorBackground,
       levelPoints: 30,
       hintCount1Increase: 0,
       hintCount2Increase: 1,
@@ -284,7 +273,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "T9 \nMovies",
-      color: ThemedLevelsColorBackground,
       levelPoints: 25,
       hintCount1Increase: 1,
       hintCount2Increase: 1,
@@ -317,7 +305,6 @@ const HardLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "T10 \nTechnology",
-      color: ThemedLevelsColorBackground,
       levelPoints: 30,
       hintCount1Increase: 3,
       hintCount2Increase: 0,

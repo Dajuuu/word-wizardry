@@ -34,7 +34,6 @@ const EasyLevelsScreen = ({ navigation }) => {
   const levels = [
     {
       levelName: "E1",
-      color: EasyLevelsColorBackground,
       levelPoints: 8,
       hintCount1Increase: 1,
       hintCount2Increase: 0,
@@ -57,7 +56,6 @@ const EasyLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "E2",
-      color: EasyLevelsColorBackground,
       levelPoints: 6,
       hintCount1Increase: 0,
       hintCount2Increase: 1,
@@ -81,7 +79,6 @@ const EasyLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "E3",
-      color: EasyLevelsColorBackground,
       levelPoints: 10,
       hintCount1Increase: 0,
       hintCount2Increase: 1,
@@ -105,7 +102,6 @@ const EasyLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "E4",
-      color: EasyLevelsColorBackground,
       levelPoints: 8,
       hintCount1Increase: 2,
       hintCount2Increase: 0,
@@ -129,7 +125,6 @@ const EasyLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "E5",
-      color: EasyLevelsColorBackground,
       levelPoints: 12,
       hintCount1Increase: 1,
       hintCount2Increase: 0,
@@ -155,7 +150,6 @@ const EasyLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "E6",
-      color: EasyLevelsColorBackground,
       levelPoints: 7,
       hintCount1Increase: 0,
       hintCount2Increase: 0,
@@ -179,7 +173,6 @@ const EasyLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "E7",
-      color: EasyLevelsColorBackground,
       levelPoints: 8,
       hintCount1Increase: 0,
       hintCount2Increase: 0,
@@ -205,7 +198,6 @@ const EasyLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "E8",
-      color: EasyLevelsColorBackground,
       levelPoints: 11,
       hintCount1Increase: 1,
       hintCount2Increase: 0,
@@ -219,7 +211,6 @@ const EasyLevelsScreen = ({ navigation }) => {
         ["N", "O", "T", "E", "P", "A", "D"],
         ["F", "R", "O", "G"],
       ],
-
       ROW_CLUES: [
         "1. Planet inhabited by humans.",
         "2. Scoring units in a game.",
@@ -231,7 +222,6 @@ const EasyLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "E9",
-      color: EasyLevelsColorBackground,
       levelPoints: 10,
       hintCount1Increase: 0,
       hintCount2Increase: 2,
@@ -245,7 +235,6 @@ const EasyLevelsScreen = ({ navigation }) => {
         ["P", "O", "R", "K"],
         ["S", "E", "T", "S", "Q", "U", "A", "R", "E"],
       ],
-
       ROW_CLUES: [
         "1. Pleasant aroma.",
         "2. ... Douglas. Hollywood actor and producer.",
@@ -257,7 +246,6 @@ const EasyLevelsScreen = ({ navigation }) => {
     },
     {
       levelName: "E10",
-      color: EasyLevelsColorBackground,
       levelPoints: 14,
       hintCount1Increase: 1,
       hintCount2Increase: 1,
@@ -273,7 +261,6 @@ const EasyLevelsScreen = ({ navigation }) => {
         ["R", "E", "M", "O", "T", "E"],
         ["P", "L", "A", "T", "E"],
       ],
-
       ROW_CLUES: [
         "1. Fluid used for writing or printing.",
         "2. Wrapped collection of items.",

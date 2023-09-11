@@ -71,8 +71,11 @@ export const useBackgroundSound = () => {
 
 // Button click sound
 export const useButtonClickSound = () => {
+  // Check if the sound was loaded
   const [soundLoaded, setSoundLoaded] = useState(false);
+  // Track the state of the sound object (mounts/unmounts)
   const [soundObjectBtnClick, setSoundObjectBtnClick] = useState(null);
+  // Track sound loading
   const [loadingSound, setLoadingSound] = useState(false);
 
   const loadSound = async () => {
@@ -135,8 +138,11 @@ export const useButtonClickSound = () => {
 
 // Completed level Sound
 export const useLevelCompletedSound = () => {
+  // Check if the sound was loaded
   const [soundLoaded, setSoundLoaded] = useState(false);
+  // Track the state of the sound object (mounts/unmounts)
   const [soundObjectLvlCompleted, setSoundObjectLvlCompleted] = useState(null);
+  // Track sound loading
   const [loadingSound, setLoadingSound] = useState(false);
 
   const loadSound = async () => {
