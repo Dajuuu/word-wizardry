@@ -41,6 +41,7 @@ const LoadingScreen = () => {
           color="white"
           size="large"
           testID="loading-indicator"
+          // Written with a help of ChatGPT
           style={{
             transform: [{ scaleX: 2 }, { scaleY: 2 }],
             marginTop: windowWidth * 0.2,

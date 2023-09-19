@@ -19,6 +19,7 @@ export const useMusicSetting = () => useContext(MusicSettingContext);
 export const useVibrationSetting = () => useContext(VibrationSettingContext);
 
 // Context provider components
+// Written with a help of ChatGPT
 export const SoundSettingProvider = ({ children }) => {
   // In what state should the sound start - true, the sound is on
   const [soundEnabled, setSoundEnabled] = useState(false);

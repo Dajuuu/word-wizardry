@@ -7,6 +7,7 @@ export const HINT_COUNT_STORAGE_KEY_PREFIX = "hintCount_";
 export const BASE_HINT_USES = 3;
 
 // Load saved number of hints for all hint types
+// Written with a help of ChatGPT
 export const loadHintCount = async (hintIndex) => {
   try {
     const hintCountKey = `${HINT_COUNT_STORAGE_KEY_PREFIX}${hintIndex}`;
@@ -51,6 +52,7 @@ export const incrementHintCount = async (hintIndex, increaseAmount) => {
 };
 
 // Initialize clue counts
+// Written with a help of ChatGPT
 export const initializeHintCounts = async () => {
   try {
     const hintCountKeys = [

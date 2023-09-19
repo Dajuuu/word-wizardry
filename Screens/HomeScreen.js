@@ -126,6 +126,7 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   // Crown animation for the points box
+  // Written with a help of ChatGPT
   const startCrownIconColorAnimation = () => {
     Animated.loop(
       Animated.timing(crownIconColorAnimation, {
@@ -195,6 +196,7 @@ const HomeScreen = ({ navigation }) => {
           }}
         >
           {/* Animate the background for the crown icon */}
+          {/* Written with a help of ChatGPT */}
           <Animated.View
             style={[
               styles.buttonLeaderBoard,
@@ -216,6 +218,7 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.scoreTextValue}>{points}</Text>
         </TouchableOpacity>
         {/* Animate the play button */}
+        {/* Written with a help of ChatGPT */}
         <Animated.View>
           <TouchableOpacity
             onPress={() => {

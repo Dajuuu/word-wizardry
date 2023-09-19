@@ -52,6 +52,7 @@ const Leaderboard = () => {
   useEffect(() => {
     initializeUserData();
     // Set up a Firebase listener to fetch user data
+    // Written with a help of ChatGPT
     const usersRef = ref(db, "users");
     onValue(usersRef, (snapshot) => {
       if (snapshot.exists()) {
@@ -83,6 +84,7 @@ const Leaderboard = () => {
         <Text style={styles.usernameBox}>Username</Text>
         <Text style={styles.pointsBox}>Points</Text>
       </View>
+      {/* Written with a help of ChatGPT */}
       <FlatList
         // Hide the scrollbars
         showsVerticalScrollIndicator={false}

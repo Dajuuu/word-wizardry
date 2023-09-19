@@ -15,6 +15,7 @@ import {
 } from "./SoundSettingContext";
 import { PointsProvider } from "./PointsContext";
 import { CreditsProvider } from "./CreditsContext";
+
 // Username
 import { initializeUsername } from "./UserNameManager";
 
@@ -80,6 +81,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   // Cache all images on app startup
+  // Written with a help of ChatGPT
   const cacheImages = async (paths) => {
     await Promise.all(
       paths.map(async (path) => {

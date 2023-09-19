@@ -3,8 +3,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getDatabase, ref, set } from "firebase/database";
 import { FIREBASE_APP } from "./firebaseConfig";
 
+// https://react.dev/reference/react/createContext
 const PointsContext = createContext();
 
+// Written with a help of ChatGPT
 const PointsProvider = ({ children }) => {
   // Initalise the number of points
   const [points, setPoints] = useState(0);

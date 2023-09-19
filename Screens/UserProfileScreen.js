@@ -146,6 +146,7 @@ const UserProfile = () => {
   }, []);
 
   // Function to update the username
+  // Written with a help of ChatGPT
   const handleUpdateUsername = async () => {
     // Handle case where the input is empty or contains only whitespace
     if (newUsername.trim() === "") {

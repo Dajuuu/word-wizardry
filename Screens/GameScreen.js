@@ -65,6 +65,7 @@ const GameScreen = ({ navigation }) => {
       <ScrollView
         style={{ width: "100%" }}
         // Hiding the scrollbars
+        // https://reactnative.dev/docs/scrollview#showshorizontalscrollindicator
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >

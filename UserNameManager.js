@@ -4,6 +4,7 @@ import { FIREBASE_APP } from "./firebaseConfig";
 
 // Function that generates random inital username
 // The username is in this form: User_xxxxxxxx, where x'es are randomly generated numbers and letters
+// Written with a help of ChatGPT
 export const generateRandomUsername = (length) => {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -16,6 +17,7 @@ export const generateRandomUsername = (length) => {
 };
 
 // Check whether the username is declared
+// Written with a help of ChatGPT
 export const checkUsernameInStorage = async () => {
   try {
     const db = getDatabase(FIREBASE_APP);

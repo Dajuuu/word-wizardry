@@ -36,6 +36,7 @@ const Achievements = () => {
   );
 
   // Color pulsating animation
+  // Written with a help of ChatGPT
   const startColorPulsatingAnimation = (duration) => {
     Animated.loop(
       Animated.timing(colorPulsatingAnimation, {
@@ -248,6 +249,7 @@ const Achievements = () => {
   };
 
   // Progress bar
+  // Written with a help of ChatGPT
   const progress =
     (unlockedAchievementIndexes.length / achievementsList.length) * 100;
 
@@ -256,6 +258,7 @@ const Achievements = () => {
       {/* No title here */}
       <CustomHeader title="" />
       {/* Box with progress bar at the top of the page */}
+      {/*  Written with a help of ChatGPT */}
       <View style={styles.background}>
         <View style={styles.achivTitle}>
           <Text style={styles.achivTitleText}>Your Achievements</Text>

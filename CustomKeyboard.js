@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 const windowHeight = Dimensions.get("window").height;
 
 // Determine the layout of the buttons for the keyboard
+// Written with a help of ChatGPT
 const CustomKeyboard = ({ onKeyPress }) => {
   const keyboardData = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],

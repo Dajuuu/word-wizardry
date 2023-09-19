@@ -8,6 +8,7 @@ const soundLevelCompleted = "./assets/sounds/levelCompleted.mp3";
 const backgroundMusic = "./assets/sounds/backgroundMusic.mp3";
 
 // Background sound
+// Written with a help of ChatGPT
 export const useBackgroundSound = () => {
   const { musicEnabled } = useMusicSetting();
   // Check if the sound was loaded
@@ -70,6 +71,7 @@ export const useBackgroundSound = () => {
 };
 
 // Button click sound
+// Written with a help of ChatGPT
 export const useButtonClickSound = () => {
   // Check if the sound was loaded
   const [soundLoaded, setSoundLoaded] = useState(false);
@@ -137,6 +139,7 @@ export const useButtonClickSound = () => {
 };
 
 // Completed level Sound
+// Written with a help of ChatGPT
 export const useLevelCompletedSound = () => {
   // Check if the sound was loaded
   const [soundLoaded, setSoundLoaded] = useState(false);

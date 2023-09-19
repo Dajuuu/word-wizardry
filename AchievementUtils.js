@@ -3,6 +3,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Functions to fetch completed levels for a specific difficulty (depending on what letter it starts with)
 // and return the count of those levels
 // ---***---
+// Written with a help of ChatGPT and AsyncStorage documentation
+// https://reactnative.dev/docs/asyncstorage
 // Easy levels
 export async function fetchCompletedEasyLevels() {
   try {

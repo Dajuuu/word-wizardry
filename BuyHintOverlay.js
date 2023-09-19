@@ -77,6 +77,7 @@ const BuyHintOverlay = ({
               onClose();
             }}
           >
+            {/* Written with a help of ChatGPT */}
             <LinearGradient
               colors={["rgb(255, 67, 67)", "rgb(204, 53, 53)"]}
               style={styles.closeButtonGradient}

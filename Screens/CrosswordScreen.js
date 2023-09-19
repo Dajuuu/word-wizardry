@@ -185,6 +185,7 @@ const CrosswordApp = ({ route }) => {
   };
 
   // Save the user input to AsyncStorage
+  // Written with a help of ChatGPT
   const saveUserInput = async () => {
     try {
       const userInputKey = `userInput:${route.params.levelName}`;
@@ -199,6 +200,7 @@ const CrosswordApp = ({ route }) => {
   };
 
   // Load the user input from AsyncStorage
+  // Written with a help of ChatGPT
   const loadUserInput = async () => {
     try {
       const userInputKey = `userInput:${route.params.levelName}`;
@@ -247,6 +249,7 @@ const CrosswordApp = ({ route }) => {
 
     // Use the scrollTo method to scroll to the new position
     // When input letter, scroll to the right
+    // https://reactnative.dev/docs/scrollview#scrollto
     if (shouldScrollToTheRight) {
       horizontalScrollViewRef.current.scrollTo({ x: scrollX, animated: true });
       // When using backspace, scroll to the left
@@ -256,6 +259,7 @@ const CrosswordApp = ({ route }) => {
   };
 
   // Fill boxes behaviour
+  // Written with a help of ChatGPT
   const handleBoxInput = (text, rowIndex, columnIndex) => {
     // Convert input letters to uppercase
     const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
@@ -299,6 +303,7 @@ const CrosswordApp = ({ route }) => {
   };
 
   // Function to deal with button presses - more specific, the keyboard
+  // Written with a help of ChatGPT
   const handleKeyPress = (key) => {
     if (selectedBox) {
       const { rowIndex, columnIndex } = selectedBox;
@@ -343,6 +348,7 @@ const CrosswordApp = ({ route }) => {
   };
 
   // Hint system
+  // Written with a help of ChatGPT
   const handleHintPress = async (index) => {
     // Retrieve hint count for the given index
     const hintCount = await loadHintCount(index);
@@ -580,6 +586,7 @@ const CrosswordApp = ({ route }) => {
   }, [levelCompleted]);
 
   // Animation to show the points gradually increasing
+  // Written with a help of ChatGPT
   useEffect(() => {
     let interval;
 
@@ -608,6 +615,7 @@ const CrosswordApp = ({ route }) => {
   }, [levelCompleted]);
 
   // Used for opacity animation, for the "Total points" text
+  // https://reactnative.dev/docs/animated#timing
   useEffect(() => {
     const sequenceAnimation = Animated.sequence([
       Animated.timing(opacityValue, {
@@ -725,6 +733,8 @@ const CrosswordApp = ({ route }) => {
               title={levelName} // import the level name to the header
             />
             {/* Grid */}
+            {/* https://reactnative.dev/docs/scrollview#showshorizontalscrollindicator */}
+            {/* https://reactnative.dev/docs/scrollview#contentcontainerstyle */}
             <ScrollView
               horizontal
               ref={horizontalScrollViewRef}
@@ -774,6 +784,7 @@ const CrosswordApp = ({ route }) => {
                             }
                           >
                             {/* Make sure that user can input only one letter for each box */}
+                            {/* Written with a help of ChatGPT */}
                             {isBoxSelected ? (
                               <TextInput
                                 style={styles.boxText}
@@ -939,6 +950,7 @@ const CrosswordApp = ({ route }) => {
                       </Text>
                     </View>
                     {/* Rewards section */}
+                    {/* Written with a help of ChatGPT */}
                     <Text style={styles.rewardsTitleText}>Rewards</Text>
                     <View style={styles.rowDirectionContainer}>
                       {/* Animation for the credits */}

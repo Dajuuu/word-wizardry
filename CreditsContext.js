@@ -1,6 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// https://react.dev/reference/react/createContext
+// https://reactnative.dev/docs/asyncstorage
 const CreditsContext = createContext();
 
 const CreditsProvider = ({ children }) => {
