@@ -164,6 +164,7 @@ const CrosswordApp = ({ route }) => {
   }, []);
 
   // Update the background image
+  // https://reactnavigation.org/docs/use-focus-effect/
   useFocusEffect(
     React.useCallback(() => {
       // Load the background image number when the screen gains focus
@@ -297,7 +298,7 @@ const CrosswordApp = ({ route }) => {
     }
   };
 
-  // Function to deal with button presses - more specific the keyboard
+  // Function to deal with button presses - more specific, the keyboard
   const handleKeyPress = (key) => {
     if (selectedBox) {
       const { rowIndex, columnIndex } = selectedBox;

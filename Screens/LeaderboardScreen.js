@@ -84,6 +84,9 @@ const Leaderboard = () => {
         <Text style={styles.pointsBox}>Points</Text>
       </View>
       <FlatList
+        // Hide the scrollbars
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
         // Display only first 10 records
         data={usersData.slice(0, 10)}
         keyExtractor={(item) => item.userId}

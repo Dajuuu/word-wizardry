@@ -97,6 +97,7 @@ const UserProfile = () => {
   const handleUsernameChange = (text) => {
     // This is very important, as this line replaces any illegal characters.
     // Therefore the user will not be able to use those for new username
+    // https://stackoverflow.com/questions/1162529/javascript-replace-regex
     text = text.replace(/[!€@#$%^&*(),.?":{}|<>]/g, "");
     setNewUsername(text);
   };
@@ -116,6 +117,7 @@ const UserProfile = () => {
   }, []);
 
   useEffect(() => {
+    // https://reactnative.dev/docs/keyboard
     // Add a listener for when the keyboard is shown
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
