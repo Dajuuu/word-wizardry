@@ -21,6 +21,7 @@ import {
 } from "../BackgroundManager";
 
 // Get the height of the device
+// https://reactnative.dev/docs/dimensions
 const windowHeight = Dimensions.get("window").height;
 
 const HomeScreen = ({ navigation }) => {
@@ -46,9 +47,10 @@ const HomeScreen = ({ navigation }) => {
   // Change the position of the playButton depending on the windowHeight
   let playButtonPosition = windowHeight / 2.5;
 
+  // Load the background image number when the screen gains focus
+  // https://reactnavigation.org/docs/use-focus-effect/
   useFocusEffect(
     React.useCallback(() => {
-      // Load the background image number when the screen gains focus
       getBackgroundImage().then((imageNumber) => {
         const selectedImage = backgroundImagePaths[imageNumber];
         setBackgroundImageSource(selectedImage);
@@ -83,7 +85,7 @@ const HomeScreen = ({ navigation }) => {
   // It consist of two animations
   //  1. Firstly the buttons slides from the left side of the screen
   //  2. Secondly, the button "pulsates" repeatedly
-
+  // Written with a help of ChatGPT - start
   const [animation] = useState(new Animated.Value(-400)); // Initial position outside the screen
   const [scaleAnimation] = useState(new Animated.Value(1));
 
@@ -124,9 +126,10 @@ const HomeScreen = ({ navigation }) => {
       scaleAnimationLoop.stop(); // Stop the scale animation loop when component unmounts
     };
   }, []);
+  // Written with a help of ChatGPT - end
 
   // Crown animation for the points box
-  // Written with a help of ChatGPT
+  // https://reactnative.dev/docs/animated
   const startCrownIconColorAnimation = () => {
     Animated.loop(
       Animated.timing(crownIconColorAnimation, {
@@ -196,7 +199,7 @@ const HomeScreen = ({ navigation }) => {
           }}
         >
           {/* Animate the background for the crown icon */}
-          {/* Written with a help of ChatGPT */}
+          {/* Written with a help of ChatGPT - start */}
           <Animated.View
             style={[
               styles.buttonLeaderBoard,
@@ -218,7 +221,6 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.scoreTextValue}>{points}</Text>
         </TouchableOpacity>
         {/* Animate the play button */}
-        {/* Written with a help of ChatGPT */}
         <Animated.View>
           <TouchableOpacity
             onPress={() => {
@@ -247,6 +249,7 @@ const HomeScreen = ({ navigation }) => {
             </LinearGradient>
           </TouchableOpacity>
         </Animated.View>
+        {/* Written with a help of ChatGPT - end */}
       </View>
     </ImageBackground>
   );

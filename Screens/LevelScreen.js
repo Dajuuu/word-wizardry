@@ -19,9 +19,12 @@ const LevelScreen = ({
   creditsIncrease,
   navigation,
 }) => {
+  // Written with a help of ChatGPT - start
   const isCompleted = completedLevels.includes(levelName);
   const backgroundColor = isCompleted ? completedColor : color;
   const borderColor = isCompleted ? completedOutlineColor : outlineColor;
+  // Written with a help of ChatGPT - end
+
   // Import function that plays the sound
   const { handleButtonSoundPlay } = useButtonClickSound();
 

@@ -5,6 +5,7 @@ import CustomHeader from "../CustomHeader";
 import LevelScreen from "../Screens/LevelScreen";
 
 // Get the height of the device
+// https://reactnative.dev/docs/dimensions
 const windowHeight = Dimensions.get("window").height;
 
 const MediumLevelsScreen = ({ navigation }) => {
@@ -31,6 +32,7 @@ const MediumLevelsScreen = ({ navigation }) => {
   // * levelName, levelPoints,
   // * color, hintCount1Increase, hintCount2Increase, hintCount3Increase,
   // * creditsIncrease, GRID_DATA, ROW_CLUES
+  // Clues were written with a help of ChatGPT
   const levels = [
     {
       levelName: "M1",

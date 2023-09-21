@@ -43,6 +43,7 @@ import {
 } from "../BackgroundManager";
 
 // Get the height of the device
+// https://reactnative.dev/docs/dimensions
 const windowHeight = Dimensions.get("window").height;
 
 const CrosswordApp = ({ route }) => {
@@ -56,7 +57,7 @@ const CrosswordApp = ({ route }) => {
       setLoading(false);
     }, 2000);
 
-    return () => clearTimeout(timer); // Clear the timer if the component unmounts
+    return () => clearTimeout(timer); // Clear the timer if the component mounts
   }, []);
 
   // Load the background image for the crossword
@@ -97,9 +98,11 @@ const CrosswordApp = ({ route }) => {
   // Hidden grid is a grid with all correct letters that is hidden from the user.
   // This is needed to compare the user's letters with the grid's, and this way determining if
   // the user's input is correct or not
+  // Written with a help of ChatGPT - start
   const [hiddenGrid, setHiddenGrid] = useState(() =>
     GRID_DATA.map((row) => row.map(() => ""))
   );
+  // Written with a help of ChatGPT - end
   // Determine whether the vibrations are enabled
   const { vibrationEnabled } = useVibrationSetting();
   // Import functions that plays the sound
@@ -143,6 +146,7 @@ const CrosswordApp = ({ route }) => {
   const creditsCostHint3 = 30;
 
   // All those hooks and variables are used for the level completed overlay (animations)
+  // https://reactnative.dev/docs/animated
   const [fadeAnim] = useState(new Animated.Value(0));
   const opacityValue = useRef(new Animated.Value(1)).current;
   const [displayedPoints, setDisplayedPoints] = useState(levelPoints);
@@ -200,7 +204,7 @@ const CrosswordApp = ({ route }) => {
   };
 
   // Load the user input from AsyncStorage
-  // Written with a help of ChatGPT
+  // Written with a help of ChatGPT - start
   const loadUserInput = async () => {
     try {
       const userInputKey = `userInput:${route.params.levelName}`;
@@ -221,6 +225,7 @@ const CrosswordApp = ({ route }) => {
       // console.log("Error loading user input:", error);
     }
   };
+  // Written with a help of ChatGPT - end
 
   // Delete the input (if needed)
   const deleteUserInput = async () => {
@@ -259,7 +264,7 @@ const CrosswordApp = ({ route }) => {
   };
 
   // Fill boxes behaviour
-  // Written with a help of ChatGPT
+  // Written with a help of ChatGPT - start
   const handleBoxInput = (text, rowIndex, columnIndex) => {
     // Convert input letters to uppercase
     const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
@@ -279,6 +284,7 @@ const CrosswordApp = ({ route }) => {
       const isLevelFinished = newHiddenGrid.every((row) =>
         row.every((box) => box.isCorrect)
       );
+      // Written with a help of ChatGPT - end
 
       // When level is finished
       if (isLevelFinished) {
@@ -289,7 +295,7 @@ const CrosswordApp = ({ route }) => {
         handleLevelCompletedSoundPlay(); // Play sound
       }
     };
-
+    // Written with a help of ChatGPT - start
     // Update hiddenGrid after a small delay, this way the letter is shown
     setTimeout(updateHiddenGrid, 1);
 
@@ -486,6 +492,7 @@ const CrosswordApp = ({ route }) => {
       const isLevelFinished = hiddenGrid.every((row) =>
         row.every((box) => box.isCorrect)
       );
+      // Written with a help of ChatGPT - end
 
       // When level is finished
       if (isLevelFinished) {
@@ -575,6 +582,7 @@ const CrosswordApp = ({ route }) => {
   );
 
   // Animation for "Level Completed" text
+  // https://reactnative.dev/docs/animated
   useEffect(() => {
     if (levelCompleted) {
       Animated.timing(fadeAnim, {
@@ -586,7 +594,7 @@ const CrosswordApp = ({ route }) => {
   }, [levelCompleted]);
 
   // Animation to show the points gradually increasing
-  // Written with a help of ChatGPT
+  // Written with a help of ChatGPT - start
   useEffect(() => {
     let interval;
 
@@ -613,6 +621,7 @@ const CrosswordApp = ({ route }) => {
       clearInterval(interval); // Clear the interval when the animation is finished
     };
   }, [levelCompleted]);
+  // Written with a help of ChatGPT - end
 
   // Used for opacity animation, for the "Total points" text
   // https://reactnative.dev/docs/animated#timing
@@ -784,7 +793,7 @@ const CrosswordApp = ({ route }) => {
                             }
                           >
                             {/* Make sure that user can input only one letter for each box */}
-                            {/* Written with a help of ChatGPT */}
+                            {/* Written with a help of ChatGPT - start */}
                             {isBoxSelected ? (
                               <TextInput
                                 style={styles.boxText}
@@ -820,6 +829,7 @@ const CrosswordApp = ({ route }) => {
                               </Text>
                             )}
                           </TouchableOpacity>
+                          // Written with a help of ChatGPT - end
                         );
                       })}
                     </View>
@@ -950,7 +960,7 @@ const CrosswordApp = ({ route }) => {
                       </Text>
                     </View>
                     {/* Rewards section */}
-                    {/* Written with a help of ChatGPT */}
+                    {/* Written with a help of ChatGPT - start */}
                     <Text style={styles.rewardsTitleText}>Rewards</Text>
                     <View style={styles.rowDirectionContainer}>
                       {/* Animation for the credits */}
@@ -1076,6 +1086,7 @@ const CrosswordApp = ({ route }) => {
                         </Animated.View>
                       )}
                     </View>
+                    {/* Written with a help of ChatGPT - end */}
 
                     {/* Button to close the modal and confirm completing the level */}
                     {showButton && (

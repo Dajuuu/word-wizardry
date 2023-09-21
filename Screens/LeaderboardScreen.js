@@ -15,6 +15,7 @@ const Leaderboard = () => {
   const [checkUsernameInitial, setCheckUsernameInitial] = useState();
 
   // Fetch the usernameInitial from the AsyncStorage
+  // https://reactnative.dev/docs/asyncstorage
   useEffect(() => {
     const fetchUsername = async () => {
       const usernameInitial = await AsyncStorage.getItem("usernameInitial");
@@ -26,6 +27,7 @@ const Leaderboard = () => {
 
   // Make sure the data for the particular user is saved to the database,
   //  to be able to show it on the leaderboard
+  // Written with a help of ChatGPT - start
   const initializeUserData = async () => {
     try {
       const usernameInitial = await AsyncStorage.getItem("usernameInitial");
@@ -48,11 +50,12 @@ const Leaderboard = () => {
       console.error("Error initializing user data:", error);
     }
   };
+  // Written with a help of ChatGPT - end
 
   useEffect(() => {
     initializeUserData();
     // Set up a Firebase listener to fetch user data
-    // Written with a help of ChatGPT
+    // Written with a help of ChatGPT - start
     const usersRef = ref(db, "users");
     onValue(usersRef, (snapshot) => {
       if (snapshot.exists()) {
@@ -74,6 +77,7 @@ const Leaderboard = () => {
       }
     });
   }, [db]);
+  // Written with a help of ChatGPT - end
 
   return (
     <View style={styles.container}>
@@ -84,12 +88,14 @@ const Leaderboard = () => {
         <Text style={styles.usernameBox}>Username</Text>
         <Text style={styles.pointsBox}>Points</Text>
       </View>
-      {/* Written with a help of ChatGPT */}
+
       <FlatList
         // Hide the scrollbars
+        // https://reactnative.dev/docs/scrollview#showshorizontalscrollindicator
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         // Display only first 10 records
+
         data={usersData.slice(0, 10)}
         keyExtractor={(item) => item.userId}
         renderItem={({ item, index }) => (
@@ -119,6 +125,7 @@ const Leaderboard = () => {
           >
             {index < 3 ? (
               // Conditionally load different images for the first three items
+              // Written with a help of ChatGPT - start
               <Image
                 source={
                   index === 0
@@ -146,6 +153,7 @@ const Leaderboard = () => {
             <Text style={styles.username}>{item.username}</Text>
             <Text style={styles.points}>{item.points}</Text>
           </LinearGradient>
+          // Written with a help of ChatGPT - end
         )}
       />
       {/* Make spacing at the bottom of the screen */}

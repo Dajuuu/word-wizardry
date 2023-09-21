@@ -44,7 +44,7 @@ const UserProfile = () => {
       setLoading(false);
     }, 1000);
 
-    return () => clearTimeout(timer); // Clear the timer if the component unmounts
+    return () => clearTimeout(timer); // Clear the timer if the component mounts
   }, []);
 
   // Import function that plays the sound
@@ -59,6 +59,7 @@ const UserProfile = () => {
   const [usernameEmptyText, setUsernameEmptyText] = useState(false);
   // Used for background change
   const [backgroundImageNumber, setBackgroundImageNumber] = useState(null);
+
   const handleImageSelect = async (newImageNumber) => {
     setBackgroundImageNumber(newImageNumber);
     await setStoredBackgroundImage(newImageNumber); // Call the function to update the background image index
@@ -94,15 +95,17 @@ const UserProfile = () => {
   const [newUsername, setNewUsername] = useState("");
 
   // Function to handle the new username input change
+  // Written with a help of ChatGPT - start
   const handleUsernameChange = (text) => {
     // This is very important, as this line replaces any illegal characters.
     // Therefore the user will not be able to use those for new username
-    // https://stackoverflow.com/questions/1162529/javascript-replace-regex
     text = text.replace(/[!€@#$%^&*(),.?":{}|<>]/g, "");
     setNewUsername(text);
   };
+  // Written with a help of ChatGPT - end
 
   // Fetch the current username
+  // https://reactnative.dev/docs/asyncstorage
   useEffect(() => {
     const fetchUsername = async () => {
       const storedUsername = await checkUsernameInStorage();
@@ -146,7 +149,7 @@ const UserProfile = () => {
   }, []);
 
   // Function to update the username
-  // Written with a help of ChatGPT
+  // Written with a help of ChatGPT - start
   const handleUpdateUsername = async () => {
     // Handle case where the input is empty or contains only whitespace
     if (newUsername.trim() === "") {
@@ -158,6 +161,7 @@ const UserProfile = () => {
       }, 2500);
       return;
     }
+    // Written with a help of ChatGPT - end
 
     // Call the updateUsername function to update AsyncStorage
     await updateUsername(newUsername);
@@ -224,10 +228,12 @@ const UserProfile = () => {
         <LoadingScreen />
       ) : (
         // Used to make sure the sections are aligned correctely when keyboard is visible
+        // Written with a help of ChatGPT - start
         <KeyboardAvoidingView
           style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
+          {/* // Written with a help of ChatGPT - end */}
           {/* Helps in handling the keyboard type out */}
           <ScrollView
             contentContainerStyle={styles.scrollViewContainer}
@@ -250,6 +256,7 @@ const UserProfile = () => {
               </View>
               <View style={styles.usernameInput}>
                 {/* Username TextInput */}
+                {/* https://reactnative.dev/docs/textinput */}
                 <TextInput
                   style={styles.input}
                   placeholder={username}
@@ -257,6 +264,7 @@ const UserProfile = () => {
                   value={newUsername}
                   maxLength={15} // username cannot be longer than
                 />
+                {/* https://docs.expo.dev/versions/latest/sdk/linear-gradient/ */}
                 <LinearGradient
                   colors={["rgb(0, 155, 0)", "rgb(0, 131, 0)"]}
                   start={{ x: 0.7, y: 0.1 }}
@@ -367,6 +375,7 @@ const UserProfile = () => {
                   Change Background
                 </Text>
                 {/* Horizontal scrolling list */}
+                {/* Written with a help of ChatGPT - start */}
                 <FlatList
                   data={Object.keys(backgroundImagePaths)} // Use Object.keys to get the keys of the backgroundImagePaths
                   keyExtractor={(item) => item.toString()} // Use the key as a string
@@ -394,6 +403,7 @@ const UserProfile = () => {
                     </TouchableOpacity>
                   )}
                 />
+                {/* Written with a help of ChatGPT - end */}
               </View>
             )}
           </ScrollView>

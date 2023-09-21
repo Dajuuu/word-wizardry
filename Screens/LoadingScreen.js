@@ -13,6 +13,7 @@ const windowWidth = Dimensions.get("window").width;
 
 // TODO testID remains
 const LoadingScreen = () => {
+  // Written with a help of ChatGPT - start
   // Make an array of what text will be displayed
   const loadingPhrases = ["Loading", "Loading.", "Loading..", "Loading..."];
   // At what index of the array start the animation
@@ -26,9 +27,10 @@ const LoadingScreen = () => {
 
     return () => clearInterval(interval);
   }, []);
-
+  // Written with a help of ChatGPT - end
   return (
     // Display background image
+    // https://reactnative.dev/docs/imagebackground
     <ImageBackground
       source={require("../assets/loadingImage.png")}
       style={styles.backgroundImage}
@@ -41,22 +43,21 @@ const LoadingScreen = () => {
           color="white"
           size="large"
           testID="loading-indicator"
-          // Written with a help of ChatGPT
           style={{
             transform: [{ scaleX: 2 }, { scaleY: 2 }],
             marginTop: windowWidth * 0.2,
           }}
         />
         {/* Animate the loading text */}
+        {/* Written with a help of ChatGPT - start */}
         <Text style={styles.loadingText} testID="loadingText">
           {loadingPhrases[loadingIndex]}
         </Text>
+        {/* Written with a help of ChatGPT - end */}
       </View>
     </ImageBackground>
   );
 };
-
-export default LoadingScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -87,3 +88,5 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.7,
   },
 });
+
+export default LoadingScreen;
