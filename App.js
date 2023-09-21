@@ -81,7 +81,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   // Cache all images on app startup
-  // Written with a help of ChatGPT
+  // Written with a help of ChatGPT - start
   const cacheImages = async (paths) => {
     await Promise.all(
       paths.map(async (path) => {
@@ -89,6 +89,7 @@ export default function App() {
       })
     );
   };
+  // Written with a help of ChatGPT - end
 
   // Load the fonts that will be used within the app
   const loadFonts = async () => {

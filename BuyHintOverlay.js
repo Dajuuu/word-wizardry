@@ -51,6 +51,7 @@ const BuyHintOverlay = ({
           <Text style={styles.title}>Buy Hint {hintNumber}</Text>
           <Text style={styles.hintDescription}>
             {/* Change the hintDescription text, based on what hint was chosen */}
+            {/* Written with a help of ChatGPT - start */}
             {hintNumber === 1
               ? "Reveal letter in a specific position"
               : hintNumber === 2
@@ -58,6 +59,7 @@ const BuyHintOverlay = ({
               : hintNumber === 3
               ? "Reveal two letters in random positions"
               : ""}
+            {/* Written with a help of ChatGPT - end */}
           </Text>
           <Text style={styles.message}>Would you like to buy this hint?</Text>
           <View style={styles.creditsContainer}>
@@ -77,7 +79,7 @@ const BuyHintOverlay = ({
               onClose();
             }}
           >
-            {/* Written with a help of ChatGPT */}
+            {/* https://docs.expo.dev/versions/latest/sdk/linear-gradient/ */}
             <LinearGradient
               colors={["rgb(255, 67, 67)", "rgb(204, 53, 53)"]}
               style={styles.closeButtonGradient}
@@ -97,6 +99,7 @@ const BuyHintOverlay = ({
             }}
             disabled={!canBuyHint}
           >
+            {/* https://docs.expo.dev/versions/latest/sdk/linear-gradient/ */}
             <LinearGradient
               colors={["rgb(0, 131, 0)", "rgb(0, 93, 0)"]}
               style={styles.buyButtonGradient}

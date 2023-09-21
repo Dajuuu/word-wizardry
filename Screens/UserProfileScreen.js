@@ -19,6 +19,7 @@ import {
 import CustomHeader from "../CustomHeader";
 import { checkUsernameInStorage, updateUsername } from "../UserNameManager";
 import BuyHintOverlay from "../BuyHintOverlay";
+// https://github.com/oblador/react-native-vector-icons
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { backgroundImagePaths } from "../BackgroundManager";
 import { loadHintCount, initializeHintCounts } from "../HintManager";

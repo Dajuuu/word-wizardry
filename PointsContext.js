@@ -6,7 +6,6 @@ import { FIREBASE_APP } from "./firebaseConfig";
 // https://react.dev/reference/react/createContext
 const PointsContext = createContext();
 
-// Written with a help of ChatGPT
 const PointsProvider = ({ children }) => {
   // Initalise the number of points
   const [points, setPoints] = useState(0);
@@ -21,6 +20,7 @@ const PointsProvider = ({ children }) => {
         const storedPoints = await AsyncStorage.getItem("points");
         // Use the inital username as the unique identifier
         const usernameInitial = await AsyncStorage.getItem("usernameInitial");
+        // Written with a help of ChatGPT - start
         if (storedPoints !== null) {
           // Set the points to the number stored inside the AsyncStorage
           setPoints(parseInt(storedPoints));
@@ -36,6 +36,7 @@ const PointsProvider = ({ children }) => {
           // If the points were not saved for the AsyncStorage then assign 0 to the database entry
           await set(ref(db, `users/${usernameInitial}/points`), 0);
         }
+        // Written with a help of ChatGPT - end
       } catch (error) {
         console.error("Error loading points:", error);
       }

@@ -6,14 +6,15 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
+// https://github.com/oblador/react-native-vector-icons
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 // Get the height of the device
 const windowHeight = Dimensions.get("window").height;
 
 // Determine the layout of the buttons for the keyboard
-// Written with a help of ChatGPT
 const CustomKeyboard = ({ onKeyPress }) => {
+  // QWERTY keyboard layout
   const keyboardData = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
@@ -28,6 +29,7 @@ const CustomKeyboard = ({ onKeyPress }) => {
   return (
     // Display the buttons for the keyboard
     <View style={styles.keyboardContainer}>
+      {/* Written with a help of ChatGPT - start */}
       {keyboardData.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.keyboardRow}>
           {row.map((key, keyIndex) => (
@@ -50,6 +52,7 @@ const CustomKeyboard = ({ onKeyPress }) => {
           )}
         </View>
       ))}
+      {/* Written with a help of ChatGPT - end */}
     </View>
   );
 };

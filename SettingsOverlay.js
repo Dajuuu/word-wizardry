@@ -14,6 +14,7 @@ import {
   useMusicSetting,
   useVibrationSetting,
 } from "./SoundSettingContext";
+// https://github.com/oblador/react-native-vector-icons
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -22,8 +23,19 @@ const windowHeight = Dimensions.get("window").height;
 
 // Declare what props can be used for the SettingsOverlay
 const SettingsOverlay = ({ visible, onClose }) => {
+  // Import function that plays the sound
+  const { handleButtonSoundPlay } = useButtonClickSound();
+  // Import functions that will be used by switches
+  // Determine the sound state
+  const { soundEnabled, toggleSoundSetting } = useSoundSetting();
+  //  Determine the vibrations state
+  const { vibrationEnabled, toggleVibrationSetting } = useVibrationSetting();
+  // Determine the music state
   const { musicEnabled, toggleMusicSetting } = useMusicSetting();
+  // Make sure the user cannot press the music switch on and off rapidly
+  const [musicCooldown, setMusicCooldown] = useState(false);
 
+  // Written with a help of ChatGPT - start
   const handleMusicSwitch = async (newValue) => {
     if (!musicCooldown) {
       toggleMusicSetting(newValue);
@@ -36,14 +48,8 @@ const SettingsOverlay = ({ visible, onClose }) => {
       }, 1000);
     }
   };
-  // Import function that plays the sound
-  const { handleButtonSoundPlay } = useButtonClickSound();
-  // Import functions that will be used by switches
-  const { soundEnabled, toggleSoundSetting } = useSoundSetting();
-  const { vibrationEnabled, toggleVibrationSetting } = useVibrationSetting();
+  // Written with a help of ChatGPT - end
 
-  // Make sure the user cannot press the music switch on and off rapidly
-  const [musicCooldown, setMusicCooldown] = useState(false);
   return (
     // Modal props
     <Modal
@@ -87,7 +93,7 @@ const SettingsOverlay = ({ visible, onClose }) => {
               onClose();
             }}
           >
-            {/* Written with a help of ChatGPT  */}
+            {/* https://docs.expo.dev/versions/latest/sdk/linear-gradient/ */}
             <LinearGradient
               colors={["rgb(255, 67, 67)", "rgb(204, 53, 53)"]}
               style={styles.closeButtonGradient}

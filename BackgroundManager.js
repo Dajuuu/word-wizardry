@@ -25,7 +25,7 @@ const backgroundImagePaths = {
 };
 
 // Function to get the background image number from AsyncStorage
-// Written with a help of ChatGPT
+// Written with a help of ChatGPT - start
 export const getBackgroundImage = async () => {
   try {
     const backgroundImageNumber = await AsyncStorage.getItem(
@@ -42,6 +42,7 @@ export const getBackgroundImage = async () => {
     return DEFAULT_BACKGROUND;
   }
 };
+// Written with a help of ChatGPT - end
 
 // Function to set the background image number in AsyncStorage
 export const setStoredBackgroundImage = async (imageNumber) => {

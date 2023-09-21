@@ -8,7 +8,7 @@ const soundLevelCompleted = "./assets/sounds/levelCompleted.mp3";
 const backgroundMusic = "./assets/sounds/backgroundMusic.mp3";
 
 // Background sound
-// Written with a help of ChatGPT
+// Written with a help of ChatGPT and Expo documentation
 export const useBackgroundSound = () => {
   const { musicEnabled } = useMusicSetting();
   // Check if the sound was loaded
@@ -19,6 +19,7 @@ export const useBackgroundSound = () => {
   const [isSoundPlaying, setIsSoundPlaying] = useState(false);
 
   const loadBackgroundSound = async () => {
+    // Written with a help of ChatGPT - start
     if (!musicEnabled) {
       if (backgroundSoundObject && isSoundPlaying) {
         // Stop the sound if music is disabled and it's currently playing
@@ -46,6 +47,7 @@ export const useBackgroundSound = () => {
       console.error("Error loading background sound:", error);
     }
   };
+  // Written with a help of ChatGPT - end
 
   useEffect(() => {
     loadBackgroundSound();
@@ -56,6 +58,7 @@ export const useBackgroundSound = () => {
     };
   }, [musicEnabled]);
 
+  // Written with a help of ChatGPT - start
   // Reset the isSoundPlaying flag when the backgroundSoundObject is done playing
   useEffect(() => {
     if (backgroundSoundObject) {
@@ -69,9 +72,9 @@ export const useBackgroundSound = () => {
 
   return { backgroundSoundLoaded };
 };
+// Written with a help of ChatGPT - end
 
 // Button click sound
-// Written with a help of ChatGPT
 export const useButtonClickSound = () => {
   // Check if the sound was loaded
   const [soundLoaded, setSoundLoaded] = useState(false);
@@ -85,9 +88,8 @@ export const useButtonClickSound = () => {
       // If sound is already being loaded, return to prevent concurrent loads
       return;
     }
-
     setLoadingSound(true);
-
+    // Written with a help of ChatGPT - start
     try {
       const { sound } = await Audio.Sound.createAsync(
         require(soundButtonClick)
@@ -137,9 +139,9 @@ export const useButtonClickSound = () => {
 
   return { soundLoaded, handleButtonSoundPlay };
 };
+// Written with a help of ChatGPT - end
 
 // Completed level Sound
-// Written with a help of ChatGPT
 export const useLevelCompletedSound = () => {
   // Check if the sound was loaded
   const [soundLoaded, setSoundLoaded] = useState(false);
@@ -154,6 +156,7 @@ export const useLevelCompletedSound = () => {
       return;
     }
     setLoadingSound(true);
+    // Written with a help of ChatGPT - start
     try {
       const { sound } = await Audio.Sound.createAsync(
         require(soundLevelCompleted)
@@ -168,7 +171,7 @@ export const useLevelCompletedSound = () => {
       setLoadingSound(false);
     }
   };
-
+  // Written with a help of ChatGPT - end
   const handleLevelCompletedSoundPlay = async () => {
     try {
       const soundSetting = await AsyncStorage.getItem("soundSetting");

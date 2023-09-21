@@ -9,6 +9,7 @@ import {
   Animated,
   ImageBackground,
 } from "react-native";
+// https://github.com/oblador/react-native-vector-icons
 import Icon from "react-native-vector-icons/FontAwesome5";
 import SettingsOverlay from "../SettingsOverlay";
 import { LinearGradient } from "expo-linear-gradient";

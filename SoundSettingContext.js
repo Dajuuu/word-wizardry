@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Contexts are needed to make sure the options are saved for the user.
 // That would be annoying if the user would have to manually turn off or on all the settings whenever app reloads.
 // ---***---
+// https://react.dev/reference/react/createContext
 
 // Create the context for sound settings
 const SoundSettingContext = createContext();
@@ -19,7 +20,6 @@ export const useMusicSetting = () => useContext(MusicSettingContext);
 export const useVibrationSetting = () => useContext(VibrationSettingContext);
 
 // Context provider components
-// Written with a help of ChatGPT
 export const SoundSettingProvider = ({ children }) => {
   // In what state should the sound start - true, the sound is on
   const [soundEnabled, setSoundEnabled] = useState(false);
@@ -28,6 +28,7 @@ export const SoundSettingProvider = ({ children }) => {
     // See what sound settings are saved for the user.
     // If there is non declared, initalise it
     const loadSoundSetting = async () => {
+      // Written with a help of ChatGPT - start
       try {
         const soundSetting = await AsyncStorage.getItem("soundSetting");
         if (soundSetting !== null) {
@@ -57,7 +58,9 @@ export const SoundSettingProvider = ({ children }) => {
     </SoundSettingContext.Provider>
   );
 };
+// Written with a help of ChatGPT - end
 
+// Rest of the functions are very similar to the one above, so they are based out of it
 export const MusicSettingProvider = ({ children }) => {
   // This is the inital state of music play. VERY IMPORTANT! It has to be false,
   // otherwise the music will start regardless of the state of on app start

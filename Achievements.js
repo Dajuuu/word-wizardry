@@ -15,6 +15,7 @@ import {
   determineUnlockedLevelAchievements,
 } from "./AchievementUtils"; // Import the utility functions
 import CustomHeader from "./CustomHeader";
+// https://github.com/oblador/react-native-vector-icons
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 // Get the height of the device
@@ -36,7 +37,6 @@ const Achievements = () => {
   );
 
   // Color pulsating animation
-  // Written with a help of ChatGPT
   const startColorPulsatingAnimation = (duration) => {
     Animated.loop(
       Animated.timing(colorPulsatingAnimation, {
@@ -48,6 +48,7 @@ const Achievements = () => {
   };
 
   useEffect(() => {
+    // Written with a help of ChatGPT - start
     // Fetch completed easy levels
     fetchCompletedEasyLevels().then((completedEasyCount) => {
       setEasyLevelsCompletedCount(completedEasyCount);
@@ -67,6 +68,8 @@ const Achievements = () => {
       setThemedLevelsCompletedCount(completedThemedCount);
     });
   }, []);
+
+  // Written with a help of ChatGPT - end
 
   useEffect(() => {
     // Run the function through all level types and add indexes to the array.
@@ -192,6 +195,7 @@ const Achievements = () => {
   }, [unlockedAchievementIndexes]);
 
   // Declare colours for specific achivIndexes for the animation
+  // Written with a help of ChatGPT - start
   const getBackgroundColor = (achivIndex, colorPulsatingAnimation) => {
     if (achivIndex === 13) {
       return colorPulsatingAnimation.interpolate({
@@ -202,6 +206,7 @@ const Achievements = () => {
           "rgba(40,196,185,0.6)",
         ],
       });
+      // Written with a help of ChatGPT - end
     } else if (achivIndex === 1 || achivIndex === 2 || achivIndex === 3) {
       return colorPulsatingAnimation.interpolate({
         inputRange: [0, 0.5, 1],
@@ -249,16 +254,16 @@ const Achievements = () => {
   };
 
   // Progress bar
-  // Written with a help of ChatGPT
+  // Written with a help of ChatGPT - start
   const progress =
     (unlockedAchievementIndexes.length / achievementsList.length) * 100;
-
+  // Written with a help of ChatGPT - end
   return (
     <View style={styles.container}>
       {/* No title here */}
       <CustomHeader title="" />
       {/* Box with progress bar at the top of the page */}
-      {/*  Written with a help of ChatGPT */}
+      {/*  Written with a help of ChatGPT - start */}
       <View style={styles.background}>
         <View style={styles.achivTitle}>
           <Text style={styles.achivTitleText}>Your Achievements</Text>
@@ -271,9 +276,11 @@ const Achievements = () => {
           <Text style={styles.progressText}>{`${progress.toFixed(1)}%`}</Text>
         </View>
       </View>
+      {/* Written with a help of ChatGPT - end */}
       {/* List of all achievements */}
       <ScrollView
         style={{ width: "100%", paddingTop: 20 }}
+        // https://reactnative.dev/docs/scrollview#showshorizontalscrollindicator
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >

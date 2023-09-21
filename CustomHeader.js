@@ -9,6 +9,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+// https://github.com/oblador/react-native-vector-icons
 import Icon from "react-native-vector-icons/FontAwesome5";
 import SettingsOverlay from "./SettingsOverlay";
 import { CreditsContext } from "./CreditsContext";
@@ -38,6 +39,7 @@ const CustomHeader = ({ title }) => {
 
   return (
     // Make sure the header is responsive
+    // https://reactnative.dev/docs/safeareaview
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
         {/* Icon on the left (go back) */}
