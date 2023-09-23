@@ -90,7 +90,7 @@ const TestingGamingScreen = ({ navigation }) => {
         console.log(`${key}: ${value}`);
       });
     } catch (error) {
-      console.error("Error viewing saved data:", error);
+      // console.error("Error viewing saved data:", error);
     }
   };
   const deleteAllKeys = async () => {
@@ -102,7 +102,7 @@ const TestingGamingScreen = ({ navigation }) => {
 
       console.log("All keys have been deleted.");
     } catch (error) {
-      console.error("Error deleting keys:", error);
+      // console.error("Error deleting keys:", error);
     }
   };
   // Call the function to view the saved data
@@ -115,7 +115,7 @@ const TestingGamingScreen = ({ navigation }) => {
       // Left for testing purposes
       // console.log("Records deleted successfully.");
     } catch (error) {
-      console.error("Error deleting records:", error);
+      // console.error("Error deleting records:", error);
     }
   };
 
@@ -127,7 +127,7 @@ const TestingGamingScreen = ({ navigation }) => {
       // Left for testing purposes
       // console.log("All userInput fields deleted");
     } catch (error) {
-      console.error("Error deleting userInput fields:", error);
+      // console.error("Error deleting userInput fields:", error);
     }
   };
 

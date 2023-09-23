@@ -44,7 +44,7 @@ export const useBackgroundSound = () => {
       await sound.setVolumeAsync(0.1); // Adjust the volume
       setIsSoundPlaying(true); // Set the flag to indicate sound is playing
     } catch (error) {
-      console.error("Error loading background sound:", error);
+      // console.error("Error loading background sound:", error);
     }
   };
   // Written with a help of ChatGPT - end
@@ -98,7 +98,7 @@ export const useButtonClickSound = () => {
       await sound.setVolumeAsync(0.3); // Adjust the volume
       setSoundLoaded(true);
     } catch (error) {
-      console.error(`Error loading sound ${soundButtonClick}:`, error);
+      // console.error(`Error loading sound ${soundButtonClick}:`, error);
       setSoundLoaded(false);
     } finally {
       setLoadingSound(false);
@@ -124,7 +124,7 @@ export const useButtonClickSound = () => {
         }
       }
     } catch (error) {
-      console.error(`Error playing sound ${soundButtonClick}:`, error);
+      // console.error(`Error playing sound ${soundButtonClick}:`, error);
     }
   };
 
@@ -165,7 +165,7 @@ export const useLevelCompletedSound = () => {
       await sound.setVolumeAsync(0.3); // Adjust the volume
       setSoundLoaded(true);
     } catch (error) {
-      console.error(`Error loading sound ${soundLevelCompleted}:`, error);
+      // console.error(`Error loading sound ${soundLevelCompleted}:`, error);
       setSoundLoaded(false);
     } finally {
       setLoadingSound(false);
@@ -191,7 +191,7 @@ export const useLevelCompletedSound = () => {
         }
       }
     } catch (error) {
-      console.error(`Error playing sound ${soundLevelCompleted}:`, error);
+      // console.error(`Error playing sound ${soundLevelCompleted}:`, error);
     }
   };
 

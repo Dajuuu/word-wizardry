@@ -17,7 +17,7 @@ export async function fetchCompletedEasyLevels() {
       return easyCompleted;
     }
   } catch (error) {
-    console.error("Error fetching completed levels:", error);
+    // console.error("Error fetching completed levels:", error);
   }
   return 0; // Default value if fetch fails
 }
@@ -34,7 +34,7 @@ export async function fetchCompletedMediumLevels() {
       return mediumCompleted;
     }
   } catch (error) {
-    console.error("Error fetching completed levels:", error);
+    // console.error("Error fetching completed levels:", error);
   }
   return 0; // Default value if fetch fails
 }
@@ -50,7 +50,7 @@ export async function fetchCompletedHardLevels() {
       return hardCompleted;
     }
   } catch (error) {
-    console.error("Error fetching completed levels:", error);
+    // console.error("Error fetching completed levels:", error);
   }
   return 0; // Default value if fetch fails
 }
@@ -66,7 +66,7 @@ export async function fetchCompletedThemedLevels() {
       return themedCompleted;
     }
   } catch (error) {
-    console.error("Error fetching completed levels:", error);
+    // console.error("Error fetching completed levels:", error);
   }
   return 0; // Default value if fetch fails
 }

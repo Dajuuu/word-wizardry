@@ -1,5 +1,4 @@
-// __mocks__/SoundSettingContext.js
-
+// Mocking sounds components
 export const useSoundSetting = jest.fn(() => ({
   soundEnabled: true, // Mocked sound state
   toggleSoundSetting: jest.fn(),

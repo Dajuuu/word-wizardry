@@ -152,7 +152,7 @@ const HomeScreen = ({ navigation }) => {
       source={backgroundImageSource}
       style={styles.backgroundImage}
     >
-      <View style={styles.container}>
+      <View style={styles.container} testID="homescreen-container">
         {/* Display buttons at the top */}
         <View style={styles.buttonContainer}>
           {/* User Profile Button */}

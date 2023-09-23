@@ -35,7 +35,7 @@ export const SoundSettingProvider = ({ children }) => {
           setSoundEnabled(soundSetting === "true");
         }
       } catch (error) {
-        console.error("Error fetching sound setting:", error);
+        // console.error("Error fetching sound setting:", error);
       }
     };
 
@@ -48,7 +48,7 @@ export const SoundSettingProvider = ({ children }) => {
     try {
       await AsyncStorage.setItem("soundSetting", newValue.toString());
     } catch (error) {
-      console.error("Error saving sound setting:", error);
+      // console.error("Error saving sound setting:", error);
     }
   };
 
@@ -76,7 +76,7 @@ export const MusicSettingProvider = ({ children }) => {
           setMusicEnabled(musicSetting === "true");
         }
       } catch (error) {
-        console.error("Error fetching music setting:", error);
+        // console.error("Error fetching music setting:", error);
       }
     };
 
@@ -89,7 +89,7 @@ export const MusicSettingProvider = ({ children }) => {
     try {
       await AsyncStorage.setItem("musicSetting", newValue.toString());
     } catch (error) {
-      console.error("Error saving music setting:", error);
+      // console.error("Error saving music setting:", error);
     }
   };
 
@@ -115,7 +115,7 @@ export const VibrationSettingProvider = ({ children }) => {
           setVibrationEnabled(vibrationSetting === "true");
         }
       } catch (error) {
-        console.error("Error fetching vibration setting:", error);
+        // console.error("Error fetching vibration setting:", error);
       }
     };
 
@@ -128,7 +128,7 @@ export const VibrationSettingProvider = ({ children }) => {
     try {
       await AsyncStorage.setItem("vibrationSetting", newValue.toString());
     } catch (error) {
-      console.error("Error saving vibration setting:", error);
+      // console.error("Error saving vibration setting:", error);
     }
   };
 

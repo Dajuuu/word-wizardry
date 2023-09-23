@@ -38,7 +38,7 @@ const PointsProvider = ({ children }) => {
         }
         // Written with a help of ChatGPT - end
       } catch (error) {
-        console.error("Error loading points:", error);
+        // console.error("Error loading points:", error);
       }
     }
     loadPoints();
@@ -58,7 +58,7 @@ const PointsProvider = ({ children }) => {
           await set(ref(db, `users/${usernameInitial}/points`), points);
         }
       } catch (error) {
-        console.error("Error saving points:", error);
+        // console.error("Error saving points:", error);
       }
     }
     savePoints();

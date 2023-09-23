@@ -47,7 +47,7 @@ const Leaderboard = () => {
         await set(ref(db, `users/${usernameInitial}/points`), 0);
       }
     } catch (error) {
-      console.error("Error initializing user data:", error);
+      // console.error("Error initializing user data:", error);
     }
   };
   // Written with a help of ChatGPT - end

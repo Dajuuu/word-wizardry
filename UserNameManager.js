@@ -32,7 +32,7 @@ export const checkUsernameInStorage = async () => {
     }
     return storedUsername;
   } catch (error) {
-    console.error("Error reading username from AsyncStorage: ", error);
+    // console.error("Error reading username from AsyncStorage: ", error);
     return null;
   }
 };
@@ -66,6 +66,6 @@ export const updateUsername = async (newUsername) => {
       await set(ref(db, `users/${usernameInitial}/username`), newUsername);
     }
   } catch (error) {
-    console.error("Error updating username:", error);
+    // console.error("Error updating username:", error);
   }
 };
