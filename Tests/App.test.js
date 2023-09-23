@@ -45,7 +45,7 @@ describe("App tests", () => {
   // Mock the route.params object
   const mockRoute = {
     params: {
-      type: "someType", // Replace with the actual value needed for testing
+      type: "someType",
     },
   };
 

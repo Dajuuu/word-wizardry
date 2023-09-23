@@ -229,15 +229,15 @@ const CrosswordApp = ({ route }) => {
   // Written with a help of ChatGPT - end
 
   // Delete the input (if needed)
-  const deleteUserInput = async () => {
-    try {
-      const userInputKey = `userInput:${route.params.levelName}`;
-      await AsyncStorage.removeItem(userInputKey);
-    } catch (error) {
-      // Left for testing purposes
-      // console.log("Error deleting user input:", error);
-    }
-  };
+  // const deleteUserInput = async () => {
+  //   try {
+  //     const userInputKey = `userInput:${route.params.levelName}`;
+  //     await AsyncStorage.removeItem(userInputKey);
+  //   } catch (error) {
+  //     // Left for testing purposes
+  //     // console.log("Error deleting user input:", error);
+  //   }
+  // };
 
   // Determine which box is selected
   const handleBoxSelection = (rowIndex, columnIndex) => {
