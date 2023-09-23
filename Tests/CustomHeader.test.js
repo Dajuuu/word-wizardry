@@ -2,14 +2,8 @@ import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import CustomHeader from "../CustomHeader"; // Import the CustomHeader component
 import { CreditsContext } from "../CreditsContext";
-import { useNavigation } from "@react-navigation/native";
+import "@testing-library/jest-native/extend-expect";
 
-// Mock the useNavigation hook
-// jest.mock("@react-navigation/native", () => {
-//   return {
-//     useNavigation: jest.fn(),
-//   };
-// });
 // Ensure that Jest uses the mock for SoundSettingContext
 jest.mock("../SoundSettingContext");
 
@@ -20,20 +14,20 @@ const mockCredits = {
   removeCredits: jest.fn(),
   resetCredits: jest.fn(),
 };
-// const navigateMock = jest.fn();
-// const goBackMock = jest.fn();
+// Written with a help of ChatGPT - start
 jest.mock("@react-navigation/native", () => ({
   ...jest.requireActual("@react-navigation/native"),
   useNavigation: () => ({
     goBack: jest.fn(),
   }),
 }));
+// Written with a help of ChatGPT - end
 
 describe("CustomHeader tests", () => {
   it("Back button work", () => {
     const { getByTestId } = render(
       <CreditsContext.Provider value={mockCredits}>
-        <CustomHeader title="Test Title" />{" "}
+        <CustomHeader title="Test Title" />
       </CreditsContext.Provider>
     );
     const backButton = getByTestId("back-button");
@@ -52,7 +46,7 @@ describe("CustomHeader tests", () => {
     expect(settingsButton).toBeTruthy();
   });
 
-  it("should show the SettingsOverlay when the settings button is pressed", async () => {
+  it("Show the SettingsOverlay when the settings button is pressed", async () => {
     const { getByTestId } = render(
       <CreditsContext.Provider value={mockCredits}>
         <CustomHeader title="Test Title" settingsVisible={false} />
@@ -61,32 +55,73 @@ describe("CustomHeader tests", () => {
 
     const settingsButton = getByTestId("settings-button");
     fireEvent.press(settingsButton);
-
+    // Written with a help of ChatGPT - start
     await waitFor(() => {
       const settingsOverlay = getByTestId("modal");
       expect(settingsOverlay).toBeTruthy();
     });
+    // Written with a help of ChatGPT - end
   });
 
-  // it("should close the SettingsOverlay when the close button is pressed", () => {
-  //   const { getByTestId } = render(
-  //     <CustomHeader title="Test Title" settingsVisible={true} />
-  //   );
+  it("Show the credits count", () => {
+    const creditsText = mockCredits.credits;
+    const { getByText } = render(
+      <CreditsContext.Provider value={mockCredits}>
+        <CustomHeader title="Test Title" credits={creditsText} />
+      </CreditsContext.Provider>
+    );
 
-  //   const closeButton = getByTestId("close-button");
-  //   fireEvent.press(closeButton);
+    const creditsElement = getByText(String(creditsText));
+    expect(creditsElement).toBeTruthy();
+  });
 
-  //   const settingsOverlay = getByTestId("settings-overlay");
-  //   expect(settingsOverlay).toBeNull();
-  // });
+  it("Check for correct Button style", () => {
+    const { getByTestId } = render(
+      <CreditsContext.Provider value={mockCredits}>
+        <CustomHeader title="Test Title" />
+      </CreditsContext.Provider>
+    );
 
-  // it("should show the credits variable", () => {
-  //   const creditsText = "Test Credits";
-  //   const { getByText } = render(
-  //     <CustomHeader title="Test Title" credits={creditsText} />
-  //   );
+    const settingsButton = getByTestId("settings-button");
 
-  //   const creditsElement = getByText(creditsText);
-  //   expect(creditsElement).toBeTruthy();
-  // });
+    expect(settingsButton).toHaveStyle({
+      backgroundColor: "rgba(183, 140, 101,1)",
+      borderRadius: 100,
+      shadowColor: "black", // iOS shadow
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.15,
+      shadowRadius: 4,
+      elevation: 4, // Android
+    });
+  });
+  it("Check for correct Credits Box style", () => {
+    const { getByTestId } = render(
+      <CreditsContext.Provider value={mockCredits}>
+        <CustomHeader title="Test Title" />
+      </CreditsContext.Provider>
+    );
+
+    const creditsContainer = getByTestId("credits-container");
+
+    expect(creditsContainer).toHaveStyle({
+      justifyContent: "center",
+      backgroundColor: "rgba(183, 140, 101,1)",
+      padding: 2,
+      borderRadius: 20,
+      flexDirection: "row",
+      alignItems: "center",
+      minWidth: 100,
+      shadowColor: "black", // iOS shadow
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.15,
+      shadowRadius: 4,
+      elevation: 4, // Android
+    });
+  });
 });
