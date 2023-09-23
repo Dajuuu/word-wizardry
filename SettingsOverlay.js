@@ -183,7 +183,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     elevation: 15,
-    elevation: 4, // Android
     shadowColor: "black", // iOS shadow
     shadowOffset: {
       width: 0,
