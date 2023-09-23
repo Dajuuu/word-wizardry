@@ -270,7 +270,9 @@ const CrosswordApp = ({ route }) => {
     // Convert input letters to uppercase
     const hiddenLetter = GRID_DATA[rowIndex][columnIndex].toUpperCase();
     const inputtedLetter = text.toUpperCase();
-
+    if (vibrationEnabled) {
+      Vibration.vibrate([50]); // Perform a vibration
+    }
     const updateHiddenGrid = () => {
       // Update hiddenGrid state, that is compare the hiddenGrid to the user's letters
       const newHiddenGrid = [...hiddenGrid];
