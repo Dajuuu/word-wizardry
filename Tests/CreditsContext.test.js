@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import { render } from "@testing-library/react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CreditsProvider, CreditsContext } from "../CreditsContext";
-
 jest.mock("@react-native-async-storage/async-storage");
 
+// Written with a help of ChatGPT - start
 describe("CreditsContext", () => {
   // Mock AsyncStorage functions
   const mockSetItem = jest.fn();
@@ -36,3 +36,4 @@ describe("CreditsContext", () => {
     expect(creditsValue).toBe(200);
   });
 });
+// Written with a help of ChatGPT - end

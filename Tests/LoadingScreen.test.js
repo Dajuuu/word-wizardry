@@ -3,7 +3,6 @@ import { render } from "@testing-library/react-native";
 import "@testing-library/jest-native/extend-expect";
 import LoadingScreen from "../Screens/LoadingScreen";
 
-// Unit tests
 describe("LoadingScreen tests", () => {
   it("Render the LoadingScreen component", () => {
     const { getByTestId } = render(<LoadingScreen />);

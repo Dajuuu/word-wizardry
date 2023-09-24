@@ -90,7 +90,6 @@ describe("SettingsOverlay tests", () => {
 
     const switchFont = getByTestId("switch-font");
 
-    // Declare a windowHeight to compare correct values
     expect(switchFont).toHaveStyle({
       fontFamily: "AppFont",
     });
@@ -100,7 +99,6 @@ describe("SettingsOverlay tests", () => {
 
     const closeButton = getByTestId("close-button");
 
-    // Declare a windowHeight to compare correct values
     expect(closeButton).toHaveStyle({
       position: "absolute",
       top: -10,

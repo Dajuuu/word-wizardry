@@ -9,7 +9,6 @@ jest.mock("@react-navigation/native", () => {
   };
 });
 
-// Unit tests
 describe("App tests", () => {
   // https://jestjs.io/docs/expect#expectvalue
   it("Font files exist", () => {
@@ -28,7 +27,7 @@ describe("App tests", () => {
     const buttonClick = "../assets/sounds/buttonClick.mp3";
     const levelCompleted = "../assets/sounds/levelCompleted.mp3";
 
-    // Check if the font files can be resolved
+    // Check if the music files can be resolved
     expect(() => require.resolve(backgroundMusic)).not.toThrow();
     expect(() => require.resolve(buttonClick)).not.toThrow();
     expect(() => require.resolve(levelCompleted)).not.toThrow();
@@ -38,7 +37,7 @@ describe("App tests", () => {
     for (let i = 1; i <= 17; i++) {
       const imagePath = `../assets/BackgroundImages/${i}.png`;
 
-      // Check if the image file can be resolved
+      // Check if the image files can be resolved
       expect(() => require.resolve(imagePath)).not.toThrow();
     }
     // loadingImage
@@ -46,18 +45,20 @@ describe("App tests", () => {
     expect(() => require.resolve(loadingImage)).not.toThrow();
   });
 
+  // Written with a help of ChatGPT - start
   it("Level Difficulty images exist", () => {
     const starEasy = "../assets/LevelDifficultyImages/star-easy.png";
     const starMedium = "../assets/LevelDifficultyImages/star-medium.png";
     const starHard = "../assets/LevelDifficultyImages/star-hard.png";
     const startThemed = "../assets/LevelDifficultyImages/star-themed.png";
 
-    // Check if the font files can be resolved
+    // Check if the icon files can be resolved
     expect(() => require.resolve(starEasy)).not.toThrow();
     expect(() => require.resolve(starMedium)).not.toThrow();
     expect(() => require.resolve(starHard)).not.toThrow();
     expect(() => require.resolve(startThemed)).not.toThrow();
   });
+  // Written with a help of ChatGPT - end
 
   it("Icons images exist", () => {
     const credits = "../assets/credits.png";
@@ -68,7 +69,7 @@ describe("App tests", () => {
     const medal2 = "../assets/medal2.png";
     const medal3 = "../assets/medal3.png";
 
-    // Check if the font files can be resolved
+    // Check if the icons files can be resolved
     expect(() => require.resolve(credits)).not.toThrow();
     expect(() => require.resolve(hint1)).not.toThrow();
     expect(() => require.resolve(hint2)).not.toThrow();
@@ -81,7 +82,6 @@ describe("App tests", () => {
   it("Render LoadingScreen", () => {
     const { root } = render(<LoadingScreen />);
 
-    // Check if the rendered component is not null or empty
     expect(root).toBeTruthy();
   });
 });

@@ -55,7 +55,6 @@ describe("CustomKeyboard tests", () => {
 
     const keyboardContainer = getByTestId("keyboard-container");
 
-    // Declare a windowHeight to compare correct values
     expect(keyboardContainer).toHaveStyle({
       width: "100%",
       backgroundColor: "#f7d7ba",
@@ -72,7 +71,6 @@ describe("CustomKeyboard tests", () => {
 
     const keyboardButton = getAllByTestId("keyboard-key");
 
-    // Declare a windowHeight to compare correct values
     keyboardButton.forEach((button) => {
       expect(button).toHaveStyle({
         width: "9%",
@@ -97,7 +95,6 @@ describe("CustomKeyboard tests", () => {
 
     const keyboardBackspace = getByTestId("keyboard-backspace");
 
-    // Declare a windowHeight to compare correct values
     expect(keyboardBackspace).toHaveStyle({
       width: "15%",
       backgroundColor: "#d8965d",

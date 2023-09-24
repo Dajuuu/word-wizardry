@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import BuyHintOverlay from "../BuyHintOverlay"; // Replace with the correct import path
+import BuyHintOverlay from "../BuyHintOverlay";
 import { CreditsContext } from "../CreditsContext";
 import "@testing-library/jest-native/extend-expect";
 
@@ -19,6 +19,7 @@ const mockCredits = {
   resetCredits: jest.fn(),
 };
 
+// Mock the parameters
 describe("BuyHintOverlay", () => {
   const onCloseMock = jest.fn();
   const onBuyHintMock = jest.fn();
@@ -50,6 +51,7 @@ describe("BuyHintOverlay", () => {
     expect(getByTestId("buy-button")).toBeTruthy();
   });
 
+  // Written with a help of ChatGPT - start
   it("Calls onClose when the close button is pressed", () => {
     const { getByTestId } = render(
       <CreditsContext.Provider value={mockCredits}>
@@ -88,7 +90,7 @@ describe("BuyHintOverlay", () => {
 
     expect(onBuyHintMock).toHaveBeenCalledTimes(1);
   });
-
+  // Written with a help of ChatGPT - end
   it("Does not call onBuyHint when the user does not have enough credits", () => {
     const { getByTestId } = render(
       <CreditsContext.Provider
@@ -156,7 +158,6 @@ describe("BuyHintOverlay", () => {
 
     const switchFont = getByTestId("font");
 
-    // Declare a windowHeight to compare correct values
     expect(switchFont).toHaveStyle({
       fontFamily: "AppFontBold",
     });
@@ -178,7 +179,6 @@ describe("BuyHintOverlay", () => {
 
     const closeButton = getByTestId("close-button");
 
-    // Declare a windowHeight to compare correct values
     expect(closeButton).toHaveStyle({
       position: "absolute",
       top: -10,
@@ -215,7 +215,6 @@ describe("BuyHintOverlay", () => {
 
     const buyButton = getByTestId("buy-button");
 
-    // Declare a windowHeight to compare correct values
     expect(buyButton).toHaveStyle({
       backgroundColor: "transparent",
       marginTop: 20,

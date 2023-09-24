@@ -1,10 +1,8 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-// import "@testing-library/jest-native/extend-expect";
 import HomeScreen from "../Screens/HomeScreen";
 import { CreditsContext } from "../CreditsContext";
 import { PointsContext } from "../PointsContext";
-import { useNavigation } from "@react-navigation/native";
 import "@testing-library/jest-native/extend-expect";
 
 beforeEach(() => {
@@ -42,9 +40,7 @@ const mockAsyncStorage = {
   setItem: jest.fn(),
 };
 
-// Mock the console.error function to suppress error messages
-console.error = jest.fn();
-
+// Written with a help of ChatGPT - start
 // Mock Firebase functions
 jest.mock("firebase/database", () => ({
   ref: jest.fn(),
@@ -59,6 +55,7 @@ jest.mock("firebase/app", () => ({
 jest.mock("../firebaseConfig", () => ({
   apiKey: "mock-api-key",
 }));
+// Written with a help of ChatGPT - end
 
 describe("HomeScreen tests", () => {
   it("Renders the HomeScreen component", () => {
@@ -72,6 +69,7 @@ describe("HomeScreen tests", () => {
     const homeScreen = getByTestId("homescreen-container");
     expect(homeScreen).toBeTruthy();
   });
+  // Written with a help of ChatGPT - start
   it("User Profile button works and navigates to appropriate screen", async () => {
     const navigation = {
       navigate: jest.fn(),
@@ -84,14 +82,13 @@ describe("HomeScreen tests", () => {
         </CreditsContext.Provider>
       </PointsContext.Provider>
     );
-
     const userProfileButton = getByTestId("user-profile-button");
-    // expect(getAllByTestId("background-image-button")).toBeTruthy();
     expect(userProfileButton).toBeTruthy();
-    // Simulate a press event on the button
     fireEvent.press(userProfileButton);
     expect(navigation.navigate).toHaveBeenCalledWith("UserProfile");
+    // Written with a help of ChatGPT - end
   });
+
   it("Achievments button works and navigates to appropriate screen", async () => {
     const navigation = {
       navigate: jest.fn(),
@@ -106,9 +103,7 @@ describe("HomeScreen tests", () => {
     );
 
     const userProfileButton = getByTestId("achivs-button");
-    // expect(getAllByTestId("background-image-button")).toBeTruthy();
     expect(userProfileButton).toBeTruthy();
-    // Simulate a press event on the button
     fireEvent.press(userProfileButton);
     expect(navigation.navigate).toHaveBeenCalledWith("Achievements");
   });
@@ -126,9 +121,7 @@ describe("HomeScreen tests", () => {
     );
 
     const userProfileButton = getByTestId("leaderboard-button");
-    // expect(getAllByTestId("background-image-button")).toBeTruthy();
     expect(userProfileButton).toBeTruthy();
-    // Simulate a press event on the button
     fireEvent.press(userProfileButton);
     expect(navigation.navigate).toHaveBeenCalledWith("Leaderboard");
   });
@@ -146,9 +139,7 @@ describe("HomeScreen tests", () => {
     );
 
     const userProfileButton = getByTestId("play-button");
-    // expect(getAllByTestId("background-image-button")).toBeTruthy();
     expect(userProfileButton).toBeTruthy();
-    // Simulate a press event on the button
     fireEvent.press(userProfileButton);
     expect(navigation.navigate).toHaveBeenCalledWith("GameScreen");
   });
@@ -165,9 +156,7 @@ describe("HomeScreen tests", () => {
       </PointsContext.Provider>
     );
     const settingsButton = getByTestId("settings-button");
-    // expect(getAllByTestId("background-image-button")).toBeTruthy();
     expect(settingsButton).toBeTruthy();
-    // Simulate a press event on the button
     fireEvent.press(settingsButton);
   });
 
@@ -263,8 +252,7 @@ describe("HomeScreen tests", () => {
       </PointsContext.Provider>
     );
 
-    // Assert that the HomeScreen displays the correct points value
-    const pointsText = getByText("Your points"); // Adjust the text to match your UI
+    const pointsText = getByText("Your points");
     expect(pointsText).toBeTruthy();
   });
 });

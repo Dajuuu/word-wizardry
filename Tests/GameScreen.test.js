@@ -47,7 +47,7 @@ describe("GameScreen Tests", () => {
     );
 
     const levelButtons = getAllByTestId("levelDifficulty");
-    expect(levelButtons.length).toBe(4); // expect the length
+    expect(levelButtons.length).toBe(4);
   });
 
   it("Renders difficulty levels with correct information", () => {
@@ -63,6 +63,7 @@ describe("GameScreen Tests", () => {
     const imageSource = getAllByTestId(`imageSource`);
     expect(imageSource).toBeTruthy();
   });
+
   // Written with a help of ChatGPT - start
   it("Renders CustomHeader", () => {
     const { getByText } = render(

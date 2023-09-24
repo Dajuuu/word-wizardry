@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import UserProfile from "../Screens/UserProfileScreen"; // Import the UserProfile component
+import UserProfile from "../Screens/UserProfileScreen";
 import { CreditsContext } from "../CreditsContext";
 import "@testing-library/jest-native/extend-expect";
 
@@ -31,9 +31,7 @@ const mockAsyncStorage = {
   setItem: jest.fn(),
 };
 
-// Mock the console.error function to suppress error messages
-console.error = jest.fn();
-
+// Written with a help of ChatGPT - start
 // Mock Firebase functions
 jest.mock("firebase/database", () => ({
   ref: jest.fn(),
@@ -48,6 +46,7 @@ jest.mock("firebase/app", () => ({
 jest.mock("../firebaseConfig", () => ({
   apiKey: "mock-api-key",
 }));
+// Written with a help of ChatGPT - end
 
 describe("UserProfile", () => {
   it("Renders correctly after loading", async () => {
@@ -56,10 +55,11 @@ describe("UserProfile", () => {
         <UserProfile />
       </CreditsContext.Provider>
     );
+    // Written with a help of ChatGPT - start
 
     // Wait for the LoadingScreen to disappear
     await new Promise((resolve) => setTimeout(resolve, 1100));
-
+    // Written with a help of ChatGPT - end
     expect(getByText("Your Username")).toBeTruthy();
     expect(getByText("Change Background")).toBeTruthy();
     expect(getByTestId("user-info")).toBeTruthy();
@@ -79,19 +79,14 @@ describe("UserProfile", () => {
 
     // Wait for the LoadingScreen to disappear
     await new Promise((resolve) => setTimeout(resolve, 1100));
-    // Check if the "Update Username" button exists
+
     const updateButton = getByTestId("update-username-input");
     expect(updateButton).toBeTruthy();
-
-    // Simulate a press event on the button
     fireEvent.press(updateButton);
-
-    // You can add your assertions here to check the expected behavior
-    // For example, you can check if a function that should be called on press is actually called.
   });
 
   it("Hint buttons work", async () => {
-    const { getByTestId, getAllByTestId } = render(
+    const { getByTestId } = render(
       <CreditsContext.Provider value={mockCredits}>
         <UserProfile />
       </CreditsContext.Provider>
@@ -99,16 +94,15 @@ describe("UserProfile", () => {
 
     // Wait for the LoadingScreen to disappear
     await new Promise((resolve) => setTimeout(resolve, 1100));
-    // Check if the "Update Username" button exists
 
     const hint1Button = getByTestId("hint1-box");
     const hint2Button = getByTestId("hint2-box");
     const hint3Button = getByTestId("hint3-box");
-    // expect(getAllByTestId("background-image-button")).toBeTruthy();
+
     expect(hint1Button).toBeTruthy();
     expect(hint2Button).toBeTruthy();
     expect(hint3Button).toBeTruthy();
-    // Simulate a press event on the button
+
     fireEvent.press(hint1Button);
     fireEvent.press(hint2Button);
     fireEvent.press(hint3Button);

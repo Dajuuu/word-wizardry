@@ -63,6 +63,7 @@ describe("EasyLevels tests", () => {
     expect(levelScreens.length).toBeGreaterThan(0);
   });
 
+  // Written with a help of ChatGPT - start
   it("Correctly passes mocked data to LevelScreen", () => {
     const { getByTestId, getByText } = render(
       <LevelScreen
@@ -79,7 +80,7 @@ describe("EasyLevels tests", () => {
         hintCount2Increase={levelData[0].hintCount2Increase}
         hintCount3Increase={levelData[0].hintCount3Increase}
         creditsIncrease={levelData[0].creditsIncrease}
-        navigation={navigation} // You should mock the navigation object
+        navigation={navigation}
       />
     );
 
@@ -95,4 +96,5 @@ describe("EasyLevels tests", () => {
     const completedText = getByText("Completed");
     expect(completedText).toBeTruthy();
   });
+  // Written with a help of ChatGPT - end
 });

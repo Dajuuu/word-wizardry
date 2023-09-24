@@ -13,9 +13,7 @@ const mockAsyncStorage = {
   setItem: jest.fn(),
 };
 
-// Mock the console.error function to suppress error messages
-console.error = jest.fn();
-
+// Written with a help of ChatGPT - start
 // Mock Firebase functions
 jest.mock("firebase/database", () => ({
   ref: jest.fn(),
@@ -34,6 +32,7 @@ jest.mock("../firebaseConfig", () => ({
 describe("UserNameManager tests", () => {
   it("generateRandomUsername should generate a random username", () => {
     const randomUsername = generateRandomUsername(8);
-    expect(randomUsername).toMatch(/^User_[A-Za-z0-9]{8}$/); // Check if it matches the expected format
+    expect(randomUsername).toMatch(/^User_[A-Za-z0-9]{8}$/);
   });
+  // Written with a help of ChatGPT - end
 });

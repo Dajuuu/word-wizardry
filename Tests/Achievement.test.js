@@ -5,15 +5,17 @@ import { CreditsContext } from "../CreditsContext";
 import { determineUnlockedLevelAchievements } from "../AchievementUtils";
 import "@testing-library/jest-native/extend-expect";
 
-// Mock Animated and AsyncStorage
 jest.mock("@react-native-async-storage/async-storage", () => ({
   getItem: jest.fn(),
 }));
+
 jest.mock("@react-navigation/native", () => ({
   useNavigation: jest.fn(),
 }));
+
 // Ensure that Jest uses the mock for SoundSettingContext
 jest.mock("../SoundSettingContext");
+
 const mockCredits = {
   credits: 200,
   addCredits: jest.fn(),
@@ -48,6 +50,7 @@ describe("Achievements Component", () => {
       expect(root).toBeTruthy();
     });
   });
+
   it("Displays the Progress bar", () => {
     const { getByText, getByTestId } = render(
       <CreditsContext.Provider value={mockCredits}>
@@ -154,7 +157,6 @@ describe("Achievements Component", () => {
     };
     achievementBox.forEach((box) => {
       const style = box.props.style;
-      // Omit the backgroundColor property from the style object
       delete style.backgroundColor;
       expect(style).toEqual(styleToCheck);
     });

@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import CustomHeader from "../CustomHeader"; // Import the CustomHeader component
+import CustomHeader from "../CustomHeader";
 import { CreditsContext } from "../CreditsContext";
 import "@testing-library/jest-native/extend-expect";
 

@@ -22,7 +22,7 @@ describe("LevelScreen", () => {
       navigate: jest.fn(),
     },
   };
-
+  // Written with a help of ChatGPT - start
   it("Renders the level name", () => {
     const { getByText } = render(<LevelScreen {...mockProps} />);
     expect(getByText("Test Level 1")).toBeTruthy();
@@ -52,12 +52,12 @@ describe("LevelScreen", () => {
       }
     );
   });
+  // Written with a help of ChatGPT - end
   it("Check for Button style", () => {
     const { getByTestId } = render(<LevelScreen {...mockProps} />);
 
     const levelContainer = getByTestId("level-container");
 
-    // Declare a windowHeight to compare correct values
     expect(levelContainer).toHaveStyle({
       width: "42%",
       height: 160,
