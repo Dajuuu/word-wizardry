@@ -286,13 +286,14 @@ const MediumLevelsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <CustomHeader title="Medium Level" />
+      <CustomHeader title="Medium Levels" />
       <View style={{ alignItems: "center", justifyContent: "center" }}>
         <FlatList
           // Hide the scrollbars
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           data={levels}
+          testID="level-screen"
           renderItem={({ item }) => (
             <LevelScreen
               // Pass all info to the LevelScreen component
