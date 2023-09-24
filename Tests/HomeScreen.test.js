@@ -231,6 +231,29 @@ describe("HomeScreen tests", () => {
     });
   });
 
+  it("Check Leaderboard Button style", async () => {
+    const navigation = {
+      navigate: jest.fn(),
+    };
+    const { getByTestId } = render(
+      <PointsContext.Provider value={mockPointsContext}>
+        <CreditsContext.Provider value={mockCredits}>
+          <HomeScreen navigation={navigation} />
+        </CreditsContext.Provider>
+      </PointsContext.Provider>
+    );
+
+    const button = getByTestId("leaderboard-button");
+
+    expect(button).toHaveStyle({
+      width: "50%",
+      backgroundColor: "rgba(47,57,44,0.8)",
+      paddingVertical: 20,
+      borderRadius: 10,
+      marginTop: 40,
+    });
+  });
+
   it("Displays user points correctly", () => {
     const { getByText } = render(
       <PointsContext.Provider value={mockPointsContext}>

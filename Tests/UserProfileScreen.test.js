@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  render,
-  fireEvent,
-  waitFor,
-  queryByText,
-  queryByTestId,
-} from "@testing-library/react-native";
+import { render, fireEvent } from "@testing-library/react-native";
 import UserProfile from "../Screens/UserProfileScreen"; // Import the UserProfile component
 import { CreditsContext } from "../CreditsContext";
 import "@testing-library/jest-native/extend-expect";

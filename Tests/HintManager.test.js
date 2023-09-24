@@ -58,7 +58,7 @@ describe("HintManager tests", () => {
     );
     expect(AsyncStorage.setItem).toHaveBeenCalledWith(
       `${HINT_COUNT_STORAGE_KEY_PREFIX}${hintIndex}`,
-      "5" // 3 + 2
+      "5"
     );
   });
   // Written with a help of ChatGPT - end
