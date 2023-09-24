@@ -57,23 +57,34 @@ const SettingsOverlay = ({ visible, onClose }) => {
       animationType="slide"
       transparent
       statusBarTranslucent
+      testID="modal"
     >
       <View style={styles.overlay}>
-        <View style={styles.modal}>
+        <View style={styles.modal} testID="modal-style">
           <Text style={styles.title}>Settings</Text>
-          <View style={styles.switchContainer}>
+          <View style={styles.switchContainer} testID="switch-container">
             <View style={styles.switchLabelContainer}>
-              <Text style={styles.switchLabel}>Sound</Text>
+              <Text style={styles.switchLabel} testID="switch-font">
+                Sound
+              </Text>
             </View>
             {/* Switch for turning on and off the sound */}
-            <Switch value={soundEnabled} onValueChange={toggleSoundSetting} />
+            <Switch
+              value={soundEnabled}
+              onValueChange={toggleSoundSetting}
+              testID="sound-switch"
+            />
           </View>
           <View style={styles.switchContainer}>
             <View style={styles.switchLabelContainer}>
               <Text style={styles.switchLabel}>Music</Text>
             </View>
             {/* Switch for turning on and off the music */}
-            <Switch value={musicEnabled} onValueChange={handleMusicSwitch} />
+            <Switch
+              value={musicEnabled}
+              onValueChange={handleMusicSwitch}
+              testID="music-switch"
+            />
           </View>
           <View style={styles.switchContainer}>
             <View style={styles.switchLabelContainer}>
@@ -83,6 +94,7 @@ const SettingsOverlay = ({ visible, onClose }) => {
             <Switch
               value={vibrationEnabled}
               onValueChange={toggleVibrationSetting}
+              testID="vibr-switch"
             />
           </View>
           {/* Close button */}
@@ -92,6 +104,7 @@ const SettingsOverlay = ({ visible, onClose }) => {
               handleButtonSoundPlay();
               onClose();
             }}
+            testID="close-button"
           >
             {/* https://docs.expo.dev/versions/latest/sdk/linear-gradient/ */}
             <LinearGradient

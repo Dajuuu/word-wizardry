@@ -86,7 +86,7 @@ const GameScreen = ({ navigation }) => {
                 handleButtonSoundPlay();
                 handleDifficultyPress(level.screen);
               }}
-              testID={`difficulty-level-button`} // Set the testID here
+              testID={`difficulty-level-button-${index}`} // Set the testID here
             >
               <Image
                 source={level.imageSource}

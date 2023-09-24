@@ -47,7 +47,7 @@ const BuyHintOverlay = ({
       statusBarTranslucent
     >
       <View style={styles.overlay}>
-        <View style={styles.modal}>
+        <View style={styles.modal} testID="modal-style">
           <Text style={styles.title}>Buy Hint {hintNumber}</Text>
           <Text style={styles.hintDescription}>
             {/* Change the hintDescription text, based on what hint was chosen */}
@@ -61,7 +61,9 @@ const BuyHintOverlay = ({
               : ""}
             {/* Written with a help of ChatGPT - end */}
           </Text>
-          <Text style={styles.message}>Would you like to buy this hint?</Text>
+          <Text style={styles.message} testID="font">
+            Would you like to buy this hint?
+          </Text>
           <View style={styles.creditsContainer}>
             <Text style={styles.creditsLabel}>Cost: </Text>
             <Image
@@ -78,6 +80,7 @@ const BuyHintOverlay = ({
               handleButtonSoundPlay();
               onClose();
             }}
+            testID="close-button"
           >
             {/* https://docs.expo.dev/versions/latest/sdk/linear-gradient/ */}
             <LinearGradient
@@ -98,6 +101,7 @@ const BuyHintOverlay = ({
               handleButtonSoundPlay();
             }}
             disabled={!canBuyHint}
+            testID="buy-button"
           >
             {/* https://docs.expo.dev/versions/latest/sdk/linear-gradient/ */}
             <LinearGradient

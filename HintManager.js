@@ -14,7 +14,7 @@ export const loadHintCount = async (hintIndex) => {
     const hintCount = await AsyncStorage.getItem(hintCountKey);
     return hintCount ? parseInt(hintCount) : BASE_HINT_USES;
   } catch (error) {
-    // console.error(`Error loading clue count for clue ${hintIndex}:`, error);
+    console.error(`Error loading clue count for clue ${hintIndex}:`, error);
     throw error;
   }
 };
@@ -28,7 +28,7 @@ export const decrementHintCount = async (hintIndex) => {
     const updatedCount = hintCount - 1;
     await AsyncStorage.setItem(hintCountKey, updatedCount.toString());
   } catch (error) {
-    // console.error(
+    console.error(
       `Error decrementing clue count for clue ${hintIndex}:`,
       error
     );
@@ -44,7 +44,7 @@ export const incrementHintCount = async (hintIndex, increaseAmount) => {
     const updatedCount = hintCount + increaseAmount;
     await AsyncStorage.setItem(hintCountKey, updatedCount.toString());
   } catch (error) {
-    // console.error(
+    console.error(
       `Error incrementing clue count for clue ${hintIndex}:`,
       error
     );
@@ -65,13 +65,13 @@ export const initializeHintCounts = async () => {
 
     // Check if any clue count is missing
     const missingHintCounts = storedHintCounts.filter(
-      ([_, hintCount]) => hintCount === null
+      ([hintCount]) => hintCount === null
     );
 
     // Initialize missing clue counts with the base number of uses
     // e.g when the counts were deleted
     if (missingHintCounts.length > 0) {
-      const missingHintCountKeys = missingHintCounts.map(([key, _]) => key);
+      const missingHintCountKeys = missingHintCounts.map(([key]) => key);
       const missingHintCountValues = missingHintCountKeys.map(() =>
         BASE_HINT_USES.toString()
       );
@@ -91,7 +91,7 @@ export const initializeHintCounts = async () => {
       // console.log("All clue counts are already initialized.");
     }
   } catch (error) {
-    // console.error("Error initializing clue counts:", error);
+    console.error("Error initializing clue counts:", error);
     throw error;
   }
 };

@@ -273,6 +273,7 @@ const HardLevelsScreen = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           data={levels}
+          testID="level-screen"
           renderItem={({ item }) => (
             <LevelScreen
               // Pass all info to the LevelScreen component

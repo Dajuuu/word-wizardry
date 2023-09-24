@@ -35,7 +35,7 @@ export const getBackgroundImage = async () => {
       ? parseInt(backgroundImageNumber, 10)
       : DEFAULT_BACKGROUND; // Parse as an integer and use the default if not set
   } catch (error) {
-    // console.error(
+    console.error(
       "Error reading backgroundImageIndex from AsyncStorage:",
       error
     );

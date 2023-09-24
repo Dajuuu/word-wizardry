@@ -267,7 +267,7 @@ const Achievements = () => {
       <View style={styles.background}>
         <View style={styles.achivTitle}>
           <Text style={styles.achivTitleText}>Your Achievements</Text>
-          <Text style={styles.achivCountText}>
+          <Text style={styles.achivCountText} testID="progress-bar">
             {unlockedAchievementIndexes.length} / {achievementsList.length}
           </Text>
         </View>
@@ -297,6 +297,7 @@ const Achievements = () => {
                 ),
               },
             ]}
+            testID={"achievement-box"}
           >
             <Text style={styles.difficultyText}>{achievement.achivTitle}</Text>
             <Text style={styles.descText}>{achievement.achivDesc}</Text>
@@ -306,7 +307,10 @@ const Achievements = () => {
             )}
             {/* If the achivement is unlocked apply a tick icon in the corner */}
             {unlockedAchievementIndexes.includes(achievement.achivIndex) && (
-              <View style={styles.checkmarkContainer}>
+              <View
+                style={styles.checkmarkContainer}
+                testID={`checkmark-${achievement.achivIndex}`}
+              >
                 <Icon name="check" style={styles.checkmarkIcon} />
               </View>
             )}

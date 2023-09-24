@@ -784,6 +784,7 @@ const CrosswordApp = ({ route }) => {
 
                         return (
                           <TouchableOpacity
+                            testID="input-box"
                             key={columnIndex}
                             style={[
                               // Change the colour of the box depending on the state

@@ -242,7 +242,7 @@ const UserProfile = () => {
             scrollEnabled={false}
           >
             <CustomHeader title="Profile" />
-            <View style={styles.userInfo}>
+            <View style={styles.userInfo} testID="user-info">
               <View>
                 {/* The Text needs to be put inside empty View for smooth animation (iOS) */}
                 <Text style={styles.userInfoText}>Your Username</Text>
@@ -255,7 +255,7 @@ const UserProfile = () => {
                   </Text>
                 )}
               </View>
-              <View style={styles.usernameInput}>
+              <View style={styles.usernameInput} testID="user-input">
                 {/* Username TextInput */}
                 {/* https://reactnative.dev/docs/textinput */}
                 <TextInput
@@ -275,6 +275,7 @@ const UserProfile = () => {
                   <TouchableOpacity
                     onPress={handleUpdateUsername}
                     style={styles.updateButton}
+                    testID="update-username-input"
                   >
                     <Icon name="pen" solid />
                   </TouchableOpacity>
@@ -287,6 +288,7 @@ const UserProfile = () => {
                   {/* Hint 1 */}
                   <TouchableOpacity
                     style={styles.hintButton}
+                    testID="hint1-box"
                     onPress={() => {
                       handleButtonSoundPlay();
                       setShowBuyHintOverlay1(true);
@@ -314,6 +316,7 @@ const UserProfile = () => {
                   {/* Hint 2 */}
                   <TouchableOpacity
                     style={styles.hintButton}
+                    testID="hint2-box"
                     onPress={() => {
                       handleButtonSoundPlay();
                       setShowBuyHintOverlay2(true);
@@ -341,6 +344,7 @@ const UserProfile = () => {
                   {/* Hint 3 */}
                   <TouchableOpacity
                     style={styles.hintButton}
+                    testID="hint3-box"
                     onPress={() => {
                       handleButtonSoundPlay();
                       setShowBuyHintOverlay3(true);
@@ -371,7 +375,7 @@ const UserProfile = () => {
 
             {/* Background change section */}
             {!isSectionHidden && ( // Only show if the section is not hidden
-              <View style={styles.backgroundChange}>
+              <View style={styles.backgroundChange} testID="change-background">
                 <Text style={styles.backgroundChangeText}>
                   Change Background
                 </Text>
@@ -381,9 +385,11 @@ const UserProfile = () => {
                   data={Object.keys(backgroundImagePaths)} // Use Object.keys to get the keys of the backgroundImagePaths
                   keyExtractor={(item) => item.toString()} // Use the key as a string
                   horizontal
+                  testID="background-image"
                   showsHorizontalScrollIndicator={false}
                   renderItem={({ item }) => (
                     <TouchableOpacity
+                      testID="background-image-button"
                       onPress={() => {
                         // Assign new image index
                         handleImageSelect(parseInt(item));

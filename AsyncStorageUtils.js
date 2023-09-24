@@ -15,7 +15,7 @@ export const loadInputData = async (level) => {
     const inputData = await AsyncStorage.getItem(level);
     return JSON.parse(inputData);
   } catch (error) {
-    // console.error("Error loading input data:", error);
+    console.error("Error loading input data:", error);
     throw error;
   }
 };
@@ -25,7 +25,7 @@ export const saveInputData = async (level, inputData) => {
   try {
     await AsyncStorage.setItem(level, JSON.stringify(inputData));
   } catch (error) {
-    // console.error("Error saving input data:", error);
+    console.error("Error saving input data:", error);
     throw error;
   }
 };
@@ -38,7 +38,7 @@ export const clearInputData = async (level) => {
     // Left for testing purposes
     // console.log(`Input data for level ${level} cleared successfully.`);
   } catch (error) {
-    // console.error(`Failed to clear input data for level ${level}:`, error);
+    console.error(`Failed to clear input data for level ${level}:`, error);
   }
 };
 
@@ -54,7 +54,7 @@ export const saveCompletedLevel = async (levelName) => {
       );
     }
   } catch (error) {
-    // console.error("Error saving completed level:", error);
+    console.error("Error saving completed level:", error);
     throw error;
   }
 };
@@ -65,7 +65,7 @@ export const loadCompletedLevels = async () => {
     const completedLevels = await AsyncStorage.getItem("completedLevels");
     return completedLevels ? JSON.parse(completedLevels) : [];
   } catch (error) {
-    // console.error("Error loading completed levels:", error);
+    console.error("Error loading completed levels:", error);
     throw error;
   }
 };

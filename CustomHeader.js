@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -50,6 +50,7 @@ const CustomHeader = ({ title }) => {
             handleButtonSoundPlay();
             navigation.goBack();
           }}
+          testID="back-button"
         >
           <Icon name="arrow-left" style={[styles.buttonIcon]} />
         </TouchableOpacity>
@@ -61,6 +62,7 @@ const CustomHeader = ({ title }) => {
             handleButtonSoundPlay();
             handleSettingsButtonPress();
           }}
+          testID="settings-button"
         >
           {/* Display settings when pressed */}
           <SettingsOverlay
@@ -73,7 +75,7 @@ const CustomHeader = ({ title }) => {
           <Text style={styles.title}>{title}</Text>
         </View>
         {/* Display the credits on the right */}
-        <View style={[styles.creditsContainer]}>
+        <View style={[styles.creditsContainer]} testID="credits-container">
           <Image
             source={require("./assets/credits.png")}
             style={styles.creditsImage}

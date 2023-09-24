@@ -28,7 +28,7 @@ const CustomKeyboard = ({ onKeyPress }) => {
 
   return (
     // Display the buttons for the keyboard
-    <View style={styles.keyboardContainer}>
+    <View style={styles.keyboardContainer} testID="keyboard-container">
       {/* Written with a help of ChatGPT - start */}
       {keyboardData.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.keyboardRow}>
@@ -37,6 +37,7 @@ const CustomKeyboard = ({ onKeyPress }) => {
               key={keyIndex}
               style={styles.keyboardKey}
               onPress={() => onKeyPress(key)}
+              testID="keyboard-key"
             >
               <Text style={styles.keyboardKeyText}>{key}</Text>
             </TouchableOpacity>
@@ -46,8 +47,14 @@ const CustomKeyboard = ({ onKeyPress }) => {
             <TouchableOpacity
               style={[styles.keyboardKey, styles.keyboardKeyBackspace]}
               onPress={handleBackspace}
+              testID="keyboard-backspace"
             >
-              <Icon name="backspace" size={20} color="black" />
+              <Icon
+                name="backspace"
+                size={20}
+                color="black"
+                testID="backspace-key"
+              />
             </TouchableOpacity>
           )}
         </View>

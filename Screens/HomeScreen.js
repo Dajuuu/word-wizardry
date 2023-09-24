@@ -157,6 +157,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.buttonContainer}>
           {/* User Profile Button */}
           <TouchableOpacity
+            testID="user-profile-button"
             style={styles.button}
             onPress={() => {
               handleButtonSoundPlay();
@@ -168,6 +169,7 @@ const HomeScreen = ({ navigation }) => {
 
           {/* Achievements Button */}
           <TouchableOpacity
+            testID="achivs-button"
             style={styles.button}
             onPress={() => {
               handleButtonSoundPlay();
@@ -178,6 +180,7 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
           {/* Settings Button */}
           <TouchableOpacity
+            testID="settings-button"
             style={styles.button}
             onPress={() => {
               handleButtonSoundPlay();
@@ -193,6 +196,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
         {/* Leaderboard button */}
         <TouchableOpacity
+          testID="leaderboard-button"
           style={styles.scoreContainer}
           onPress={() => {
             handleButtonSoundPlay();
@@ -224,6 +228,7 @@ const HomeScreen = ({ navigation }) => {
         {/* Animate the play button */}
         <Animated.View>
           <TouchableOpacity
+            testID="play-button"
             onPress={() => {
               handlePlayButtonPress();
               handleButtonSoundPlay();

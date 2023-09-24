@@ -49,6 +49,7 @@ const LevelScreen = ({
         handleButtonSoundPlay();
         handlePress();
       }}
+      testID="level-container"
     >
       <Text style={styles.levelText}>{levelName}</Text>
       {isCompleted && <Text style={styles.completedText}>Completed</Text>}
