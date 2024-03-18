@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "crossword-craze",
-    "slug": "crossword-craze",
+    "name": "word-wizardry",
+    "slug": "word-wizardry",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

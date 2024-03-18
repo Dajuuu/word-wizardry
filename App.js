@@ -30,7 +30,6 @@ import EasyLevelsScreen from "./Levels/EasyLevels";
 import MediumLevelsScreen from "./Levels/MediumLevels";
 import HardLevelsScreen from "./Levels/HardLevels";
 import ThemedLevelsScreen from "./Levels/ThemedLevels";
-import TestingGamingScreen from "./TestingGamingScreen";
 import CrosswordApp from "./Screens/CrosswordScreen";
 import LevelScreen from "./Screens/LevelScreen";
 import Achievements from "./Achievements";
@@ -160,11 +159,6 @@ export default function App() {
                   <Stack.Screen
                     name="ThemedLevels"
                     component={ThemedLevelsScreen}
-                  />
-                  {/* Testing screen  */}
-                  <Stack.Screen
-                    name="TestingGamingScreen"
-                    component={TestingGamingScreen}
                   />
                   <Stack.Screen name="LevelScreen" component={LevelScreen} />
                   <Stack.Screen
